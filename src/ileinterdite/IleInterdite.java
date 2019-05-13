@@ -19,6 +19,7 @@ public class IleInterdite {
         System.out.println("Bonjour à tous !");
         System.out.println("Bonjour");
         System.out.println("Aurevoir MAISDUSE");
+        System.out.println("Bonjour Michel");
     }
     
 }
