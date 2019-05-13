@@ -21,6 +21,7 @@ public class IleInterdite {
         System.out.println("Aurevoir MAISDUSE");
         System.out.println("JE VOUS AIMES AP");
         System.out.println("Salut");
+        /*yooo davide la farge*/
     }
     
 }
