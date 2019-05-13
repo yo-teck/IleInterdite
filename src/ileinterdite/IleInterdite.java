@@ -7,7 +7,7 @@ package ileinterdite;
 
 /**
  *
- * @author dusema
+ * @author gherrazs
  */
 public class IleInterdite {
 
