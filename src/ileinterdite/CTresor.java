@@ -9,13 +9,13 @@ package ileinterdite;
  *
  * @author dusema
  */
-public class Tuile {
-    
-  private Etat etat;
-  private Evenement event;
-  private int x;
-  private int y;
-  private String nom;
-  
+public enum CTresor {
+    CLE_FEU,
+    CLE_EAU,
+    CLE_TERRE,
+    CLE_AIR,
+    MONTEE_DES_EAUX,
+    HELICO,
+    SAC_SABLE;
     
 }

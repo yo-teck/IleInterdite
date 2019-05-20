@@ -9,13 +9,18 @@ package ileinterdite;
  *
  * @author dusema
  */
-public class Tuile {
-    
-  private Etat etat;
-  private Evenement event;
-  private int x;
-  private int y;
-  private String nom;
-  
+public enum Evenement {
+    RIEN,
+    HELIPORT,
+    EAU,
+    FEU,
+    TERRE,
+    AIR,
+    SPAWN_NAVIGATEUR,
+    SPAWN_MESSAGER,
+    SPAWN_EXPLORATEUR,
+    SPAWN_INGENIEUR,
+    //SPAWN_PILOTE,
+    SPAWN_PLONGEUR;
     
 }

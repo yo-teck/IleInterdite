@@ -9,13 +9,9 @@ package ileinterdite;
  *
  * @author dusema
  */
-public class Tuile {
-    
-  private Etat etat;
-  private Evenement event;
-  private int x;
-  private int y;
-  private String nom;
-  
-    
+public enum Tresor {
+    EAU,
+    FEU,
+    TERRE,
+    AIR;
 }
