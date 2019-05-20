@@ -9,7 +9,7 @@ package ileinterdite;
  *
  * @author dusema
  */
-public class abstract Aventurier {
+public abstract class Aventurier {
     private String nomA;
     private String description;
     private Joueur joueur;

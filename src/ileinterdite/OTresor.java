@@ -9,11 +9,16 @@ package ileinterdite;
  *
  * @author dusema
  */
-public class Grille {
+public class OTresor {
+    private Tresor type;
+    private boolean estRecupere;
+
     
-    private static Tuile[][] ile;
-    
-    Grille(){
-        this.ile = new Tuile[6][6];
+    public OTresor(Tresor type, boolean estRecupere) {
+        this.type = type;
+        this.estRecupere = estRecupere;
     }
+    
+    
+    
 }

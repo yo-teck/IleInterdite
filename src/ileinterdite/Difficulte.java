@@ -9,11 +9,9 @@ package ileinterdite;
  *
  * @author dusema
  */
-public class Grille {
-    
-    private static Tuile[][] ile;
-    
-    Grille(){
-        this.ile = new Tuile[6][6];
-    }
+public enum Difficulte {
+    NOVICE,
+    NORMAL,
+    ELITE,
+    LEGENDAIRE;
 }
