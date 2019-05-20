@@ -17,14 +17,7 @@ public class IleInterdite {
     public static void main(String[] args) {
         // TODO code application logic here
         System.out.println("Bonjour à tous !");
-        System.out.println("Bonjour");
-        System.out.println("Aurevoir MAISDUSE");
-        System.out.println("JE VOUS AIMES AP");
-        System.out.println("Salut");
-        /*yooo davide la farge*/
-        System.out.println("Bonjour Michel");
-        System.out.println("LOL");
-         
+     
   
         
     }
