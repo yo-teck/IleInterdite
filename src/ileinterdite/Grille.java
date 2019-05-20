@@ -9,6 +9,9 @@ package ileinterdite;
  *
  * @author dusema
  */
-public class Controlleur {
+public class Grille {
+    
+    private static Tuile[36];
+    
     
 }
