@@ -9,6 +9,19 @@ package ileinterdite;
  *
  * @author dusema
  */
-public class Aventurier {
+public class abstract Aventurier {
+    private String nomA;
+    private String description;
+    private Joueur joueur;
+    private Tuile tuileDepart;
+
+    public Aventurier(String nomA, String description, Joueur joueur, Tuile tuileDepart) {
+        this.nomA = nomA;
+        this.description = description;
+        this.joueur = joueur;
+        this.tuileDepart = tuileDepart;
+    }
     
+    
+            
 }
