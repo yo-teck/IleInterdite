@@ -7,8 +7,18 @@ package ileinterdite;
 
 /**
  *
- * @author dusema
+ * @author gherrazs
  */
 public class Controleur {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+         Tuile tuile1 = new Tuile(Etat.SEC, Evenement.SPAWN_MESSAGER, 5, 5, "tuile a");
+         Messager messager = new Messager("Messager","xhvgdvfgdf",tuile1);
+        // messager.setJoueur();
+        
+    }
     
 }

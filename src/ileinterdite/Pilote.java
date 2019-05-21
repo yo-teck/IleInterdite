@@ -10,7 +10,13 @@ package ileinterdite;
  * @author dusema
  */
 public class Pilote extends Aventurier{
+
+    public Pilote(String nomA, String description, Joueur joueur, Tuile tuileDepart) {
+      //  super(nomA, description, joueur, tuileDepart);
+    }
     
     
     // + utiliserhelico()
+    
+    
 }

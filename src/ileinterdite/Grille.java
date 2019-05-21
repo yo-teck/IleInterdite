@@ -16,4 +16,11 @@ public class Grille {
     Grille(){
         this.ile = new Tuile[6][6];
     }
+
+    public static Tuile[][] getIle() {
+        return ile;
+    }
+    
+    
+    
 }
