@@ -11,7 +11,7 @@ package ileinterdite;
  */
 public  enum Etat {
     SEC,
-    INNONDE,
+    INONDE,
     SUBMERGE,
     NULL;
 }

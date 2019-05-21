@@ -11,7 +11,7 @@ package ileinterdite;
  */
 public enum Evenement {
     RIEN,
-    HELIPORT,
+    HELIPORT,     //SPAWN_PILOTE
     EAU,
     FEU,
     TERRE,
@@ -20,7 +20,6 @@ public enum Evenement {
     SPAWN_MESSAGER,
     SPAWN_EXPLORATEUR,
     SPAWN_INGENIEUR,
-    //SPAWN_PILOTE,
     SPAWN_PLONGEUR;
     
 }

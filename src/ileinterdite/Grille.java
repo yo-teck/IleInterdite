@@ -21,6 +21,10 @@ public class Grille {
         return ile;
     }
     
+    public void addTuile(Tuile t){
+        ile[t.getI()][t.getJ()] = t;
+    }
+    
     
     
 }
