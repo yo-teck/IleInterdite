@@ -9,14 +9,10 @@ package ileinterdite;
  *
  * @author dusema
  */
-public class Pilote extends Aventurier{
+public class Ingenieur extends Aventurier {
 
-     Pilote(String nomA, String description, Tuile tuileDepart) {
-        super(nomA, description,tuileDepart);
+    Ingenieur(String nomA, String description, Tuile tuileDepart) {
+        super(nomA, description, tuileDepart);
     }
-    
-    
-    // + utiliserhelico()
-    
     
 }

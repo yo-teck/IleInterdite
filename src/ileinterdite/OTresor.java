@@ -18,7 +18,21 @@ public class OTresor {
         this.type = type;
         this.estRecupere = estRecupere;
     }
-    
-    
-    
+
+    public Tresor getType() {
+        return type;
+    }
+
+    public void setType(Tresor type) {
+        this.type = type;
+    }
+
+    public boolean isEstRecupere() {
+        return estRecupere;
+    }
+
+    public void setEstRecupere(boolean estRecupere) {
+        this.estRecupere = estRecupere;
+    }
+       
 }
