@@ -5,68 +5,67 @@
  */
 package ileinterdite;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author gherrazs
  */
 public class Controleur {
-    
-    
-    
-    
 
     /**
      * @param args the command line arguments
      */
-    Grille ile = new Grille();
+    public Grille ile = new Grille();
+    public ArrayList<CarteTresor> pile = new ArrayList<>();
+    public ArrayList<CarteTresor> defausse = new ArrayList<>();
     
-    private void initGrille() {
+    public void initGrilleDemo() {
 
         //Ligne 0
         Tuile t00 = new Tuile(Etat.NULL, 0, 0);
         Tuile t01 = new Tuile(Etat.NULL, 0, 1);
         Tuile t02 = new Tuile(Etat.SEC, Evenement.RIEN, 0, 2, "Le Pont des Abimes");
-        Tuile t03 = new Tuile(Etat.INONDE, Evenement.SPAWN_INGENIEUR, 0, 3, "La Porte de Bronze");        
+        Tuile t03 = new Tuile(Etat.INONDE, Evenement.SPAWN_INGENIEUR, 0, 3, "La Porte de Bronze");
         Tuile t04 = new Tuile(Etat.NULL, 0, 4);
         Tuile t05 = new Tuile(Etat.NULL, 0, 5);
         //Ligne 1
         Tuile t10 = new Tuile(Etat.NULL, 1, 0);
         Tuile t11 = new Tuile(Etat.SEC, Evenement.FEU, 1, 1, "La Caverne des Ombres");
-        Tuile t12 = new Tuile(Etat.SEC, Evenement.SPAWN_PLONGEUR, 1, 2, "La Porte de Fer");        
-        Tuile t13 = new Tuile(Etat.SEC, Evenement.SPAWN_NAVIGATEUR, 1, 3, "La Porte d'Or");        
-        Tuile t14 = new Tuile(Etat.SEC, Evenement.RIEN, 1, 4, "Les Falaises de l'Oubli");        
-        Tuile t15 = new Tuile(Etat.NULL, 1, 5);        
+        Tuile t12 = new Tuile(Etat.SEC, Evenement.SPAWN_PLONGEUR, 1, 2, "La Porte de Fer");
+        Tuile t13 = new Tuile(Etat.SEC, Evenement.SPAWN_NAVIGATEUR, 1, 3, "La Porte d'Or");
+        Tuile t14 = new Tuile(Etat.SEC, Evenement.RIEN, 1, 4, "Les Falaises de l'Oubli");
+        Tuile t15 = new Tuile(Etat.NULL, 1, 5);
         //Ligne 2
         Tuile t20 = new Tuile(Etat.SEC, Evenement.EAU, 2, 0, "Le Palais de Corail");
         Tuile t21 = new Tuile(Etat.SEC, Evenement.SPAWN_MESSAGER, 2, 1, "La Porte d'Argent");
-        Tuile t22 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 2, 2, "Les Dunes de l'Illusion");        
-        Tuile t23 = new Tuile(Etat.SEC, Evenement.HELIPORT, 2, 3, "Héliport");        
-        Tuile t24 = new Tuile(Etat.SEC, Evenement.SPAWN_EXPLORATEUR, 2, 4, "La Porte de Cuivre");        
+        Tuile t22 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 2, 2, "Les Dunes de l'Illusion");
+        Tuile t23 = new Tuile(Etat.SEC, Evenement.HELIPORT, 2, 3, "Héliport");
+        Tuile t24 = new Tuile(Etat.SEC, Evenement.SPAWN_EXPLORATEUR, 2, 4, "La Porte de Cuivre");
         Tuile t25 = new Tuile(Etat.SEC, Evenement.AIR, 2, 5, "Le Jardin des Hurlements");
         //Ligne 3
         Tuile t30 = new Tuile(Etat.SEC, Evenement.RIEN, 3, 0, "La Foret Pourpre");
         Tuile t31 = new Tuile(Etat.INONDE, Evenement.RIEN, 3, 1, "Le Lagon Perdu");
-        Tuile t32 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 2, "Le Marais Brumeux");        
-        Tuile t33 = new Tuile(Etat.INONDE, Evenement.RIEN, 3, 3, "Observatoire");        
-        Tuile t34 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 4, "Le Rocher Fantome");        
+        Tuile t32 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 2, "Le Marais Brumeux");
+        Tuile t33 = new Tuile(Etat.INONDE, Evenement.RIEN, 3, 3, "Observatoire");
+        Tuile t34 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 4, "Le Rocher Fantome");
         Tuile t35 = new Tuile(Etat.INONDE, Evenement.FEU, 3, 5, "La Caverne du Brasier");
         //Ligne 4
         Tuile t40 = new Tuile(Etat.NULL, 4, 0);
         Tuile t41 = new Tuile(Etat.SEC, Evenement.TERRE, 4, 1, "Le Temple du Soleil");
-        Tuile t42 = new Tuile(Etat.SUBMERGE, Evenement.TERRE, 4, 2, "Le Temple de la Lune");        
-        Tuile t43 = new Tuile(Etat.SEC, Evenement.EAU, 4, 3, "Le Palais des Marées");        
-        Tuile t44 = new Tuile(Etat.SEC, Evenement.RIEN, 4, 4, "Le Val du Crépuscule");        
-        Tuile t45 = new Tuile(Etat.NULL, 4, 5);    
+        Tuile t42 = new Tuile(Etat.SUBMERGE, Evenement.TERRE, 4, 2, "Le Temple de la Lune");
+        Tuile t43 = new Tuile(Etat.SEC, Evenement.EAU, 4, 3, "Le Palais des Marées");
+        Tuile t44 = new Tuile(Etat.SEC, Evenement.RIEN, 4, 4, "Le Val du Crépuscule");
+        Tuile t45 = new Tuile(Etat.NULL, 4, 5);
         //Ligne 5
         Tuile t50 = new Tuile(Etat.NULL, 5, 0);
         Tuile t51 = new Tuile(Etat.NULL, 5, 1);
         Tuile t52 = new Tuile(Etat.SEC, Evenement.RIEN, 5, 2, "La Tour du Guet");
-        Tuile t53 = new Tuile(Etat.INONDE, Evenement.AIR, 5, 3, "Le Jardin des Murmures");        
+        Tuile t53 = new Tuile(Etat.INONDE, Evenement.AIR, 5, 3, "Le Jardin des Murmures");
         Tuile t54 = new Tuile(Etat.NULL, 5, 4);
         Tuile t55 = new Tuile(Etat.NULL, 5, 5);
 
         //Ajout des tuiles dans la grille
-        
         // Ligne 0
         ile.addTuile(t00);
         ile.addTuile(t01);
@@ -109,25 +108,81 @@ public class Controleur {
         ile.addTuile(t53);
         ile.addTuile(t54);
         ile.addTuile(t55);
-        
-        
-        
+
     }
-    
+
     public static void main(String[] args) {
         System.out.println("bj");
-           
-        
+
     }
-    public void initAventurier(){
-       /* 
-      Explorateur explorateur = new Explorateur("Explorateur","L'Explorateur peut se déplacer et assécher en diagonale.",txy) ; 
-      Ingenieur ingenieur = new Ingenieur ("Ingenieur","L'Ingénieur peut assécher 2 tuiles pour une action.",t03);  
-      Messager messager   =new Messager("Messager","Le Messager peut donner des cartes Trésor à un autre joueur n'importe où sur l'île pour 1 action par carte. ",txy);
-      Navigateur navigateur = new Navigateur("Navigateur","Le Navigateur peut déplacer un autre joueur d'une ou deux tuiles adjacentes pour une action. ",txy);
-      Pilote pilote = new Pilote("Pilote","Le Pilote peut, une fois par tour, voler jusqu'à n'importe quelle tuile de l'île pour une action. ",txy);
-      Plongeur plongeur = new Plongeur("Plongeur","Le Plongeur peut passer par une ou deux tuiles adjacentes inondées et/ou manquantes pour une action (il doit terminer le tour sur une tuile).",txy);
-    */
-}
+
+    public void initAventurierDemo() {
+
+        Explorateur explorateur = new Explorateur("Explorateur", 
+                                                  "L'Explorateur peut se déplacer et assécher en diagonale.", ile.getTuile(2, 4));
+        
+        Ingenieur ingenieur = new Ingenieur("Ingenieur", 
+                                            "L'Ingénieur peut assécher 2 tuiles pour une action.", ile.getTuile(0, 3));
+        
+        Messager messager = new Messager("Messager", 
+                                         "Le Messager peut donner des cartes Trésor à un autre joueur n'importe où sur l'île pour 1 action par carte. ", ile.getTuile(2, 1));
+        
+        Navigateur navigateur = new Navigateur("Navigateur", 
+                                               "Le Navigateur peut déplacer un autre joueur d'une ou deux tuiles adjacentes pour une action. ", ile.getTuile(1, 3));
+        
+        Pilote pilote = new Pilote("Pilote", 
+                                   "Le Pilote peut, une fois par tour, voler jusqu'à n'importe quelle tuile de l'île pour une action. ", ile.getTuile(2, 3));
+        
+        Plongeur plongeur = new Plongeur("Plongeur", 
+                                         "Le Plongeur peut passer par une ou deux tuiles adjacentes inondées et/ou manquantes pour une action (il doit terminer le tour sur une tuile).", ile.getTuile(1, 2));
+
+    }
     
- }
+    public void initCartesDemo(){
+        // Cartes spéciales
+        CarteTresor C1 = new CarteTresor(CTresor.SAC_SABLE);
+        CarteTresor C2 = new CarteTresor(CTresor.SAC_SABLE);
+        CarteTresor C3 = new CarteTresor(CTresor.HELICO);
+        CarteTresor C4 = new CarteTresor(CTresor.HELICO);
+        CarteTresor C5 = new CarteTresor(CTresor.HELICO);
+        // Cartes clé trésors
+        
+        //FEU
+        CarteTresor C6 = new CarteTresor(CTresor.CLE_FEU);
+        CarteTresor C7 = new CarteTresor(CTresor.CLE_FEU);
+        CarteTresor C8 = new CarteTresor(CTresor.CLE_FEU);
+        CarteTresor C9 = new CarteTresor(CTresor.CLE_FEU);
+        
+        //EAU
+        CarteTresor C10 = new CarteTresor(CTresor.CLE_FEU);
+        CarteTresor C11 = new CarteTresor(CTresor.CLE_EAU);
+        CarteTresor C12 = new CarteTresor(CTresor.CLE_EAU);
+        CarteTresor C13 = new CarteTresor(CTresor.CLE_EAU);
+        CarteTresor C14 = new CarteTresor(CTresor.CLE_EAU);
+        CarteTresor C15 = new CarteTresor(CTresor.CLE_EAU);
+        
+        //TERRE
+        CarteTresor C16 = new CarteTresor(CTresor.CLE_TERRE);
+        CarteTresor C17 = new CarteTresor(CTresor.CLE_TERRE);
+        CarteTresor C18 = new CarteTresor(CTresor.CLE_TERRE);
+        CarteTresor C19 = new CarteTresor(CTresor.CLE_TERRE);
+        CarteTresor C20 = new CarteTresor(CTresor.CLE_TERRE);
+        
+        //AIR
+        CarteTresor C21 = new CarteTresor(CTresor.CLE_AIR);
+        CarteTresor C22 = new CarteTresor(CTresor.CLE_AIR);
+        CarteTresor C23 = new CarteTresor(CTresor.CLE_AIR);
+        CarteTresor C24 = new CarteTresor(CTresor.CLE_AIR);
+        CarteTresor C25 = new CarteTresor(CTresor.CLE_AIR);
+        
+        //Cartes montée des eaux 
+        CarteTresor C26 = new CarteTresor(CTresor.MONTEE_DES_EAUX);
+        CarteTresor C27 = new CarteTresor(CTresor.MONTEE_DES_EAUX);
+        CarteTresor C28 = new CarteTresor(CTresor.MONTEE_DES_EAUX);
+    
+    
+    
+    
+}
+
+}

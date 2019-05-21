@@ -10,7 +10,7 @@ package ileinterdite;
  * @author dusema
  */
 public  enum Etat {
-    SEC,
+    SEC, 
     INONDE,
     SUBMERGE,
     NULL;
