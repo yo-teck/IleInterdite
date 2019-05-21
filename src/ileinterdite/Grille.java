@@ -14,11 +14,15 @@ public class Grille {
     private static Tuile[][] ile;
     
     Grille(){
-        this.ile = new Tuile[6][6];
+        setIle(new Tuile[6][6]);
     }
 
     public static Tuile[][] getIle() {
         return ile;
+    }
+
+    public static void setIle(Tuile[][] ile) {
+        Grille.ile = ile;
     }
     
     public void addTuile(Tuile t){

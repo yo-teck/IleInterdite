@@ -9,14 +9,11 @@ package ileinterdite;
  *
  * @author dusema
  */
-public class Pilote extends Aventurier{
+public class Plongeur extends Aventurier{
 
-     Pilote(String nomA, String description, Tuile tuileDepart) {
-        super(nomA, description,tuileDepart);
+    Plongeur(String nomA, String description, Tuile tuileDepart) {
+        super(nomA, description, tuileDepart);
     }
-    
-    
-    // + utiliserhelico()
-    
+
     
 }
