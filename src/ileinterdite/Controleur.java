@@ -16,9 +16,11 @@ public class Controleur {
     /**
      * @param args the command line arguments
      */
+    
     public Grille ile = new Grille();
     public ArrayList<CarteTresor> pile = new ArrayList<>();
     public ArrayList<CarteTresor> defausse = new ArrayList<>();
+    public ArrayList<Tuile> tuilesPiochees = new ArrayList<>();
     
     public void initGrilleDemo() {
 
@@ -119,22 +121,28 @@ public class Controleur {
     public void initAventurierDemo() {
 
         Explorateur explorateur = new Explorateur("Explorateur", 
-                                                  "L'Explorateur peut se déplacer et assécher en diagonale.", ile.getTuile(2, 4));
+                                                  "L'Explorateur peut se déplacer et assécher en diagonale.",
+                                                  ile.getTuile(2, 4));
         
         Ingenieur ingenieur = new Ingenieur("Ingenieur", 
-                                            "L'Ingénieur peut assécher 2 tuiles pour une action.", ile.getTuile(0, 3));
+                                            "L'Ingénieur peut assécher 2 tuiles pour une action.",
+                                            ile.getTuile(0, 3));
         
         Messager messager = new Messager("Messager", 
-                                         "Le Messager peut donner des cartes Trésor à un autre joueur n'importe où sur l'île pour 1 action par carte. ", ile.getTuile(2, 1));
+                                         "Le Messager peut donner des cartes Trésor à un autre joueur n'importe où sur l'île pour 1 action par carte. ",
+                                         ile.getTuile(2, 1));
         
         Navigateur navigateur = new Navigateur("Navigateur", 
-                                               "Le Navigateur peut déplacer un autre joueur d'une ou deux tuiles adjacentes pour une action. ", ile.getTuile(1, 3));
+                                               "Le Navigateur peut déplacer un autre joueur d'une ou deux tuiles adjacentes pour une action. ",
+                                               ile.getTuile(1, 3));
         
         Pilote pilote = new Pilote("Pilote", 
-                                   "Le Pilote peut, une fois par tour, voler jusqu'à n'importe quelle tuile de l'île pour une action. ", ile.getTuile(2, 3));
+                                   "Le Pilote peut, une fois par tour, voler jusqu'à n'importe quelle tuile de l'île pour une action. ",
+                                   ile.getTuile(2, 3));
         
         Plongeur plongeur = new Plongeur("Plongeur", 
-                                         "Le Plongeur peut passer par une ou deux tuiles adjacentes inondées et/ou manquantes pour une action (il doit terminer le tour sur une tuile).", ile.getTuile(1, 2));
+                                         "Le Plongeur peut passer par une ou deux tuiles adjacentes inondées et/ou manquantes pour une action (il doit terminer le tour sur une tuile).",
+                                         ile.getTuile(1, 2));
 
     }
     
@@ -179,10 +187,35 @@ public class Controleur {
         CarteTresor C26 = new CarteTresor(CTresor.MONTEE_DES_EAUX);
         CarteTresor C27 = new CarteTresor(CTresor.MONTEE_DES_EAUX);
         CarteTresor C28 = new CarteTresor(CTresor.MONTEE_DES_EAUX);
-    
-    
-    
-    
+        
+        pile.add(C1);
+        pile.add(C2);
+        pile.add(C3);
+        pile.add(C4);
+        pile.add(C5);
+        pile.add(C6);
+        pile.add(C7);
+        pile.add(C8);
+        pile.add(C9);
+        pile.add(C10);
+        pile.add(C11);
+        pile.add(C12);
+        pile.add(C13);
+        pile.add(C14);
+        pile.add(C15);
+        pile.add(C16);
+        pile.add(C17);
+        pile.add(C18);
+        pile.add(C19);
+        pile.add(C20);
+        pile.add(C21);
+        pile.add(C22);
+        pile.add(C23);
+        pile.add(C24);
+        pile.add(C25);
+        pile.add(C26);
+        pile.add(C27);
+        pile.add(C28);    
 }
 
 }
