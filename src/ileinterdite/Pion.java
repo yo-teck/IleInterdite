@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author dusema
  */
-public class Joueur {
+public class Pion {
     
     
     private String nomj;
@@ -20,7 +20,7 @@ public class Joueur {
     private Tuile tuilePosition;
     private ArrayList<CarteTresor> cartesTresor;
 
-    public Joueur(String nomj, Aventurier role, Tuile tuilePosition) {
+    public Pion(String nomj, Aventurier role, Tuile tuilePosition) {
         this.setNomj(nomj);
         this.setRole(role);
         cartesTresor = new ArrayList<>();
@@ -51,7 +51,7 @@ public class Joueur {
     }
 
     public static void setNbAction(int nbAction) {
-        Joueur.nbAction = nbAction;
+        Pion.nbAction = nbAction;
     }
 
     public void setRole(Aventurier role) {

@@ -12,7 +12,7 @@ package ileinterdite;
 public abstract class Aventurier {
     private String nomA;
     private String description;
-    private Joueur joueur;
+    private Pion joueur;
     private Tuile tuileDepart;
 
     public Aventurier(String nomA, String description,Tuile tuileDepart) {
@@ -38,11 +38,11 @@ public abstract class Aventurier {
         this.description = description;
     }
 
-    public Joueur getJoueur() {
+    public Pion getJoueur() {
         return joueur;
     }
 
-    public void setJoueur(Joueur joueur) {
+    public void setJoueur(Pion joueur) {
         this.joueur = joueur;
     }
 

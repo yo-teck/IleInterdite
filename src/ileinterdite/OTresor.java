@@ -15,8 +15,8 @@ public class OTresor {
 
     
     public OTresor(Tresor type, boolean estRecupere) {
-        this.type = type;
-        this.estRecupere = estRecupere;
+        setType(type);
+        setEstRecupere(estRecupere);
     }
 
     public Tresor getType() {

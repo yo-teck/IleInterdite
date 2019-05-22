@@ -18,7 +18,7 @@ public class Tuile {
   private int i;
   private int j;
   private String nom;
-  private ArrayList<Joueur> joueurs;
+  private ArrayList<Pion> joueurs;
   
     public Tuile(Etat etat, int i, int j){
         if(etat==etat.NULL){
