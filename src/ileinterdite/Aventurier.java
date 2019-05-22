@@ -59,5 +59,8 @@ public abstract class Aventurier {
     }
     
     
-            
+   public void seDeplacer(){
+       Pion.getTuile
+       
+   }
 }

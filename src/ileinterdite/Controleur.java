@@ -365,6 +365,132 @@ public class Controleur {
         initGrilleAleatoire();
     }
 
+    
+    public ArrayList<Tuile> getTuilesCroix(Tuile t){
+        ArrayList<Tuile> tAC = new ArrayList<>();
+        int Droite = t.getI()+1;
+        int Gauche = t.getI()-1;
+        int Haut = t.getJ()+1;
+        int Bas = t.getJ()-1;
+        
+        if(Droite  < 6 && Gauche <= 0 && Haut >=0 && Bas < 6){
+            // Lignes 1 et 6
+            if(t.getJ() == 0){
+                tAC.add(ile.getTuile(t.getI(),Bas));
+            }
+            else if(t.getJ() == 5){
+                tAC.add(ile.getTuile(t.getI(),Haut));
+            }
+            
+            if(Gauche > 1 && t.getJ() == 0 || t.getJ() == 5 ){
+                tAC.add(ile.getTuile(Gauche,t.getJ()));             
+            }
+            
+            if(Droite < 4 && t.getJ() == 0 || t.getJ() == 5){
+                tAC.add(ile.getTuile(Droite,t.getJ()));             
+            }
+            
+            // Lignes 2 et 5
+            if(t.getJ() == 1 || t.getJ()== 4){
+                tAC.add(ile.getTuile(t.getI(),Haut));
+                tAC.add(ile.getTuile(t.getI(),Bas)); 
+            }
+            
+            if(Gauche > 0 && t.getJ() == 1 || t.getJ() == 4 ){
+                tAC.add(ile.getTuile(Gauche,t.getJ()));             
+            }
+            
+            if(Droite < 5 && t.getJ() == 1 || t.getJ() == 4){
+                tAC.add(ile.getTuile(Droite,t.getJ()));             
+            }
+            
+            // Lignes 3 et 4
+            if(t.getJ() == 2 || t.getJ() == 3){
+                tAC.add(ile.getTuile(t.getI(),Haut));
+                tAC.add(ile.getTuile(t.getI(),Bas)); 
+            }
+            
+            if(Gauche == 0 && t.getJ() == 2 || t.getJ() == 3 ){
+                tAC.add(ile.getTuile(Gauche,t.getJ()));             
+            }
+            
+            if(Droite == 5 && t.getJ() == 2 || t.getJ() == 3){
+                tAC.add(ile.getTuile(Droite,t.getJ()));             
+            }
+            
+        }
+        
+        
+        
+        return tAC;
+    }
+    
+    public ArrayList<Tuile> getTuilesDiagonale(Tuile t){
+        ArrayList<Tuile> tAD = new ArrayList<>();
+        int Droite = t.getI()+1;
+        int Gauche = t.getI()-1;
+        int Haut = t.getJ()+1;
+        int Bas = t.getJ()-1;
+        
+        if(Droite  < 6 && Gauche <= 0 && Haut >=0 && Bas < 6){
+            // Lignes 1 et 6
+            if(t.getJ() == 0){
+                tAD.add(ile.getTuile(Gauche,Bas));
+                tAD.add(ile.getTuile(Droite,Bas));
+            }
+            else if(t.getJ() == 5){
+                tAD.add(ile.getTuile(Droite,Haut));
+                tAD.add(ile.getTuile(Gauche,Haut));
+            }
+            
+            if(Gauche > 1 && t.getJ() == 0 ){
+                tAD.add(ile.getTuile(Gauche,Bas));
+                tAD.add(ile.getTuile(Droite,Bas)); 
+            }
+            if(Gauche > 1 && t.getJ() == 5 ){
+                tAD.add(ile.getTuile(Gauche,Haut));
+                tAD.add(ile.getTuile(Droite,Haut)); 
+            }
+            ///////////////////////////////////////////////////////// A COMPLETER A PARTIR D'ICI
+            if(Droite < 4 && t.getJ() == 0 || t.getJ() == 5){
+                tAD.add(ile.getTuile(Droite,t.getJ()));             
+            }
+            
+            // Lignes 2 et 5
+            if(t.getJ() == 1 || t.getJ()== 4){
+                tAD.add(ile.getTuile(t.getI(),Haut));
+                tAD.add(ile.getTuile(t.getI(),Bas)); 
+            }
+            
+            if(Gauche > 0 && t.getJ() == 1 || t.getJ() == 4 ){
+                tAD.add(ile.getTuile(Gauche,t.getJ()));             
+            }
+            
+            if(Droite < 5 && t.getJ() == 1 || t.getJ() == 4){
+                tAD.add(ile.getTuile(Droite,t.getJ()));             
+            }
+            
+            // Lignes 3 et 4
+            if(t.getJ() == 2 || t.getJ() == 3){
+                tAD.add(ile.getTuile(t.getI(),Haut));
+                tAD.add(ile.getTuile(t.getI(),Bas)); 
+            }
+            
+            if(Gauche == 0 && t.getJ() == 2 || t.getJ() == 3 ){
+                tAD.add(ile.getTuile(Gauche,t.getJ()));             
+            }
+            
+            if(Droite == 5 && t.getJ() == 2 || t.getJ() == 3){
+                tAD.add(ile.getTuile(Droite,t.getJ()));             
+            }
+            
+        }
+        
+        
+        
+        return tAD;
+    
+    }
     public static void main(String[] args) {
         System.out.println("bj");
 
