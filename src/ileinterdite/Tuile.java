@@ -18,25 +18,44 @@ public class Tuile {
   private int i;
   private int j;
   private String nom;
-  private ArrayList<Pion> joueurs;
+  private ArrayList<Pion> pions;
   
+    //Constructeur pour tuiles hors île (placement manuel)
     public Tuile(Etat etat, int i, int j){
         if(etat==etat.NULL){
             this.setEtat(etat);
             this.setEvent(event.RIEN);
             this.setI(i);
             this.setJ(j);
-            this.setNom("Hors Ile");        
+            this.setNom("");        
         }
     }
-
+    
+    //Constructeur pour tuile à placement manuel
     public Tuile(Etat etat, Evenement event, int i, int j, String nom) {
         this.setEtat(etat);
         this.setEvent(event);
         this.setI(i);
         this.setJ(j);
         this.setNom(nom);
-        joueurs = new ArrayList<>();
+        pions = new ArrayList<>();
+    }
+    
+    //Constructeur pour tuile hors île à placement aléatoire
+    public Tuile(Etat etat){
+        if(etat==etat.NULL){
+            this.setEtat(etat);
+            this.setEvent(event.RIEN);
+            this.setNom("");        
+        }
+    }    
+    
+    //Constructeur pour partie à placement aléatoire
+    public Tuile(Etat etat, Evenement event, String nom){
+        this.setEtat(etat);
+        this.setEvent(event);
+        this.setNom(nom);
+        pions = new ArrayList<>();        
     }
 
     public Etat getEtat() {
@@ -79,7 +98,9 @@ public class Tuile {
         this.nom = nom;
     }
   
-  
+    public void addPion(Pion pion){
+        pions.add(pion);
+    }
   
     
 }

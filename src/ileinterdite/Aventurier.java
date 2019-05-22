@@ -18,9 +18,13 @@ public abstract class Aventurier {
     public Aventurier(String nomA, String description,Tuile tuileDepart) {
         this.nomA = nomA;
         this.description = description;
-        this.tuileDepart =tuileDepart;
-       
+        this.tuileDepart =tuileDepart;     
     }
+    
+    public Aventurier(String nomA, String description) {
+        this.nomA = nomA;
+        this.description = description;    
+    }    
 
     public String getNomA() {
         return nomA;
