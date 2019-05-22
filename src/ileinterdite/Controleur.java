@@ -160,9 +160,10 @@ public class Controleur {
         CarteTresor C7 = new CarteTresor(CTresor.CLE_FEU);
         CarteTresor C8 = new CarteTresor(CTresor.CLE_FEU);
         CarteTresor C9 = new CarteTresor(CTresor.CLE_FEU);
+        CarteTresor C10 = new CarteTresor(CTresor.CLE_FEU);
         
         //EAU
-        CarteTresor C10 = new CarteTresor(CTresor.CLE_FEU);
+        
         CarteTresor C11 = new CarteTresor(CTresor.CLE_EAU);
         CarteTresor C12 = new CarteTresor(CTresor.CLE_EAU);
         CarteTresor C13 = new CarteTresor(CTresor.CLE_EAU);
