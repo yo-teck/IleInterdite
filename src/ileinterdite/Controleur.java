@@ -16,11 +16,13 @@ public class Controleur {
     /**
      * @param args the command line arguments
      */
-    
     public Grille ile = new Grille();
     public ArrayList<CarteTresor> pile = new ArrayList<>();
     public ArrayList<CarteTresor> defausse = new ArrayList<>();
     public ArrayList<Tuile> tuilesPiochees = new ArrayList<>();
+    public ArrayList<OTresor> tresors = new ArrayList<>();
+    
+    //Initialisation de la démo
     
     public void initGrilleDemo() {
 
@@ -113,40 +115,36 @@ public class Controleur {
 
     }
 
-    public static void main(String[] args) {
-        System.out.println("bj");
-
-    }
-
     public void initAventurierDemo() {
 
-        Explorateur explorateur = new Explorateur("Explorateur", 
-                                                  "L'Explorateur peut se déplacer et assécher en diagonale.",
-                                                  ile.getTuile(2, 4));
-        
-        Ingenieur ingenieur = new Ingenieur("Ingenieur", 
-                                            "L'Ingénieur peut assécher 2 tuiles pour une action.",
-                                            ile.getTuile(0, 3));
-        
-        Messager messager = new Messager("Messager", 
-                                         "Le Messager peut donner des cartes Trésor à un autre joueur n'importe où sur l'île pour 1 action par carte. ",
-                                         ile.getTuile(2, 1));
-        
-        Navigateur navigateur = new Navigateur("Navigateur", 
-                                               "Le Navigateur peut déplacer un autre joueur d'une ou deux tuiles adjacentes pour une action. ",
-                                               ile.getTuile(1, 3));
-        
-        Pilote pilote = new Pilote("Pilote", 
-                                   "Le Pilote peut, une fois par tour, voler jusqu'à n'importe quelle tuile de l'île pour une action. ",
-                                   ile.getTuile(2, 3));
-        
-        Plongeur plongeur = new Plongeur("Plongeur", 
-                                         "Le Plongeur peut passer par une ou deux tuiles adjacentes inondées et/ou manquantes pour une action (il doit terminer le tour sur une tuile).",
-                                         ile.getTuile(1, 2));
+        Explorateur explorateur = new Explorateur("Explorateur",
+                "L'Explorateur peut se déplacer et assécher en diagonale.",
+                ile.getTuile(2, 4));
+
+        Ingenieur ingenieur = new Ingenieur("Ingenieur",
+                "L'Ingénieur peut assécher 2 tuiles pour une action.",
+                ile.getTuile(0, 3));
+
+        Messager messager = new Messager("Messager",
+                "Le Messager peut donner des cartes Trésor à un autre joueur n'importe où sur l'île pour 1 action par carte. ",
+                ile.getTuile(2, 1));
+
+        Navigateur navigateur = new Navigateur("Navigateur",
+                "Le Navigateur peut déplacer un autre joueur d'une ou deux tuiles adjacentes pour une action. ",
+                ile.getTuile(1, 3));
+
+        Pilote pilote = new Pilote("Pilote",
+                "Le Pilote peut, une fois par tour, voler jusqu'à n'importe quelle tuile de l'île pour une action. ",
+                ile.getTuile(2, 3));
+
+        Plongeur plongeur = new Plongeur("Plongeur",
+                "Le Plongeur peut passer par une ou deux tuiles adjacentes inondées et/ou manquantes pour une action (il doit terminer le tour sur une tuile).",
+                ile.getTuile(1, 2));
 
     }
-    
-    public void initCartesDemo(){
+
+    public void initCartesDemo() {
+
         // Cartes spéciales
         CarteTresor C1 = new CarteTresor(CTresor.SAC_SABLE);
         CarteTresor C2 = new CarteTresor(CTresor.SAC_SABLE);
@@ -154,41 +152,41 @@ public class Controleur {
         CarteTresor C4 = new CarteTresor(CTresor.HELICO);
         CarteTresor C5 = new CarteTresor(CTresor.HELICO);
         // Cartes clé trésors
-        
+
         //FEU
         CarteTresor C6 = new CarteTresor(CTresor.CLE_FEU);
         CarteTresor C7 = new CarteTresor(CTresor.CLE_FEU);
         CarteTresor C8 = new CarteTresor(CTresor.CLE_FEU);
         CarteTresor C9 = new CarteTresor(CTresor.CLE_FEU);
         CarteTresor C10 = new CarteTresor(CTresor.CLE_FEU);
-        
+
         //EAU
-        
         CarteTresor C11 = new CarteTresor(CTresor.CLE_EAU);
         CarteTresor C12 = new CarteTresor(CTresor.CLE_EAU);
         CarteTresor C13 = new CarteTresor(CTresor.CLE_EAU);
         CarteTresor C14 = new CarteTresor(CTresor.CLE_EAU);
         CarteTresor C15 = new CarteTresor(CTresor.CLE_EAU);
-        
+
         //TERRE
         CarteTresor C16 = new CarteTresor(CTresor.CLE_TERRE);
         CarteTresor C17 = new CarteTresor(CTresor.CLE_TERRE);
         CarteTresor C18 = new CarteTresor(CTresor.CLE_TERRE);
         CarteTresor C19 = new CarteTresor(CTresor.CLE_TERRE);
         CarteTresor C20 = new CarteTresor(CTresor.CLE_TERRE);
-        
+
         //AIR
         CarteTresor C21 = new CarteTresor(CTresor.CLE_AIR);
         CarteTresor C22 = new CarteTresor(CTresor.CLE_AIR);
         CarteTresor C23 = new CarteTresor(CTresor.CLE_AIR);
         CarteTresor C24 = new CarteTresor(CTresor.CLE_AIR);
         CarteTresor C25 = new CarteTresor(CTresor.CLE_AIR);
-        
+
         //Cartes montée des eaux 
         CarteTresor C26 = new CarteTresor(CTresor.MONTEE_DES_EAUX);
         CarteTresor C27 = new CarteTresor(CTresor.MONTEE_DES_EAUX);
         CarteTresor C28 = new CarteTresor(CTresor.MONTEE_DES_EAUX);
-        
+
+        //On ajoute les cartes dans la pile
         pile.add(C1);
         pile.add(C2);
         pile.add(C3);
@@ -216,7 +214,17 @@ public class Controleur {
         pile.add(C25);
         pile.add(C26);
         pile.add(C27);
-        pile.add(C28);    
-}
+        pile.add(C28);
+    }
+    
+    public void initTresors() {
+        
+    }
+    //Fin initDemo
+
+    public static void main(String[] args) {
+        System.out.println("bj");
+
+    }
 
 }
