@@ -23,6 +23,7 @@ public class Controleur {
     public ArrayList<Tuile> tuilesPiochees = new ArrayList<>();
     public ArrayList<OTresor> tresors = new ArrayList<>();
     public ArrayList<Pion> pions = new ArrayList<>();
+    public NiveauEau niveauEau;
 
     public void initGrilleDemo() {
 
@@ -359,10 +360,12 @@ public class Controleur {
         initAventurierDemo();
         initCartes();
         initTresors();
+        niveauEau = new NiveauEau(Difficulte.NOVICE);
     }
     
-    public void initAleatoire(){
+    public void initAleatoire(Difficulte diff){
         initGrilleAleatoire();
+        niveauEau = new NiveauEau(diff);
     }
 
     

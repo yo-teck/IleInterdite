@@ -65,24 +65,4 @@ public class Pion {
     public void setCartesTresor(ArrayList<CarteTresor> cartesTresor) {
         this.cartesTresor = cartesTresor;
     }
-    
-    
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
-        }
-    }
-    
-    
-    
-    
-    
 }

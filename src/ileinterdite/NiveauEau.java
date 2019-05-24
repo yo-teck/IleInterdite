@@ -41,23 +41,21 @@ public class NiveauEau {
         else if (getNiveau()>=8 && getNiveau() < 10){
             return 5;//Carte piochées
             
-        }
-        else //if (getNiveau()==10){
-            return 6;//FIN DE LA PARTIE
-            
-        //}
-        
+        } else /*if (getNiveau()==10)*/ {
+             return 6;//FIN DE LA PARTIE
+        }    
+        //}    
     }
     
     
-    public void setDifficulte(Difficulte dif) {
-        if (dif== Difficulte.NOVICE){
+    public void setDifficulte(Difficulte diff) {
+        if (diff== Difficulte.NOVICE){
             setNiveau(1);
-        } else if (dif== Difficulte.NORMAL){
+        } else if (diff== Difficulte.NORMAL){
             setNiveau(2);
-        }else if (dif== Difficulte.ELITE){
+        }else if (diff== Difficulte.ELITE){
             setNiveau(3);
-        }else if (dif== Difficulte.LEGENDAIRE){
+        }else if (diff== Difficulte.LEGENDAIRE){
             setNiveau(4);
         }
     }
