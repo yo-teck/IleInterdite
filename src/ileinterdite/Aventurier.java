@@ -5,6 +5,8 @@
  */
 package ileinterdite;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author dusema
@@ -57,9 +59,13 @@ public abstract class Aventurier {
     public void setTuileDepart(Tuile tuileDepart) {
         this.tuileDepart = tuileDepart;
     }
-    
-    
+     
    public void seDeplacer(){
        pion.getTuilePosition();
+   }
+   
+   public ArrayList<Tuile> getTuilesDispoPourDeplacement(Grille grille, Tuile tuile){
+       ArrayList<Tuile> tuilesDispoPourDeplacement = new ArrayList<>();
+       return tuilesDispoPourDeplacement;
    }
 }
