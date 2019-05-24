@@ -5,6 +5,8 @@
  */
 package ileinterdite;
 
+import java.awt.Color;
+
 /**
  *
  * @author dusema
@@ -13,6 +15,7 @@ public class Navigateur extends Aventurier {
 
     Navigateur(String nomA, String description, Tuile tuileDepart) {
         super(nomA, description, tuileDepart);
+        this.couleur=Color.YELLOW;        
     }
     
 }

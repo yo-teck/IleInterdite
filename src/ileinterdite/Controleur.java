@@ -12,11 +12,12 @@ import java.util.Collections;
  *
  * @author gherrazs
  */
-public class Controleur {
+public class Controleur implements Observe{
 
     /**
      * @param args the command line arguments
      */
+    
     public Grille ile = new Grille();
     public ArrayList<CarteTresor> pile = new ArrayList<>();
     public ArrayList<CarteTresor> defausse = new ArrayList<>();
@@ -171,6 +172,7 @@ public class Controleur {
         tuiles.add(t44);
         tuiles.add(t52);
         tuiles.add(t53);
+        
         Collections.shuffle(tuiles);
         
         //Ajout des tuiles null sur l'ile
@@ -277,8 +279,8 @@ public class Controleur {
         CarteTresor C3 = new CarteTresor(CTresor.HELICO);
         CarteTresor C4 = new CarteTresor(CTresor.HELICO);
         CarteTresor C5 = new CarteTresor(CTresor.HELICO);
+        
         // Cartes clé trésors
-
         //FEU
         CarteTresor C6 = new CarteTresor(CTresor.CLE_FEU);
         CarteTresor C7 = new CarteTresor(CTresor.CLE_FEU);
@@ -370,18 +372,9 @@ public class Controleur {
 
     public void seDeplacer(Pion pion){
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
-        tuilesDispo = this.getNonSubmerge(pion.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition()));
+        tuilesDispo = ile.getNonSubmerge(pion.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition()));
         //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
 
-    }
-    
-    public ArrayList<Tuile> getNonSubmerge(ArrayList<Tuile> tAC){
-        for(Tuile tuile : tAC){
-            if(tuile.getEtat()==Etat.NULL || tuile.getEtat()==Etat.SUBMERGE){
-                tAC.remove(tuile);
-            }
-        }
-        return tAC;
     }
     
     public static void main(String[] args) {

@@ -5,6 +5,8 @@
  */
 package ileinterdite;
 
+import java.awt.Color;
+
 /**
  *
  * @author dusema
@@ -13,6 +15,7 @@ public class Ingenieur extends Aventurier {
 
     Ingenieur(String nomA, String description, Tuile tuileDepart) {
         super(nomA, description, tuileDepart);
+        this.couleur=Color.RED;
     }
     
 }

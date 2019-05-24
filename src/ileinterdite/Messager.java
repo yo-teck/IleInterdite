@@ -5,6 +5,8 @@
  */
 package ileinterdite;
 
+import java.awt.Color;
+
 /**
  *
  * @author dusema
@@ -15,15 +17,7 @@ public class Messager extends Aventurier {
     
     public Messager(String nomA, String description, Tuile t ) {
         super(nomA, description,t);
-        
-       
-            
-            super.setTuileDepart(t);
-            
-                
-         
-        
-        
+        this.couleur=Color.ORANGE;
     }
      // +donnercarte n'importe quel tour
     

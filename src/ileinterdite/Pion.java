@@ -5,6 +5,7 @@
  */
 package ileinterdite;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 /**
@@ -19,11 +20,21 @@ public class Pion {
     private Aventurier role;
     private Tuile tuilePosition;
     private ArrayList<CarteTresor> cartesTresor;
+    private Color couleur;
 
     public Pion(String nomj, Aventurier role, Tuile tuilePosition) {
         this.setNomj(nomj);
         this.setRole(role);
+        this.setCouleur(role.getCouleur());
         cartesTresor = new ArrayList<>();
+    }
+
+    public Color getCouleur() {
+        return couleur;
+    }
+
+    public void setCouleur(Color couleur) {
+        this.couleur = couleur;
     }
 
     public String getNomj() {

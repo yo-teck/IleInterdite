@@ -5,6 +5,7 @@
  */
 package ileinterdite;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 /**
@@ -16,17 +17,22 @@ public abstract class Aventurier {
     private String description;
     private Pion pion;
     private Tuile tuileDepart;
+    protected Color couleur;
 
     public Aventurier(String nomA, String description,Tuile tuileDepart) {
-        this.nomA = nomA;
-        this.description = description;
-        this.tuileDepart =tuileDepart;     
+        setNomA(nomA);
+        setDescription(description);
+        setTuileDepart(tuileDepart);     
     }
     
     public Aventurier(String nomA, String description) {
-        this.nomA = nomA;
-        this.description = description;    
+        setNomA(nomA);
+        setDescription(description);    
     }    
+
+    public Color getCouleur() {
+        return couleur;
+    }
 
     public String getNomA() {
         return nomA;
