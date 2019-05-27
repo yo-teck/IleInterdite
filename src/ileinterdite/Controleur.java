@@ -5,6 +5,12 @@
  */
 package ileinterdite;
 
+import ileinterdite.PackageAventurier.Navigateur;
+import ileinterdite.PackageAventurier.Ingenieur;
+import ileinterdite.PackageAventurier.Messager;
+import ileinterdite.PackageAventurier.Plongeur;
+import ileinterdite.PackageAventurier.Explorateur;
+import ileinterdite.PackageAventurier.Pilote;
 import java.util.ArrayList;
 import java.util.Collections;
 

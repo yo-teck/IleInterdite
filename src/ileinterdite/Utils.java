@@ -21,7 +21,7 @@ public class Utils {
 
         String libelle ;
         
-        EtatTuile(String libelle) {
+      EtatTuile(String libelle) {
             this.libelle = libelle ;
         }
 

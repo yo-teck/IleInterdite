@@ -5,6 +5,7 @@
  */
 package ileinterdite;
 
+import ileinterdite.PackageAventurier.Aventurier;
 import java.awt.Color;
 import java.util.ArrayList;
 

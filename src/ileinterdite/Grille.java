@@ -15,7 +15,7 @@ public class Grille {
 
     private static Tuile[][] ile;
 
-    Grille() {
+   public Grille() {
         setIle(new Tuile[6][6]);
     }
 
