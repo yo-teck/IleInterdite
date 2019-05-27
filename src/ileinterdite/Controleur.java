@@ -18,7 +18,7 @@ import java.util.Collections;
  *
  * @author gherrazs
  */
-public class Controleur implements Observe{
+public class Controleur implements Observe {
 
     /**
      * @param args the command line arguments
@@ -31,6 +31,7 @@ public class Controleur implements Observe{
     public ArrayList<OTresor> tresors = new ArrayList<>();
     public ArrayList<Pion> pions = new ArrayList<>();
     public NiveauEau niveauEau;
+    public IHM ihm = new IHM();
 
     public void initGrilleDemo() {
 
@@ -381,6 +382,19 @@ public class Controleur implements Observe{
         tuilesDispo = ile.getNonSubmerge(pion.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition()));
         //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
 
+    }
+    
+    private Observateur observateur;
+    @Override
+    public void addObservateur(Observateur o){
+        this.observateur=o;
+    }
+    
+    @Override
+    public void notifierObservateur(Message m){
+        if(observateur!=null){
+            observateur.traiterMessage(m);
+        }
     }
     
     public static void main(String[] args) {
