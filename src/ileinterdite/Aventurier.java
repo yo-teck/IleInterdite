@@ -13,22 +13,23 @@ import java.util.ArrayList;
  * @author dusema
  */
 public abstract class Aventurier {
+
     private String nomA;
     private String description;
     private Pion pion;
     private Tuile tuileDepart;
     protected Color couleur;
 
-    public Aventurier(String nomA, String description,Tuile tuileDepart) {
+    public Aventurier(String nomA, String description, Tuile tuileDepart) {
         setNomA(nomA);
         setDescription(description);
-        setTuileDepart(tuileDepart);     
+        setTuileDepart(tuileDepart);
     }
-    
+
     public Aventurier(String nomA, String description) {
         setNomA(nomA);
-        setDescription(description);    
-    }    
+        setDescription(description);
+    }
 
     public Color getCouleur() {
         return couleur;
@@ -65,13 +66,33 @@ public abstract class Aventurier {
     public void setTuileDepart(Tuile tuileDepart) {
         this.tuileDepart = tuileDepart;
     }
-     
-   public void seDeplacer(){
-       pion.getTuilePosition();
-   }
-   
-   public ArrayList<Tuile> getTuilesDispoPourDeplacement(Grille grille, Tuile tuile){
-       ArrayList<Tuile> tuilesDispoPourDeplacement = new ArrayList<>();
-       return tuilesDispoPourDeplacement;
-   }
+
+    public ArrayList<Tuile> getTuilesDispoPourDeplacement(Grille grille, Tuile tuile) {
+        ArrayList<Tuile> tuilesDispoPourDeplacement = new ArrayList<>();
+        tuilesDispoPourDeplacement = grille.getTuilesCroix(tuile);
+        tuilesDispoPourDeplacement = grille.getNonSubmerge(tuilesDispoPourDeplacement);
+
+        return tuilesDispoPourDeplacement;
+
+    }
+    
+    public ArrayList<Tuile> getTuilesAdjacentesInnondees(Grille grille, Tuile tuile) {
+        ArrayList<Tuile> tuilesAdjacentesInnondees = new ArrayList<>();
+        tuilesAdjacentesInnondees= grille.getTuilesCroix(tuile);
+        tuilesAdjacentesInnondees= grille.getTuilesInnondees(tuilesAdjacentesInnondees);
+        
+        
+        
+        return tuilesAdjacentesInnondees;
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
 }

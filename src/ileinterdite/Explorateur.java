@@ -6,6 +6,7 @@
 package ileinterdite;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  *
@@ -19,5 +20,37 @@ public class Explorateur extends Aventurier{
     }
     
     
+     @Override
+     public ArrayList<Tuile> getTuilesDispoPourDeplacement(Grille grille, Tuile tuile) {
+        ArrayList<Tuile> tuilesDispoPourDeplacement = new ArrayList<>();
+        tuilesDispoPourDeplacement = grille.getTuilesCroix(tuile);
+        tuilesDispoPourDeplacement.addAll(grille.getTuilesDiagonale(tuile));
+        tuilesDispoPourDeplacement = grille.getNonSubmerge(tuilesDispoPourDeplacement);
+
+        return tuilesDispoPourDeplacement;
+
+    }
+     
+     
+     @Override
+     public ArrayList<Tuile> getTuilesAdjacentesInnondees(Grille grille, Tuile tuile) {
+        ArrayList<Tuile> tuilesAdjacentesInnondees = new ArrayList<>();
+        tuilesAdjacentesInnondees= grille.getTuilesCroix(tuile);
+        tuilesAdjacentesInnondees.addAll(grille.getTuilesDiagonale(tuile));
+        tuilesAdjacentesInnondees = grille.getTuilesInnondees(tuilesAdjacentesInnondees);
+        
+        
+        return tuilesAdjacentesInnondees;
+        
+     
+     }
+     
+     
+     
+     
+     
+     
+     
+     
 
 }

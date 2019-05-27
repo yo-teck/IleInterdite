@@ -167,4 +167,15 @@ public class Grille {
         return tAC;
     }
 
+     public ArrayList<Tuile> getTuilesInnondees(ArrayList<Tuile> tI) {
+        for (Tuile tuile : tI) {
+            if (tuile.getEtat() == Etat.NULL || tuile.getEtat() == Etat.SUBMERGE || tuile.getEtat() == Etat.SEC) {
+                tI.remove(tuile);
+            }
+        }
+        return tI;
+    }
+    
+    
+    
 }
