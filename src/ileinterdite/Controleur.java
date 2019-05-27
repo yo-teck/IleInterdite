@@ -23,7 +23,7 @@ import java.util.Collections;
  *
  * @author gherrazs
  */
-public class Controleur implements Observe {
+public class Controleur implements Observateur {
 
     /**
      * @param args the command line arguments
@@ -36,7 +36,7 @@ public class Controleur implements Observe {
     public ArrayList<OTresor> tresors = new ArrayList<>();
     public ArrayList<Pion> pions = new ArrayList<>();
     public NiveauEau niveauEau;
-    public IHM ihm = new IHM();
+    public VueJeu ihm = new VueJeu(ile,niveauEau,pions);
 
     public void initGrilleDemo() {
 
@@ -389,21 +389,14 @@ public class Controleur implements Observe {
 
     }
     
-    private Observateur observateur;
     @Override
-    public void addObservateur(Observateur o){
-        this.observateur=o;
-    }
-    
-    @Override
-    public void notifierObservateur(Message m){
-        if(observateur!=null){
-            observateur.traiterMessage(m);
-        }
+    public void traiterMessage(Message m) {
+
     }
     
     public static void main(String[] args) {
         System.out.println("bj");
+        
 
     }
 
