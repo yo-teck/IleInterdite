@@ -5,6 +5,11 @@
  */
 package ileinterdite;
 
+import ileinterdite.PackageCarteTresor.CarteTresor;
+import ileinterdite.PackageCarteTresor.CTresor;
+import ileinterdite.PackageTuile.Evenement;
+import ileinterdite.PackageTuile.Tuile;
+import ileinterdite.PackageTuile.Etat;
 import ileinterdite.PackageAventurier.Navigateur;
 import ileinterdite.PackageAventurier.Ingenieur;
 import ileinterdite.PackageAventurier.Messager;

@@ -5,6 +5,9 @@
  */
 package ileinterdite;
 
+import ileinterdite.PackageCarteTresor.CTresor;
+import ileinterdite.PackageTuile.Tuile;
+
 /**
  *
  * @author Lucas

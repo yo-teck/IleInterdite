@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ileinterdite;
+package ileinterdite.PackageTuile;
 
         
+import ileinterdite.Pion;
     import java.util.ArrayList;
 /**
  *

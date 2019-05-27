@@ -3,19 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ileinterdite;
+package ileinterdite.PackageTuile;
 
 /**
  *
  * @author dusema
  */
-public enum CTresor {
-    CLE_FEU,
-    CLE_EAU,
-    CLE_TERRE,
-    CLE_AIR,
-    MONTEE_DES_EAUX,
-    HELICO,
-    SAC_SABLE;
-    
+public  enum Etat {
+    SEC, 
+    INONDE,
+    SUBMERGE,
+    NULL;
 }

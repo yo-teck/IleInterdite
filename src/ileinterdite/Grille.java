@@ -5,6 +5,8 @@
  */
 package ileinterdite;
 
+import ileinterdite.PackageTuile.Tuile;
+import ileinterdite.PackageTuile.Etat;
 import java.util.ArrayList;
 
 /**

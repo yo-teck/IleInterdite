@@ -7,7 +7,7 @@ package ileinterdite.PackageAventurier;
 
 import ileinterdite.Grille;
 import ileinterdite.Pion;
-import ileinterdite.Tuile;
+import ileinterdite.PackageTuile.Tuile;
 import java.awt.Color;
 import java.util.ArrayList;
 

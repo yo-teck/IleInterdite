@@ -5,7 +5,7 @@
  */
 package ileinterdite.PackageAventurier;
 
-import ileinterdite.Tuile;
+import ileinterdite.PackageTuile.Tuile;
 import java.awt.Color;
 
 /**

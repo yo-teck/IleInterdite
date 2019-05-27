@@ -5,6 +5,8 @@
  */
 package ileinterdite;
 
+import ileinterdite.PackageCarteTresor.CarteTresor;
+import ileinterdite.PackageTuile.Tuile;
 import ileinterdite.PackageAventurier.Aventurier;
 import java.awt.Color;
 import java.util.ArrayList;
