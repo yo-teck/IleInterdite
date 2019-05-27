@@ -18,5 +18,5 @@ public class Plongeur extends Aventurier{
         this.couleur=Color.MAGENTA;   
     }
 
-    
+        
 }

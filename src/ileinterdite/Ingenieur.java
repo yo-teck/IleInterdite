@@ -18,4 +18,14 @@ public class Ingenieur extends Aventurier {
         this.couleur=Color.RED;
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
