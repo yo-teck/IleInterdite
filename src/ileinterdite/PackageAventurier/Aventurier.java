@@ -91,11 +91,5 @@ public abstract class Aventurier {
         
     }
     
-    
-    
-    
-    
-    
-    
-    
+   
 }

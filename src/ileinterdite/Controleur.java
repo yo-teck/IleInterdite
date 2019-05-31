@@ -34,7 +34,7 @@ public class Controleur implements Observateur {
     public ArrayList<CarteTresor> defausse = new ArrayList<>();
     public ArrayList<Tuile> tuilesPiochees = new ArrayList<>();
     public ArrayList<OTresor> tresors = new ArrayList<>();
-    public ArrayList<Pion> pions = new ArrayList<>();
+    public static ArrayList<Pion> pions = new ArrayList<>();
     public NiveauEau niveauEau;
     public VueJeu ihm = new VueJeu(ile,niveauEau,pions);
 
@@ -130,34 +130,34 @@ public class Controleur implements Observateur {
     }
 
     //Initialisation de la grille de manière aléatoire
-    public void initGrilleAleatoire() {
+    public static void initGrilleAleatoire() {
         ArrayList<Tuile> tuiles = new ArrayList<>();
         //Instanciation des tuiles
         Tuile t00 = new Tuile(Etat.NULL);
         Tuile t02 = new Tuile(Etat.SEC, Evenement.RIEN, "Le Pont des Abimes");
-        Tuile t03 = new Tuile(Etat.INONDE, Evenement.SPAWN_INGENIEUR, "La Porte de Bronze");
+        Tuile t03 = new Tuile(Etat.SEC, Evenement.SPAWN_INGENIEUR, "La Porte de Bronze");
         Tuile t11 = new Tuile(Etat.SEC, Evenement.FEU, "La Caverne des Ombres");
         Tuile t12 = new Tuile(Etat.SEC, Evenement.SPAWN_PLONGEUR, "La Porte de Fer");
         Tuile t13 = new Tuile(Etat.SEC, Evenement.SPAWN_NAVIGATEUR, "La Porte d'Or");
         Tuile t14 = new Tuile(Etat.SEC, Evenement.RIEN, "Les Falaises de l'Oubli");
         Tuile t20 = new Tuile(Etat.SEC, Evenement.EAU, "Le Palais de Corail");
         Tuile t21 = new Tuile(Etat.SEC, Evenement.SPAWN_MESSAGER, "La Porte d'Argent");
-        Tuile t22 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, "Les Dunes de l'Illusion");
+        Tuile t22 = new Tuile(Etat.SEC, Evenement.RIEN, "Les Dunes de l'Illusion");
         Tuile t23 = new Tuile(Etat.SEC, Evenement.HELIPORT, "Héliport");
         Tuile t24 = new Tuile(Etat.SEC, Evenement.SPAWN_EXPLORATEUR, "La Porte de Cuivre");
         Tuile t25 = new Tuile(Etat.SEC, Evenement.AIR, "Le Jardin des Hurlements");
         Tuile t30 = new Tuile(Etat.SEC, Evenement.RIEN, "La Foret Pourpre");
-        Tuile t31 = new Tuile(Etat.INONDE, Evenement.RIEN, "Le Lagon Perdu");
-        Tuile t32 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, "Le Marais Brumeux");
-        Tuile t33 = new Tuile(Etat.INONDE, Evenement.RIEN, "Observatoire");
-        Tuile t34 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, "Le Rocher Fantome");
-        Tuile t35 = new Tuile(Etat.INONDE, Evenement.FEU, "La Caverne du Brasier");
+        Tuile t31 = new Tuile(Etat.SEC, Evenement.RIEN, "Le Lagon Perdu");
+        Tuile t32 = new Tuile(Etat.SEC, Evenement.RIEN, "Le Marais Brumeux");
+        Tuile t33 = new Tuile(Etat.SEC, Evenement.RIEN, "Observatoire");
+        Tuile t34 = new Tuile(Etat.SEC, Evenement.RIEN, "Le Rocher Fantome");
+        Tuile t35 = new Tuile(Etat.SEC, Evenement.FEU, "La Caverne du Brasier");
         Tuile t41 = new Tuile(Etat.SEC, Evenement.TERRE, "Le Temple du Soleil");
-        Tuile t42 = new Tuile(Etat.SUBMERGE, Evenement.TERRE, "Le Temple de la Lune");
+        Tuile t42 = new Tuile(Etat.SEC, Evenement.TERRE, "Le Temple de la Lune");
         Tuile t43 = new Tuile(Etat.SEC, Evenement.EAU, "Le Palais des Marées");
         Tuile t44 = new Tuile(Etat.SEC, Evenement.RIEN, "Le Val du Crépuscule");
         Tuile t52 = new Tuile(Etat.SEC, Evenement.RIEN, "La Tour du Guet");
-        Tuile t53 = new Tuile(Etat.INONDE, Evenement.AIR, "Le Jardin des Murmures");
+        Tuile t53 = new Tuile(Etat.SEC, Evenement.AIR, "Le Jardin des Murmures");
 
         //Ajout des tuiles dans un ArrayList et mélange aléatoire des tuiles.
         tuiles.add(t02);
@@ -187,72 +187,56 @@ public class Controleur implements Observateur {
         
         Collections.shuffle(tuiles);
         
-        //Ajout des tuiles null sur l'ile
-        ile.addTuile(t00, 0, 0);
-        ile.addTuile(t00, 0, 1);
-        ile.addTuile(t00, 0, 4);
-        ile.addTuile(t00, 0, 5);
-        ile.addTuile(t00, 1, 0);
-        ile.addTuile(t00, 1, 5);
-        ile.addTuile(t00, 4, 0);
-        ile.addTuile(t00, 4, 5);
-        ile.addTuile(t00, 5, 0);
-        ile.addTuile(t00, 5, 1);
-        ile.addTuile(t00, 5, 4);
-        ile.addTuile(t00, 5, 5);
-
-        //Placement des tuiles non null sur l'ile
         int n = 0;
-        int i = 0;
-        int j = 0;
-        while (i <= 5) {
-            while (i <= 5) {
-                if (ile.getTuile(i, j) != null) {
-                    ile.addTuile(tuiles.get(n), i, j);
+        for (int i =0;i <= 5; i++) {
+            for (int j = 0;j<6;j++) {
+                if (n == 0 || n == 1 || n == 4 || n == 5 || n == 6 || n ==11 || n ==24 || n ==29 || n==30 || n ==31 || n==34 || n==35) {
+                    ile.addTuile(t00,i,j);                   
+                }else{
+                    ile.addTuile(tuiles.get(0), i, j);
                     if(ile.getTuile(i, j).getEvent()==Evenement.SPAWN_EXPLORATEUR){
                         for(Pion pion : pions){
                             if(pion.getRole().getNomA().equals("Explorateur")){
-                                pion.setTuilePosition(tuiles.get(n));
+                                pion.setTuilePosition(tuiles.get(0));
                             }
                         }
                     } else if(ile.getTuile(i, j).getEvent()==Evenement.SPAWN_INGENIEUR){
                         for(Pion pion : pions){
                             if(pion.getRole().getNomA().equals("Ingenieur")){
-                                pion.setTuilePosition(tuiles.get(n));
+                                pion.setTuilePosition(tuiles.get(0));
                             }
                         }
                     } else if(ile.getTuile(i, j).getEvent()==Evenement.SPAWN_MESSAGER){
                         for(Pion pion : pions){
                             if(pion.getRole().getNomA().equals("Messager")){
-                                pion.setTuilePosition(tuiles.get(n));
+                                pion.setTuilePosition(tuiles.get(0));
                             }
                         }
                     } else if(ile.getTuile(i, j).getEvent()==Evenement.SPAWN_NAVIGATEUR){
                         for(Pion pion : pions){
                             if(pion.getRole().getNomA().equals("Navigateur")){
-                                pion.setTuilePosition(tuiles.get(n));
+                                pion.setTuilePosition(tuiles.get(0));
                             }
                         }
                     } else if(ile.getTuile(i, j).getEvent()==Evenement.SPAWN_PLONGEUR){
                         for(Pion pion : pions){
                             if(pion.getRole().getNomA().equals("Plongeur")){
-                                pion.setTuilePosition(tuiles.get(n));
+                                pion.setTuilePosition(tuiles.get(0));
                             }
                         }
                     } else if(ile.getTuile(i, j).getEvent()==Evenement.HELIPORT){
                         for(Pion pion : pions){
                             if(pion.getRole().getNomA().equals("Pilote")){
-                                pion.setTuilePosition(tuiles.get(n));
+                                pion.setTuilePosition(tuiles.get(0));
                             }
                         }
                     }
-                    n++;
+                    
+                tuiles.remove(0);
                 }
-                i++;
+                n++;        
             }
-            j++;
         }
-
     }
 
     public void initAventurierDemo() {
@@ -396,7 +380,7 @@ public class Controleur implements Observateur {
     
     public static void main(String[] args) {
         System.out.println("bj");
-        initGrilleDemo();
+        initGrilleAleatoire();
         new VueJeu(ile);
       
         System.out.println("?");
