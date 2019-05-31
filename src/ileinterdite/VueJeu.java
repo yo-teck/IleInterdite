@@ -5,6 +5,8 @@
  */
 package ileinterdite;
 
+import ileinterdite.PackageTuile.Etat;
+import ileinterdite.PackageTuile.Tuile;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -36,7 +38,9 @@ public class VueJeu implements Observe {
     private JPanel zoneJoueurs;
     int x = 8;
     int k = 1;
- public VueJeu(){
+    int ci;
+    int cj;
+ public VueJeu(Grille grille){
      JFrame frame = new JFrame();
         frame.setTitle("LOL");
         frame.setSize(400,400);
@@ -146,23 +150,53 @@ public class VueJeu implements Observe {
         
         carte.setLayout(new GridLayout(6,6));
         JButton[] T_Map = new JButton[36];
-        
+        ci =0;
+        cj =0;
         for(int i = 0; i < 36; i++){ // Boucle afin d'ajouter tout les boutons de la grille 
-               
-                T_Map[i] = new JButton();
-                T_Map[i].setText(""+i);
+               T_Map[i] = new JButton();
+               Tuile tuileSelect = grille.getTuile(ci, cj);
+               T_Map[i].setText(tuileSelect.getNom());
                carte.add(T_Map[i]);
                if(i == 0 || i == 1 || i == 4 || i == 5 || i == 6 || i ==11 || i ==24 || i ==29 || i==30 || i ==31 || i==34 || i==35){
                    T_Map[i].setEnabled(false); // Cases null non cliquable
-                   T_Map[i].setText("EAU"); // Nom eau sur les cases nulls
-                   T_Map[i].setBackground(Color.cyan); //Couleur fond
-                   T_Map[i].setForeground(Color.cyan); // Couleur front
+                   T_Map[i].setText(""); // Nom eau sur les cases nulls
+                   T_Map[i].setBackground(Color.WHITE); //Couleur fond
+                   T_Map[i].setForeground(Color.WHITE); // Couleur front
                }
                else{
-                   T_Map[i].setBackground(Color.green);
+                   T_Map[i].addActionListener(
+                           new ActionListener(){
+                               @Override 
+                               public void actionPerformed(ActionEvent e) {
+                                   System.out.println("Toute :");
+                                   for (Tuile t : grille.getTuilesCroix(tuileSelect)){
+                                       System.out.println(t.getNom());
+                                   }
+                                   System.out.println("");
+                                   System.out.println("Non Su :");
+                                   for (Tuile t : grille.getNonSubmerge(grille.getTuilesCroix(tuileSelect))){
+                                       System.out.println(t.getNom());
+                                   }
+                                System.out.println("");  
+                               } 
+                           }
+                   );
+                   if (tuileSelect.getEtat()==Etat.INONDE){
+                        T_Map[i].setBackground(Color.cyan);                       
+                   }else if (tuileSelect.getEtat()==Etat.SUBMERGE){
+                        T_Map[i].setBackground(Color.blue);
+                   }else{
+                        T_Map[i].setBackground(Color.yellow);
+                   }
+
                    //T_Map[i].setForeground(Color.green);
                }
-               
+               cj++;               
+               if (cj==6){
+                    ci++;
+                    cj =0;
+               }
+;
         }
        // fenetre.add(map);
         carte.setVisible(false);

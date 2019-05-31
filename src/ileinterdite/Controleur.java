@@ -29,7 +29,7 @@ public class Controleur implements Observateur {
      * @param args the command line arguments
      */
     
-    public Grille ile = new Grille();
+    public static Grille ile = new Grille();
     public ArrayList<CarteTresor> pile = new ArrayList<>();
     public ArrayList<CarteTresor> defausse = new ArrayList<>();
     public ArrayList<Tuile> tuilesPiochees = new ArrayList<>();
@@ -38,7 +38,7 @@ public class Controleur implements Observateur {
     public NiveauEau niveauEau;
     public VueJeu ihm = new VueJeu(ile,niveauEau,pions);
 
-    public void initGrilleDemo() {
+    public static void initGrilleDemo() {
 
         //Ligne 0
         Tuile t00 = new Tuile(Etat.NULL, 0, 0);
@@ -396,8 +396,8 @@ public class Controleur implements Observateur {
     
     public static void main(String[] args) {
         System.out.println("bj");
-       
-        new VueJeu();
+        initGrilleDemo();
+        new VueJeu(ile);
       
         System.out.println("?");
 
