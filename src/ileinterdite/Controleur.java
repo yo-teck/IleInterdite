@@ -380,7 +380,7 @@ public class Controleur implements Observateur {
     
     public static void main(String[] args) {
         System.out.println("bj");
-        initGrilleAleatoire();
+        initGrilleDemo();
         new VueJeu(ile);
       
         System.out.println("?");

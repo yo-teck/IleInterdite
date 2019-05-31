@@ -29,7 +29,6 @@ public class Navigateur extends Aventurier {
         tuileValable = grille.getTuilesCroix(tuile);
 
         while (! tuileSubmerger.containsAll(grille.getSubmerge(tuileValable))){
-
             for (Tuile tuileS : grille.getSubmerge(tuileValable)){
                 if ( ! tuileSubmerger.contains(tuileS)){
                     tuileSubmerger.add(tuileS);
