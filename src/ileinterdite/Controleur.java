@@ -239,7 +239,7 @@ public class Controleur implements Observateur {
         }
     }
 
-    public void initAventurierDemo() {
+    public void initAventurier() {
 
         Explorateur explorateur = new Explorateur("Explorateur",
                 "L'Explorateur peut se déplacer et assécher en diagonale.",
@@ -358,7 +358,7 @@ public class Controleur implements Observateur {
 
     public void initDemo() {
         initGrilleDemo();
-        initAventurierDemo();
+        initAventurier();
         initCartes();
         initTresors();
         niveauEau = new NiveauEau(Difficulte.NOVICE);

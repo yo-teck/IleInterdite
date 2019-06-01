@@ -210,8 +210,8 @@ public class VueJeu implements Observe {
                                        System.out.println(t.getNom());
                                    }
                                    System.out.println("");
-                                   System.out.println("Celles Non Submergée :");
-                                   for (Tuile t : grille.getNonSubmerge(grille.getTuilesCroix(tuileSelect))){
+                                   System.out.println("Celles plongeur :");
+                                   for (Tuile t : grille.getTuilesDispoPourDeplacement(grille, tuileSelect)){
                                        System.out.println(t.getNom());
                                    }
                                 System.out.println("");  
