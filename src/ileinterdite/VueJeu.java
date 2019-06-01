@@ -246,7 +246,7 @@ public class VueJeu implements Observe {
         //////////////////////////////////////////////////////////////////////////////////// Fenetre joueurs choisis
         
        
-        joueurs.setLayout(new GridLayout(5,2));
+        joueurs.setLayout(new GridLayout(20,2));
         joueurs.add(new JLabel("Rôle des joueurs :"));
         joueurs.add(new JLabel(""));
        
