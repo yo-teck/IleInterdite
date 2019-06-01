@@ -265,6 +265,9 @@ public class Controleur implements Observateur {
                 "Le Plongeur peut passer par une ou deux tuiles adjacentes inondées et/ou manquantes pour une action (il doit terminer le tour sur une tuile).",
                 ile.getTuile(1, 2));
 
+        
+        
+        
     }
 
     public void initCartes() {
@@ -382,7 +385,7 @@ public class Controleur implements Observateur {
         System.out.println("bj");
         initGrilleDemo();
         new VueJeu(ile);
-      
+        
         System.out.println("?");
 
         

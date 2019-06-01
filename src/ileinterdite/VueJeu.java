@@ -13,6 +13,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -40,28 +41,30 @@ public class VueJeu implements Observe {
     int k = 1;
     int ci;
     int cj;
+    int y = 0;
  public VueJeu(Grille grille){
      JFrame frame = new JFrame();
-        frame.setTitle("LOL");
-        frame.setSize(400,400);
+        frame.setTitle("Ile Interdite / POO-COO-IHM");
+        frame.setSize(900,900);
         frame.setLayout(new BorderLayout());
         JPanel carte = new JPanel();
+        JPanel joueurs = new JPanel();
+        JButton[] B_joueurs = new JButton[4];
         
         /////////////////////////////////////////////////////////////////////// Fenetre de demarrage
-        JPanel start = new JPanel();
-        start.setLayout(new BorderLayout());
         
         JButton debut = new JButton("Démarrer la partie");
         frame.add(debut,BorderLayout.SOUTH);
+       
         String[] roles = new String[] {"Explorateur","Plongeur","Navigateur","Pilote","Ingénieur","Messager" };
         JPanel choix = new JPanel();
         
         choix.setLayout(new GridLayout(5,2));
-        start.add(choix,BorderLayout.CENTER);
+        
         choix.add(new JLabel("Bienvenue dans l'île interdite veuillez choisir 4 rôles : "));
         choix.add(new JLabel(""));
-        
-        for(int i = 0; i < 4 ; i++){
+        frame.add(choix,BorderLayout.NORTH);
+        for(int i = 1; i <= 4 ; i++){
             
             choix.add(new JLabel("Joueur"+ i +" : "));
             choix.add(new JComboBox(roles));
@@ -69,14 +72,44 @@ public class VueJeu implements Observe {
         debut.addActionListener(new ActionListener(){
          @Override
          public void actionPerformed(ActionEvent e) {
-            start.setVisible(false);
-            carte.setVisible(true);
-            debut.setText("Fin tour");
-         }
             
-        });
-        frame.add(start,BorderLayout.CENTER);
-        start.setVisible(true);
+            choix.setVisible(false);
+            carte.setVisible(true);
+            joueurs.setVisible(true);
+            debut.setVisible(false);
+            JButton finT = new JButton("Fin tour");
+            frame.add(finT,BorderLayout.SOUTH);
+            B_joueurs[0].setBackground(Color.PINK);
+            finT.addActionListener(new ActionListener(){
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            
+             B_joueurs[y].setBackground(Color.WHITE);            
+             y++;
+              if(y == 4){
+                 B_joueurs[y-1].setBackground(Color.WHITE);
+                 y = 0;
+                 B_joueurs[y].setBackground(Color.PINK);
+              }
+              
+              else{
+                   B_joueurs[y].setBackground(Color.PINK);
+   
+              }
+              
+              
+             
+             
+             
+         }
+         
+         });
+        }
+            
+       });
+        
+       
+        
      
         
         ///////////////////////////////////////////////////////////////////////
@@ -133,7 +166,9 @@ public class VueJeu implements Observe {
             k--; // Variable indiquant le niveau d'eau
             txtO.setText("Niveau d'eau : " + k); // Mise a jour du texte indiquant le niveau d'eau
              }
-             
+             else if (x == 9){
+                  n_Eau[x].setBackground(Color.white);
+           }
              else{
                  System.out.println("Le niveau d'eau est au minimum !");
              }
@@ -168,12 +203,12 @@ public class VueJeu implements Observe {
                            new ActionListener(){
                                @Override 
                                public void actionPerformed(ActionEvent e) {
-                                   System.out.println("Toute :");
+                                   System.out.println("Toute les tuiles en croix :");
                                    for (Tuile t : grille.getTuilesCroix(tuileSelect)){
                                        System.out.println(t.getNom());
                                    }
                                    System.out.println("");
-                                   System.out.println("Non Su :");
+                                   System.out.println("Celles Non Submergée :");
                                    for (Tuile t : grille.getNonSubmerge(grille.getTuilesCroix(tuileSelect))){
                                        System.out.println(t.getNom());
                                    }
@@ -200,10 +235,34 @@ public class VueJeu implements Observe {
         }
        // fenetre.add(map);
         carte.setVisible(false);
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        frame.add(start);
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
         frame.add(carte);
         frame.setVisible(true);
+        
+        
+        
+        //////////////////////////////////////////////////////////////////////////////////// Fenetre joueurs choisis
+        
+       
+        joueurs.setLayout(new GridLayout(5,2));
+        joueurs.add(new JLabel("Rôle des joueurs :"));
+        joueurs.add(new JLabel(""));
+       
+        ArrayList<String> AL_roles = new ArrayList<>();
+        for(int i = 0; i < 6 ; i++){
+            AL_roles.add(roles[i]);
+        }
+        Collections.shuffle(AL_roles);
+        for(int i = 0 ; i < 4 ;i ++){
+            B_joueurs[i] = new JButton("Joueur" + (i+1) + " : ");
+            B_joueurs[i].setBackground(Color.white);
+            joueurs.add(B_joueurs[i]);
+            joueurs.add(new JLabel(AL_roles.get(i)));
+            
+        }
+        joueurs.setVisible(false);
+        frame.add(joueurs,BorderLayout.EAST);
+        
  }
  ////////////////////////////////////////////////////////////////////////////////////////////////// FIN CONSTRUCTEUR SANS PARAMETRES
  
