@@ -68,6 +68,8 @@ public class VueJeu implements Observe {
             
             choix.add(new JLabel("Joueur"+ i +" : "));
             choix.add(new JComboBox(roles));
+            //On ne choisis pas mais utili pour la demo.
+            //Pour recupérer le choix, il faute faire 4 jCombobox différentes avec des nom de variable, puis .IsSelected();
         }
         debut.addActionListener(new ActionListener(){
          @Override
