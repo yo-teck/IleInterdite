@@ -217,11 +217,11 @@ public class VueJeu implements Observe {
                            }
                    );
                    if (tuileSelect.getEtat()==Etat.INONDE){
-                        T_Map[i].setBackground(Color.cyan);                       
+                        T_Map[i].setBackground(new Color(119, 181, 254));                       
                    }else if (tuileSelect.getEtat()==Etat.SUBMERGE){
-                        T_Map[i].setBackground(Color.blue);
+                        T_Map[i].setBackground(new Color(34, 66, 124));
                    }else{
-                        T_Map[i].setBackground(Color.yellow);
+                        T_Map[i].setBackground(new Color(136, 66, 29));
                    }
 
                    //T_Map[i].setForeground(Color.green);
