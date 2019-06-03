@@ -19,7 +19,11 @@ public class Ingenieur extends Aventurier {
         this.couleur=Color.RED;
     }
     
-    
+   public Ingenieur() {
+        super("Ingenieur",
+                "L'Ingénieur peut assécher 2 tuiles pour une action.");
+        this.couleur=Color.RED;
+    }    
     
     
     

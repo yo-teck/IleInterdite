@@ -60,11 +60,11 @@ public class VueJeu implements Observe {
         
         /////////////////////////////////////////////////////////////////////// Fenetre de demarrage
         
-        JButton debut = new JButton("Démarrer la partie");
-        frame.add(debut,BorderLayout.SOUTH);
+       /* JButton debut = new JButton("Démarrer la partie");
+        frame.add(debut,BorderLayout.SOUTH);*/
        
         String[] roles = new String[] {"Explorateur","Plongeur","Navigateur","Pilote","Ingénieur","Messager" };
-        JPanel choix = new JPanel();
+        JPanel choix = new JPanel();/*
         
         choix.setLayout(new GridLayout(5,2));
         
@@ -78,14 +78,15 @@ public class VueJeu implements Observe {
             //On ne choisis pas mais utili pour la demo.
             //Pour recupérer le choix, il faute faire 4 jCombobox différentes avec des nom de variable, puis .IsSelected();
         }
-        debut.addActionListener(new ActionListener(){
+        /*debut.addActionListener(new ActionListener(){
          @Override
          public void actionPerformed(ActionEvent e) {
             
-            choix.setVisible(false);
+
             carte.setVisible(true);
-            joueurs.setVisible(true);
+
             debut.setVisible(false);
+        
             JButton finT = new JButton("Fin tour");
             frame.add(finT,BorderLayout.SOUTH);
             B_joueurs[0].setBackground(Color.PINK);
@@ -115,7 +116,7 @@ public class VueJeu implements Observe {
          });
         }
             
-       });
+       });*/
         
        
         
@@ -243,7 +244,7 @@ public class VueJeu implements Observe {
 ;
         }
        // fenetre.add(map);
-        carte.setVisible(false);
+        carte.setVisible(true);
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
         frame.add(carte);
         frame.setVisible(true);
@@ -270,8 +271,7 @@ public class VueJeu implements Observe {
             joueurs.add(new JLabel(AL_roles.get(i)));
             
         }
-        
-        joueurs.setVisible(false);
+        joueurs.setVisible(true);
         frame.add(joueurs,BorderLayout.EAST);
         
  }

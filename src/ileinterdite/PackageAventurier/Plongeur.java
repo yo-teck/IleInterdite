@@ -20,6 +20,14 @@ public class Plongeur extends Aventurier{
         super(nomA, description, tuileDepart);
         this.couleur=Color.MAGENTA;   
     }
+ 
+    public Plongeur(){
+        super("Plongeur","Le Plongeur peut passer par une ou deux tuiles adjacentes "
+                        + "inondées et/ou manquantes pour une action (il doit "
+                        + "terminer le tour sur une tuile).");
+        this.couleur=Color.MAGENTA;   
+    }
+    
         @Override
     public ArrayList<Tuile> getTuilesDispoPourDeplacement(Grille grille, Tuile tuile) {
         ArrayList<Tuile> tuileValable =new ArrayList<>();
