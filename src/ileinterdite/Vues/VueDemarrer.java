@@ -128,7 +128,7 @@ public class VueDemarrer implements Observe {
                                 init = choixInit[i].getText();
                             }                        
                         }
-                        System.out.println(init);
+
                         Message m = new Message(TypesMessage.COMMENCER_PARTIE,noms,dif,init);
                         notifierObservateur(m);
                         fenetre.setVisible(false);
