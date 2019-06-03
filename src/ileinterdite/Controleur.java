@@ -5,6 +5,7 @@
  */
 package ileinterdite;
 
+import ileinterdite.Vues.VueJeu;
 import ileinterdite.PackageCarteTresor.CarteTresor;
 import ileinterdite.PackageCarteTresor.CTresor;
 import ileinterdite.PackageTuile.Evenement;
@@ -16,6 +17,7 @@ import ileinterdite.PackageAventurier.Messager;
 import ileinterdite.PackageAventurier.Plongeur;
 import ileinterdite.PackageAventurier.Explorateur;
 import ileinterdite.PackageAventurier.Pilote;
+import ileinterdite.Vues.VueDemarrer;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -382,14 +384,9 @@ public class Controleur implements Observateur {
     }
     
     public static void main(String[] args) {
-        System.out.println("bj");
-        initGrilleDemo();
-        new VueJeu(ile);
-        
-        System.out.println("?");
-
-        
-        
+        /*initGrilleDemo();
+        new VueJeu(ile);*/
+        new VueDemarrer();
         
     }
 

@@ -3,10 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ileinterdite;
+package ileinterdite.Vues;
 
+import ileinterdite.Grille;
+import ileinterdite.Message;
+import ileinterdite.NiveauEau;
+import ileinterdite.Observateur;
+import ileinterdite.Observe;
 import ileinterdite.PackageTuile.Etat;
 import ileinterdite.PackageTuile.Tuile;
+import ileinterdite.Pion;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;

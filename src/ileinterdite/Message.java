@@ -7,6 +7,7 @@ package ileinterdite;
 
 import ileinterdite.PackageCarteTresor.CTresor;
 import ileinterdite.PackageTuile.Tuile;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,6 +18,9 @@ public class Message {
     Tuile tuile;
     CTresor carte_tresor;
     Pion ami;
+    ArrayList<String> nomJoueurs;
+    String difficulte;
+    String modeInitialisation;
     
     public Message(TypesMessage type){
         setType(type);

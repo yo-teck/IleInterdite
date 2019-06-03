@@ -16,5 +16,6 @@ public enum TypesMessage {
     UTILISER_CARTE,
     DONNER_CARTE,
     RECUPERER_TROPHEE,
-    FIN_TOUR;
+    FIN_TOUR,
+    COMMENCER_PARTIE;
 }
