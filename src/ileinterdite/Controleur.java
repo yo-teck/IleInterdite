@@ -17,6 +17,7 @@ import ileinterdite.PackageAventurier.Messager;
 import ileinterdite.PackageAventurier.Plongeur;
 import ileinterdite.PackageAventurier.Explorateur;
 import ileinterdite.PackageAventurier.Pilote;
+import ileinterdite.Vues.VueAventurier;
 import ileinterdite.Vues.VueDemarrer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,15 +32,16 @@ public class Controleur implements Observateur {
      * @param args the command line arguments
      */
     
-    public Grille ile;
-    public ArrayList<CarteTresor> pile;
-    public ArrayList<CarteTresor> defausse;
-    public ArrayList<Tuile> tuilesPiochees;
-    public ArrayList<OTresor> tresors;
-    public ArrayList<Pion> pions;
-    public NiveauEau niveauEau;
-    public VueJeu ihm;
-    public VueDemarrer menu;
+    private Grille ile;
+    private ArrayList<CarteTresor> pile;
+    private ArrayList<CarteTresor> defausse;
+    private ArrayList<Tuile> tuilesPiochees;
+    private ArrayList<OTresor> tresors;
+    private ArrayList<Pion> pions;
+    private NiveauEau niveauEau;
+    private VueJeu ihm;
+    private VueDemarrer menu;
+    private VueAventurier vueAventurier;
 
     public Controleur() {
         ile = new Grille();
@@ -51,7 +53,7 @@ public class Controleur implements Observateur {
         niveauEau = new NiveauEau(Difficulte.NOVICE);
         
         menu = new VueDemarrer();
-        menu.addObservateur(this);
+        menu.addObservateur(this);    
     }
     
     
@@ -270,7 +272,7 @@ public class Controleur implements Observateur {
                 "Le Messager peut donner des cartes Trésor à un autre joueur n'importe où sur l'île pour 1 action par carte. ",
                 ile.getTuile(2, 1));
 
-        Navigateur navigateur = new Navigateur("Navigateur",
+        /*Navigateur navigateur = new Navigateur("Navigateur",
                 "Le Navigateur peut déplacer un autre joueur d'une ou deux tuiles adjacentes pour une action. ");
 
         Pilote pilote = new Pilote("Pilote",
@@ -279,7 +281,7 @@ public class Controleur implements Observateur {
 
         Plongeur plongeur = new Plongeur("Plongeur",
                 "Le Plongeur peut passer par une ou deux tuiles adjacentes inondées et/ou manquantes pour une action (il doit terminer le tour sur une tuile).",
-
+*/
 
         
         
@@ -420,6 +422,8 @@ public class Controleur implements Observateur {
                 aleatoire();
             }
             
+        } else if (m.getType() == TypesMessage.INFORMATIONS_JOUEURS){
+            vueAventurier = new VueAventurier(m.getPions());
         }
     }
     public void initPion(){
