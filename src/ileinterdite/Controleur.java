@@ -31,16 +31,31 @@ public class Controleur implements Observateur {
      * @param args the command line arguments
      */
     
-    public static Grille ile = new Grille();
-    public ArrayList<CarteTresor> pile = new ArrayList<>();
-    public ArrayList<CarteTresor> defausse = new ArrayList<>();
-    public ArrayList<Tuile> tuilesPiochees = new ArrayList<>();
-    public ArrayList<OTresor> tresors = new ArrayList<>();
-    public static ArrayList<Pion> pions = new ArrayList<>();
+    public Grille ile = new Grille();
+    public ArrayList<CarteTresor> pile;
+    public ArrayList<CarteTresor> defausse;
+    public ArrayList<Tuile> tuilesPiochees;
+    public ArrayList<OTresor> tresors;
+    public ArrayList<Pion> pions;
     public NiveauEau niveauEau;
-    public VueJeu ihm = new VueJeu(ile,niveauEau,pions);
+    public VueJeu ihm;
+    public VueDemarrer menu;
 
-    public static void initGrilleDemo() {
+    public Controleur() {
+        ile = new Grille();
+        pile = new ArrayList<>();
+        defausse = new ArrayList<>();
+        tuilesPiochees = new ArrayList<>();
+        tresors = new ArrayList<>();
+        pions = new ArrayList<>();
+        niveauEau = new NiveauEau(Difficulte.NOVICE);
+        
+        menu = new VueDemarrer();
+        menu.addObservateur(this);
+    }
+    
+    
+    public  void initGrilleDemo() {
 
         //Ligne 0
         Tuile t00 = new Tuile(Etat.NULL, 0, 0);
@@ -132,7 +147,7 @@ public class Controleur implements Observateur {
     }
 
     //Initialisation de la grille de manière aléatoire
-    public static void initGrilleAleatoire() {
+    public  void initGrilleAleatoire() {
         ArrayList<Tuile> tuiles = new ArrayList<>();
         //Instanciation des tuiles
         Tuile t00 = new Tuile(Etat.NULL);
@@ -380,13 +395,43 @@ public class Controleur implements Observateur {
     
     @Override
     public void traiterMessage(Message m) {
-
+        
+        //Traitement du message pour initialisé la partie
+        if (m.type == TypesMessage.COMMENCER_PARTIE){
+            int i =0;
+            
+            for (Pion pion : pions){
+                pion.setNomj(m.nomJoueurs.get(i));
+                i++;
+            }
+            
+            if (m.difficulte.equals("Novice")){
+                niveauEau.setDifficulte(Difficulte.NOVICE);
+            }else if (m.difficulte.equals("Normal")){
+                niveauEau.setDifficulte(Difficulte.NORMAL);
+            }else if (m.difficulte.equals("Elite")){
+                niveauEau.setDifficulte(Difficulte.ELITE);
+            }else if (m.difficulte.equals("Legendaire")){
+                niveauEau.setDifficulte(Difficulte.LEGENDAIRE);
+            }
+            System.out.println(m.difficulte);
+            if (m.modeInitialisation.equals("Démo")){
+                demo();
+            }
+            
+        }
     }
     
+    public void demo(){
+        initGrilleDemo();
+        ihm = new VueJeu(ile);
+        
+    }
+
     public static void main(String[] args) {
         /*initGrilleDemo();
         new VueJeu(ile);*/
-        new VueDemarrer();
+        new Controleur();
         
     }
 

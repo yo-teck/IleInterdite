@@ -16,6 +16,7 @@ import ileinterdite.Observe;
 import ileinterdite.PackageTuile.Etat;
 import ileinterdite.PackageTuile.Tuile;
 import ileinterdite.Pion;
+import ileinterdite.TypesMessage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -43,8 +44,8 @@ public class VueDemarrer implements Observe {
     private ButtonGroup groupeBoutons;
 
     public VueDemarrer() {
-        JFrame fenetre = new JFrame("Ile Interdite");
-        fenetre.setSize(600,250);
+        JFrame fenetre = new JFrame("Ile Interdite - Menu Démarrage");
+        fenetre.setSize(600, 250);
 
         JPanel conteneur = new JPanel(new BorderLayout());
         fenetre.add(conteneur);
@@ -86,7 +87,7 @@ public class VueDemarrer implements Observe {
         options.add(choixDiff);
         JLabel labelInit = new JLabel("Choix Initialisation :");
 
-        JRadioButton bouton;       
+        JRadioButton bouton;
 
         groupeBoutons = new ButtonGroup();
         choixInit = new JRadioButton[2];
@@ -94,25 +95,52 @@ public class VueDemarrer implements Observe {
         bouton = new JRadioButton("Démo");
         choixInit[0] = bouton;
         groupeBoutons.add(bouton);
+        bouton.setSelected(true);
 
         bouton = new JRadioButton("Aléatoire");
         choixInit[1] = bouton;
         groupeBoutons.add(bouton);
-        
+
         options.add(labelInit);
         options.add(new JLabel(""));
         options.add(choixInit[0]);
         options.add(choixInit[1]);
-        
+
         //Zone de validation
         JButton btnValider = new JButton("Valider");
         
+        btnValider.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ArrayList<String> noms = new ArrayList<>();
+                        noms.add(nomj1.getText());
+                        noms.add(nomj2.getText());
+                        noms.add(nomj3.getText());
+                        noms.add(nomj4.getText());
+
+                        String dif = choixDiff.getSelectedItem().toString();
+                        
+                        String init = new String();
+                        for (int i = 0; i < choixInit.length; i++) {
+                            
+                            if (choixInit[i].isSelected()){
+                                init = choixInit[i].getText();
+                            }                        
+                        }
+                        System.out.println(init);
+                        Message m = new Message(TypesMessage.COMMENCER_PARTIE,noms,dif,init);
+                        notifierObservateur(m);
+                        fenetre.setVisible(false);
+                    }
+                });
+
         validation.add(new JLabel(""));
         validation.add(new JLabel(""));
         validation.add(btnValider);
         validation.add(new JLabel(""));
         validation.add(new JLabel(""));
-        
+
         fenetre.setVisible(true);
     }
 

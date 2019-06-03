@@ -25,6 +25,15 @@ public class Message {
     public Message(TypesMessage type){
         setType(type);
     }
+
+    public Message(TypesMessage type, ArrayList<String> nomJoueurs, String difficulte, String modeInitialisation) {
+        this.type = type;
+        this.nomJoueurs = nomJoueurs;
+        this.difficulte = difficulte;
+        this.modeInitialisation = modeInitialisation;
+    }
+    
+    
     
     public void setType(TypesMessage type){
         this.type=type;
