@@ -25,8 +25,8 @@ public class Pion {
     private ArrayList<CarteTresor> cartesTresor;
     private Color couleur;
 
-    public Pion(String nomj, Aventurier role, Tuile tuilePosition) {
-        this.setNomj(nomj);
+    public Pion(Aventurier role) {
+        
         this.setRole(role);
         this.setCouleur(role.getCouleur());
         cartesTresor = new ArrayList<>();

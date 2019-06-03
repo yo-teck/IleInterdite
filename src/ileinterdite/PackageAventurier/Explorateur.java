@@ -20,7 +20,12 @@ public class Explorateur extends Aventurier{
         super(nomA, description, tuileDepart);
         this.couleur=Color.GREEN;
     }
-    
+    public Explorateur() {
+        super("Explorateur",
+                "L'Explorateur peut se déplacer et assécher en diagonale.");
+        this.couleur=Color.GREEN;
+    }
+        
     
      @Override
      public ArrayList<Tuile> getTuilesDispoPourDeplacement(Grille grille, Tuile tuile) {

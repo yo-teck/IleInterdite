@@ -21,6 +21,10 @@ public class Navigateur extends Aventurier {
         super(nomA, description, tuileDepart);
         this.couleur=Color.YELLOW;        
     }
-    
+    public Navigateur() {
+        super("Navigateur","Le Navigateur peut déplacer un autre joueur d'une ou deux "
+                    + "tuiles adjacentes pour une action.");
+        this.couleur=Color.YELLOW;        
+    }    
 
 }

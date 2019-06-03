@@ -11,6 +11,7 @@ import ileinterdite.PackageCarteTresor.CTresor;
 import ileinterdite.PackageTuile.Evenement;
 import ileinterdite.PackageTuile.Tuile;
 import ileinterdite.PackageTuile.Etat;
+import ileinterdite.PackageAventurier.Aventurier;
 import ileinterdite.PackageAventurier.Navigateur;
 import ileinterdite.PackageAventurier.Ingenieur;
 import ileinterdite.PackageAventurier.Messager;
@@ -50,6 +51,7 @@ public class Controleur implements Observateur {
         pions = new ArrayList<>();
         niveauEau = new NiveauEau(Difficulte.NOVICE);
         
+        initPion();
         menu = new VueDemarrer();
         menu.addObservateur(this);
     }
@@ -99,7 +101,22 @@ public class Controleur implements Observateur {
         Tuile t53 = new Tuile(Etat.INONDE, Evenement.AIR, 5, 3, "Le Jardin des Murmures");
         Tuile t54 = new Tuile(Etat.NULL, 5, 4);
         Tuile t55 = new Tuile(Etat.NULL, 5, 5);
-
+        
+        for (Pion pion : pions){
+            if (pion.getRole().getNomA().equals("Explorateur")){
+                pion.setTuilePosition(t24);
+            }else if (pion.getRole().getNomA().equals("Ingenieur")){
+                pion.setTuilePosition(t03);
+            }else if (pion.getRole().getNomA().equals("Messager")){
+                pion.setTuilePosition(t21);
+            }else if (pion.getRole().getNomA().equals("Navigateur")){
+                pion.setTuilePosition(t13);
+            }else if (pion.getRole().getNomA().equals("Plongeur")){
+                pion.setTuilePosition(t12);
+            }else if (pion.getRole().getNomA().equals("Pilote")){
+                pion.setTuilePosition(t23);
+            }
+        }
         //Ajout des tuiles dans la grille
         // Ligne 0
         ile.addTuile(t00);
@@ -175,7 +192,22 @@ public class Controleur implements Observateur {
         Tuile t44 = new Tuile(Etat.SEC, Evenement.RIEN, "Le Val du Crépuscule");
         Tuile t52 = new Tuile(Etat.SEC, Evenement.RIEN, "La Tour du Guet");
         Tuile t53 = new Tuile(Etat.SEC, Evenement.AIR, "Le Jardin des Murmures");
-
+        
+        for (Pion pion : pions){
+            if (pion.getRole().getNomA().equals("Explorateur")){
+                pion.setTuilePosition(t24);
+            }else if (pion.getRole().getNomA().equals("Ingenieur")){
+                pion.setTuilePosition(t03);
+            }else if (pion.getRole().getNomA().equals("Messager")){
+                pion.setTuilePosition(t21);
+            }else if (pion.getRole().getNomA().equals("Navigateur")){
+                pion.setTuilePosition(t13);
+            }else if (pion.getRole().getNomA().equals("Plongeur")){
+                pion.setTuilePosition(t12);
+            }else if (pion.getRole().getNomA().equals("Pilote")){
+                pion.setTuilePosition(t23);
+            }
+        }
         //Ajout des tuiles dans un ArrayList et mélange aléatoire des tuiles.
         tuiles.add(t02);
         tuiles.add(t03);
@@ -210,80 +242,39 @@ public class Controleur implements Observateur {
                 if (n == 0 || n == 1 || n == 4 || n == 5 || n == 6 || n ==11 || n ==24 || n ==29 || n==30 || n ==31 || n==34 || n==35) {
                     ile.addTuile(t00,i,j);                   
                 }else{
-                    ile.addTuile(tuiles.get(0), i, j);
-                    if(ile.getTuile(i, j).getEvent()==Evenement.SPAWN_EXPLORATEUR){
-                        for(Pion pion : pions){
-                            if(pion.getRole().getNomA().equals("Explorateur")){
-                                pion.setTuilePosition(tuiles.get(0));
-                            }
-                        }
-                    } else if(ile.getTuile(i, j).getEvent()==Evenement.SPAWN_INGENIEUR){
-                        for(Pion pion : pions){
-                            if(pion.getRole().getNomA().equals("Ingenieur")){
-                                pion.setTuilePosition(tuiles.get(0));
-                            }
-                        }
-                    } else if(ile.getTuile(i, j).getEvent()==Evenement.SPAWN_MESSAGER){
-                        for(Pion pion : pions){
-                            if(pion.getRole().getNomA().equals("Messager")){
-                                pion.setTuilePosition(tuiles.get(0));
-                            }
-                        }
-                    } else if(ile.getTuile(i, j).getEvent()==Evenement.SPAWN_NAVIGATEUR){
-                        for(Pion pion : pions){
-                            if(pion.getRole().getNomA().equals("Navigateur")){
-                                pion.setTuilePosition(tuiles.get(0));
-                            }
-                        }
-                    } else if(ile.getTuile(i, j).getEvent()==Evenement.SPAWN_PLONGEUR){
-                        for(Pion pion : pions){
-                            if(pion.getRole().getNomA().equals("Plongeur")){
-                                pion.setTuilePosition(tuiles.get(0));
-                            }
-                        }
-                    } else if(ile.getTuile(i, j).getEvent()==Evenement.HELIPORT){
-                        for(Pion pion : pions){
-                            if(pion.getRole().getNomA().equals("Pilote")){
-                                pion.setTuilePosition(tuiles.get(0));
-                            }
-                        }
-                    }
-                    
-                tuiles.remove(0);
+                    ile.addTuile(tuiles.get(0), i, j);                   
+                    tuiles.remove(0);
                 }
                 n++;        
             }
         }
     }
 
-    public void initAventurier() {
-
-        Explorateur explorateur = new Explorateur("Explorateur",
-                "L'Explorateur peut se déplacer et assécher en diagonale.",
-                ile.getTuile(2, 4));
-
-        Ingenieur ingenieur = new Ingenieur("Ingenieur",
-                "L'Ingénieur peut assécher 2 tuiles pour une action.",
-                ile.getTuile(0, 3));
-
-        Messager messager = new Messager("Messager",
-                "Le Messager peut donner des cartes Trésor à un autre joueur n'importe où sur l'île pour 1 action par carte. ",
-                ile.getTuile(2, 1));
-
-        Navigateur navigateur = new Navigateur("Navigateur",
-                "Le Navigateur peut déplacer un autre joueur d'une ou deux tuiles adjacentes pour une action. ");
-
-        Pilote pilote = new Pilote("Pilote",
-                "Le Pilote peut, une fois par tour, voler jusqu'à n'importe quelle tuile de l'île pour une action. ",
-
-
-        Plongeur plongeur = new Plongeur("Plongeur",
-                "Le Plongeur peut passer par une ou deux tuiles adjacentes inondées et/ou manquantes pour une action (il doit terminer le tour sur une tuile).",
-
-
+    public ArrayList<Aventurier> initAventurier() {
         
+        ArrayList<Aventurier> aventuriers = new ArrayList<>();
         
+        Explorateur explorateur = new Explorateur();      
+        aventuriers.add(explorateur);
+                
+        Ingenieur ingenieur = new Ingenieur();
+        aventuriers.add(ingenieur);
         
+        Messager messager = new Messager();
+        aventuriers.add(messager);
+        
+        Navigateur navigateur = new Navigateur();
+        aventuriers.add(navigateur);
+        
+        Pilote pilote = new Pilote();
+        aventuriers.add(pilote);
+
+        Plongeur plongeur = new Plongeur();
+        aventuriers.add(plongeur);
+        
+        Collections.shuffle(aventuriers);
+        
+        return aventuriers;    
     }
 
     public void initCartes() {
@@ -380,10 +371,6 @@ public class Controleur implements Observateur {
         niveauEau = new NiveauEau(Difficulte.NOVICE);
     }
     
-    public void initAleatoire(Difficulte diff){ //Il faut set la difficulté de la partie avant de la commencer
-        initGrilleAleatoire();
-        niveauEau = new NiveauEau(diff);
-    }
 
     public void seDeplacer(Pion pion){
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
@@ -423,21 +410,40 @@ public class Controleur implements Observateur {
         }
     }
     public void initPion(){
+        ArrayList<Aventurier> aventuriers = initAventurier();
+        Pion p1 = new Pion(aventuriers.get(0));
+        Pion p2 = new Pion(aventuriers.get(1));
+        Pion p3 = new Pion(aventuriers.get(2));
+        Pion p4 = new Pion(aventuriers.get(3));
+        
+        this.pions.add(p1);
+        this.pions.add(p2);
+        this.pions.add(p3);
+        this.pions.add(p4);
         
     }
     public void demo(){
         initGrilleDemo();
+        for (Pion pion : pions){
+            System.out.println("nom :"+pion.getNomj());
+            System.out.println("tuile :"+ pion.getTuilePosition().getNom());
+            System.out.println("Role :"+ pion.getRole().getNomA());
+        }
         ihm = new VueJeu(ile);
         
     }
     public void aleatoire(){
         initGrilleAleatoire();
+        for (Pion pion : pions){
+            System.out.println("nom :"+pion.getNomj());
+            System.out.println("tuile :"+ pion.getTuilePosition().getNom());
+            System.out.println("Role :"+ pion.getRole().getNomA());
+        }
         ihm = new VueJeu(ile);
     }
 
     public static void main(String[] args) {
-        /*initGrilleDemo();
-        new VueJeu(ile);*/
+
         new Controleur();
         
     }
