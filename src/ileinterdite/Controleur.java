@@ -272,7 +272,7 @@ public class Controleur implements Observateur {
                 "Le Messager peut donner des cartes Trésor à un autre joueur n'importe où sur l'île pour 1 action par carte. ",
                 ile.getTuile(2, 1));
 
-        /*Navigateur navigateur = new Navigateur("Navigateur",
+        Navigateur navigateur = new Navigateur("Navigateur",
                 "Le Navigateur peut déplacer un autre joueur d'une ou deux tuiles adjacentes pour une action. ");
 
         Pilote pilote = new Pilote("Pilote",
@@ -281,8 +281,8 @@ public class Controleur implements Observateur {
 
         Plongeur plongeur = new Plongeur("Plongeur",
                 "Le Plongeur peut passer par une ou deux tuiles adjacentes inondées et/ou manquantes pour une action (il doit terminer le tour sur une tuile).",
-*/
 
+        
         
         
         
