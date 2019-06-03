@@ -22,6 +22,7 @@ public class Message {
     private ArrayList<String> nomJoueurs;
     private String difficulte;
     private String modeInitialisation;
+    private ArrayList<Pion> pions;
 
     public Message(TypesMessage type) {
         setType(type);
@@ -64,6 +65,10 @@ public class Message {
 
     public String getModeInitialisation() {
         return modeInitialisation;
+    }
+    
+    public ArrayList<Pion> getPions(){
+        return pions;
     }
 
 }
