@@ -14,15 +14,16 @@ import java.util.ArrayList;
  * @author Lucas
  */
 public class Message {
-    TypesMessage type;
-    Tuile tuile;
-    CTresor carte_tresor;
-    Pion ami;
-    ArrayList<String> nomJoueurs;
-    String difficulte;
-    String modeInitialisation;
-    
-    public Message(TypesMessage type){
+
+    private TypesMessage type;
+    private Tuile tuile;
+    private CTresor carte_tresor;
+    private Pion ami;
+    private ArrayList<String> nomJoueurs;
+    private String difficulte;
+    private String modeInitialisation;
+
+    public Message(TypesMessage type) {
         setType(type);
     }
 
@@ -32,10 +33,37 @@ public class Message {
         this.difficulte = difficulte;
         this.modeInitialisation = modeInitialisation;
     }
-    
-    
-    
-    public void setType(TypesMessage type){
-        this.type=type;
+
+    public void setType(TypesMessage type) {
+        this.type = type;
     }
+
+    public TypesMessage getType() {
+        return type;
+    }
+
+    public Tuile getTuile() {
+        return tuile;
+    }
+
+    public CTresor getCarte_tresor() {
+        return carte_tresor;
+    }
+
+    public Pion getAmi() {
+        return ami;
+    }
+
+    public ArrayList<String> getNomJoueurs() {
+        return nomJoueurs;
+    }
+
+    public String getDifficulte() {
+        return difficulte;
+    }
+
+    public String getModeInitialisation() {
+        return modeInitialisation;
+    }
+
 }

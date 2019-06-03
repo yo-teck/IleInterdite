@@ -31,7 +31,7 @@ public class Controleur implements Observateur {
      * @param args the command line arguments
      */
     
-    public Grille ile = new Grille();
+    public Grille ile;
     public ArrayList<CarteTresor> pile;
     public ArrayList<CarteTresor> defausse;
     public ArrayList<Tuile> tuilesPiochees;
@@ -271,16 +271,15 @@ public class Controleur implements Observateur {
                 ile.getTuile(2, 1));
 
         Navigateur navigateur = new Navigateur("Navigateur",
-                "Le Navigateur peut déplacer un autre joueur d'une ou deux tuiles adjacentes pour une action. ",
-                ile.getTuile(1, 3));
+                "Le Navigateur peut déplacer un autre joueur d'une ou deux tuiles adjacentes pour une action. ");
 
         Pilote pilote = new Pilote("Pilote",
                 "Le Pilote peut, une fois par tour, voler jusqu'à n'importe quelle tuile de l'île pour une action. ",
-                ile.getTuile(2, 3));
+
 
         Plongeur plongeur = new Plongeur("Plongeur",
                 "Le Plongeur peut passer par une ou deux tuiles adjacentes inondées et/ou manquantes pour une action (il doit terminer le tour sur une tuile).",
-                ile.getTuile(1, 2));
+
 
         
         
@@ -397,35 +396,43 @@ public class Controleur implements Observateur {
     public void traiterMessage(Message m) {
         
         //Traitement du message pour initialisé la partie
-        if (m.type == TypesMessage.COMMENCER_PARTIE){
+        if (m.getType() == TypesMessage.COMMENCER_PARTIE){
             int i =0;
             
             for (Pion pion : pions){
-                pion.setNomj(m.nomJoueurs.get(i));
+                pion.setNomj(m.getNomJoueurs().get(i));
                 i++;
             }
             
-            if (m.difficulte.equals("Novice")){
+            if (m.getDifficulte().equals("Novice")){
                 niveauEau.setDifficulte(Difficulte.NOVICE);
-            }else if (m.difficulte.equals("Normal")){
+            }else if (m.getDifficulte().equals("Normal")){
                 niveauEau.setDifficulte(Difficulte.NORMAL);
-            }else if (m.difficulte.equals("Elite")){
+            }else if (m.getDifficulte().equals("Elite")){
                 niveauEau.setDifficulte(Difficulte.ELITE);
-            }else if (m.difficulte.equals("Legendaire")){
+            }else if (m.getDifficulte().equals("Legendaire")){
                 niveauEau.setDifficulte(Difficulte.LEGENDAIRE);
             }
-            System.out.println(m.difficulte);
-            if (m.modeInitialisation.equals("Démo")){
+
+            if (m.getModeInitialisation().equals("Démo")){
                 demo();
+            }else{
+                aleatoire();
             }
             
         }
     }
-    
+    public void initPion(){
+        
+    }
     public void demo(){
         initGrilleDemo();
         ihm = new VueJeu(ile);
         
+    }
+    public void aleatoire(){
+        initGrilleAleatoire();
+        ihm = new VueJeu(ile);
     }
 
     public static void main(String[] args) {
