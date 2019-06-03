@@ -10,10 +10,12 @@ import ileinterdite.Message;
 import ileinterdite.NiveauEau;
 import ileinterdite.Observateur;
 import ileinterdite.Observe;
+import ileinterdite.PackageCarteTresor.CarteTresor;
 import ileinterdite.PackageTuile.Etat;
 import ileinterdite.PackageTuile.Tuile;
 import ileinterdite.Pion;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -39,16 +41,17 @@ public class VueGrille implements Observe{
     private JPanel conteneurDroite;
 
     private JPanel niveauEau;
-    private JPanel zoneBoutons;
+    private JPanel zoneAction;
     private JPanel conteneurBas;
     private JPanel zoneTresors;
     private JPanel zoneCartes;
     private JPanel zoneJoueurs;
+    private JPanel zoneValidation;
     int ci;
     int cj;
 
     
- public VueGrille (Grille grille, NiveauEau niveauEau) {
+ public VueGrille (Grille grille, NiveauEau niveauEau,ArrayList<Pion> pions) {
      JFrame frame = new JFrame();
         frame.setTitle("Ile Interdite");
         frame.setSize(1400,800);
@@ -59,8 +62,7 @@ public class VueGrille implements Observe{
         
         /////////////////////////////////////////////////////////////////////// Fenetre de demarrage
        
-        String[] roles = new String[] {"Explorateur","Plongeur","Navigateur","Pilote","Ingénieur","Messager" };
-        JPanel choix = new JPanel();        
+       
         
         ///////////////////////////////////////////////////////////////////////
         
@@ -194,18 +196,33 @@ public class VueGrille implements Observe{
         
         
         //Création temporaire zone carte
+        CardLayout c1 = new CardLayout();
+        zoneCartes = new JPanel(c1);
         
-        zoneCartes = new JPanel();        
+        JPanel carteJ1 =  Carte(pions.get(0));        
+        JPanel carteJ2 =  Carte(pions.get(1));
+        JPanel carteJ3 =  Carte(pions.get(2));
+        JPanel carteJ4 =  Carte(pions.get(3));
+        zoneCartes.add(carteJ1,"1");
+        zoneCartes.add(carteJ2,"2");
+        zoneCartes.add(carteJ3,"3");
+        zoneCartes.add(carteJ4,"4");
         
-        zoneCartes.setLayout(new GridLayout(1,5));
-        JButton carte;
-        for (int i = 0; i<5;i++){
-            carte = new JButton(""+i);
-            zoneCartes.add(carte);
-        }
-        
+        c1.show(zoneCartes,"1");
         conteneurBas.add(zoneCartes,BorderLayout.CENTER);
 
+        
+        
+        
+        zoneValidation = new JPanel(new GridLayout(2,1));
+        
+        JButton valid = new JButton("Validation");
+        JButton annul = new JButton("Annuler");
+        
+        zoneValidation.add(valid);
+        zoneValidation.add(annul);
+        
+        conteneurBas.add(zoneValidation,BorderLayout.EAST);
         
         conteneurBas.setPreferredSize(new Dimension(1300,100));
         frame.add(conteneurBas,BorderLayout.SOUTH);
@@ -214,35 +231,96 @@ public class VueGrille implements Observe{
        //////////////////////////////////////////////////////////////////////////////////// Fenetre joueurs choisis
         
        
-        joueurs.setLayout(new GridLayout(20,2));
-        joueurs.add(new JLabel("Rôle des joueurs :"));
-        joueurs.add(new JLabel(""));
+       conteneurDroite = new JPanel(new BorderLayout());
        
-        ArrayList<String> AL_roles = new ArrayList<>();
-        for(int i = 0; i < 6 ; i++){
-            AL_roles.add(roles[i]);
-        }
+       zoneJoueurs = new JPanel(new GridLayout(5,1));    
         
-        Collections.shuffle(AL_roles);
-        for(int i = 0 ; i < 4 ;i ++){
-            B_joueurs[i] = new JButton("Joueur" + (i+1) + " : ");
-            B_joueurs[i].setBackground(Color.white);
-            joueurs.add(B_joueurs[i]);
-            joueurs.add(new JLabel(AL_roles.get(i)));
-            
-        }
-        joueurs.setVisible(true);
-        frame.add(joueurs,BorderLayout.EAST);
+        JButton btnJ1 = new JButton(pions.get(0).getNomj());
+        JButton btnJ2 = new JButton(pions.get(1).getNomj());
+        JButton btnJ3 = new JButton(pions.get(2).getNomj());
+        JButton btnJ4 = new JButton(pions.get(3).getNomj());
+        
+        btnJ1.addActionListener(
+                           new ActionListener(){
+                               @Override 
+                               public void actionPerformed(ActionEvent e) {
+                                   c1.show(zoneCartes, "1");
+                               } 
+                           }
+                   );
+        btnJ2.addActionListener(
+                           new ActionListener(){
+                               @Override 
+                               public void actionPerformed(ActionEvent e) {
+                                   c1.show(zoneCartes, "2");
+                               } 
+                           }
+                   );
+        btnJ3.addActionListener(
+                           new ActionListener(){
+                               @Override 
+                               public void actionPerformed(ActionEvent e) {
+                                   c1.show(zoneCartes, "3");
+                               } 
+                           }
+                   );
+        btnJ4.addActionListener(
+                           new ActionListener(){
+                               @Override 
+                               public void actionPerformed(ActionEvent e) {
+                                   c1.show(zoneCartes, "4");
+                               } 
+                           }
+                   );
+        
+        zoneJoueurs.add(btnJ1);
+        zoneJoueurs.add(btnJ2);
+        zoneJoueurs.add(btnJ3);
+        zoneJoueurs.add(btnJ4);
         
         
         
+        JButton info = new JButton("Information");
+        zoneJoueurs.add(info);
+        
+        conteneurDroite.add(zoneJoueurs,BorderLayout.CENTER);
+        
+        zoneAction = new JPanel( new GridLayout(3,2));
+        
+        JButton deplace  = new JButton("Se deplacer") ;
+        JButton assecher = new JButton("Assecher");
+        JButton donner = new JButton("Donner carte");
+        JButton capacite = new JButton("Capacité");
+        JButton recupTresor = new JButton("Récuperer Tresor");
+        JButton finTour = new JButton("Fin Tour");
+        
+        zoneAction.add(deplace);
+        zoneAction.add(assecher);
+        zoneAction.add(donner);
+        zoneAction.add(capacite);
+        zoneAction.add(recupTresor);
+        zoneAction.add(finTour);
+        conteneurDroite.setPreferredSize(new Dimension(200,700));
+        conteneurDroite.add(zoneAction,BorderLayout.NORTH);
+        
+        
+        frame.add(conteneurDroite,BorderLayout.EAST);
         frame.add(conteneurTuile);
         frame.setVisible(true);
  }
     
-        public JPanel lolxD(){
-            return new JPanel();
+        public JPanel Carte(Pion pion){
+            
+        JPanel carteJoueur = new JPanel(new GridLayout(1,5));
+        JButton carteVue;
+        for (CarteTresor carte : pion.getCartesTresors()){
+            carteVue = new JButton(carte.getType().toString());
+            carteJoueur.add(carteVue);
         }
+            return carteJoueur;
+        }
+        
+        
         private void configureWindow(JFrame window) {
         window.setSize(500, 200);
         window.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);

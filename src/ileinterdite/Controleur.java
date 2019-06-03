@@ -33,7 +33,6 @@ public class Controleur implements Observateur {
     /**
      * @param args the command line arguments
      */
-    
     private Grille ile;
     private ArrayList<CarteTresor> pile;
     private ArrayList<CarteTresor> defausse;
@@ -53,14 +52,13 @@ public class Controleur implements Observateur {
         tresors = new ArrayList<>();
         pions = new ArrayList<>();
         niveauEau = new NiveauEau(Difficulte.NOVICE);
-        
+        initCartes();
         initPion();
         menu = new VueDemarrer();
-        menu.addObservateur(this);    
+        menu.addObservateur(this);
     }
-    
-    
-    public  void initGrilleDemo() {
+
+    public void initGrilleDemo() {
 
         //Ligne 0
         Tuile t00 = new Tuile(Etat.NULL, 0, 0);
@@ -104,19 +102,19 @@ public class Controleur implements Observateur {
         Tuile t53 = new Tuile(Etat.INONDE, Evenement.AIR, 5, 3, "Le Jardin des Murmures");
         Tuile t54 = new Tuile(Etat.NULL, 5, 4);
         Tuile t55 = new Tuile(Etat.NULL, 5, 5);
-        
-        for (Pion pion : pions){
-            if (pion.getRole().getNomA().equals("Explorateur")){
+
+        for (Pion pion : pions) {
+            if (pion.getRole().getNomA().equals("Explorateur")) {
                 pion.setTuilePosition(t24);
-            }else if (pion.getRole().getNomA().equals("Ingenieur")){
+            } else if (pion.getRole().getNomA().equals("Ingenieur")) {
                 pion.setTuilePosition(t03);
-            }else if (pion.getRole().getNomA().equals("Messager")){
+            } else if (pion.getRole().getNomA().equals("Messager")) {
                 pion.setTuilePosition(t21);
-            }else if (pion.getRole().getNomA().equals("Navigateur")){
+            } else if (pion.getRole().getNomA().equals("Navigateur")) {
                 pion.setTuilePosition(t13);
-            }else if (pion.getRole().getNomA().equals("Plongeur")){
+            } else if (pion.getRole().getNomA().equals("Plongeur")) {
                 pion.setTuilePosition(t12);
-            }else if (pion.getRole().getNomA().equals("Pilote")){
+            } else if (pion.getRole().getNomA().equals("Pilote")) {
                 pion.setTuilePosition(t23);
             }
         }
@@ -167,7 +165,7 @@ public class Controleur implements Observateur {
     }
 
     //Initialisation de la grille de manière aléatoire
-    public  void initGrilleAleatoire() {
+    public void initGrilleAleatoire() {
         ArrayList<Tuile> tuiles = new ArrayList<>();
         //Instanciation des tuiles
         Tuile t00 = new Tuile(Etat.NULL);
@@ -195,19 +193,19 @@ public class Controleur implements Observateur {
         Tuile t44 = new Tuile(Etat.SEC, Evenement.RIEN, "Le Val du Crépuscule");
         Tuile t52 = new Tuile(Etat.SEC, Evenement.RIEN, "La Tour du Guet");
         Tuile t53 = new Tuile(Etat.SEC, Evenement.AIR, "Le Jardin des Murmures");
-        
-        for (Pion pion : pions){
-            if (pion.getRole().getNomA().equals("Explorateur")){
+
+        for (Pion pion : pions) {
+            if (pion.getRole().getNomA().equals("Explorateur")) {
                 pion.setTuilePosition(t24);
-            }else if (pion.getRole().getNomA().equals("Ingenieur")){
+            } else if (pion.getRole().getNomA().equals("Ingenieur")) {
                 pion.setTuilePosition(t03);
-            }else if (pion.getRole().getNomA().equals("Messager")){
+            } else if (pion.getRole().getNomA().equals("Messager")) {
                 pion.setTuilePosition(t21);
-            }else if (pion.getRole().getNomA().equals("Navigateur")){
+            } else if (pion.getRole().getNomA().equals("Navigateur")) {
                 pion.setTuilePosition(t13);
-            }else if (pion.getRole().getNomA().equals("Plongeur")){
+            } else if (pion.getRole().getNomA().equals("Plongeur")) {
                 pion.setTuilePosition(t12);
-            }else if (pion.getRole().getNomA().equals("Pilote")){
+            } else if (pion.getRole().getNomA().equals("Pilote")) {
                 pion.setTuilePosition(t23);
             }
         }
@@ -236,48 +234,48 @@ public class Controleur implements Observateur {
         tuiles.add(t44);
         tuiles.add(t52);
         tuiles.add(t53);
-        
+
         Collections.shuffle(tuiles);
-        
+
         int n = 0;
-        for (int i =0;i <= 5; i++) {
-            for (int j = 0;j<6;j++) {
-                if (n == 0 || n == 1 || n == 4 || n == 5 || n == 6 || n ==11 || n ==24 || n ==29 || n==30 || n ==31 || n==34 || n==35) {
-                    ile.addTuile(t00,i,j);                   
-                }else{
-                    ile.addTuile(tuiles.get(0), i, j);                   
+        for (int i = 0; i <= 5; i++) {
+            for (int j = 0; j < 6; j++) {
+                if (n == 0 || n == 1 || n == 4 || n == 5 || n == 6 || n == 11 || n == 24 || n == 29 || n == 30 || n == 31 || n == 34 || n == 35) {
+                    ile.addTuile(t00, i, j);
+                } else {
+                    ile.addTuile(tuiles.get(0), i, j);
                     tuiles.remove(0);
                 }
-                n++;        
+                n++;
             }
         }
     }
 
     public ArrayList<Aventurier> initAventurier() {
-        
+
         ArrayList<Aventurier> aventuriers = new ArrayList<>();
-        
-        Explorateur explorateur = new Explorateur();      
+
+        Explorateur explorateur = new Explorateur();
         aventuriers.add(explorateur);
-                
+
         Ingenieur ingenieur = new Ingenieur();
         aventuriers.add(ingenieur);
-        
+
         Messager messager = new Messager();
         aventuriers.add(messager);
-        
+
         Navigateur navigateur = new Navigateur();
         aventuriers.add(navigateur);
-        
+
         Pilote pilote = new Pilote();
         aventuriers.add(pilote);
 
         Plongeur plongeur = new Plongeur();
         aventuriers.add(plongeur);
-        
+
         Collections.shuffle(aventuriers);
-        
-        return aventuriers;    
+
+        return aventuriers;
     }
 
     public void initCartes() {
@@ -288,7 +286,7 @@ public class Controleur implements Observateur {
         CarteTresor C3 = new CarteTresor(CTresor.HELICO);
         CarteTresor C4 = new CarteTresor(CTresor.HELICO);
         CarteTresor C5 = new CarteTresor(CTresor.HELICO);
-        
+
         // Cartes clé trésors
         //FEU
         CarteTresor C6 = new CarteTresor(CTresor.CLE_FEU);
@@ -352,6 +350,8 @@ public class Controleur implements Observateur {
         pile.add(C26);
         pile.add(C27);
         pile.add(C28);
+        
+        Collections.shuffle(pile);
     }
 
     public void initTresors() {
@@ -367,93 +367,111 @@ public class Controleur implements Observateur {
     }
 
     public void initDemo() {
+        
         initGrilleDemo();
         initAventurier();
         initCartes();
         initTresors();
         niveauEau = new NiveauEau(Difficulte.NOVICE);
     }
-    
 
-    public void seDeplacer(Pion pion){
+    public void seDeplacer(Pion pion) {
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
         tuilesDispo = ile.getNonSubmerge(pion.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition()));
         //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
 
     }
-    
+
     @Override
     public void traiterMessage(Message m) {
-        
+
         //Traitement du message pour initialisé la partie
-        if (m.getType() == TypesMessage.COMMENCER_PARTIE){
-            int i =0;
-            
-            for (Pion pion : pions){
+        if (m.getType() == TypesMessage.COMMENCER_PARTIE) {
+            int i = 0;
+
+            for (Pion pion : pions) {
                 pion.setNomj(m.getNomJoueurs().get(i));
                 i++;
             }
-            
-            if (m.getDifficulte().equals("Novice")){
+
+            if (m.getDifficulte().equals("Novice")) {
                 niveauEau.setDifficulte(Difficulte.NOVICE);
-            }else if (m.getDifficulte().equals("Normal")){
+            } else if (m.getDifficulte().equals("Normal")) {
                 niveauEau.setDifficulte(Difficulte.NORMAL);
-            }else if (m.getDifficulte().equals("Elite")){
+            } else if (m.getDifficulte().equals("Elite")) {
                 niveauEau.setDifficulte(Difficulte.ELITE);
-            }else if (m.getDifficulte().equals("Legendaire")){
+            } else if (m.getDifficulte().equals("Legendaire")) {
                 niveauEau.setDifficulte(Difficulte.LEGENDAIRE);
             }
 
-            if (m.getModeInitialisation().equals("Démo")){
+            if (m.getModeInitialisation().equals("Démo")) {
                 demo();
-            }else{
+            } else {
                 aleatoire();
             }
-            
+
         }
     }
-    public void initPion(){
+
+    public void initPion() {
         ArrayList<Aventurier> aventuriers = initAventurier();
         Pion p1 = new Pion(aventuriers.get(0));
         Pion p2 = new Pion(aventuriers.get(1));
         Pion p3 = new Pion(aventuriers.get(2));
         Pion p4 = new Pion(aventuriers.get(3));
-        
+
         this.pions.add(p1);
         this.pions.add(p2);
         this.pions.add(p3);
         this.pions.add(p4);
         
-    }
-    public void demo(){
-        initGrilleDemo();
         for (Pion pion : pions){
-            System.out.print("nom :"+pion.getNomj()+", ");
-            System.out.print("tuile :"+ pion.getTuilePosition().getNom()+", ");
-            System.out.print("Role :"+ pion.getRole().getNomA());
-            System.out.println("");
+            for (int i =0; i<4;i++){
+                pion.addCarte(pile.get(0));
+                pile.remove(0);
+            }
         }
-        System.out.println("");
-        ihm = new VueGrille(ile,niveauEau);
+
         
     }
-    public void aleatoire(){
+
+
+
+    public void demo() {
+        
+        initGrilleDemo();
+        for (Pion pion : pions) {
+            System.out.print("nom :" + pion.getNomj() + ", ");
+            System.out.print("tuile :" + pion.getTuilePosition().getNom() + ", ");
+            System.out.println("Role :" + pion.getRole().getNomA());
+            for (CarteTresor ct : pion.getCartesTresors()){
+                System.out.println(ct.getType().toString());
+            }
+            System.out.println("");
+        }
+        
+        System.out.println("");
+        ihm = new VueGrille(ile, niveauEau, pions);
+
+    }
+
+    public void aleatoire() {
+        
         initGrilleAleatoire();
-        for (Pion pion : pions){
-            System.out.print("nom :"+pion.getNomj()+", ");
-            System.out.print("tuile :"+ pion.getTuilePosition().getNom()+", ");
-            System.out.print("Role :"+ pion.getRole().getNomA());
+        for (Pion pion : pions) {
+            System.out.print("nom :" + pion.getNomj() + ", ");
+            System.out.print("tuile :" + pion.getTuilePosition().getNom() + ", ");
+            System.out.print("Role :" + pion.getRole().getNomA());
             System.out.println("");
         }
         System.out.println("");
-        ihm = new VueGrille(ile,niveauEau);
+        ihm = new VueGrille(ile, niveauEau, pions);
     }
 
     public static void main(String[] args) {
 
         new Controleur();
-        
+
     }
 
-    
 }

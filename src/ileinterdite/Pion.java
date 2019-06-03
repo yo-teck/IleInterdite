@@ -22,14 +22,14 @@ public class Pion {
     private static int nbAction = 3;
     private Aventurier role;
     private Tuile tuilePosition;
-    private ArrayList<CarteTresor> cartesTresor;
+    private ArrayList<CarteTresor> cartesTresors;
     private Color couleur;
 
     public Pion(Aventurier role) {
         
         this.setRole(role);
         this.setCouleur(role.getCouleur());
-        cartesTresor = new ArrayList<>();
+        cartesTresors = new ArrayList<>();
     }
 
     public Color getCouleur() {
@@ -56,10 +56,13 @@ public class Pion {
         return tuilePosition;
     }
 
-    public ArrayList<CarteTresor> getCartesTresor() {
-        return cartesTresor;
+    public ArrayList<CarteTresor> getCartesTresors() {
+        return cartesTresors;
     }
 
+    public void addCarte(CarteTresor CT){
+        this.cartesTresors.add(CT);
+    }
     public void setNomj(String nomj) {
         this.nomj = nomj;
     }
@@ -76,7 +79,7 @@ public class Pion {
         this.tuilePosition = tuilePosition;
     }
 
-    public void setCartesTresor(ArrayList<CarteTresor> cartesTresor) {
-        this.cartesTresor = cartesTresor;
+    public void setCartesTresors(ArrayList<CarteTresor> cartesTresors) {
+        this.cartesTresors = cartesTresors;
     }
 }
