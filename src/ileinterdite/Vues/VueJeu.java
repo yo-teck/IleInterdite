@@ -48,6 +48,7 @@ public class VueJeu implements Observe {
     int ci;
     int cj;
     int y = 0;
+    
  public VueJeu(Grille grille){
      JFrame frame = new JFrame();
         frame.setTitle("Ile Interdite / POO-COO-IHM");
@@ -260,6 +261,7 @@ public class VueJeu implements Observe {
         for(int i = 0; i < 6 ; i++){
             AL_roles.add(roles[i]);
         }
+        
         Collections.shuffle(AL_roles);
         for(int i = 0 ; i < 4 ;i ++){
             B_joueurs[i] = new JButton("Joueur" + (i+1) + " : ");
@@ -268,6 +270,7 @@ public class VueJeu implements Observe {
             joueurs.add(new JLabel(AL_roles.get(i)));
             
         }
+        
         joueurs.setVisible(false);
         frame.add(joueurs,BorderLayout.EAST);
         
