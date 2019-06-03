@@ -20,6 +20,7 @@ import ileinterdite.PackageAventurier.Explorateur;
 import ileinterdite.PackageAventurier.Pilote;
 //import ileinterdite.Vues.VueAventurier;
 import ileinterdite.Vues.VueDemarrer;
+import ileinterdite.Vues.VueGrille;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -40,7 +41,7 @@ public class Controleur implements Observateur {
     private ArrayList<OTresor> tresors;
     private ArrayList<Pion> pions;
     private NiveauEau niveauEau;
-    private VueJeu ihm;
+    private VueGrille ihm;
     private VueDemarrer menu;
     //private VueAventurier vueAventurier;
 
@@ -427,21 +428,25 @@ public class Controleur implements Observateur {
     public void demo(){
         initGrilleDemo();
         for (Pion pion : pions){
-            System.out.println("nom :"+pion.getNomj());
-            System.out.println("tuile :"+ pion.getTuilePosition().getNom());
-            System.out.println("Role :"+ pion.getRole().getNomA());
+            System.out.print("nom :"+pion.getNomj()+", ");
+            System.out.print("tuile :"+ pion.getTuilePosition().getNom()+", ");
+            System.out.print("Role :"+ pion.getRole().getNomA());
+            System.out.println("");
         }
-        ihm = new VueJeu(ile);
+        System.out.println("");
+        ihm = new VueGrille(ile,niveauEau);
         
     }
     public void aleatoire(){
         initGrilleAleatoire();
         for (Pion pion : pions){
-            System.out.println("nom :"+pion.getNomj());
-            System.out.println("tuile :"+ pion.getTuilePosition().getNom());
-            System.out.println("Role :"+ pion.getRole().getNomA());
+            System.out.print("nom :"+pion.getNomj()+", ");
+            System.out.print("tuile :"+ pion.getTuilePosition().getNom()+", ");
+            System.out.print("Role :"+ pion.getRole().getNomA());
+            System.out.println("");
         }
-        ihm = new VueJeu(ile);
+        System.out.println("");
+        ihm = new VueGrille(ile,niveauEau);
     }
 
     public static void main(String[] args) {
