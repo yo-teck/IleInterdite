@@ -33,7 +33,7 @@ public class Explorateur extends Aventurier{
         tuilesDispoPourDeplacement = grille.getTuilesCroix(tuile);
         tuilesDispoPourDeplacement.addAll(grille.getTuilesDiagonale(tuile));
         tuilesDispoPourDeplacement = grille.getNonSubmerge(tuilesDispoPourDeplacement);
-
+        tuilesDispoPourDeplacement.remove(tuile);
         return tuilesDispoPourDeplacement;
 
     }

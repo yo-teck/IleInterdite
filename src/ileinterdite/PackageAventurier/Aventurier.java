@@ -74,7 +74,7 @@ public abstract class Aventurier {
         ArrayList<Tuile> tuilesDispoPourDeplacement = new ArrayList<>();
         tuilesDispoPourDeplacement = grille.getTuilesCroix(tuile);
         tuilesDispoPourDeplacement = grille.getNonSubmerge(tuilesDispoPourDeplacement);
-
+        tuilesDispoPourDeplacement.remove(tuile);
         return tuilesDispoPourDeplacement;
 
     }
@@ -83,11 +83,8 @@ public abstract class Aventurier {
         ArrayList<Tuile> tuilesAdjacentesInnondees = new ArrayList<>();
         tuilesAdjacentesInnondees= grille.getTuilesCroix(tuile);
         tuilesAdjacentesInnondees= grille.getTuilesInnondees(tuilesAdjacentesInnondees);
-        
-        
-        
-        return tuilesAdjacentesInnondees;
-        
+               
+        return tuilesAdjacentesInnondees;        
         
     }
     

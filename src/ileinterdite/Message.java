@@ -18,7 +18,7 @@ public class Message {
     private TypesMessage type;
     private Tuile tuile;
     private CTresor carte_tresor;
-    private Pion ami;
+    private Pion pion;
     private ArrayList<String> nomJoueurs;
     private String difficulte;
     private String modeInitialisation;
@@ -26,6 +26,11 @@ public class Message {
 
     public Message(TypesMessage type) {
         setType(type);
+    }
+
+    public Message(TypesMessage type, Pion pion) {
+        this.type = type;
+        this.pion = pion;
     }
 
     public Message(TypesMessage type, ArrayList<String> nomJoueurs, String difficulte, String modeInitialisation) {
@@ -52,7 +57,7 @@ public class Message {
     }
 
     public Pion getAmi() {
-        return ami;
+        return pion;
     }
 
     public ArrayList<String> getNomJoueurs() {
