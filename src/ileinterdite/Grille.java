@@ -65,17 +65,17 @@ public class Grille {
 
     public ArrayList<Tuile> getTuilesDiagonale(Tuile t) {
         ArrayList<Tuile> tAD = new ArrayList<>();
-        
-        if ( (t.getI()+1<=5 || t.getJ()+1<=5) && getTuile(t.getI()+1, t.getJ()+1).getEtat()!=Etat.NULL){
+
+        if ( ((t.getI()+1)<=5 && (t.getJ()+1)<=5) && getTuile(t.getI()+1, t.getJ()+1).getEtat()!=Etat.NULL){
             tAD.add(getTuile(t.getI()+1, t.getJ()+1));
         }
-        if ( (t.getI()-1>=0 || t.getJ()-1>=0) && getTuile(t.getI()-1, t.getJ()-1).getEtat()!=Etat.NULL){
+        if ( (t.getI()-1>=0 && t.getJ()-1>=0) && getTuile(t.getI()-1, t.getJ()-1).getEtat()!=Etat.NULL){
             tAD.add(getTuile(t.getI()-1, t.getJ()-1));
         }
-        if ( (t.getI()+1<=5 || t.getJ()-1>=0) && getTuile(t.getI()+1, t.getJ()-1).getEtat()!=Etat.NULL){
+        if ( (t.getI()+1<=5 && t.getJ()-1>=0) && getTuile(t.getI()+1, t.getJ()-1).getEtat()!=Etat.NULL){
             tAD.add(getTuile(t.getI()+1, t.getJ()-1));
         }
-        if (t.getI()-1>=0 || t.getJ()+1<=5 && getTuile(t.getI()-1, t.getJ()+1).getEtat()!=Etat.NULL){
+        if ( (t.getI()-1>=0 && t.getJ()+1<=5) && getTuile(t.getI()-1, t.getJ()+1).getEtat()!=Etat.NULL){
             tAD.add(getTuile(t.getI()-1, t.getJ()+1));
         }               
 

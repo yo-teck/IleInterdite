@@ -426,7 +426,7 @@ public class Controleur implements Observateur {
         this.pions.add(p4);
         
         for (Pion pion : pions){
-            for (int i =0; i<4;i++){
+            for (int i =0; i<2;i++){
                 pion.addCarte(pile.get(0));
                 pile.remove(0);
             }
@@ -462,6 +462,9 @@ public class Controleur implements Observateur {
             System.out.print("nom :" + pion.getNomj() + ", ");
             System.out.print("tuile :" + pion.getTuilePosition().getNom() + ", ");
             System.out.print("Role :" + pion.getRole().getNomA());
+            for (CarteTresor ct : pion.getCartesTresors()){
+                System.out.println(ct.getType().toString());
+            }
             System.out.println("");
         }
         System.out.println("");

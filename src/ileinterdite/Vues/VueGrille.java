@@ -117,7 +117,7 @@ public class VueGrille implements Observe{
                            new ActionListener(){
                                @Override 
                                public void actionPerformed(ActionEvent e) {
-                                   System.out.println("Deplacement standart :");
+                                   System.out.println("Deplacement standard :");
                                    for (Tuile t : grille.getNonSubmerge(grille.getTuilesCroix(tuileSelect))){
                                        System.out.print(t.getNom()+", ");
                                    }
@@ -160,7 +160,6 @@ public class VueGrille implements Observe{
                };
         }
         
-        conteneurTuile.setSize(900, 900);
        // fenetre.add(map);
         conteneurTuile.setVisible(true);
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -203,6 +202,7 @@ public class VueGrille implements Observe{
         JPanel carteJ2 =  Carte(pions.get(1));
         JPanel carteJ3 =  Carte(pions.get(2));
         JPanel carteJ4 =  Carte(pions.get(3));
+        
         zoneCartes.add(carteJ1,"1");
         zoneCartes.add(carteJ2,"2");
         zoneCartes.add(carteJ3,"3");
@@ -312,10 +312,17 @@ public class VueGrille implements Observe{
         public JPanel Carte(Pion pion){
             
         JPanel carteJoueur = new JPanel(new GridLayout(1,5));
+        
         JButton carteVue;
+        
         for (CarteTresor carte : pion.getCartesTresors()){
             carteVue = new JButton(carte.getType().toString());
             carteJoueur.add(carteVue);
+        }
+        for(int i=0;i<5-pion.getCartesTresors().size();i++){
+            JButton rien = new JButton("[vide]");
+            rien.setEnabled(false);
+            carteJoueur.add(rien);
         }
             return carteJoueur;
         }
