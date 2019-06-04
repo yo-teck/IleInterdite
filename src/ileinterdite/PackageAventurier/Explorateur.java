@@ -29,11 +29,11 @@ public class Explorateur extends Aventurier{
     
      @Override
      public ArrayList<Tuile> getTuilesDispoPourDeplacement(Grille grille, Tuile tuile) {
-        ArrayList<Tuile> tuilesDispoPourDeplacement = new ArrayList<>();
-        tuilesDispoPourDeplacement = grille.getTuilesCroix(tuile);
-        tuilesDispoPourDeplacement.addAll(grille.getTuilesDiagonale(tuile));
-        tuilesDispoPourDeplacement = grille.getNonSubmerge(tuilesDispoPourDeplacement);
-        tuilesDispoPourDeplacement.remove(tuile);
+        ArrayList<Tuile> tuilesDispoPourDeplacement = super.getTuilesDispoPourDeplacement(grille,tuile);
+       
+        tuilesDispoPourDeplacement.addAll(grille.getNonSubmerge(grille.getTuilesDiagonale(tuile)));
+      
+
         return tuilesDispoPourDeplacement;
 
     }
@@ -41,10 +41,12 @@ public class Explorateur extends Aventurier{
      
      @Override
      public ArrayList<Tuile> getTuilesAdjacentesInnondees(Grille grille, Tuile tuile) {
-        ArrayList<Tuile> tuilesAdjacentesInnondees = new ArrayList<>();
+        ArrayList<Tuile> tuilesAdjacentesInnondees = super.getTuilesAdjacentesInnondees(grille, tuile);
+        
+        
         tuilesAdjacentesInnondees= grille.getTuilesCroix(tuile);
-        tuilesAdjacentesInnondees.addAll(grille.getTuilesDiagonale(tuile));
-        tuilesAdjacentesInnondees = grille.getTuilesInnondees(tuilesAdjacentesInnondees);
+        tuilesAdjacentesInnondees.addAll(grille.getTuilesInnondees(grille.getTuilesDiagonale(tuile)));
+       
         
         
         return tuilesAdjacentesInnondees;
