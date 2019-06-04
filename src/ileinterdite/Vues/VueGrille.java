@@ -106,7 +106,8 @@ public class VueGrille implements Observe {
                 Tuile[i].setBackground(Color.WHITE); //Couleur fond
                 Tuile[i].setForeground(Color.WHITE); // Couleur front
             } else {
-                Tuile[i].addActionListener(
+                Tuile[i].setEnabled(false);
+                Tuile[i].addActionListener( 
                         new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -133,6 +134,8 @@ public class VueGrille implements Observe {
                         }
                         System.out.println("");
                         System.out.println("");
+                        
+                        
                     }
                 }
                 );
