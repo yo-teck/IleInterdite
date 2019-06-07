@@ -15,6 +15,7 @@ public enum TypesMessage {
     DEPLACEMENT_AMI,
     UTILISER_CARTE,
     DONNER_CARTE,
+    DEFAUSSE,
     RECUPERER_TROPHEE,
     FIN_TOUR,
     COMMENCER_PARTIE,

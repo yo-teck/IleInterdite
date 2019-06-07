@@ -18,6 +18,7 @@ import ileinterdite.PackageAventurier.Messager;
 import ileinterdite.PackageAventurier.Plongeur;
 import ileinterdite.PackageAventurier.Explorateur;
 import ileinterdite.PackageAventurier.Pilote;
+import ileinterdite.Vues.VueDefausse;
 //import ileinterdite.Vues.VueAventurier;
 import ileinterdite.Vues.VueDemarrer;
 import ileinterdite.Vues.VueGrille;
@@ -39,9 +40,11 @@ public class Controleur implements Observateur {
     private ArrayList<Tuile> tuilesPiochees;
     private ArrayList<OTresor> tresors;
     private ArrayList<Pion> pions;
+    private Pion pionActif;
     private NiveauEau niveauEau;
     private VueGrille ihm;
     private VueDemarrer menu;
+    private VueDefausse vueDefausse;
     //private VueAventurier vueAventurier;
 
     public Controleur() {
@@ -350,7 +353,7 @@ public class Controleur implements Observateur {
         pile.add(C26);
         pile.add(C27);
         pile.add(C28);
-        
+
         Collections.shuffle(pile);
     }
 
@@ -367,7 +370,7 @@ public class Controleur implements Observateur {
     }
 
     public void initDemo() {
-        
+
         initGrilleDemo();
         initAventurier();
         initCartes();
@@ -410,6 +413,8 @@ public class Controleur implements Observateur {
                 aleatoire();
             }
 
+        } else if (m.getType() == TypesMessage.DEFAUSSE){
+            defausser(m.getCarteTresor());
         }
     }
 
@@ -420,55 +425,96 @@ public class Controleur implements Observateur {
         Pion p3 = new Pion(aventuriers.get(2));
         Pion p4 = new Pion(aventuriers.get(3));
 
+        pionActif = p1;
         this.pions.add(p1);
         this.pions.add(p2);
         this.pions.add(p3);
         this.pions.add(p4);
-        
-        for (Pion pion : pions){
-            for (int i =0; i<2;i++){
+
+        for (Pion pion : pions) {
+            for (int i = 0; i < 2; i++) {
                 pion.addCarte(pile.get(0));
                 pile.remove(0);
             }
         }
 
-        
     }
 
-
-
     public void demo() {
-        
+
         initGrilleDemo();
         for (Pion pion : pions) {
             System.out.print("nom :" + pion.getNomj() + ", ");
             System.out.print("tuile :" + pion.getTuilePosition().getNom() + ", ");
             System.out.println("Role :" + pion.getRole().getNomA());
-            for (CarteTresor ct : pion.getCartesTresors()){
+            for (CarteTresor ct : pion.getCartesTresors()) {
                 System.out.println(ct.getType().toString());
             }
             System.out.println("");
         }
-        
+
         System.out.println("");
         ihm = new VueGrille(ile, niveauEau, pions);
 
     }
 
     public void aleatoire() {
-        
+
         initGrilleAleatoire();
         for (Pion pion : pions) {
             System.out.print("nom :" + pion.getNomj() + ", ");
             System.out.print("tuile :" + pion.getTuilePosition().getNom() + ", ");
             System.out.print("Role :" + pion.getRole().getNomA());
-            for (CarteTresor ct : pion.getCartesTresors()){
+            for (CarteTresor ct : pion.getCartesTresors()) {
                 System.out.println(ct.getType().toString());
             }
             System.out.println("");
         }
         System.out.println("");
         ihm = new VueGrille(ile, niveauEau, pions);
+    }
+
+    public boolean estFini() {
+        return true;
+    }
+
+    public Pion getPionActif() {
+        return pionActif;
+    }
+
+    public void joueurSuivant() {
+        int i = 0;
+
+        while (i < pions.size() && pions.get(i) != pionActif) {
+            i++;
+        }
+        if (pions.get(i) == pionActif) {
+            pionActif = pions.get(i + 1 % 5);
+        }
+
+    }
+
+    public void defausser(CarteTresor carteTresor){
+        for(CarteTresor c : pionActif.getCartesTresors()){
+            if(c==carteTresor){
+                pionActif.getCartesTresors().remove(c);
+            }
+        }
+    }
+    
+    public void jouerUnTour() {
+        if (!estFini()) {
+            pionActif.setNbAction(3);
+            if(pionActif.verifNbCartes()>5){
+                vueDefausse = new VueDefausse(pionActif);
+            }
+            
+            //A FAIRE
+            
+            
+            
+            joueurSuivant();
+        }
     }
 
     public static void main(String[] args) {

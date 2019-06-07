@@ -46,7 +46,8 @@ public class VueDemarrer implements Observe {
     public VueDemarrer() {
         JFrame fenetre = new JFrame("Ile Interdite - Menu Démarrage");
         fenetre.setSize(600, 250);
-
+        fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
         JPanel conteneur = new JPanel(new BorderLayout());
         fenetre.add(conteneur);
 

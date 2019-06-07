@@ -56,6 +56,7 @@ public class VueGrille implements Observe {
         JFrame frame = new JFrame();
         frame.setTitle("Ile Interdite");
         frame.setSize(1400, 800);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE );
         frame.setLayout(new BorderLayout());
         JPanel conteneurTuile = new JPanel();
         JPanel joueurs = new JPanel();
