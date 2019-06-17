@@ -208,7 +208,7 @@ public class VueJeu implements Observe {
                    T_Map[i].setBackground(Color.WHITE); //Couleur fond
                    T_Map[i].setForeground(Color.WHITE); // Couleur front
                }
-               else{
+               /*else{
                    T_Map[i].addActionListener(
                            new ActionListener(){
                                @Override 
@@ -240,7 +240,7 @@ public class VueJeu implements Observe {
                if (cj==6){
                     ci++;
                     cj =0;
-               }
+               }*/
 ;
         }
        // fenetre.add(map);
