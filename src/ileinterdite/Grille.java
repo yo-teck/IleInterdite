@@ -105,12 +105,14 @@ public class Grille {
      public ArrayList<Tuile> getTuilesInnondees(ArrayList<Tuile> tAC) {
         ArrayList<Tuile> ti = new ArrayList<>();         
         for (Tuile tuile : tAC) {
-            if (tuile.getEtat() != Etat.SUBMERGE || tuile.getEtat() != Etat.SEC) {
+            if (tuile.getEtat() == Etat.INONDE) {
                 ti.add(tuile);
             }
         }
         return ti;
     }
+     
+     /* dans le plongeur
         public ArrayList<Tuile> getTuilesDispoPourDeplacement(Grille grille, Tuile tuile) {
         ArrayList<Tuile> tuileValable =new ArrayList<>();
         ArrayList<Tuile> tuileSubmerger =new ArrayList<>();
@@ -132,5 +134,5 @@ public class Grille {
         return grille.getNonSubmerge(tuileValable);
     }
 
-    
+    */
 }

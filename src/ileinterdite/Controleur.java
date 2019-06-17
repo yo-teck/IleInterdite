@@ -62,6 +62,10 @@ public class Controleur implements Observateur {
 
     }
 
+    public ArrayList<Pion> getPions() {
+        return pions;
+    }
+
     public void initGrilleDemo() {
 
         //Ligne 0
@@ -381,29 +385,35 @@ public class Controleur implements Observateur {
 
     public void seDeplacer(Pion pion) {
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
-        tuilesDispo = ile.getNonSubmerge(pion.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition()));
-        for (Tuile tuile : tuilesDispo){
+        tuilesDispo = pion.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition());
+        for (Tuile tuile : tuilesDispo) {
             tuile.setActif(true);
         }
 
-        int ci = 0;
-        int cj = 0;
-        for (int i = 0; i < 36; i++) { 
-            if (ile.getTuile(ci,cj).isActif() ){
-                System.out.println(ile.getTuile(ci,cj).getNom());
-            }
-            cj++;
-            if (cj == 6) {
-                ci++;
-                cj = 0;
-            };
-        }
-        ihm.creeGrille(ile);
-        
-        
         //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
+        ihm.setMsg(new Message(TypesMessage.TUILE_DEPLACEMENT));
+        ihm.setClicable();
 
+       
     }
+    
+     public void Assecher(Pion pion) {
+        ArrayList<Tuile> tuilesDispo = new ArrayList<>();
+        tuilesDispo =ile.getTuilesInnondees(pion.getRole().getTuilesAdjacentesInnondees(ile, pion.getTuilePosition()));
+        for (Tuile tuile : tuilesDispo) {
+            tuile.setActif(true);
+            System.out.println(tuile.getNom());
+        }
+
+        //On montre les cases dispo pour l'assechement puis on demande la case à l'utilisateur puis on asseche la tuile.
+        ihm.setMsg(new Message(TypesMessage.TUILE_ASSECHEMENT));
+        ihm.setClicable();
+
+       
+    }
+    
+    
+    
 
     @Override
     public void traiterMessage(Message m) {
@@ -437,12 +447,28 @@ public class Controleur implements Observateur {
             defausser(m.getCarteTresor());
         } else if (m.getType() == TypesMessage.FIN_TOUR) {
             joueurSuivant();
-        }else if(m.getType() == TypesMessage.DEPLACEMENT){
+
+        } else if (m.getType() == TypesMessage.DEPLACEMENT) {
             System.out.println("Rentree");
             seDeplacer(pionActif);
-            
-            
-    }
+            //rendre non clicable apres choix
+
+            System.out.println(pionActif.getNomj());
+        }//si une action decrementer nbaction du joueuerActif
+        else if (m.getType() == TypesMessage.DONNER_CARTE) {
+            donnerCarte(m.getCarteTresor(), m.getAmi());
+
+        }else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT) {
+            pionActif.setTuilePosition(m.getTuile());
+            ihm.setNonClicable();
+        }else if (m.getType()== TypesMessage.ASSECHER){
+            Assecher(pionActif);
+        }
+        else if(m.getType()== TypesMessage.TUILE_ASSECHEMENT){
+            m.getTuile().setEtat(Etat.SEC);
+            ihm.setNonClicable();
+        }
+
     }
 
     public void initPion() {
@@ -482,7 +508,10 @@ public class Controleur implements Observateur {
 
         System.out.println("");
         ihm = new VueGrille(ile, niveauEau, pions);
-                ihm.addObservateur(this);
+
+        ihm.addObservateur(this);
+
+
     }
 
     public void aleatoire() {
@@ -499,7 +528,8 @@ public class Controleur implements Observateur {
         }
         System.out.println("");
         ihm = new VueGrille(ile, niveauEau, pions);
-                ihm.addObservateur(this);
+        ihm.addObservateur(this);
+
     }
 
     public boolean estFini() {
@@ -516,8 +546,9 @@ public class Controleur implements Observateur {
         while (i < pions.size() && pions.get(i) != pionActif) {
             i++;
         }
+
         if (pions.get(i) == pionActif) {
-            pionActif = pions.get(i + 1 % 4);
+            pionActif = pions.get((i + 1) % 4);
         }
 
     }
@@ -530,70 +561,26 @@ public class Controleur implements Observateur {
         }
     }
 
+    public void donnerCarte(CarteTresor carteTresor, Pion pion) {
+        for (CarteTresor c : pionActif.getCartesTresors()) {
+            if (c == carteTresor) {
+                pionActif.getCartesTresors().remove(c);
+                pion.getCartesTresors().add(c);
+            }
+        }
+    }
+
     public void jouerUnTour() {
         if (!estFini()) {
             pionActif.setNbAction(3);
-            if (pionActif.verifNbCartes() > 5) {
+            if (pionActif.getNbCartes() > 5) {
                 vueDefausse = new VueDefausse(pionActif);
             }
 
             //A FAIRE
-            
-            
-            
             //
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     public static void main(String[] args) {
 

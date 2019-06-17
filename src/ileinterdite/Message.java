@@ -94,5 +94,29 @@ public class Message {
         this.pion = pion;
     }
 
+    public void setTuile(Tuile tuile) {
+        this.tuile = tuile;
+    }
+
+    public void setTypeCarteTresor(CTresor typeCarteTresor) {
+        this.typeCarteTresor = typeCarteTresor;
+    }
+
+    public void setNomJoueurs(ArrayList<String> nomJoueurs) {
+        this.nomJoueurs = nomJoueurs;
+    }
+
+    public void setDifficulte(String difficulte) {
+        this.difficulte = difficulte;
+    }
+
+    public void setModeInitialisation(String modeInitialisation) {
+        this.modeInitialisation = modeInitialisation;
+    }
+
+    public void setPions(ArrayList<Pion> pions) {
+        this.pions = pions;
+    }
+
     
 }

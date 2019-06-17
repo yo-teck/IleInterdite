@@ -41,7 +41,6 @@ public class VueGrille implements Observe {
     private JPanel conteneurMilieu;
     private JPanel conteneurGauche;
     private JPanel conteneurDroite;
-
     private JPanel niveauEau;
     private JPanel zoneAction;
     private JPanel conteneurBas;
@@ -50,10 +49,12 @@ public class VueGrille implements Observe {
     private JPanel zoneJoueurs;
     private JPanel zoneValidation;
     private JPanel conteneurTuile;
+    private Grille grille;
     private int ci;
     private int cj;
     private int tourJoueur = 0;
-
+    private JButton[] Tuile;
+    private Message msg;
     //Bouton des joueurs
     private JButton btnJ1;
     private JButton btnJ2;
@@ -73,7 +74,7 @@ public class VueGrille implements Observe {
         frame.setSize(1400, 800);
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        this.grille = grille;
         JPanel joueurs = new JPanel();
         JButton[] B_joueurs = new JButton[4];
 
@@ -106,11 +107,83 @@ public class VueGrille implements Observe {
 
         ////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////// Coté carte
-        creeGrille(grille);
+        conteneurTuile = new JPanel();
+        conteneurTuile.setLayout(new GridLayout(6, 6));
+        conteneurTuile.setPreferredSize(new Dimension(1300, 700));
+        Tuile = new JButton[36];
+        ci = 0;
+        cj = 0;
+        for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
+            Tuile[i] = new JButton();
+            Tuile tuileSelect = grille.getTuile(ci, cj);
+            Tuile[i].setText(tuileSelect.getNom());
+            conteneurTuile.add(Tuile[i]);
+            if (i == 0 || i == 1 || i == 4 || i == 5 || i == 6 || i == 11 || i == 24 || i == 29 || i == 30 || i == 31 || i == 34 || i == 35) {
+                Tuile[i].setEnabled(false); // Cases null non cliquable
+                Tuile[i].setText(""); // Nom eau sur les cases nulls
+                Tuile[i].setBackground(Color.WHITE); //Couleur fond
+                Tuile[i].setForeground(Color.WHITE); // Couleur front
+            } else {
+                System.out.println("1");
+//                Tuile[i].setEnabled(tuileSelect.isActif());
+
+                if (tuileSelect.isActif()) {
+                    System.out.println(tuileSelect.getNom());
+                    Tuile[i].setEnabled(true);
+                } else {
+                    Tuile[i].setEnabled(false);
+                }
+
+                /*Tuile[i].addActionListener(
+                        new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        System.out.println("Deplacement standard :");
+                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesCroix(tuileSelect))) {
+                            System.out.print(t.getNom() + ", ");
+                        }
+
+                        System.out.println("");
+
+                        System.out.println("Deplacement explorateur :");
+                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesCroix(tuileSelect))) {
+                            System.out.print(t.getNom() + ", ");
+                        }
+                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesDiagonale(tuileSelect))) {
+                            System.out.print(t.getNom() + ", ");
+                        }
+
+                        System.out.println("");
+
+                        System.out.println("Celles plongeur :");
+                        for (Tuile t : grille.getTuilesDispoPourDeplacement(grille, tuileSelect)) {
+                            System.out.print(t.getNom() + ", ");
+                        }
+                        System.out.println("");
+                        System.out.println("");
+
+                    }
+                }
+                );*/
+                if (tuileSelect.getEtat() == Etat.INONDE) {
+                    Tuile[i].setBackground(new Color(119, 181, 254));
+                } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
+                    Tuile[i].setBackground(new Color(34, 66, 124));
+                } else {
+                    Tuile[i].setBackground(new Color(145, 93, 15));
+                }
+
+            }
+            cj++;
+            if (cj == 6) {
+                ci++;
+                cj = 0;
+            };
+        }
+        frame.add(conteneurTuile);
+
         // fenetre.add(map);
-
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         conteneurBas = new JPanel(new BorderLayout());
 
         //Creation temporaire des trophées
@@ -182,9 +255,9 @@ public class VueGrille implements Observe {
         btnJ3 = new JButton(pions.get(2).getNomj());
         btnJ4 = new JButton(pions.get(3).getNomj());
 
-        btnJ2.setEnabled(false);
-        btnJ3.setEnabled(false);
-        btnJ4.setEnabled(false);
+        btnJ2.setBackground(Color.white);
+        btnJ3.setBackground(Color.white);
+        btnJ4.setBackground(Color.white);
 
         btnJ[0] = btnJ1;
         btnJ[1] = btnJ2;
@@ -244,7 +317,6 @@ public class VueGrille implements Observe {
             public void actionPerformed(ActionEvent e) {
 
                 Message m = new Message(TypesMessage.DEPLACEMENT, pions.get(tourJoueur));
-                System.out.println("message envoyer");
                 notifierObservateur(m);
 
             }
@@ -252,6 +324,18 @@ public class VueGrille implements Observe {
         );
 
         JButton assecher = new JButton("Assecher");
+
+        assecher.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Message m = new Message(TypesMessage.ASSECHER, pions.get(tourJoueur));
+                notifierObservateur(m);
+
+            }
+        }
+        );
         JButton donner = new JButton("Donner carte");
         JButton capacite = new JButton("Capacité");
         JButton recupTresor = new JButton("Récuperer Tresor");
@@ -266,15 +350,25 @@ public class VueGrille implements Observe {
                 notifierObservateur(m);
 
                 //pour decaler le joueur selectionner visible.
-                btnJ[tourJoueur].setEnabled(false);
+                btnJ[tourJoueur].setBackground(Color.white);
                 tourJoueur++;
                 tourJoueur %= 4;
                 c1.show(zoneCartes, "" + tourJoueur);
-                btnJ[tourJoueur].setEnabled(true);
+                btnJ[tourJoueur].setBackground(Color.pink);
 
             }
         }
         );
+        donner.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Message m = new Message(TypesMessage.DONNER_CARTE, pions.get(tourJoueur));
+                notifierObservateur(m);
+
+            }
+        });
 
         zoneAction.add(deplace);
         zoneAction.add(assecher);
@@ -308,82 +402,79 @@ public class VueGrille implements Observe {
         return carteJoueur;
     }
 
-    public void creeGrille(Grille grille) {
-        conteneurTuile = new JPanel();
-        conteneurTuile.setLayout(new GridLayout(6, 6));
-        conteneurTuile.setPreferredSize(new Dimension(1300, 700));
-        JButton[] Tuile = new JButton[36];
+    public void setClicable() {
+
+        /*for (Button b : this.conteneurTuile.){
+           
+       }*/
         ci = 0;
         cj = 0;
         for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
-            Tuile[i] = new JButton();
+
             Tuile tuileSelect = grille.getTuile(ci, cj);
-            Tuile[i].setText(tuileSelect.getNom());
-            conteneurTuile.add(Tuile[i]);
-            if (i == 0 || i == 1 || i == 4 || i == 5 || i == 6 || i == 11 || i == 24 || i == 29 || i == 30 || i == 31 || i == 34 || i == 35) {
-                Tuile[i].setEnabled(false); // Cases null non cliquable
-                Tuile[i].setText(""); // Nom eau sur les cases nulls
-                Tuile[i].setBackground(Color.WHITE); //Couleur fond
-                Tuile[i].setForeground(Color.WHITE); // Couleur front
-            } else {
-                System.out.println("1");
-//                Tuile[i].setEnabled(tuileSelect.isActif());
-                
-                if(tuileSelect.isActif()){
-                    System.out.println(tuileSelect.getNom());
-                    Tuile[i].setEnabled(true);
-                }else{
-                    Tuile[i].setEnabled(false);
-                }
+
+            if (tuileSelect.isActif()) {
+
+                System.out.println(tuileSelect.getNom());
+                Tuile[i].setEnabled(true);
 
                 Tuile[i].addActionListener(
                         new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        System.out.println("Deplacement standard :");
-                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesCroix(tuileSelect))) {
-                            System.out.print(t.getNom() + ", ");
-                        }
 
-                        System.out.println("");
-
-                        System.out.println("Deplacement explorateur :");
-                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesCroix(tuileSelect))) {
-                            System.out.print(t.getNom() + ", ");
-                        }
-                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesDiagonale(tuileSelect))) {
-                            System.out.print(t.getNom() + ", ");
-                        }
-
-                        System.out.println("");
-
-                        System.out.println("Celles plongeur :");
-                        for (Tuile t : grille.getTuilesDispoPourDeplacement(grille, tuileSelect)) {
-                            System.out.print(t.getNom() + ", ");
-                        }
-                        System.out.println("");
-                        System.out.println("");
+                        msg.setTuile(tuileSelect);
+                        notifierObservateur(msg);
 
                     }
-                }
-                );
-
-                if (tuileSelect.getEtat() == Etat.INONDE) {
-                    Tuile[i].setBackground(new Color(119, 181, 254));
-                } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
-                    Tuile[i].setBackground(new Color(34, 66, 124));
-                } else {
-                    Tuile[i].setBackground(new Color(145, 93, 15));
-                }
-
+                });
+            } else {
+                Tuile[i].setEnabled(false);
             }
+
             cj++;
             if (cj == 6) {
                 ci++;
                 cj = 0;
             };
         }
-        frame.add(conteneurTuile);
+
+    }
+
+    public void setNonClicable() {
+
+        /*for (Button b : this.conteneurTuile.){
+           
+       }*/
+        ci = 0;
+        cj = 0;
+        for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
+
+            Tuile tuileSelect = grille.getTuile(ci, cj);
+            grille.getTuile(ci, cj).setActif(false);
+            Tuile[i].setEnabled(false);
+
+            cj++;
+            if (cj == 6) {
+                ci++;
+                cj = 0;
+            };
+
+            if (tuileSelect.getEtat() == Etat.NULL) {
+                Tuile[i].setBackground(Color.WHITE);
+            } else if (tuileSelect.getEtat() == Etat.INONDE) {
+                Tuile[i].setBackground(new Color(119, 181, 254));
+            } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
+                Tuile[i].setBackground(new Color(34, 66, 124));
+            } else {
+                Tuile[i].setBackground(new Color(145, 93, 15));
+            }
+        }
+
+    }
+
+    public void setMsg(Message msg) {
+        this.msg = msg;
     }
 
     private void configureWindow(JFrame window) {
