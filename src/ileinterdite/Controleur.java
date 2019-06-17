@@ -59,8 +59,15 @@ public class Controleur implements Observateur {
         initPion();
         menu = new VueDemarrer();
         menu.addObservateur(this);
+        
+       // vueDefausse.addObservateur(this);
     }
 
+    public ArrayList<Pion> getPions() {
+        return pions;
+    }
+
+    
     public void initGrilleDemo() {
 
         //Ligne 0
@@ -421,7 +428,13 @@ public class Controleur implements Observateur {
             defausser(m.getCarteTresor());
         } else if (m.getType() == TypesMessage.FIN_TOUR) {
             joueurSuivant();
+            System.out.println(pionActif.getNomj());
         }//si une action decrementer nbaction du joueuerActif
+        else if(m.getType() == TypesMessage.DONNER_CARTE){
+            donnerCarte(m.getCarteTresor(),m.getAmi());
+            
+        }
+        
     }
 
     public void initPion() {
@@ -461,6 +474,7 @@ public class Controleur implements Observateur {
 
         System.out.println("");
         ihm = new VueGrille(ile, niveauEau, pions);
+        ihm.addObservateur(this);
 
     }
 
@@ -478,6 +492,7 @@ public class Controleur implements Observateur {
         }
         System.out.println("");
         ihm = new VueGrille(ile, niveauEau, pions);
+        ihm.addObservateur(this);
     }
 
     public boolean estFini() {
@@ -490,14 +505,15 @@ public class Controleur implements Observateur {
 
     public void joueurSuivant() {
         int i = 0;
-
+        
         while (i < pions.size() && pions.get(i) != pionActif) {
             i++;
         }
+        
         if (pions.get(i) == pionActif) {
-            pionActif = pions.get(i + 1 % 4);
+            pionActif = pions.get((i+1) % 4);
         }
-
+        
     }
 
     public void defausser(CarteTresor carteTresor) {
@@ -507,11 +523,20 @@ public class Controleur implements Observateur {
             }
         }
     }
+    
+    public void donnerCarte(CarteTresor carteTresor, Pion pion){
+        for (CarteTresor c : pionActif.getCartesTresors()) {
+            if (c == carteTresor) {
+                pionActif.getCartesTresors().remove(c);
+                pion.getCartesTresors().add(c);
+            }
+        }
+    }
 
     public void jouerUnTour() {
         if (!estFini()) {
             pionActif.setNbAction(3);
-            if (pionActif.verifNbCartes() > 5) {
+            if (pionActif.getNbCartes() > 5) {
                 vueDefausse = new VueDefausse(pionActif);
             }
 
@@ -576,6 +601,7 @@ public class Controleur implements Observateur {
     public static void main(String[] args) {
 
         new Controleur();
+        
 
     }
 

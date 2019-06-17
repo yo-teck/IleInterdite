@@ -40,7 +40,6 @@ public class VueGrille implements Observe {
     private JPanel conteneurMilieu;
     private JPanel conteneurGauche;
     private JPanel conteneurDroite;
-
     private JPanel niveauEau;
     private JPanel zoneAction;
     private JPanel conteneurBas;
@@ -233,9 +232,9 @@ public class VueGrille implements Observe {
         JButton btnJ3 = new JButton(pions.get(2).getNomj());
         JButton btnJ4 = new JButton(pions.get(3).getNomj());
 
-        btnJ2.setEnabled(false);
-        btnJ3.setEnabled(false);
-        btnJ4.setEnabled(false);
+        btnJ2.setBackground(Color.white);
+        btnJ3.setBackground(Color.white);
+        btnJ4.setBackground(Color.white);
 
         btnJ[0] = btnJ1;
         btnJ[1] = btnJ2;
@@ -303,15 +302,27 @@ public class VueGrille implements Observe {
                 notifierObservateur(m);
                 
                 //pour decaler le joueur selectionner visible.
-                btnJ[tourJoueur].setEnabled(false);
+                btnJ[tourJoueur].setBackground(Color.white);
                 tourJoueur++;
                 tourJoueur %= 4;
                 c1.show(zoneCartes, "" + tourJoueur);
-                btnJ[tourJoueur].setEnabled(true);
+                btnJ[tourJoueur].setBackground(Color.pink);
 
             }
         }
         );
+        donner.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Message m = new Message(TypesMessage.DONNER_CARTE, pions.get(tourJoueur));
+                notifierObservateur(m);
+                
+
+            }
+        });
+        
 
         zoneAction.add(deplace);
         zoneAction.add(assecher);

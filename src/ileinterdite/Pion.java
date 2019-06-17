@@ -83,7 +83,9 @@ public class Pion {
         this.cartesTresors = cartesTresors;
     }
     
-    public int verifNbCartes(){
+    public int getNbCartes(){
         return getCartesTresors().size();
     }
+    
+    
 }
