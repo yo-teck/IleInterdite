@@ -350,7 +350,7 @@ public class Controleur implements Observateur {
         pile.add(C26);
         pile.add(C27);
         pile.add(C28);
-        
+
         Collections.shuffle(pile);
     }
 
@@ -367,7 +367,7 @@ public class Controleur implements Observateur {
     }
 
     public void initDemo() {
-        
+
         initGrilleDemo();
         initAventurier();
         initCartes();
@@ -410,7 +410,9 @@ public class Controleur implements Observateur {
                 aleatoire();
             }
 
-        }
+        }else if(m.getType() == TypesMessage.DEPLACEMENT){
+            joueurActif
+    }
     }
 
     public void initPion() {
@@ -424,45 +426,42 @@ public class Controleur implements Observateur {
         this.pions.add(p2);
         this.pions.add(p3);
         this.pions.add(p4);
-        
-        for (Pion pion : pions){
-            for (int i =0; i<2;i++){
+
+        for (Pion pion : pions) {
+            for (int i = 0; i < 2; i++) {
                 pion.addCarte(pile.get(0));
                 pile.remove(0);
             }
         }
 
-        
     }
 
-
-
     public void demo() {
-        
+
         initGrilleDemo();
         for (Pion pion : pions) {
             System.out.print("nom :" + pion.getNomj() + ", ");
             System.out.print("tuile :" + pion.getTuilePosition().getNom() + ", ");
             System.out.println("Role :" + pion.getRole().getNomA());
-            for (CarteTresor ct : pion.getCartesTresors()){
+            for (CarteTresor ct : pion.getCartesTresors()) {
                 System.out.println(ct.getType().toString());
             }
             System.out.println("");
         }
-        
+
         System.out.println("");
         ihm = new VueGrille(ile, niveauEau, pions);
 
     }
 
     public void aleatoire() {
-        
+
         initGrilleAleatoire();
         for (Pion pion : pions) {
             System.out.print("nom :" + pion.getNomj() + ", ");
             System.out.print("tuile :" + pion.getTuilePosition().getNom() + ", ");
             System.out.print("Role :" + pion.getRole().getNomA());
-            for (CarteTresor ct : pion.getCartesTresors()){
+            for (CarteTresor ct : pion.getCartesTresors()) {
                 System.out.println(ct.getType().toString());
             }
             System.out.println("");

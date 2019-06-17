@@ -20,6 +20,7 @@ public class Tuile {
   private int j;
   private String nom;
   private ArrayList<Pion> pions;
+  private boolean actif;
   
     //Constructeur pour tuiles hors île (placement manuel)
     public Tuile(Etat etat, int i, int j){
@@ -30,6 +31,7 @@ public class Tuile {
             this.setJ(j);
             this.setNom("");        
         }
+        this.actif = false;
     }
     
     //Constructeur pour tuile à placement manuel
@@ -40,6 +42,7 @@ public class Tuile {
         this.setJ(j);
         this.setNom(nom);
         pions = new ArrayList<>();
+        this.actif = false;
     }
     
     //Constructeur pour tuile hors île à placement aléatoire
@@ -49,6 +52,7 @@ public class Tuile {
             this.setEvent(event.RIEN);
             this.setNom("");        
         }
+        this.actif = false;
     }    
     
     //Constructeur pour partie à placement aléatoire
@@ -59,6 +63,14 @@ public class Tuile {
         pions = new ArrayList<>();        
     }
 
+    public boolean isActif() {
+        return actif;
+    }
+
+    public void setActif(boolean actif) {
+        this.actif = actif;
+    }
+    
     public Etat getEtat() {
         return etat;
     }

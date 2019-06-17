@@ -48,15 +48,29 @@ public class VueGrille implements Observe {
     private JPanel zoneCartes;
     private JPanel zoneJoueurs;
     private JPanel zoneValidation;
-    int ci;
-    int cj;
-    int tourJoueur = 0;
+    private int ci;
+    private int cj;
+    private int tourJoueur = 0;
+    //Bouton des joueurs
+    private JButton btnJ1;
+    private JButton btnJ2;
+    private JButton btnJ3;
+    private JButton btnJ4;
+    
+    private JButton deplace;
+    private JButton assecher;
+    private JButton donner;
+    private JButton capacite;
+    private JButton recupTresor;
+    private JButton finTour;
+    
 
     public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions) {
         JFrame frame = new JFrame();
         frame.setTitle("Ile Interdite");
         frame.setSize(1400, 800);
         frame.setLayout(new BorderLayout());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel conteneurTuile = new JPanel();
         JPanel joueurs = new JPanel();
         JButton[] B_joueurs = new JButton[4];
@@ -106,7 +120,7 @@ public class VueGrille implements Observe {
                 Tuile[i].setBackground(Color.WHITE); //Couleur fond
                 Tuile[i].setForeground(Color.WHITE); // Couleur front
             } else {
-                Tuile[i].setEnabled(false);
+                Tuile[i].setEnabled(tuileSelect.isActif());
                 Tuile[i].addActionListener( 
                         new ActionListener() {
                     @Override
@@ -226,10 +240,10 @@ public class VueGrille implements Observe {
         zoneJoueurs = new JPanel(new GridLayout(5, 1));
         JButton[] btnJ = new JButton[4];
 
-        JButton btnJ1 = new JButton(pions.get(0).getNomj());
-        JButton btnJ2 = new JButton(pions.get(1).getNomj());
-        JButton btnJ3 = new JButton(pions.get(2).getNomj());
-        JButton btnJ4 = new JButton(pions.get(3).getNomj());
+        btnJ1 = new JButton(pions.get(0).getNomj());
+        btnJ2 = new JButton(pions.get(1).getNomj());
+        btnJ3 = new JButton(pions.get(2).getNomj());
+        btnJ4 = new JButton(pions.get(3).getNomj());
 
         btnJ2.setEnabled(false);
         btnJ3.setEnabled(false);
@@ -286,6 +300,21 @@ public class VueGrille implements Observe {
         zoneAction = new JPanel(new GridLayout(3, 2));
 
         JButton deplace = new JButton("Se deplacer");
+        
+        deplace.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Message m = new Message(TypesMessage.DEPLACEMENT, pions.get(tourJoueur));
+                notifierObservateur(m);
+
+
+
+            }
+        }
+        );
+        
         JButton assecher = new JButton("Assecher");
         JButton donner = new JButton("Donner carte");
         JButton capacite = new JButton("Capacité");
