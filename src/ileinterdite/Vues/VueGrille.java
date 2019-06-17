@@ -48,9 +48,9 @@ public class VueGrille implements Observe {
     private JPanel zoneCartes;
     private JPanel zoneJoueurs;
     private JPanel zoneValidation;
-    int ci;
-    int cj;
-    int tourJoueur = 0;
+    private int ci;
+    private int cj;
+    private int tourJoueur = 0;
 
     public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions) {
         JFrame frame = new JFrame();
@@ -61,6 +61,7 @@ public class VueGrille implements Observe {
         JPanel conteneurTuile = new JPanel();
         JPanel joueurs = new JPanel();
         JButton[] B_joueurs = new JButton[4];
+        
 
         /////////////////////////////////////////////////////////////////////// Fenetre de demarrage
         ///////////////////////////////////////////////////////////////////////
@@ -300,7 +301,8 @@ public class VueGrille implements Observe {
 
                 Message m = new Message(TypesMessage.FIN_TOUR, pions.get(tourJoueur));
                 notifierObservateur(m);
-
+                
+                //pour decaler le joueur selectionner visible.
                 btnJ[tourJoueur].setEnabled(false);
                 tourJoueur++;
                 tourJoueur %= 4;

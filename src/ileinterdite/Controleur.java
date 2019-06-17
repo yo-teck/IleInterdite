@@ -27,7 +27,7 @@ import java.util.Collections;
 
 /**
  *
- * @author gherrazs
+ * @author TeamEverest
  */
 public class Controleur implements Observateur {
 
@@ -413,9 +413,11 @@ public class Controleur implements Observateur {
                 aleatoire();
             }
 
-        } else if (m.getType() == TypesMessage.DEFAUSSE){
+        } else if (m.getType() == TypesMessage.DEFAUSSE) {
             defausser(m.getCarteTresor());
-        }
+        } else if (m.getType() == TypesMessage.FIN_TOUR) {
+            joueurSuivant();
+        }//si une action decrementer nbaction du joueuerActif
     }
 
     public void initPion() {
@@ -489,33 +491,83 @@ public class Controleur implements Observateur {
             i++;
         }
         if (pions.get(i) == pionActif) {
-            pionActif = pions.get(i + 1 % 5);
+            pionActif = pions.get(i + 1 % 4);
         }
 
     }
 
-    public void defausser(CarteTresor carteTresor){
-        for(CarteTresor c : pionActif.getCartesTresors()){
-            if(c==carteTresor){
+    public void defausser(CarteTresor carteTresor) {
+        for (CarteTresor c : pionActif.getCartesTresors()) {
+            if (c == carteTresor) {
                 pionActif.getCartesTresors().remove(c);
             }
         }
     }
-    
+
     public void jouerUnTour() {
         if (!estFini()) {
             pionActif.setNbAction(3);
-            if(pionActif.verifNbCartes()>5){
+            if (pionActif.verifNbCartes() > 5) {
                 vueDefausse = new VueDefausse(pionActif);
             }
-            
+
             //A FAIRE
             
             
             
-            joueurSuivant();
+            //
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         }
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     public static void main(String[] args) {
 
