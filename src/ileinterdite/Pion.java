@@ -19,7 +19,7 @@ public class Pion {
     
     
     private String nomj;
-    private static int nbAction = 3;
+    private int nbAction = 3;
     private Aventurier role;
     private Tuile tuilePosition;
     private ArrayList<CarteTresor> cartesTresors;
@@ -44,7 +44,7 @@ public class Pion {
         return nomj;
     }
 
-    public static int getNbAction() {
+    public int getNbAction() {
         return nbAction;
     }
 
@@ -67,8 +67,8 @@ public class Pion {
         this.nomj = nomj;
     }
 
-    public static void setNbAction(int nbAction) {
-        Pion.nbAction = nbAction;
+    public void setNbAction(int nbAction) {
+        this.nbAction = nbAction;
     }
 
     public void setRole(Aventurier role) {
@@ -81,5 +81,9 @@ public class Pion {
 
     public void setCartesTresors(ArrayList<CarteTresor> cartesTresors) {
         this.cartesTresors = cartesTresors;
+    }
+    
+    public int verifNbCartes(){
+        return getCartesTresors().size();
     }
 }

@@ -18,6 +18,7 @@ import ileinterdite.PackageAventurier.Messager;
 import ileinterdite.PackageAventurier.Plongeur;
 import ileinterdite.PackageAventurier.Explorateur;
 import ileinterdite.PackageAventurier.Pilote;
+import ileinterdite.Vues.VueDefausse;
 //import ileinterdite.Vues.VueAventurier;
 import ileinterdite.Vues.VueDemarrer;
 import ileinterdite.Vues.VueGrille;
@@ -26,7 +27,7 @@ import java.util.Collections;
 
 /**
  *
- * @author gherrazs
+ * @author TeamEverest
  */
 public class Controleur implements Observateur {
 
@@ -39,9 +40,11 @@ public class Controleur implements Observateur {
     private ArrayList<Tuile> tuilesPiochees;
     private ArrayList<OTresor> tresors;
     private ArrayList<Pion> pions;
+    private Pion pionActif;
     private NiveauEau niveauEau;
     private VueGrille ihm;
     private VueDemarrer menu;
+    private VueDefausse vueDefausse;
     //private VueAventurier vueAventurier;
 
     public Controleur() {
@@ -56,6 +59,7 @@ public class Controleur implements Observateur {
         initPion();
         menu = new VueDemarrer();
         menu.addObservateur(this);
+
     }
 
     public void initGrilleDemo() {
@@ -378,6 +382,25 @@ public class Controleur implements Observateur {
     public void seDeplacer(Pion pion) {
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
         tuilesDispo = ile.getNonSubmerge(pion.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition()));
+        for (Tuile tuile : tuilesDispo){
+            tuile.setActif(true);
+        }
+
+        int ci = 0;
+        int cj = 0;
+        for (int i = 0; i < 36; i++) { 
+            if (ile.getTuile(ci,cj).isActif() ){
+                System.out.println(ile.getTuile(ci,cj).getNom());
+            }
+            cj++;
+            if (cj == 6) {
+                ci++;
+                cj = 0;
+            };
+        }
+        ihm.creeGrille(ile);
+        
+        
         //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
 
     }
@@ -410,8 +433,15 @@ public class Controleur implements Observateur {
                 aleatoire();
             }
 
+        } else if (m.getType() == TypesMessage.DEFAUSSE) {
+            defausser(m.getCarteTresor());
+        } else if (m.getType() == TypesMessage.FIN_TOUR) {
+            joueurSuivant();
         }else if(m.getType() == TypesMessage.DEPLACEMENT){
-            joueurActif
+            System.out.println("Rentree");
+            seDeplacer(pionActif);
+            
+            
     }
     }
 
@@ -422,6 +452,7 @@ public class Controleur implements Observateur {
         Pion p3 = new Pion(aventuriers.get(2));
         Pion p4 = new Pion(aventuriers.get(3));
 
+        pionActif = p1;
         this.pions.add(p1);
         this.pions.add(p2);
         this.pions.add(p3);
@@ -451,7 +482,7 @@ public class Controleur implements Observateur {
 
         System.out.println("");
         ihm = new VueGrille(ile, niveauEau, pions);
-
+                ihm.addObservateur(this);
     }
 
     public void aleatoire() {
@@ -468,7 +499,101 @@ public class Controleur implements Observateur {
         }
         System.out.println("");
         ihm = new VueGrille(ile, niveauEau, pions);
+                ihm.addObservateur(this);
     }
+
+    public boolean estFini() {
+        return true;
+    }
+
+    public Pion getPionActif() {
+        return pionActif;
+    }
+
+    public void joueurSuivant() {
+        int i = 0;
+
+        while (i < pions.size() && pions.get(i) != pionActif) {
+            i++;
+        }
+        if (pions.get(i) == pionActif) {
+            pionActif = pions.get(i + 1 % 4);
+        }
+
+    }
+
+    public void defausser(CarteTresor carteTresor) {
+        for (CarteTresor c : pionActif.getCartesTresors()) {
+            if (c == carteTresor) {
+                pionActif.getCartesTresors().remove(c);
+            }
+        }
+    }
+
+    public void jouerUnTour() {
+        if (!estFini()) {
+            pionActif.setNbAction(3);
+            if (pionActif.verifNbCartes() > 5) {
+                vueDefausse = new VueDefausse(pionActif);
+            }
+
+            //A FAIRE
+            
+            
+            
+            //
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     public static void main(String[] args) {
 

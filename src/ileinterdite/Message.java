@@ -6,6 +6,7 @@
 package ileinterdite;
 
 import ileinterdite.PackageCarteTresor.CTresor;
+import ileinterdite.PackageCarteTresor.CarteTresor;
 import ileinterdite.PackageTuile.Tuile;
 import java.util.ArrayList;
 
@@ -17,7 +18,8 @@ public class Message {
 
     private TypesMessage type;
     private Tuile tuile;
-    private CTresor carte_tresor;
+    private CTresor typeCarteTresor;
+    private CarteTresor carteTresor;
     private Pion pion;
     private ArrayList<String> nomJoueurs;
     private String difficulte;
@@ -52,8 +54,8 @@ public class Message {
         return tuile;
     }
 
-    public CTresor getCarte_tresor() {
-        return carte_tresor;
+    public CTresor getTypeCarteTresor() {
+        return typeCarteTresor;
     }
 
     public Pion getAmi() {
@@ -76,4 +78,21 @@ public class Message {
         return pions;
     }
 
+    public CarteTresor getCarteTresor() {
+        return carteTresor;
+    }
+
+    public void setCarteTresor(CarteTresor carteTresor) {
+        this.carteTresor = carteTresor;
+    }
+
+    public Pion getPion() {
+        return pion;
+    }
+
+    public void setPion(Pion pion) {
+        this.pion = pion;
+    }
+
+    
 }

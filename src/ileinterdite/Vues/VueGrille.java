@@ -37,6 +37,7 @@ import javax.swing.JPanel;
 public class VueGrille implements Observe {
 
     private JFrame fenetre;
+    private JFrame frame;
     private JPanel conteneurMilieu;
     private JPanel conteneurGauche;
     private JPanel conteneurDroite;
@@ -48,30 +49,31 @@ public class VueGrille implements Observe {
     private JPanel zoneCartes;
     private JPanel zoneJoueurs;
     private JPanel zoneValidation;
+    private JPanel conteneurTuile;
     private int ci;
     private int cj;
     private int tourJoueur = 0;
+
     //Bouton des joueurs
     private JButton btnJ1;
     private JButton btnJ2;
     private JButton btnJ3;
     private JButton btnJ4;
-    
+
     private JButton deplace;
     private JButton assecher;
     private JButton donner;
     private JButton capacite;
     private JButton recupTresor;
     private JButton finTour;
-    
 
     public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions) {
-        JFrame frame = new JFrame();
+        frame = new JFrame();
         frame.setTitle("Ile Interdite");
         frame.setSize(1400, 800);
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel conteneurTuile = new JPanel();
+
         JPanel joueurs = new JPanel();
         JButton[] B_joueurs = new JButton[4];
 
@@ -104,74 +106,9 @@ public class VueGrille implements Observe {
 
         ////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////// Coté carte
-        conteneurTuile.setLayout(new GridLayout(6, 6));
-        conteneurTuile.setPreferredSize(new Dimension(1300, 700));
-        JButton[] Tuile = new JButton[36];
-        ci = 0;
-        cj = 0;
-        for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
-            Tuile[i] = new JButton();
-            Tuile tuileSelect = grille.getTuile(ci, cj);
-            Tuile[i].setText(tuileSelect.getNom());
-            conteneurTuile.add(Tuile[i]);
-            if (i == 0 || i == 1 || i == 4 || i == 5 || i == 6 || i == 11 || i == 24 || i == 29 || i == 30 || i == 31 || i == 34 || i == 35) {
-                Tuile[i].setEnabled(false); // Cases null non cliquable
-                Tuile[i].setText(""); // Nom eau sur les cases nulls
-                Tuile[i].setBackground(Color.WHITE); //Couleur fond
-                Tuile[i].setForeground(Color.WHITE); // Couleur front
-            } else {
-                Tuile[i].setEnabled(tuileSelect.isActif());
-                Tuile[i].addActionListener( 
-                        new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println("Deplacement standard :");
-                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesCroix(tuileSelect))) {
-                            System.out.print(t.getNom() + ", ");
-                        }
-
-                        System.out.println("");
-
-                        System.out.println("Deplacement explorateur :");
-                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesCroix(tuileSelect))) {
-                            System.out.print(t.getNom() + ", ");
-                        }
-                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesDiagonale(tuileSelect))) {
-                            System.out.print(t.getNom() + ", ");
-                        }
-
-                        System.out.println("");
-
-                        System.out.println("Celles plongeur :");
-                        for (Tuile t : grille.getTuilesDispoPourDeplacement(grille, tuileSelect)) {
-                            System.out.print(t.getNom() + ", ");
-                        }
-                        System.out.println("");
-                        System.out.println("");
-                        
-                        
-                    }
-                }
-                );
-
-                if (tuileSelect.getEtat() == Etat.INONDE) {
-                    Tuile[i].setBackground(new Color(119, 181, 254));
-                } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
-                    Tuile[i].setBackground(new Color(34, 66, 124));
-                } else {
-                    Tuile[i].setBackground(new Color(145, 93, 15));
-                }
-
-            }
-            cj++;
-            if (cj == 6) {
-                ci++;
-                cj = 0;
-            };
-        }
-
+        creeGrille(grille);
         // fenetre.add(map);
-        conteneurTuile.setVisible(true);
+
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         conteneurBas = new JPanel(new BorderLayout());
@@ -300,21 +237,20 @@ public class VueGrille implements Observe {
         zoneAction = new JPanel(new GridLayout(3, 2));
 
         JButton deplace = new JButton("Se deplacer");
-        
+
         deplace.addActionListener(
                 new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 Message m = new Message(TypesMessage.DEPLACEMENT, pions.get(tourJoueur));
+                System.out.println("message envoyer");
                 notifierObservateur(m);
-
-
 
             }
         }
         );
-        
+
         JButton assecher = new JButton("Assecher");
         JButton donner = new JButton("Donner carte");
         JButton capacite = new JButton("Capacité");
@@ -329,6 +265,7 @@ public class VueGrille implements Observe {
                 Message m = new Message(TypesMessage.FIN_TOUR, pions.get(tourJoueur));
                 notifierObservateur(m);
 
+                //pour decaler le joueur selectionner visible.
                 btnJ[tourJoueur].setEnabled(false);
                 tourJoueur++;
                 tourJoueur %= 4;
@@ -349,7 +286,7 @@ public class VueGrille implements Observe {
         conteneurDroite.add(zoneAction, BorderLayout.NORTH);
 
         frame.add(conteneurDroite, BorderLayout.EAST);
-        frame.add(conteneurTuile);
+
         frame.setVisible(true);
     }
 
@@ -369,6 +306,84 @@ public class VueGrille implements Observe {
             carteJoueur.add(rien);
         }
         return carteJoueur;
+    }
+
+    public void creeGrille(Grille grille) {
+        conteneurTuile = new JPanel();
+        conteneurTuile.setLayout(new GridLayout(6, 6));
+        conteneurTuile.setPreferredSize(new Dimension(1300, 700));
+        JButton[] Tuile = new JButton[36];
+        ci = 0;
+        cj = 0;
+        for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
+            Tuile[i] = new JButton();
+            Tuile tuileSelect = grille.getTuile(ci, cj);
+            Tuile[i].setText(tuileSelect.getNom());
+            conteneurTuile.add(Tuile[i]);
+            if (i == 0 || i == 1 || i == 4 || i == 5 || i == 6 || i == 11 || i == 24 || i == 29 || i == 30 || i == 31 || i == 34 || i == 35) {
+                Tuile[i].setEnabled(false); // Cases null non cliquable
+                Tuile[i].setText(""); // Nom eau sur les cases nulls
+                Tuile[i].setBackground(Color.WHITE); //Couleur fond
+                Tuile[i].setForeground(Color.WHITE); // Couleur front
+            } else {
+                System.out.println("1");
+//                Tuile[i].setEnabled(tuileSelect.isActif());
+                
+                if(tuileSelect.isActif()){
+                    System.out.println(tuileSelect.getNom());
+                    Tuile[i].setEnabled(true);
+                }else{
+                    Tuile[i].setEnabled(false);
+                }
+
+                Tuile[i].addActionListener(
+                        new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        System.out.println("Deplacement standard :");
+                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesCroix(tuileSelect))) {
+                            System.out.print(t.getNom() + ", ");
+                        }
+
+                        System.out.println("");
+
+                        System.out.println("Deplacement explorateur :");
+                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesCroix(tuileSelect))) {
+                            System.out.print(t.getNom() + ", ");
+                        }
+                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesDiagonale(tuileSelect))) {
+                            System.out.print(t.getNom() + ", ");
+                        }
+
+                        System.out.println("");
+
+                        System.out.println("Celles plongeur :");
+                        for (Tuile t : grille.getTuilesDispoPourDeplacement(grille, tuileSelect)) {
+                            System.out.print(t.getNom() + ", ");
+                        }
+                        System.out.println("");
+                        System.out.println("");
+
+                    }
+                }
+                );
+
+                if (tuileSelect.getEtat() == Etat.INONDE) {
+                    Tuile[i].setBackground(new Color(119, 181, 254));
+                } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
+                    Tuile[i].setBackground(new Color(34, 66, 124));
+                } else {
+                    Tuile[i].setBackground(new Color(145, 93, 15));
+                }
+
+            }
+            cj++;
+            if (cj == 6) {
+                ci++;
+                cj = 0;
+            };
+        }
+        frame.add(conteneurTuile);
     }
 
     private void configureWindow(JFrame window) {
