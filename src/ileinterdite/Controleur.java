@@ -381,6 +381,10 @@ public class Controleur implements Observateur {
     public void seDeplacer(Pion pion) {
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
         tuilesDispo = ile.getNonSubmerge(pion.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition()));
+        
+        
+        
+        
         //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
 
     }
