@@ -19,8 +19,8 @@ import ileinterdite.PackageAventurier.Plongeur;
 import ileinterdite.PackageAventurier.Explorateur;
 import ileinterdite.PackageAventurier.Pilote;
 import ileinterdite.Vues.VueDefausse;
-//import ileinterdite.Vues.VueAventurier;
 import ileinterdite.Vues.VueDemarrer;
+import ileinterdite.Vues.VueDonnerCarte;
 import ileinterdite.Vues.VueGrille;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +45,7 @@ public class Controleur implements Observateur {
     private VueGrille ihm;
     private VueDemarrer menu;
     private VueDefausse vueDefausse;
-    //private VueAventurier vueAventurier;
+    private VueDonnerCarte vueDonCarte;
 
     public Controleur() {
         ile = new Grille();
@@ -455,10 +455,7 @@ public class Controleur implements Observateur {
 
             System.out.println(pionActif.getNomj());
         }//si une action decrementer nbaction du joueuerActif
-        else if (m.getType() == TypesMessage.DONNER_CARTE) {
-            donnerCarte(m.getCarteTresor(), m.getAmi());
-
-        }else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT) {
+        else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT) {
             pionActif.setTuilePosition(m.getTuile());
             ihm.setNonClicable();
         }else if (m.getType()== TypesMessage.ASSECHER){
@@ -467,9 +464,13 @@ public class Controleur implements Observateur {
         else if(m.getType()== TypesMessage.TUILE_ASSECHEMENT){
             m.getTuile().setEtat(Etat.SEC);
             ihm.setNonClicable();
-        }/*else if (m.getType() == TypesMessage.VUE_DONNER_CARTE){
+        }else if (m.getType() == TypesMessage.VUE_DONNER_CARTE){
             VueDonnerCarte vueDonnerCarte = new VueDonnerCarte(pionActif, pions);
-            vueDonnerCarte.addObservateur(this);*/
+            vueDonnerCarte.addObservateur(this);
+        } else if (m.getType() == TypesMessage.DONNER_CARTE) {
+            donnerCarte(m.getCarteTresor(), m.getPion());
+
+        }
 
     }
 
