@@ -231,7 +231,14 @@ public class VueGrille implements Observe {
         CardLayout c1 = new CardLayout();
         zoneCartes = new JPanel(c1);
 
-        actualiserCartes(pions);
+        carteJ1 = new JPanel();
+        carteJ1 = Carte(pions.get(0));
+        carteJ2 = new JPanel();
+        carteJ2 = Carte(pions.get(1));
+        carteJ3 = new JPanel();
+        carteJ3 = Carte(pions.get(2));
+        carteJ4 = new JPanel();
+        carteJ4 = Carte(pions.get(3));
 
         zoneCartes.add(carteJ1, "0");
         zoneCartes.add(carteJ2, "1");
@@ -530,11 +537,19 @@ public class VueGrille implements Observe {
     
     public void actualiserCartes(ArrayList<Pion> pions){
 
-                     
+        zoneCartes.remove(carteJ1);
+        zoneCartes.remove(carteJ2);        
+        zoneCartes.remove(carteJ3);
+        zoneCartes.remove(carteJ4);        
         carteJ1 = Carte(pions.get(0));
         carteJ2 = Carte(pions.get(1));
         carteJ3 = Carte(pions.get(2));
         carteJ4 = Carte(pions.get(3));
+        
+        zoneCartes.add(carteJ1, "0");
+        zoneCartes.add(carteJ2, "1");
+        zoneCartes.add(carteJ3, "2");
+        zoneCartes.add(carteJ4, "3");
     }
     public void setCliquable(Grille grille) {
 
