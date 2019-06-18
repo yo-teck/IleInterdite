@@ -20,6 +20,7 @@ import javax.swing.JPanel;
  */
 public class VueIndividuelle implements Observe {
 //vues pour chaque aventurier, afin de savoir quels roles ils ont et leurs cartes
+
     private JFrame vJ1;
     private JFrame vJ2;
     private JFrame vJ3;
@@ -46,7 +47,7 @@ public class VueIndividuelle implements Observe {
         PanelH1.add(l1, BorderLayout.CENTER);
         PanelH2.add(l2, BorderLayout.CENTER);
         PanelH3.add(l3, BorderLayout.CENTER);
-        PanelH4.add(l4, BorderLayout.CENTER);        
+        PanelH4.add(l4, BorderLayout.CENTER);
         vJ1.add(PanelH1, BorderLayout.NORTH);
         vJ2.add(PanelH2, BorderLayout.NORTH);
         vJ3.add(PanelH3, BorderLayout.NORTH);

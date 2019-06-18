@@ -8,12 +8,16 @@ package ileinterdite.Vues;
 import ileinterdite.Grille;
 import ileinterdite.Message;
 import ileinterdite.NiveauEau;
+import ileinterdite.OTresor;
 import ileinterdite.Observateur;
 import ileinterdite.Observe;
+import ileinterdite.PackageCarteTresor.CTresor;
 import ileinterdite.PackageCarteTresor.CarteTresor;
 import ileinterdite.PackageTuile.Etat;
+import ileinterdite.PackageTuile.Evenement;
 import ileinterdite.PackageTuile.Tuile;
 import ileinterdite.Pion;
+import ileinterdite.Tresor;
 import ileinterdite.TypesMessage;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -52,13 +56,12 @@ public class VueGrille implements Observe {
     private JPanel zoneJoueurs;
     private JPanel zoneValidation;
     private JPanel conteneurTuile;
-    
+
     private JPanel carteJ1;
     private JPanel carteJ2;
     private JPanel carteJ3;
     private JPanel carteJ4;
-    
-    
+
     private int ci;
     private int cj;
     private int tourJoueur = 0;
@@ -440,7 +443,6 @@ public class VueGrille implements Observe {
         zoneAction = new JPanel(new GridLayout(3, 2));
 
         deplace = new JButton("Se deplacer");
-
         deplace.addActionListener(
                 new ActionListener() {
             @Override
@@ -454,7 +456,6 @@ public class VueGrille implements Observe {
         );
 
         assecher = new JButton("Assecher");
-
         assecher.addActionListener(
                 new ActionListener() {
             @Override
@@ -481,6 +482,53 @@ public class VueGrille implements Observe {
 
         capacite = new JButton("Capacité");
         recupTresor = new JButton("Récuperer Tresor");
+        recupTresor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int sommeCleEau = 0;
+                int sommeCleFeu = 0;
+                int sommeCleTerre = 0;
+                int sommeCleAir = 0;
+
+                Message m = new Message(TypesMessage.RECUPERER_TROPHEE);
+
+                for (CarteTresor ct : pions.get(tourJoueur).getCartesTresors()) {
+                    if (ct.getType() == CTresor.CLE_EAU) {
+                        sommeCleEau++;
+                    } else if (ct.getType() == CTresor.CLE_FEU) {
+                        sommeCleFeu++;
+                    } else if (ct.getType() == CTresor.CLE_TERRE) {
+                        sommeCleTerre++;
+                    } else if (ct.getType() == CTresor.CLE_AIR) {
+                        sommeCleAir++;
+                    }
+                }
+
+                if (sommeCleAir == 4) {
+                    if (pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.AIR) {
+                        m.setObjetTresor(new OTresor(Tresor.AIR, true));
+                        notifierObservateur(m);
+                    }
+                } else if (sommeCleEau == 4) {
+                    if (pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.EAU) {
+                        m.setObjetTresor(new OTresor(Tresor.EAU, true));
+                        notifierObservateur(m);
+                    }
+                } else if (sommeCleTerre == 4) {
+                    if (pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.TERRE) {
+                        m.setObjetTresor(new OTresor(Tresor.TERRE, true));
+                        notifierObservateur(m);
+                    }
+
+                } else if (sommeCleFeu == 4) {
+                    if (pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.FEU) {
+                        m.setObjetTresor(new OTresor(Tresor.FEU, true));
+                        notifierObservateur(m);
+                    }
+
+                }
+            }
+        });
         finTour = new JButton("Fin Tour");
 
         finTour.addActionListener(
@@ -533,28 +581,25 @@ public class VueGrille implements Observe {
         }
         return carteJoueur;
     }
-    
-    
-    public void actualiserCartes(ArrayList<Pion> pions){
+
+    public void actualiserCartes(ArrayList<Pion> pions) {
 
         zoneCartes.remove(carteJ1);
-        zoneCartes.remove(carteJ2);        
+        zoneCartes.remove(carteJ2);
         zoneCartes.remove(carteJ3);
-        zoneCartes.remove(carteJ4);        
+        zoneCartes.remove(carteJ4);
+
         carteJ1 = Carte(pions.get(0));
         carteJ2 = Carte(pions.get(1));
         carteJ3 = Carte(pions.get(2));
         carteJ4 = Carte(pions.get(3));
-        
+
         zoneCartes.add(carteJ1, "0");
         zoneCartes.add(carteJ2, "1");
         zoneCartes.add(carteJ3, "2");
         zoneCartes.add(carteJ4, "3");
     }
-    
-   
-    
-    
+
     public void setCliquable(Grille grille) {
 
         /*for (Button b : this.conteneurTuile.){

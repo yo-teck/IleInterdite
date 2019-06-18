@@ -25,6 +25,15 @@ public class Message {
     private String difficulte;
     private String modeInitialisation;
     private ArrayList<Pion> pions;
+    private OTresor objetTresor;
+
+    public OTresor getObjetTresor() {
+        return objetTresor;
+    }
+
+    public void setObjetTresor(OTresor objetTresor) {
+        this.objetTresor = objetTresor;
+    }
 
     public Message(TypesMessage type) {
         setType(type);
@@ -73,8 +82,8 @@ public class Message {
     public String getModeInitialisation() {
         return modeInitialisation;
     }
-    
-    public ArrayList<Pion> getPions(){
+
+    public ArrayList<Pion> getPions() {
         return pions;
     }
 
@@ -118,5 +127,4 @@ public class Message {
         this.pions = pions;
     }
 
-    
 }

@@ -445,7 +445,6 @@ public class Controleur implements Observateur {
 
         } else if (m.getType() == TypesMessage.FIN_TOUR) {
             joueurSuivant();
-            
 
         } else if (m.getType() == TypesMessage.DEPLACEMENT) {
             //System.out.println("Rentree");
@@ -482,6 +481,13 @@ public class Controleur implements Observateur {
             ihm.activationBoutons(true);
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
+        } else if (m.getType() == TypesMessage.RECUPERER_TROPHEE) {
+            for (OTresor objetTresor : tresors) {
+                if (objetTresor.getType() == m.getObjetTresor().getType()) {
+                    objetTresor.setEstRecupere(true);
+                    //ihm.activerTresor();
+                }
+            }
         }
 
     }
@@ -540,7 +546,8 @@ public class Controleur implements Observateur {
                 System.out.println(ct.getType().toString());
             }
             System.out.println("");
-        }        jouerUnTour();
+        }
+        jouerUnTour();
 
         System.out.println("");
         ihm = new VueGrille(ile, niveauEau, pions);
@@ -582,9 +589,9 @@ public class Controleur implements Observateur {
 
         pionActif.getCartesTresors().remove(carteTresor);
         pion.addCarte(carteTresor);
-        
+
         ihm.actualiserCartes(pions);
-        
+
     }
 
     public void jouerUnTour() {
@@ -594,47 +601,38 @@ public class Controleur implements Observateur {
             if (pionActif.getNbCartes() > 5) {
                 vueDefausse = new VueDefausse(pionActif);
             }
-            */
+             */
             //A FAIRE
             //
-            while (!isNbActionNul()){
+            while (!isNbActionNul()) {
                 //proposer des actions + 
                 check();
             }
-            
+
             joueurSuivant();
             jouerUnTour();
-            
+
         }
     }
-    public boolean isNbActionNul(){
-       return pionActif.getNbAction()==0;
-          
+
+    public boolean isNbActionNul() {
+        return pionActif.getNbAction() == 0;
+
     }
-    
-    
-    public void check(){
+
+    public void check() {
         ihm.activationBoutons(true);
-        if (pionActif.getRole().getTuilesDispoPourDeplacement(ile,pionActif.getTuilePosition()).size()==0){
+        if (pionActif.getRole().getTuilesDispoPourDeplacement(ile, pionActif.getTuilePosition()).size() == 0) {
             //desactiver seDeplacer
         }
-        if(pionActif.getRole().getTuilesAdjacentesInnondees(ile,pionActif.getTuilePosition()).size()==0){
+        if (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() == 0) {
             //desactiver assecher
         }
-        if (pionActif.getCartesTresors().size()==0){
+        if (pionActif.getCartesTresors().size() == 0) {
             //desactiver donnercarte
         }
-        
+
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     public static void main(String[] args) {
 
