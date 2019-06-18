@@ -370,7 +370,7 @@ public class VueGrille implements Observe {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Message m = new Message(TypesMessage.DONNER_CARTE, pions.get(tourJoueur));
+                Message m = new Message(TypesMessage.VUE_DONNER_CARTE);
                 notifierObservateur(m);
 
             }

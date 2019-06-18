@@ -457,6 +457,8 @@ public class Controleur implements Observateur {
             
         }else if (m.getType() == TypesMessage.DONNER_CARTE) {
             donnerCarte(m.getCarteTresor(), m.getAmi());
+             //decrementer le nombre d'action du joueur en cours
+            pionActif.setNbAction(pionActif.getNbAction()-1);
 
         }else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT) {
             pionActif.setTuilePosition(m.getTuile());
