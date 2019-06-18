@@ -25,7 +25,7 @@ public class NiveauEau {
         return niveau;
     }
     
-    public int getEcheleon(){
+    public int getEchelon(){
         if (getNiveau()<= 2){
             return 2;//Carte piochées
         }

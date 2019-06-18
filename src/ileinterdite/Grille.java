@@ -15,18 +15,18 @@ import java.util.ArrayList;
  */
 public class Grille {
 
-    private static Tuile[][] ile;
+   private Tuile[][] ile;
 
    public Grille() {
         setIle(new Tuile[6][6]);
     }
 
-    public static Tuile[][] getIle() {
+    public Tuile[][] getIle() {
         return ile;
     }
 
-    public static void setIle(Tuile[][] ile) {
-        Grille.ile = ile;
+    public void setIle(Tuile[][] ile) {
+        this.ile = ile;
     }
 
     public void addTuile(Tuile t) {
@@ -41,6 +41,16 @@ public class Grille {
 
     public Tuile getTuile(int i, int j) {
         return ile[i][j];
+    }
+    
+    public ArrayList<Tuile> getTuiles(){
+        ArrayList<Tuile> tuiles = new ArrayList<>();
+        for(int i = 0; i<6; i++){
+            for(int j = 0; j<6; j++){
+                tuiles.add(ile[i][j]);
+            }
+        }
+        return tuiles;
     }
 
     public ArrayList<Tuile> getTuilesCroix(Tuile t) {

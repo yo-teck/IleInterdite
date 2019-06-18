@@ -667,7 +667,31 @@ public class VueGrille implements Observe {
                 Tuile[i].setBackground(new Color(145, 93, 15));
             }
         }
+    }
+    
+    public void actualiserGrille(Grille grille){
+        ci = 0;
+        cj = 0;
+        for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
 
+            Tuile tuileSelect = grille.getTuile(ci, cj);
+
+            cj++;
+            if (cj == 6) {
+                ci++;
+                cj = 0;
+            };
+
+            if (tuileSelect.getEtat() == Etat.NULL) {
+                Tuile[i].setBackground(Color.WHITE);
+            } else if (tuileSelect.getEtat() == Etat.INONDE) {
+                Tuile[i].setBackground(new Color(119, 181, 254));
+            } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
+                Tuile[i].setBackground(new Color(34, 66, 124));
+            } else {
+                Tuile[i].setBackground(new Color(145, 93, 15));
+            }
+        }
     }
 
     public void setMsg(Message msg) {
