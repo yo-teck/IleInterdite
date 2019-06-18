@@ -467,7 +467,9 @@ public class Controleur implements Observateur {
         else if(m.getType()== TypesMessage.TUILE_ASSECHEMENT){
             m.getTuile().setEtat(Etat.SEC);
             ihm.setNonClicable();
-        }
+        }/*else if (m.getType() == TypesMessage.VUE_DONNER_CARTE){
+            VueDonnerCarte vueDonnerCarte = new VueDonnerCarte(pionActif, pions);
+            vueDonnerCarte.addObservateur(this);*/
 
     }
 
