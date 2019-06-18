@@ -551,6 +551,10 @@ public class VueGrille implements Observe {
         zoneCartes.add(carteJ3, "2");
         zoneCartes.add(carteJ4, "3");
     }
+    
+   
+    
+    
     public void setCliquable(Grille grille) {
 
         /*for (Button b : this.conteneurTuile.){
