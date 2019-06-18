@@ -479,6 +479,13 @@ public class Controleur implements Observateur {
             ihm.activationBoutons(true);
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
+        } else if (m.getType() == TypesMessage.RECUPERER_TROPHEE){
+            for(OTresor objetTresor : tresors){
+                if(objetTresor.getType()==m.getObjetTresor().getType()){
+                    objetTresor.setEstRecupere(true);
+                    //ihm.activerTresor();
+                }
+            }
         }
 
     }
