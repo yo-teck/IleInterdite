@@ -48,17 +48,19 @@ public class VueDonnerCarte implements Observe {
     public VueDonnerCarte(Pion pionActif, ArrayList<Pion> pions){
         fenetre = new JFrame(pionActif.getNomj() + " - Donner une carte");
         fenetre.setLayout(new BorderLayout());
+        fenetre.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         fenetre.setSize(500,500);
         
         //On enlève le joueur actif de l'ArrayList des pions car il ne peut pas se donner de carte à lui-même
-        for(Pion pion : pions){
+        /*for(Pion pion : pions){
             if(pion == pionActif){
                 pions.remove(pion);
             }
-        }
+        }*/
+        pions.remove(pionActif);
         
         //Création de la zone de choix du joueur
-        conteneurJoueurs = new JPanel(new GridLayout(pions.size(), 1));
+        conteneurJoueurs = new JPanel(new GridLayout(pions.size()+1, 1));
         
         labelJoueurs = new JLabel("Choisissez un joueur :");
         conteneurJoueurs.add(labelJoueurs);
@@ -73,11 +75,12 @@ public class VueDonnerCarte implements Observe {
             conteneurJoueurs.add(boutonsJoueurs[i]);
             i++;
         }
+        boutonsJoueurs[0].setSelected(true);
         
         fenetre.add(conteneurJoueurs, BorderLayout.WEST);
         
         //Création de la zone de choix de la carte à envoyer
-        conteneurCartes = new JPanel(new GridLayout(pionActif.getNbCartes(), 1));
+        conteneurCartes = new JPanel(new GridLayout(pionActif.getNbCartes()+1, 1));
         
         labelCartes = new JLabel("Choisissez une carte :");
         conteneurCartes.add(labelCartes);
@@ -92,6 +95,7 @@ public class VueDonnerCarte implements Observe {
             conteneurCartes.add(boutonsCartes[i]);
             i++;
         }
+        boutonsCartes[0].setSelected(true);
         
         fenetre.add(conteneurCartes, BorderLayout.EAST);
         
@@ -112,10 +116,12 @@ public class VueDonnerCarte implements Observe {
                     i++;
                 }
                 m.setPion(pions.get(i));
+                fenetre.setVisible(false);
                 notifierObservateur(m);
             }
         });
         fenetre.add(btnValider, BorderLayout.SOUTH);
+        fenetre.setVisible(true);
     }
 
     private Observateur observateur;

@@ -392,14 +392,13 @@ public class Controleur implements Observateur {
 
         //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
         ihm.setMsg(new Message(TypesMessage.TUILE_DEPLACEMENT));
-        ihm.setClicable();
+        ihm.setCliquable();
 
-       
     }
-    
-     public void Assecher(Pion pion) {
+
+    public void Assecher(Pion pion) {
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
-        tuilesDispo =ile.getTuilesInnondees(pion.getRole().getTuilesAdjacentesInnondees(ile, pion.getTuilePosition()));
+        tuilesDispo = ile.getTuilesInnondees(pion.getRole().getTuilesAdjacentesInnondees(ile, pion.getTuilePosition()));
         for (Tuile tuile : tuilesDispo) {
             tuile.setActif(true);
             System.out.println(tuile.getNom());
@@ -407,13 +406,9 @@ public class Controleur implements Observateur {
 
         //On montre les cases dispo pour l'assechement puis on demande la case à l'utilisateur puis on asseche la tuile.
         ihm.setMsg(new Message(TypesMessage.TUILE_ASSECHEMENT));
-        ihm.setClicable();
+        ihm.setCliquable();
 
-       
     }
-    
-    
-    
 
     @Override
     public void traiterMessage(Message m) {
@@ -445,11 +440,12 @@ public class Controleur implements Observateur {
 
         } else if (m.getType() == TypesMessage.DEFAUSSE) {
             defausser(m.getCarteTresor());
+
         } else if (m.getType() == TypesMessage.FIN_TOUR) {
             joueurSuivant();
 
         } else if (m.getType() == TypesMessage.DEPLACEMENT) {
-            System.out.println("Rentree");
+            //System.out.println("Rentree");
             seDeplacer(pionActif);
             //rendre non clicable apres choix
 
@@ -457,19 +453,30 @@ public class Controleur implements Observateur {
         }//si une action decrementer nbaction du joueuerActif
         else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT) {
             pionActif.setTuilePosition(m.getTuile());
-            ihm.setNonClicable();
-        }else if (m.getType()== TypesMessage.ASSECHER){
+            ihm.setNonCliquable();
+
+            //decrementer le nombre d'action du joueur en cours
+            pionActif.setNbAction(pionActif.getNbAction() - 1);
+
+        } else if (m.getType() == TypesMessage.ASSECHER) {
             Assecher(pionActif);
-        }
-        else if(m.getType()== TypesMessage.TUILE_ASSECHEMENT){
+
+        } else if (m.getType() == TypesMessage.TUILE_ASSECHEMENT) {
             m.getTuile().setEtat(Etat.SEC);
-            ihm.setNonClicable();
-        }else if (m.getType() == TypesMessage.VUE_DONNER_CARTE){
+            ihm.setNonCliquable();
+            //decrementer le nombre d'action du joueur en cours
+            pionActif.setNbAction(pionActif.getNbAction() - 1);
+
+        } else if (m.getType() == TypesMessage.VUE_DONNER_CARTE) {
             VueDonnerCarte vueDonnerCarte = new VueDonnerCarte(pionActif, pions);
             vueDonnerCarte.addObservateur(this);
+
         } else if (m.getType() == TypesMessage.DONNER_CARTE) {
             donnerCarte(m.getCarteTresor(), m.getPion());
 
+            ihm.activationBoutons(true);
+            //decrementer le nombre d'action du joueur en cours
+            pionActif.setNbAction(pionActif.getNbAction() - 1);
         }
 
     }
@@ -513,7 +520,6 @@ public class Controleur implements Observateur {
         ihm = new VueGrille(ile, niveauEau, pions);
 
         ihm.addObservateur(this);
-
 
     }
 
@@ -565,12 +571,19 @@ public class Controleur implements Observateur {
     }
 
     public void donnerCarte(CarteTresor carteTresor, Pion pion) {
+
         for (CarteTresor c : pionActif.getCartesTresors()) {
             if (c == carteTresor) {
                 pionActif.getCartesTresors().remove(c);
                 pion.getCartesTresors().add(c);
+
             }
+
         }
+        for (CarteTresor c : pion.getCartesTresors()) {
+            System.out.println(c.getType());
+        }
+
     }
 
     public void jouerUnTour() {
