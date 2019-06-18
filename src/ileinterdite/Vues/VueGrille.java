@@ -57,6 +57,7 @@ public class VueGrille implements Observe {
     private JPanel zoneValidation;
     private JPanel conteneurTuile;
 
+    private CardLayout c1;
     private JPanel carteJ1;
     private JPanel carteJ2;
     private JPanel carteJ3;
@@ -87,7 +88,7 @@ public class VueGrille implements Observe {
     private JButton tresorFeu;
     private JButton tresorAir;
     private JButton tresorTerre;
-    
+
     private JButton valid;
     private JButton annul;
 
@@ -236,7 +237,7 @@ public class VueGrille implements Observe {
         conteneurBas.add(zoneTresors, BorderLayout.WEST);
 
         //Création temporaire zone carte
-        CardLayout c1 = new CardLayout();
+        c1 = new CardLayout();
         zoneCartes = new JPanel(c1);
 
         carteJ1 = new JPanel();
@@ -507,30 +508,21 @@ public class VueGrille implements Observe {
                     } else if (ct.getType() == CTresor.CLE_AIR) {
                         sommeCleAir++;
                     }
-                }
 
-                if (sommeCleAir == 4) {
-                    if (pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.AIR) {
-                        m.setObjetTresor(new OTresor(Tresor.AIR, true));
-                        notifierObservateur(m);
-                    }
-                } else if (sommeCleEau == 4) {
-                    if (pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.EAU) {
-                        m.setObjetTresor(new OTresor(Tresor.EAU, true));
-                        notifierObservateur(m);
-                    }
-                } else if (sommeCleTerre == 4) {
-                    if (pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.TERRE) {
+                }
+                //On vérifie la somme des clés et la position du joueur
+                if (sommeCleAir >= 4 && pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.AIR) {
+                    m.setObjetTresor(new OTresor(Tresor.AIR, true));
+                    notifierObservateur(m);
+                } else if (sommeCleEau >= 4 && pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.EAU) {
+                    m.setObjetTresor(new OTresor(Tresor.EAU, true));
+                    notifierObservateur(m);
+                } else if (sommeCleTerre >= 4 && pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.TERRE) {
                         m.setObjetTresor(new OTresor(Tresor.TERRE, true));
                         notifierObservateur(m);
-                    }
-
-                } else if (sommeCleFeu == 4) {
-                    if (pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.FEU) {
+                } else if (sommeCleFeu >= 4 && pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.FEU) {
                         m.setObjetTresor(new OTresor(Tresor.FEU, true));
                         notifierObservateur(m);
-                    }
-
                 }
             }
         });
@@ -603,6 +595,8 @@ public class VueGrille implements Observe {
         zoneCartes.add(carteJ2, "1");
         zoneCartes.add(carteJ3, "2");
         zoneCartes.add(carteJ4, "3");
+         c1.show(zoneCartes, tourJoueur + "");
+        
     }
 
     public void setCliquable(Grille grille) {
@@ -692,19 +686,40 @@ public class VueGrille implements Observe {
         annul.setEnabled(b);
     }
 
-    public void activerTresor(OTresor objetTresor){
-        if(objetTresor.getType()==Tresor.FEU){
+    public void activerTresor(OTresor objetTresor) {
+        if (objetTresor.getType() == Tresor.FEU) {
             tresorFeu.setBackground(Color.RED);
-        } else if (objetTresor.getType()==Tresor.AIR) {
+            tresorFeu.setEnabled(true);
+            tresorFeu.setForeground(Color.BLACK);
+        } else if (objetTresor.getType() == Tresor.AIR) {
+            tresorAir.setForeground(Color.BLACK);
+            tresorAir.setEnabled(true);
             tresorAir.setBackground(Color.CYAN);
-        } else if (objetTresor.getType()==Tresor.TERRE) {
+        } else if (objetTresor.getType() == Tresor.TERRE) {
+            tresorTerre.setForeground(Color.BLACK);
+            tresorTerre.setEnabled(true);
             tresorTerre.setBackground(Color.ORANGE);
-        } else if (objetTresor.getType()==Tresor.EAU) {
+        } else if (objetTresor.getType() == Tresor.EAU) {
             tresorEau.setBackground(Color.BLUE);
+            tresorEau.setEnabled(true);
             tresorEau.setForeground(Color.WHITE);
         }
     }
     
+    public void activationDeplacement(boolean b){
+        deplace.setEnabled(b);
+    }
+    
+    public void activationAssechement(boolean b){
+        assecher.setEnabled(b);
+    }
+    
+    public void activationDon(boolean b){
+        donner.setEnabled(b);
+    }
+    
+    
+
     private void configureWindow(JFrame window) {
         window.setSize(500, 200);
         window.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);

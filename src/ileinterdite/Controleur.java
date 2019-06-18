@@ -58,11 +58,8 @@ public class Controleur implements Observateur {
         pions = new ArrayList<>();
         niveauEau = new NiveauEau(Difficulte.NOVICE);
         initCartes();
+        initTresors();
         initPion();
-        pions.get(0).addCarte(new CarteTresor(CTresor.CLE_AIR));
-        pions.get(0).addCarte(new CarteTresor(CTresor.CLE_AIR));
-        pions.get(0).addCarte(new CarteTresor(CTresor.CLE_AIR));
-        pions.get(0).addCarte(new CarteTresor(CTresor.CLE_AIR));
         menu = new VueDemarrer();
         menu.addObservateur(this);
 
@@ -390,6 +387,7 @@ public class Controleur implements Observateur {
     }
 
     public void seDeplacer(Pion pion) {
+        
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
         tuilesDispo = pion.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition());
         for (Tuile tuile : tuilesDispo) {
@@ -451,13 +449,15 @@ public class Controleur implements Observateur {
             joueurSuivant();
 
         } else if (m.getType() == TypesMessage.DEPLACEMENT) {
+            //rendre non clicable apres choix
+            ihm.activationBoutons(false);
             //System.out.println("Rentree");
             seDeplacer(pionActif);
-            //rendre non clicable apres choix
+            
 
-            System.out.println(pionActif.getNomj());
         }//si une action decrementer nbaction du joueuerActif
         else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT) {
+            
             pionActif.setTuilePosition(m.getTuile());
             ihm.setNonCliquable(ile);
 
@@ -487,6 +487,7 @@ public class Controleur implements Observateur {
             pionActif.setNbAction(pionActif.getNbAction() - 1);
         } else if (m.getType() == TypesMessage.RECUPERER_TROPHEE) {
             for (OTresor objetTresor : tresors) {
+                System.out.println(objetTresor.getType());
                 if (objetTresor.getType() == m.getObjetTresor().getType()) {
                     objetTresor.setEstRecupere(true);
                     ihm.activerTresor(m.getObjetTresor());
@@ -495,7 +496,7 @@ public class Controleur implements Observateur {
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
         }
-
+        check();
     }
 
     public void initPion() {
@@ -627,15 +628,17 @@ public class Controleur implements Observateur {
     }
 
     public void check() {
-        ihm.activationBoutons(true);
         if (pionActif.getRole().getTuilesDispoPourDeplacement(ile, pionActif.getTuilePosition()).size() == 0) {
             //desactiver seDeplacer
+            ihm.activationDeplacement(false);
         }
         if (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() == 0) {
             //desactiver assecher
+            ihm.activationAssechement(false);
         }
         if (pionActif.getCartesTresors().size() == 0) {
             //desactiver donnercarte
+            ihm.activationDon(false);
         }
 
     }
