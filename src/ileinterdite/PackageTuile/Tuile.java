@@ -116,7 +116,9 @@ public class Tuile {
     public void addPion(Pion pion) {
         pions.add(pion);
     }
-
+    public void removePion(Pion pion) {
+        pions.remove(pion);
+    }
     public ArrayList<Pion> getPions() {
         return pions;
     }

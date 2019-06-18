@@ -29,6 +29,7 @@ public class InfoBouton extends JPanel {
 
     public InfoBouton(ArrayList<Pion> pions) /*throws IOException*/ {
         setBackground(Color.white);
+
         setDoubleBuffered(true);
         Dimension dimension = getSize();
         this.pions = pions;
@@ -51,10 +52,7 @@ public class InfoBouton extends JPanel {
             diametre = hauteurf * 20 / 100;
         }
 
-        for(Pion pion : pions){
-            pion.getNomj();
-            
-        }
+
         for (int i = 0; i < pions.size(); i++) {
             if (i == 0) {
                 g2d.setColor(pions.get(i).getCouleur());

@@ -75,14 +75,24 @@ public class Pion {
         this.role = role;
     }
 
-    public void setTuilePosition(Tuile tuilePosition) {
+    public void setTuilePositionIni(Tuile tuilePosition) {
 
-
-
-        
         this.tuilePosition = tuilePosition;
 
         tuilePosition.addPion(this);
+
+    }
+
+    public void setTuilePosition(Tuile tuilePosition) {
+
+        if (this.tuilePosition.getPions().contains(this)) {
+            this.tuilePosition.removePion(this);
+        }
+          tuilePosition.addPion(this);
+        this.tuilePosition = tuilePosition;
+
+      
+
     }
 
     public void setCartesTresors(ArrayList<CarteTresor> cartesTresors) {
