@@ -67,7 +67,8 @@ public class VueGrille implements Observe {
     private int tourJoueur = 0;
 
     private JButton[] Tuile;
-
+    private InfoBouton[] infoBouton;
+    
     private Message msg;
 
     //Bouton des joueurs
@@ -91,7 +92,8 @@ public class VueGrille implements Observe {
     private JButton valid;
     private JButton annul;
 
-    public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions) {
+
+    public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions) /*throws IOException*/ {
         frame = new JFrame();
         frame.setTitle("Ile Interdite");
         frame.setSize(1400, 800);
@@ -133,6 +135,7 @@ public class VueGrille implements Observe {
         conteneurTuile.setLayout(new GridLayout(6, 6));
         conteneurTuile.setPreferredSize(new Dimension(1300, 700));
         Tuile = new JButton[36];
+        infoBouton = new InfoBouton[36];
         ci = 0;
         cj = 0;
         for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
@@ -194,7 +197,8 @@ public class VueGrille implements Observe {
                 } else {
                     Tuile[i].setBackground(new Color(145, 93, 15));
                 }
-
+                infoBouton[i] = new InfoBouton(tuileSelect.getPions());
+                Tuile[i].add(infoBouton[i]);
             }
             cj++;
             if (cj == 6) {
@@ -391,44 +395,6 @@ public class VueGrille implements Observe {
             }
         });
 
-        /*
-         
-        btnJ1.addActionListener(
-                new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                c1.show(zoneCartes, "0");
-            }
-        }
-        );
-                 
-        btnJ2.addActionListener(
-                new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                c1.show(zoneCartes, "1");
-            }
-        }
-        );
-        
-        
-        btnJ3.addActionListener(
-                new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                c1.show(zoneCartes, "2");
-            }
-        }
-        );
-        btnJ4.addActionListener(
-                new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                c1.show(zoneCartes, "3");
-            }
-        }
-        );
-         */
         zoneJoueurs.add(btnJ1);
         zoneJoueurs.add(btnJ2);
         zoneJoueurs.add(btnJ3);

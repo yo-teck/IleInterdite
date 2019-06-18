@@ -59,10 +59,7 @@ public class Controleur implements Observateur {
         niveauEau = new NiveauEau(Difficulte.NOVICE);
         initCartes();
         initPion();
-        pions.get(0).addCarte(new CarteTresor(CTresor.CLE_AIR));
-        pions.get(0).addCarte(new CarteTresor(CTresor.CLE_AIR));
-        pions.get(0).addCarte(new CarteTresor(CTresor.CLE_AIR));
-        pions.get(0).addCarte(new CarteTresor(CTresor.CLE_AIR));
+
         menu = new VueDemarrer();
         menu.addObservateur(this);
 
@@ -120,14 +117,19 @@ public class Controleur implements Observateur {
         for (Pion pion : pions) {
             if (pion.getRole().getNomA().equals("Explorateur")) {
                 pion.setTuilePosition(t24);
+                
             } else if (pion.getRole().getNomA().equals("Ingenieur")) {
                 pion.setTuilePosition(t03);
+                
             } else if (pion.getRole().getNomA().equals("Messager")) {
                 pion.setTuilePosition(t21);
+                
             } else if (pion.getRole().getNomA().equals("Navigateur")) {
                 pion.setTuilePosition(t13);
+                
             } else if (pion.getRole().getNomA().equals("Plongeur")) {
                 pion.setTuilePosition(t12);
+                
             } else if (pion.getRole().getNomA().equals("Pilote")) {
                 pion.setTuilePosition(t23);
             }
@@ -458,8 +460,11 @@ public class Controleur implements Observateur {
             System.out.println(pionActif.getNomj());
         }//si une action decrementer nbaction du joueuerActif
         else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT) {
+            
             pionActif.setTuilePosition(m.getTuile());
+            
             ihm.setNonCliquable(ile);
+            
 
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);

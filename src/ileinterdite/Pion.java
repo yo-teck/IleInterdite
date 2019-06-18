@@ -16,8 +16,7 @@ import java.util.ArrayList;
  * @author dusema
  */
 public class Pion {
-    
-    
+
     private String nomj;
     private int nbAction = 3;
     private Aventurier role;
@@ -26,7 +25,7 @@ public class Pion {
     private Color couleur;
 
     public Pion(Aventurier role) {
-        
+
         this.setRole(role);
         this.setCouleur(role.getCouleur());
         cartesTresors = new ArrayList<>();
@@ -60,9 +59,10 @@ public class Pion {
         return cartesTresors;
     }
 
-    public void addCarte(CarteTresor CT){
+    public void addCarte(CarteTresor CT) {
         this.cartesTresors.add(CT);
     }
+
     public void setNomj(String nomj) {
         this.nomj = nomj;
     }
@@ -76,16 +76,21 @@ public class Pion {
     }
 
     public void setTuilePosition(Tuile tuilePosition) {
+
+
+
+        
         this.tuilePosition = tuilePosition;
+
+        tuilePosition.addPion(this);
     }
 
     public void setCartesTresors(ArrayList<CarteTresor> cartesTresors) {
         this.cartesTresors = cartesTresors;
     }
-    
-    public int getNbCartes(){
+
+    public int getNbCartes() {
         return getCartesTresors().size();
     }
-    
-    
+
 }
