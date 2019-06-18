@@ -303,6 +303,12 @@ public class VueGrille implements Observe {
         zoneJoueurs.add(btnJ4);
 
         JButton info = new JButton("Information");
+        info.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                VueInformation vueInfo = new VueInformation(pions);
+            }
+        });
         zoneJoueurs.add(info);
 
         conteneurDroite.add(zoneJoueurs, BorderLayout.CENTER);
