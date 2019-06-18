@@ -82,8 +82,8 @@ public class Message {
     public String getModeInitialisation() {
         return modeInitialisation;
     }
-    
-    public ArrayList<Pion> getPions(){
+
+    public ArrayList<Pion> getPions() {
         return pions;
     }
 
@@ -127,5 +127,4 @@ public class Message {
         this.pions = pions;
     }
 
-    
 }

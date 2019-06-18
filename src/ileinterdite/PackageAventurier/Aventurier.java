@@ -78,15 +78,14 @@ public abstract class Aventurier {
         return tuilesDispoPourDeplacement;
 
     }
-    
+
     public ArrayList<Tuile> getTuilesAdjacentesInnondees(Grille grille, Tuile tuile) {
         ArrayList<Tuile> tuilesAdjacentesInnondees = new ArrayList<>();
-        tuilesAdjacentesInnondees= grille.getTuilesCroix(tuile);
-        tuilesAdjacentesInnondees= grille.getTuilesInnondees(tuilesAdjacentesInnondees);
-               
-        return tuilesAdjacentesInnondees;        
-        
+        tuilesAdjacentesInnondees = grille.getTuilesCroix(tuile);
+        tuilesAdjacentesInnondees = grille.getTuilesInnondees(tuilesAdjacentesInnondees);
+
+        return tuilesAdjacentesInnondees;
+
     }
-    
-   
+
 }

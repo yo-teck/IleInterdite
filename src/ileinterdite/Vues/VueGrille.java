@@ -589,17 +589,16 @@ public class VueGrille implements Observe {
 
     public void actualiserCartes(ArrayList<Pion> pions) {
 
-
         zoneCartes.remove(carteJ1);
-        zoneCartes.remove(carteJ2);        
+        zoneCartes.remove(carteJ2);
         zoneCartes.remove(carteJ3);
-        zoneCartes.remove(carteJ4);        
+        zoneCartes.remove(carteJ4);
 
         carteJ1 = Carte(pions.get(0));
         carteJ2 = Carte(pions.get(1));
         carteJ3 = Carte(pions.get(2));
         carteJ4 = Carte(pions.get(3));
-        
+
         zoneCartes.add(carteJ1, "0");
         zoneCartes.add(carteJ2, "1");
         zoneCartes.add(carteJ3, "2");

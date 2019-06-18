@@ -48,22 +48,20 @@ public class VueJeu implements Observe {
     int ci;
     int cj;
     int y = 0;
-    
- public VueJeu(Grille grille){
-     JFrame frame = new JFrame();
+
+    public VueJeu(Grille grille) {
+        JFrame frame = new JFrame();
         frame.setTitle("Ile Interdite / POO-COO-IHM");
-        frame.setSize(900,900);
+        frame.setSize(900, 900);
         frame.setLayout(new BorderLayout());
         JPanel carte = new JPanel();
         JPanel joueurs = new JPanel();
         JButton[] B_joueurs = new JButton[4];
-        
+
         /////////////////////////////////////////////////////////////////////// Fenetre de demarrage
-        
-       /* JButton debut = new JButton("Démarrer la partie");
+        /* JButton debut = new JButton("Démarrer la partie");
         frame.add(debut,BorderLayout.SOUTH);*/
-       
-        String[] roles = new String[] {"Explorateur","Plongeur","Navigateur","Pilote","Ingénieur","Messager" };
+        String[] roles = new String[]{"Explorateur", "Plongeur", "Navigateur", "Pilote", "Ingénieur", "Messager"};
         JPanel choix = new JPanel();/*
         
         choix.setLayout(new GridLayout(5,2));
@@ -117,98 +115,87 @@ public class VueJeu implements Observe {
         }
             
        });*/
-        
-       
-        
-     
-        
+
+
         ///////////////////////////////////////////////////////////////////////
-        
         ////////////////////////////////////////////////////////////////////// Coté niveau eau
         JPanel nivoO = new JPanel();
-        
-        nivoO.setLayout(new GridLayout(13,1));
+
+        nivoO.setLayout(new GridLayout(13, 1));
         JButton[] n_Eau = new JButton[10];
         JLabel txtO = new JLabel("Niveau d'eau : " + k);
         nivoO.add(txtO);
-        for(int i = 0 ; i < 10 ;i++){ //////////////////////Initialisation de la barre d'eau
-            
+        for (int i = 0; i < 10; i++) { //////////////////////Initialisation de la barre d'eau
+
             n_Eau[i] = new JButton(" ");
             n_Eau[i].setEnabled(false);
             n_Eau[i].setBackground(Color.white);
             nivoO.add(n_Eau[i]);
-            if (i == 9){
+            if (i == 9) {
                 n_Eau[i].setBackground(Color.blue);
             }
-            
+
         }
         JButton monterLvl = new JButton("Monter niveau eau");
         JButton baisserLvl = new JButton("Baisser niveau eau");
         nivoO.add(monterLvl);
         nivoO.add(baisserLvl);
-        
-        monterLvl.addActionListener(new ActionListener(){ ///////////Augmentation de l'eau
-         @Override
-         public void actionPerformed(ActionEvent e) {
-           if(x > 0){
-             n_Eau[x].setBackground(Color.blue);
-             x--;
-             k++;
-             txtO.setText("Niveau d'eau : " + k);
-             
-           }
-           else if (x == 0){
-                  n_Eau[x].setBackground(Color.blue);
-           }
-           else{
-                 System.out.println("Le niveau d'eau est au maximum !");
-           }
-         }
+
+        monterLvl.addActionListener(new ActionListener() { ///////////Augmentation de l'eau
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (x > 0) {
+                    n_Eau[x].setBackground(Color.blue);
+                    x--;
+                    k++;
+                    txtO.setText("Niveau d'eau : " + k);
+
+                } else if (x == 0) {
+                    n_Eau[x].setBackground(Color.blue);
+                } else {
+                    System.out.println("Le niveau d'eau est au maximum !");
+                }
+            }
 
         });
-        
-         baisserLvl.addActionListener(new ActionListener(){ /////////////////Baisse de l'eau
-         @Override
-         public void actionPerformed(ActionEvent e) {
-             if(x < 9){
-            n_Eau[x].setBackground(Color.white);
-            x++; // Variable servant a augmenter ou baisser le niveau d'eau
-            k--; // Variable indiquant le niveau d'eau
-            txtO.setText("Niveau d'eau : " + k); // Mise a jour du texte indiquant le niveau d'eau
-             }
-             else if (x == 9){
-                  n_Eau[x].setBackground(Color.white);
-           }
-             else{
-                 System.out.println("Le niveau d'eau est au minimum !");
-             }
-         }
+
+        baisserLvl.addActionListener(new ActionListener() { /////////////////Baisse de l'eau
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (x < 9) {
+                    n_Eau[x].setBackground(Color.white);
+                    x++; // Variable servant a augmenter ou baisser le niveau d'eau
+                    k--; // Variable indiquant le niveau d'eau
+                    txtO.setText("Niveau d'eau : " + k); // Mise a jour du texte indiquant le niveau d'eau
+                } else if (x == 9) {
+                    n_Eau[x].setBackground(Color.white);
+                } else {
+                    System.out.println("Le niveau d'eau est au minimum !");
+                }
+            }
 
         });
-         
-        frame.add(nivoO,BorderLayout.WEST);
-       
+
+        frame.add(nivoO, BorderLayout.WEST);
 
         ////////////////////////////////////////////////////////////////////////
-        
         //////////////////////////////////////////////////////////////////////// Coté carte
-        
-        carte.setLayout(new GridLayout(6,6));
+        carte.setLayout(new GridLayout(6, 6));
         JButton[] T_Map = new JButton[36];
-        ci =0;
-        cj =0;
-        for(int i = 0; i < 36; i++){ // Boucle afin d'ajouter tout les boutons de la grille 
-               T_Map[i] = new JButton();
-               Tuile tuileSelect = grille.getTuile(ci, cj);
-               T_Map[i].setText(tuileSelect.getNom());
-               carte.add(T_Map[i]);
-               if(i == 0 || i == 1 || i == 4 || i == 5 || i == 6 || i ==11 || i ==24 || i ==29 || i==30 || i ==31 || i==34 || i==35){
-                   T_Map[i].setEnabled(false); // Cases null non cliquable
-                   T_Map[i].setText(""); // Nom eau sur les cases nulls
-                   T_Map[i].setBackground(Color.WHITE); //Couleur fond
-                   T_Map[i].setForeground(Color.WHITE); // Couleur front
-               }
-               /*else{
+        ci = 0;
+        cj = 0;
+        for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
+            T_Map[i] = new JButton();
+            Tuile tuileSelect = grille.getTuile(ci, cj);
+            T_Map[i].setText(tuileSelect.getNom());
+            carte.add(T_Map[i]);
+            if (i == 0 || i == 1 || i == 4 || i == 5 || i == 6 || i == 11 || i == 24 || i == 29 || i == 30 || i == 31 || i == 34 || i == 35) {
+                T_Map[i].setEnabled(false); // Cases null non cliquable
+                T_Map[i].setText(""); // Nom eau sur les cases nulls
+                T_Map[i].setBackground(Color.WHITE); //Couleur fond
+                T_Map[i].setForeground(Color.WHITE); // Couleur front
+            }
+            /*else{
                    T_Map[i].addActionListener(
                            new ActionListener(){
                                @Override 
@@ -241,60 +228,48 @@ public class VueJeu implements Observe {
                     ci++;
                     cj =0;
                }*/
-;
+            ;
         }
-       // fenetre.add(map);
+        // fenetre.add(map);
         carte.setVisible(true);
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
         frame.add(carte);
         frame.setVisible(true);
-        
-        
-        
+
         //////////////////////////////////////////////////////////////////////////////////// Fenetre joueurs choisis
-        
-       
-        joueurs.setLayout(new GridLayout(20,2));
+        joueurs.setLayout(new GridLayout(20, 2));
         joueurs.add(new JLabel("Rôle des joueurs :"));
         joueurs.add(new JLabel(""));
-       
+
         ArrayList<String> AL_roles = new ArrayList<>();
-        for(int i = 0; i < 6 ; i++){
+        for (int i = 0; i < 6; i++) {
             AL_roles.add(roles[i]);
         }
-        
+
         Collections.shuffle(AL_roles);
-        for(int i = 0 ; i < 4 ;i ++){
-            B_joueurs[i] = new JButton("Joueur" + (i+1) + " : ");
+        for (int i = 0; i < 4; i++) {
+            B_joueurs[i] = new JButton("Joueur" + (i + 1) + " : ");
             B_joueurs[i].setBackground(Color.white);
             joueurs.add(B_joueurs[i]);
             joueurs.add(new JLabel(AL_roles.get(i)));
-            
+
         }
         joueurs.setVisible(true);
-        frame.add(joueurs,BorderLayout.EAST);
-        
- }
- ////////////////////////////////////////////////////////////////////////////////////////////////// FIN CONSTRUCTEUR SANS PARAMETRES
- 
- 
- 
- 
- 
- 
- 
- 
- 
+        frame.add(joueurs, BorderLayout.EAST);
+
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////// FIN CONSTRUCTEUR SANS PARAMETRES
+
     public VueJeu(Grille g, NiveauEau lvlEau, ArrayList<Pion> pions) {
         fenetre = new JFrame("Ile Interdite");
         this.configureWindow(fenetre);
 
         contenuMilieu = new JPanel();
         contenuMilieu.setLayout(new BorderLayout());
-        
+
         contenuGauche = new JPanel();
         contenuGauche.setLayout(new BorderLayout());
-        
+
         contenuDroite = new JPanel();
         contenuDroite.setLayout(new BorderLayout());
 
@@ -340,17 +315,15 @@ public class VueJeu implements Observe {
         // A CREER 6 FOIS
         JButton donCarte = new JButton("Donner Carte");
         //
-        
-        for(int i = 0; i < 6; i++){
-            for(int j = 0 ; i < 6; j++){
+
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; i < 6; j++) {
                 map.add(new JButton(g.getTuile(i, j).getNom()));
             }
         }
 
         fenetre.setVisible(true);
     }
-
-
 
     private void configureWindow(JFrame window) {
         window.setSize(500, 200);
