@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  * @author bognery
  */
 public class VueIndividuelle implements Observe {
-
+//vues pour chaque aventurier, afin de savoir quels roles ils ont et leurs cartes
     private JFrame vJ1;
     private JFrame vJ2;
     private JFrame vJ3;

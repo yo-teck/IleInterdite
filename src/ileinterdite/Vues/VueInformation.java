@@ -25,7 +25,7 @@ public class VueInformation {
     
     VueInformation(ArrayList<Pion> pions){
         fenetre = new JFrame();
-        fenetre.setSize(750, 500);
+        fenetre.setSize(1135, 500);
         
         conteneur = new JPanel(new BorderLayout());
         

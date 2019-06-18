@@ -22,6 +22,7 @@ import ileinterdite.Vues.VueDefausse;
 import ileinterdite.Vues.VueDemarrer;
 import ileinterdite.Vues.VueDonnerCarte;
 import ileinterdite.Vues.VueGrille;
+import ileinterdite.Vues.VueIndividuelle;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -43,6 +44,7 @@ public class Controleur implements Observateur {
     private Pion pionActif;
     private NiveauEau niveauEau;
     private VueGrille ihm;
+    private VueIndividuelle vi;
     private VueDemarrer menu;
     private VueDefausse vueDefausse;
     private VueDonnerCarte vueDonCarte;
@@ -538,7 +540,8 @@ public class Controleur implements Observateur {
         System.out.println("");
         ihm = new VueGrille(ile, niveauEau, pions);
         ihm.addObservateur(this);
-
+        //vi = new VueIndividuelle(pions.get(0), pions.get(1), pions.get(2), pions.get(3)); (créations de 4 fenêtres contenant chacune les infos du joeur 'couleur du pion et nom de la personne)
+        //vi.addObservateur(this);
     }
 
     public boolean estFini() {
