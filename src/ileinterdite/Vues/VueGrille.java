@@ -22,6 +22,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.JButton;
@@ -29,6 +30,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.event.MouseListener;
 
 /**
  *
@@ -124,8 +126,8 @@ public class VueGrille implements Observe {
                 Tuile[i].setBackground(Color.WHITE); //Couleur fond
                 Tuile[i].setForeground(Color.WHITE); // Couleur front
             } else {
-                System.out.println("1");
-//                Tuile[i].setEnabled(tuileSelect.isActif());
+                //System.out.println("1");
+                //Tuile[i].setEnabled(tuileSelect.isActif());
 
                 if (tuileSelect.isActif()) {
                     System.out.println(tuileSelect.getNom());
@@ -254,7 +256,8 @@ public class VueGrille implements Observe {
         btnJ2 = new JButton(pions.get(1).getNomj());
         btnJ3 = new JButton(pions.get(2).getNomj());
         btnJ4 = new JButton(pions.get(3).getNomj());
-
+        
+        btnJ1.setBackground(Color.pink);
         btnJ2.setBackground(Color.white);
         btnJ3.setBackground(Color.white);
         btnJ4.setBackground(Color.white);
@@ -264,6 +267,120 @@ public class VueGrille implements Observe {
         btnJ[2] = btnJ3;
         btnJ[3] = btnJ4;
 
+        
+        
+        btnJ1.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+               
+            }
+
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                 c1.show(zoneCartes, "0");
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent arg0) {
+                c1.show(zoneCartes, tourJoueur+"");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent arg0) {
+            }
+        });
+        
+         btnJ2.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+               
+            }
+
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                 c1.show(zoneCartes, "1");
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent arg0) {
+                c1.show(zoneCartes, tourJoueur+"");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent arg0) {
+            }
+        });
+         
+         btnJ3.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+               
+            }
+
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                 c1.show(zoneCartes, "2");
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent arg0) {
+                c1.show(zoneCartes, tourJoueur+"");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent arg0) {
+            }
+        });
+         
+         btnJ4.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+               
+            }
+
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                 c1.show(zoneCartes, "3");
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent arg0) {
+                c1.show(zoneCartes, tourJoueur+"");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent arg0) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent arg0) {
+            }
+        });
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+         /*
+         
         btnJ1.addActionListener(
                 new ActionListener() {
             @Override
@@ -272,6 +389,7 @@ public class VueGrille implements Observe {
             }
         }
         );
+                 
         btnJ2.addActionListener(
                 new ActionListener() {
             @Override
@@ -280,6 +398,8 @@ public class VueGrille implements Observe {
             }
         }
         );
+        
+        
         btnJ3.addActionListener(
                 new ActionListener() {
             @Override
@@ -296,6 +416,7 @@ public class VueGrille implements Observe {
             }
         }
         );
+         */
 
         zoneJoueurs.add(btnJ1);
         zoneJoueurs.add(btnJ2);
