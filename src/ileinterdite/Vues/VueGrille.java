@@ -35,6 +35,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.event.MouseListener;
+import java.io.File;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -133,13 +135,14 @@ public class VueGrille implements Observe {
         //////////////////////////////////////////////////////////////////////// Coté carte
         conteneurTuile = new JPanel();
         conteneurTuile.setLayout(new GridLayout(6, 6));
-        conteneurTuile.setPreferredSize(new Dimension(1300, 700));
+        conteneurTuile.setPreferredSize(new Dimension(1300, 1300));
         Tuile = new JButton[36];
         infoBouton = new InfoBouton[36];
         ci = 0;
         cj = 0;
         for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
             Tuile[i] = new JButton();
+            Tuile[i].setPreferredSize(new Dimension(180, 180));
             Tuile tuileSelect = grille.getTuile(ci, cj);
             Tuile[i].setText(tuileSelect.getNom());
             conteneurTuile.add(Tuile[i]);
@@ -158,49 +161,24 @@ public class VueGrille implements Observe {
                     Tuile[i].setEnabled(false);
                 }
 
-                /*Tuile[i].addActionListener(
-                        new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println("Deplacement standard :");
-                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesCroix(tuileSelect))) {
-                            System.out.print(t.getNom() + ", ");
-                        }
-
-                        System.out.println("");
-
-                        System.out.println("Deplacement explorateur :");
-                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesCroix(tuileSelect))) {
-                            System.out.print(t.getNom() + ", ");
-                        }
-                        for (Tuile t : grille.getNonSubmerge(grille.getTuilesDiagonale(tuileSelect))) {
-                            System.out.print(t.getNom() + ", ");
-                        }
-
-                        System.out.println("");
-
-                        System.out.println("Celles plongeur :");
-                        for (Tuile t : grille.getTuilesDispoPourDeplacement(grille, tuileSelect)) {
-                            System.out.print(t.getNom() + ", ");
-                        }
-                        System.out.println("");
-                        System.out.println("");
-
-                    }
-                }
-                );*/
                 if (tuileSelect.getEtat() == Etat.INONDE) {
                     Tuile[i].setBackground(new Color(119, 181, 254));
                 } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
-                    Tuile[i].setBackground(new Color(34, 66, 124));
+                    //Tuile[i].setBackground(new Color(34, 66, 124));
+                    String rep = "";
+                    File path = new File(rep);
+                    Tuile[i].setText("");
+                    Tuile[i].setIcon(new ImageIcon(path.getAbsolutePath() + "/src/ressources_imgTuile/SUBMERGE.png"));
+                    Tuile[i].setDisabledIcon(Tuile[i].getIcon());
                 } else {
                     Tuile[i].setBackground(new Color(145, 93, 15));
                 }
 
             }
-            infoBouton[i] = new InfoBouton(tuileSelect.getPions());
+
+            infoBouton[i] = new InfoBouton(tuileSelect);
             Tuile[i].add(infoBouton[i]);
-            System.out.println("1");
+
             cj++;
             if (cj == 6) {
                 ci++;
@@ -610,7 +588,7 @@ public class VueGrille implements Observe {
             infoBouton[i].repaint();
             Tuile[i].setEnabled(false);
         }
-        
+
     }
 
     public void setNonCliquable(Grille grille) {
@@ -631,7 +609,13 @@ public class VueGrille implements Observe {
             } else if (tuileSelect.getEtat() == Etat.INONDE) {
                 Tuile[i].setBackground(new Color(119, 181, 254));
             } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
-                Tuile[i].setBackground(new Color(34, 66, 124));
+                //Tuile[i].setBackground(new Color(34, 66, 124));
+                String rep = "";
+                File path = new File(rep);
+                Tuile[i].setText("");
+                Tuile[i].setIcon(new ImageIcon(path.getAbsolutePath() + "/src/ressources_imgTuile/SUBMERGE.png"));
+                Tuile[i].setDisabledIcon(Tuile[i].getIcon());
+
             } else {
                 Tuile[i].setBackground(new Color(145, 93, 15));
             }
@@ -643,8 +627,8 @@ public class VueGrille implements Observe {
 
         }
     }
-    
-    public void actualiserGrille(Grille grille){
+
+    public void actualiserGrille(Grille grille) {
         ci = 0;
         cj = 0;
         for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
@@ -662,7 +646,12 @@ public class VueGrille implements Observe {
             } else if (tuileSelect.getEtat() == Etat.INONDE) {
                 Tuile[i].setBackground(new Color(119, 181, 254));
             } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
-                Tuile[i].setBackground(new Color(34, 66, 124));
+                //Tuile[i].setBackground(new Color(34, 66, 124));
+                String rep = "";
+                File path = new File(rep);
+                Tuile[i].setText("");
+                Tuile[i].setIcon(new ImageIcon(path.getAbsolutePath() + "/src/ressources_imgTuile/SUBMERGE.png"));
+                Tuile[i].setDisabledIcon(Tuile[i].getIcon());
             } else {
                 Tuile[i].setBackground(new Color(145, 93, 15));
             }

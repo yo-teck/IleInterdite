@@ -5,6 +5,9 @@
  */
 package ileinterdite.Vues;
 
+import ileinterdite.PackageTuile.Etat;
+import ileinterdite.PackageTuile.Evenement;
+import ileinterdite.PackageTuile.Tuile;
 import ileinterdite.Pion;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,6 +17,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -24,16 +29,16 @@ import javax.swing.JPanel;
 public class InfoBouton extends JPanel {
 
     private ArrayList<Pion> pions;
-    private int diametre;              // diametre du bouton en pixels
+    private Tuile tuile;
+    private int taille;              // diametre du bouton en pixels
     private BufferedImage image;
 
-    public InfoBouton(ArrayList<Pion> pions) /*throws IOException*/ {
-        setBackground(Color.white);
+    public InfoBouton(Tuile tuile) {
 
-        setDoubleBuffered(true);
         Dimension dimension = getSize();
-        this.pions = pions;
-        // image = ImageIO.read(new File("/users/info/etu-s2/domingoy/M2105/TP5/m2105_ihm_tp5/src/bouton/tropheefeu.png"));
+
+        this.tuile = tuile;
+        this.pions = tuile.getPions();
 
     }
 
@@ -46,33 +51,52 @@ public class InfoBouton extends JPanel {
         int hauteurf = dimension.height;
         int largeurf = dimension.width;
 
-        if (hauteurf > largeurf) {
-            diametre = largeurf * 20 / 100;
-        } else if (hauteurf < largeurf) {
-            diametre = hauteurf * 20 / 100;
-        }
+      
+        taille = 50;
 
-
+        String rep = "";
+        File path = new File(rep);
         for (int i = 0; i < pions.size(); i++) {
             if (i == 0) {
-                g2d.setColor(pions.get(i).getCouleur());
-                g2d.fillOval(0, 0, diametre, diametre);
+                try {
+                    image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources_imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
+                } catch (IOException ex) {
+                }
+                g2d.drawImage(image, 0, 0, taille, taille, this);
             } else if (i == 1) {
-                g2d.setColor(pions.get(i).getCouleur());
-                g2d.fillOval(largeurf - diametre, 0, diametre, diametre);
+                try {
+                    image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources_imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
+                } catch (IOException ex) {
+                }
+                g2d.drawImage(image, largeurf - taille, 0, taille, taille, this);
             } else if (i == 2) {
-                g2d.setColor(pions.get(i).getCouleur());
-                g2d.fillOval(0, hauteurf - diametre, diametre, diametre);
+                try {
+                    image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources_imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
+                } catch (IOException ex) {
+                }
+                g2d.drawImage(image, 0, hauteurf - taille, taille, taille, this);
+
             } else if (i == 3) {
-                g2d.setColor(pions.get(i).getCouleur());
-                g2d.fillOval(largeurf - diametre, hauteurf - diametre, diametre, diametre);
+                try {
+                    image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources_imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
+                } catch (IOException ex) {
+                }
+                g2d.drawImage(image, largeurf - taille, hauteurf - taille, taille, taille, this);
+
             }
         }
+        taille -=10;
+        if (tuile.getEtat()!=Etat.SUBMERGE&&(tuile.getEvent() == Evenement.AIR || tuile.getEvent() == Evenement.EAU
+                || tuile.getEvent() == Evenement.TERRE || tuile.getEvent() == Evenement.FEU)) {
 
-        //g2d.drawImage(image, ((largeurf/2)-(image.getWidth()/2)), (hauteurf-image.getHeight()), this);
+            try {
+
+                image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources_imgTresor/" + tuile.getEvent() + ".png"));
+            } catch (IOException ex) {
+
+            }
+            g2d.drawImage(image, ((largeurf / 2) - (taille/2)), (hauteurf - image.getHeight() - (taille - image.getHeight())), taille, taille, this);
+        }
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    /// Variante pour l'implémentation du pattern Observateur/Observé
-    /// Observe est désormais une 'interface'
 }
