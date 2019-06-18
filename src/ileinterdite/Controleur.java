@@ -59,6 +59,10 @@ public class Controleur implements Observateur {
         niveauEau = new NiveauEau(Difficulte.NOVICE);
         initCartes();
         initPion();
+        pions.get(0).addCarte(new CarteTresor(CTresor.CLE_AIR));
+        pions.get(0).addCarte(new CarteTresor(CTresor.CLE_AIR));
+        pions.get(0).addCarte(new CarteTresor(CTresor.CLE_AIR));
+        pions.get(0).addCarte(new CarteTresor(CTresor.CLE_AIR));
         menu = new VueDemarrer();
         menu.addObservateur(this);
 
@@ -483,9 +487,11 @@ public class Controleur implements Observateur {
             for(OTresor objetTresor : tresors){
                 if(objetTresor.getType()==m.getObjetTresor().getType()){
                     objetTresor.setEstRecupere(true);
-                    //ihm.activerTresor();
+                    ihm.activerTresor(m.getObjetTresor());
                 }
             }
+            //decrementer le nombre d'action du joueur en cours
+            pionActif.setNbAction(pionActif.getNbAction() - 1);
         }
 
     }

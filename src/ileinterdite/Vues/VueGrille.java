@@ -83,6 +83,11 @@ public class VueGrille implements Observe {
     private JButton recupTresor;
     private JButton finTour;
 
+    private JButton tresorEau;
+    private JButton tresorFeu;
+    private JButton tresorAir;
+    private JButton tresorTerre;
+    
     private JButton valid;
     private JButton annul;
 
@@ -208,22 +213,22 @@ public class VueGrille implements Observe {
 
         zoneTresors.setLayout(new GridLayout(2, 2));
 
-        JButton tresorEau = new JButton("Eau");
+        tresorEau = new JButton("Eau");
         tresorEau.setBackground(Color.lightGray);
         tresorEau.setEnabled(false);
         zoneTresors.add(tresorEau);
 
-        JButton tresorFeu = new JButton("Feu");
+        tresorFeu = new JButton("Feu");
         tresorFeu.setBackground(Color.lightGray);
         tresorFeu.setEnabled(false);
         zoneTresors.add(tresorFeu);
 
-        JButton tresorAir = new JButton("Air");
+        tresorAir = new JButton("Air");
         tresorAir.setBackground(Color.lightGray);
         tresorAir.setEnabled(false);
         zoneTresors.add(tresorAir);
 
-        JButton tresorTerre = new JButton("Terre");
+        tresorTerre = new JButton("Terre");
         tresorTerre.setBackground(Color.lightGray);
         tresorTerre.setEnabled(false);
         zoneTresors.add(tresorTerre);
@@ -688,6 +693,19 @@ public class VueGrille implements Observe {
         annul.setEnabled(b);
     }
 
+    public void activerTresor(OTresor objetTresor){
+        if(objetTresor.getType()==Tresor.FEU){
+            tresorFeu.setBackground(Color.RED);
+        } else if (objetTresor.getType()==Tresor.AIR) {
+            tresorAir.setBackground(Color.CYAN);
+        } else if (objetTresor.getType()==Tresor.TERRE) {
+            tresorTerre.setBackground(Color.ORANGE);
+        } else if (objetTresor.getType()==Tresor.EAU) {
+            tresorEau.setBackground(Color.BLUE);
+            tresorEau.setForeground(Color.WHITE);
+        }
+    }
+    
     private void configureWindow(JFrame window) {
         window.setSize(500, 200);
         window.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
