@@ -445,28 +445,34 @@ public class Controleur implements Observateur {
 
         } else if (m.getType() == TypesMessage.DEFAUSSE) {
             defausser(m.getCarteTresor());
+            
         } else if (m.getType() == TypesMessage.FIN_TOUR) {
             joueurSuivant();
 
         } else if (m.getType() == TypesMessage.DEPLACEMENT) {
-            System.out.println("Rentree");
+            //System.out.println("Rentree");
             seDeplacer(pionActif);
             //rendre non clicable apres choix
-
-            System.out.println(pionActif.getNomj());
-        }//si une action decrementer nbaction du joueuerActif
-        else if (m.getType() == TypesMessage.DONNER_CARTE) {
+            //System.out.println(pionActif.getNomj());
+            
+        }else if (m.getType() == TypesMessage.DONNER_CARTE) {
             donnerCarte(m.getCarteTresor(), m.getAmi());
 
         }else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT) {
             pionActif.setTuilePosition(m.getTuile());
             ihm.setNonClicable();
+            //decrementer le nombre d'action du joueur en cours
+            pionActif.setNbAction(pionActif.getNbAction()-1);
+            
         }else if (m.getType()== TypesMessage.ASSECHER){
             Assecher(pionActif);
-        }
-        else if(m.getType()== TypesMessage.TUILE_ASSECHEMENT){
+            
+        }else if(m.getType()== TypesMessage.TUILE_ASSECHEMENT){
             m.getTuile().setEtat(Etat.SEC);
             ihm.setNonClicable();
+            //decrementer le nombre d'action du joueur en cours
+            pionActif.setNbAction(pionActif.getNbAction()-1);
+            
         }/*else if (m.getType() == TypesMessage.VUE_DONNER_CARTE){
             VueDonnerCarte vueDonnerCarte = new VueDonnerCarte(pionActif, pions);
             vueDonnerCarte.addObservateur(this);*/
@@ -587,6 +593,7 @@ public class Controleur implements Observateur {
     public static void main(String[] args) {
 
         new Controleur();
+        
 
     }
 
