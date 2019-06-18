@@ -394,7 +394,7 @@ public class Controleur implements Observateur {
 
         //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
         ihm.setMsg(new Message(TypesMessage.TUILE_DEPLACEMENT));
-        ihm.setCliquable();
+        ihm.setCliquable(ile);
 
     }
 
@@ -408,7 +408,7 @@ public class Controleur implements Observateur {
 
         //On montre les cases dispo pour l'assechement puis on demande la case à l'utilisateur puis on asseche la tuile.
         ihm.setMsg(new Message(TypesMessage.TUILE_ASSECHEMENT));
-        ihm.setCliquable();
+        ihm.setCliquable(ile);
 
     }
 
@@ -455,7 +455,7 @@ public class Controleur implements Observateur {
         }//si une action decrementer nbaction du joueuerActif
         else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT) {
             pionActif.setTuilePosition(m.getTuile());
-            ihm.setNonCliquable();
+            ihm.setNonCliquable(ile);
 
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
@@ -465,7 +465,7 @@ public class Controleur implements Observateur {
 
         } else if (m.getType() == TypesMessage.TUILE_ASSECHEMENT) {
             m.getTuile().setEtat(Etat.SEC);
-            ihm.setNonCliquable();
+            ihm.setNonCliquable(ile);
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
 
@@ -575,18 +575,11 @@ public class Controleur implements Observateur {
 
     public void donnerCarte(CarteTresor carteTresor, Pion pion) {
 
-        for (CarteTresor c : pionActif.getCartesTresors()) {
-            if (c == carteTresor) {
-                pionActif.getCartesTresors().remove(c);
-                pion.getCartesTresors().add(c);
-
-            }
-
-        }
-        for (CarteTresor c : pion.getCartesTresors()) {
-            System.out.println(c.getType());
-        }
-
+        pionActif.getCartesTresors().remove(carteTresor);
+        pion.addCarte(carteTresor);
+        
+        ihm.actualiserCartes(pions);
+        
     }
 
     public void jouerUnTour() {

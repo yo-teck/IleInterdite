@@ -45,7 +45,10 @@ public class VueDonnerCarte implements Observe {
     
     private JButton btnValider;
     
+    
     public VueDonnerCarte(Pion pionActif, ArrayList<Pion> pions){
+        ArrayList<Pion> pionsDon = new ArrayList<>();
+        pionsDon.addAll(pions);
         fenetre = new JFrame(pionActif.getNomj() + " - Donner une carte");
         fenetre.setLayout(new BorderLayout());
         fenetre.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -57,18 +60,19 @@ public class VueDonnerCarte implements Observe {
                 pions.remove(pion);
             }
         }*/
-        pions.remove(pionActif);
+        
+        pionsDon.remove(pionActif);
         
         //Création de la zone de choix du joueur
-        conteneurJoueurs = new JPanel(new GridLayout(pions.size()+1, 1));
+        conteneurJoueurs = new JPanel(new GridLayout(pionsDon.size()+1, 1));
         
         labelJoueurs = new JLabel("Choisissez un joueur :");
         conteneurJoueurs.add(labelJoueurs);
         
-        boutonsJoueurs = new JRadioButton[pions.size()];
+        boutonsJoueurs = new JRadioButton[pionsDon.size()];
         groupeJoueurs = new ButtonGroup();
         int i = 0;
-        for(Pion pion : pions){
+        for(Pion pion : pionsDon){
             JRadioButton nouveauBouton = new JRadioButton(pion.getNomj());         
             groupeJoueurs.add(nouveauBouton);
             boutonsJoueurs[i]=nouveauBouton;
@@ -110,12 +114,12 @@ public class VueDonnerCarte implements Observe {
                     i++;
                 }      
                 m.setCarteTresor(pionActif.getCartesTresors().get(i));
-                
+
                 i = 0;
                 while(!boutonsJoueurs[i].isSelected()){
                     i++;
                 }
-                m.setPion(pions.get(i));
+                m.setPion(pions.get(i+1));
                 fenetre.setVisible(false);
                 notifierObservateur(m);
             }
