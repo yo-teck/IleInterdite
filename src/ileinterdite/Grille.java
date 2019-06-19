@@ -95,7 +95,7 @@ public class Grille {
     public ArrayList<Tuile> getNonSubmerge(ArrayList<Tuile> tAC) {
         ArrayList<Tuile> tns = new ArrayList<>();
         for (Tuile tuile : tAC) {
-            if (tuile.getEtat() != Etat.SUBMERGE) {
+            if (tuile.getEtat() != Etat.SUBMERGE && tuile.getEtat() != Etat.NULL) {
                 tns.add(tuile);
             }
         }
