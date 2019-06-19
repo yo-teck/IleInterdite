@@ -36,32 +36,36 @@ public class Controleur implements Observateur {
      * @param args the command line arguments
      */
     private Grille ile;
+    
     private ArrayList<CarteTresor> pile;
     private ArrayList<CarteTresor> defausse;
     private ArrayList<Tuile> pileCarteInondations;
     private ArrayList<Tuile> tuilesPiochees;
     private ArrayList<OTresor> tresors;
     private ArrayList<Pion> pions;
+    
     private Pion pionActif;
+    
     private NiveauEau niveauEau;
+    
     private VueGrille ihm;
     private VueIndividuelle vi;
     private VueDemarrer menu;
     private VueDefausse vueDefausse;
     private VueDonnerCarte vueDonCarte;
+    
+    private boolean debutDePartie;
 
     public Controleur() {
         ile = new Grille();
         pile = new ArrayList<>();
         defausse = new ArrayList<>();
         tuilesPiochees = new ArrayList<>();
+        pileCarteInondations = new ArrayList<>();
         tresors = new ArrayList<>();
         pions = new ArrayList<>();
         niveauEau = new NiveauEau(Difficulte.NOVICE);
-
-        initCartes();
-        initTresors();
-        initPion();
+        debutDePartie = true;
         
         menu = new VueDemarrer();
         menu.addObservateur(this);
@@ -181,10 +185,8 @@ public class Controleur implements Observateur {
         ile.addTuile(t54);
         ile.addTuile(t55);
 
-        pileCarteInondations = new ArrayList<>();
         pileCarteInondations.addAll(ile.getNonSubmerge(ile.getTuiles()));
         Collections.shuffle(pileCarteInondations);
-        
 
     }
 
@@ -279,10 +281,8 @@ public class Controleur implements Observateur {
             }
         }
 
-        pileCarteInondations = new ArrayList<>();
         pileCarteInondations.addAll(ile.getNonSubmerge(ile.getTuiles()));
         Collections.shuffle(pileCarteInondations);
-        initInondation();
     }
 
     public ArrayList<Aventurier> initAventurier() {
@@ -420,7 +420,6 @@ public class Controleur implements Observateur {
         //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
         ihm.setMsg(new Message(TypesMessage.TUILE_DEPLACEMENT));
         ihm.setCliquable(ile);
-        
 
     }
 
@@ -443,6 +442,10 @@ public class Controleur implements Observateur {
 
         //Traitement du message pour initialisé la partie
         if (m.getType() == TypesMessage.COMMENCER_PARTIE) {
+            initCartes();
+            initTresors();        
+            initPion();
+            
             int i = 0;
 
             for (Pion pion : pions) {
@@ -465,7 +468,10 @@ public class Controleur implements Observateur {
             } else {
                 aleatoire();
             }
-
+            for(Pion pion : pions){
+                fairePiocher(pion);
+            }
+            
         } else if (m.getType() == TypesMessage.DEFAUSSE) {
             defausser(m.getCarteTresor());
 
@@ -538,26 +544,6 @@ public class Controleur implements Observateur {
         this.pions.add(p2);
         this.pions.add(p3);
         this.pions.add(p4);
-
-        for (Pion pion : pions) {
-            for (int i = 0; i < 2; i++) {
-                CarteTresor ct = pile.get(0);
-                if (ct.getType() == CTresor.MONTEE_DES_EAUX) {
-                    niveauEau.setNiveau(niveauEau.getNiveau() + 1);
-                    Collections.shuffle(pileCarteInondations);
-                    pileCarteInondations.addAll(tuilesPiochees);
-                    tuilesPiochees.clear();
-                } else {
-                    pion.addCarte(pile.get(0));
-                    pile.remove(0);
-                    if (pion.getNbCartes() > 5) {
-                        vueDefausse = new VueDefausse(pion);
-                    }
-                }
-
-            }
-
-        }
 
     }
 
@@ -729,8 +715,14 @@ public class Controleur implements Observateur {
             pileCarteInondations.remove(0);
         }
 
-        inonderTuiles(tuilesPiochees);
+        if(!debutDePartie){
+            inonderTuiles(tuilesPiochees);
+        } else {
+            debutDePartie = false;
+        }
+        
         ihm.actualiserGrille(ile);
+        ihm.actualiserCartes(pions);
     }
 
     public static void main(String[] args) {
