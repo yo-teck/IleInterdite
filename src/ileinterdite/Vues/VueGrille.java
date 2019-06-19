@@ -76,6 +76,7 @@ public class VueGrille implements Observe {
     private Message msg;
 
     //Bouton des joueurs
+    private JButton[] btnJ;
     private JButton btnJ1;
     private JButton btnJ2;
     private JButton btnJ3;
@@ -262,7 +263,7 @@ public class VueGrille implements Observe {
         conteneurDroite = new JPanel(new BorderLayout());
 
         zoneJoueurs = new JPanel(new GridLayout(5, 1));
-        JButton[] btnJ = new JButton[4];
+        btnJ = new JButton[4];
 
         btnJ1 = new JButton(pions.get(0).getNomj());
         btnJ2 = new JButton(pions.get(1).getNomj());
@@ -477,24 +478,15 @@ public class VueGrille implements Observe {
         });
         finTour = new JButton("Fin Tour");
 
-        finTour.addActionListener(
-                new ActionListener() {
+        finTour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 Message m = new Message(TypesMessage.FIN_TOUR, pions.get(tourJoueur));
                 notifierObservateur(m);
 
-                //pour decaler le joueur selectionner visible.
-                btnJ[tourJoueur].setBackground(Color.white);
-                tourJoueur++;
-                tourJoueur %= 4;
-                c1.show(zoneCartes, "" + tourJoueur);
-                btnJ[tourJoueur].setBackground(Color.pink);
-
             }
-        }
-        );
+        });
 
         zoneAction.add(deplace);
         zoneAction.add(assecher);
@@ -508,6 +500,15 @@ public class VueGrille implements Observe {
         frame.add(conteneurDroite, BorderLayout.EAST);
 
         frame.setVisible(true);
+    }
+
+    public void joueurSuivant() {
+        //pour decaler le joueur selectionner visible.
+        btnJ[tourJoueur].setBackground(Color.white);
+        tourJoueur++;
+        tourJoueur %= 4;
+        c1.show(zoneCartes, "" + tourJoueur);
+        btnJ[tourJoueur].setBackground(Color.pink);
     }
 
     public JPanel Carte(Pion pion) {
