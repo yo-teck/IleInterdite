@@ -59,6 +59,7 @@ public class VueGrille implements Observe {
     private JPanel zoneTresors;
     private JPanel zoneCartes;
     private JPanel zoneJoueurs;
+    private JPanel infoJoueurActif;
     private JPanel zoneValidation;
     private JPanel conteneurTuile;
 
@@ -81,9 +82,11 @@ public class VueGrille implements Observe {
     private JButton[] btnJ;
     private int nbJoueurs;
 
+    private JButton info;
     private JButton deplace;
     private JButton assecher;
     private JButton donner;
+    private JButton btnUtiliserCarte;
     private JButton capacite;
     private JButton recupTresor;
     private JButton finTour;
@@ -96,6 +99,9 @@ public class VueGrille implements Observe {
     private JButton valid;
     private JButton annul;
 
+    private JLabel labelJoueurCourant;
+    private JLabel labelNomJoueurCourant;
+    private JLabel labelPointsAction;
     private File chemin = new File("");
 
     public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions) /*throws IOException*/ {
@@ -298,19 +304,12 @@ public class VueGrille implements Observe {
 
 
 
-        JButton info = new JButton("Information");
-        info.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                VueInformation vueInfo = new VueInformation(pions);
-            }
-        });
-        zoneJoueurs.add(info);
-
         conteneurDroite.add(zoneJoueurs, BorderLayout.CENTER);
 
-        zoneAction = new JPanel(new GridLayout(3, 2));
+        zoneAction = new JPanel(new GridLayout(4, 2));
 
+        
+        
         deplace = new JButton("Se deplacer");
         deplace.addActionListener(
                 new ActionListener() {
@@ -349,7 +348,10 @@ public class VueGrille implements Observe {
             }
         });
 
+        btnUtiliserCarte = new JButton("Utiliser Carte");
+        
         capacite = new JButton("Capacité");
+        
         recupTresor = new JButton("Récuperer Tresor");
         recupTresor.addActionListener(new ActionListener() {
             @Override
@@ -389,6 +391,15 @@ public class VueGrille implements Observe {
                 }
             }
         });
+        
+        info  = new JButton("Information");
+        info.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                VueInformation vueInfo = new VueInformation(pions);
+            }
+        });
+        
         finTour = new JButton("Fin Tour");
 
         finTour.addActionListener(new ActionListener() {
@@ -404,8 +415,10 @@ public class VueGrille implements Observe {
         zoneAction.add(deplace);
         zoneAction.add(assecher);
         zoneAction.add(donner);
+        zoneAction.add(btnUtiliserCarte);
         zoneAction.add(capacite);
         zoneAction.add(recupTresor);
+        zoneAction.add(info);
         zoneAction.add(finTour);
         conteneurDroite.setPreferredSize(new Dimension(200, 700));
         conteneurDroite.add(zoneAction, BorderLayout.NORTH);
@@ -548,6 +561,12 @@ public class VueGrille implements Observe {
         
         niveauEau.setNiveau();
     }*/
+    
+    public void actualiserInfoJA(Pion pionActif){
+        labelNomJoueurCourant.setText(pionActif.getNomj() + "[" + pionActif.getRole().getNomA()+ "]" );
+        labelPointsAction.setText("Points d'Actions : " + pionActif.getNbAction());
+    }
+    
     public void setMsg(Message msg) {
         this.msg = msg;
     }
@@ -595,7 +614,7 @@ public class VueGrille implements Observe {
     public void activationDon(boolean b) {
         donner.setEnabled(b);
     }
-
+    
     private void configureWindow(JFrame window) {
         window.setSize(500, 200);
         window.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);

@@ -480,6 +480,7 @@ public class Controleur implements Observateur {
                 ihm.activationBoutons(false);
             } else {
                 joueurSuivant();
+                ihm.actualiserInfoJA(pionActif);
             }
         } else if (m.getType() == TypesMessage.DEPLACEMENT) {
 
@@ -498,7 +499,7 @@ public class Controleur implements Observateur {
 
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
-
+            ihm.actualiserInfoJA(pionActif);
             ihm.activationBoutons(true);
         } else if (m.getType() == TypesMessage.ASSECHER) {
             Assecher(pionActif);
@@ -509,6 +510,7 @@ public class Controleur implements Observateur {
             ihm.setNonCliquable(ile);
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
+            ihm.actualiserInfoJA(pionActif);
             ihm.activationBoutons(true);
 
         } else if (m.getType() == TypesMessage.VUE_DONNER_CARTE) {
@@ -521,6 +523,7 @@ public class Controleur implements Observateur {
             ihm.activationBoutons(true);
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
+            ihm.actualiserInfoJA(pionActif);
         } else if (m.getType() == TypesMessage.RECUPERER_TROPHEE) {
             for (OTresor objetTresor : tresors) {
                 System.out.println(objetTresor.getType());
@@ -543,8 +546,9 @@ public class Controleur implements Observateur {
                 }
                 i++;
             }
-            //decrementer le nombre d'action du joueur en cours
+            //decrementer le nombre d'action du joueur en cours           
             pionActif.setNbAction(pionActif.getNbAction() - 1);
+            ihm.actualiserInfoJA(pionActif);
         }
         check();
     }
@@ -561,11 +565,6 @@ public class Controleur implements Observateur {
         this.pions.add(p2);
         this.pions.add(p3);
         this.pions.add(p4);
-
-        p1.addCarte(new CarteTresor(CTresor.CLE_AIR));
-        p1.addCarte(new CarteTresor(CTresor.CLE_AIR));
-        p1.addCarte(new CarteTresor(CTresor.CLE_AIR));
-        p1.addCarte(new CarteTresor(CTresor.CLE_AIR));
         
     }
 
