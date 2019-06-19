@@ -50,6 +50,7 @@ public class VueGrille implements Observe {
     private JPanel conteneurMilieu;
     private JPanel conteneurGauche;
     private JPanel conteneurDroite;
+    private JPanel conteneurNivEau;
     private JPanel niveauEau;
     private JPanel zoneAction;
     private JPanel conteneurBas;
