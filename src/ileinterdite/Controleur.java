@@ -709,14 +709,14 @@ public class Controleur implements Observateur {
                 Collections.shuffle(pileCarteInondations);
                 pileCarteInondations.addAll(tuilesPiochees);
                 tuilesPiochees.clear();
-                pile.remove(0);
+                
             } else {
                 pion.addCarte(pile.get(0));
-                pile.remove(0);
                 if (pion.getNbCartes() > 5) {
                     vueDefausse = new VueDefausse(pion);
                 }
             }
+            pile.remove(0);
         }
 
         if (!debutDePartie) {
