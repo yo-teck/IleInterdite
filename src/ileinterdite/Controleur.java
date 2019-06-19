@@ -528,6 +528,20 @@ public class Controleur implements Observateur {
                     ihm.activerTresor(m.getObjetTresor());
                 }
             }
+            //On compte le nombre de cartes qu'on va enlever
+            int cnt = 0;
+            int i = 0;
+            while(cnt<4 && i<pionActif.getNbCartes()){
+                if(pionActif.getCartesTresors().get(i).getType().toString().contains(m.getObjetTresor().getType().toString())){
+                    pionActif.getCartesTresors().remove(i);
+                    i--;
+                    ihm.actualiserCartes(pions);
+                    System.out.println(i);
+                    System.out.println("NRV");
+                    cnt++;
+                }
+                i++;
+            }
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
         }
@@ -547,6 +561,11 @@ public class Controleur implements Observateur {
         this.pions.add(p3);
         this.pions.add(p4);
 
+        p1.addCarte(new CarteTresor(CTresor.CLE_AIR));
+        p1.addCarte(new CarteTresor(CTresor.CLE_AIR));
+        p1.addCarte(new CarteTresor(CTresor.CLE_AIR));
+        p1.addCarte(new CarteTresor(CTresor.CLE_AIR));
+        
     }
 
     public void initInondation() {
