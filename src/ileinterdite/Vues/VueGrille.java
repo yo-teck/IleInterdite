@@ -24,6 +24,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -36,6 +37,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.event.MouseListener;
 import java.io.File;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
 /**
@@ -97,6 +99,8 @@ public class VueGrille implements Observe {
     private JButton valid;
     private JButton annul;
 
+    private File chemin = new File("");
+
     public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions) /*throws IOException*/ {
         frame = new JFrame();
         frame.setTitle("Ile Interdite");
@@ -144,37 +148,27 @@ public class VueGrille implements Observe {
         cj = 0;
         for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
             Tuile[i] = new JButton();
-            Tuile[i].setPreferredSize(new Dimension(180, 180));
+
+
+
             Tuile tuileSelect = grille.getTuile(ci, cj);
-            Tuile[i].setText(tuileSelect.getNom());
+
             conteneurTuile.add(Tuile[i]);
             if (i == 0 || i == 1 || i == 4 || i == 5 || i == 6 || i == 11 || i == 24 || i == 29 || i == 30 || i == 31 || i == 34 || i == 35) {
                 Tuile[i].setEnabled(false); // Cases null non cliquable
-                Tuile[i].setText(""); // Nom eau sur les cases nulls
-                Tuile[i].setBackground(Color.WHITE); //Couleur fond
-                Tuile[i].setForeground(Color.WHITE); // Couleur front
-            } else {
-                //System.out.println("1");
-                //Tuile[i].setEnabled(tuileSelect.isActif());
+                Tuile[i].setBorder(BorderFactory.createLineBorder(Color.GRAY, 0));
+                infoBouton[i] = new InfoBouton(tuileSelect);
+                Tuile[i].add(infoBouton[i]);
 
+            } else {
+
+                Tuile[i].setText(tuileSelect.getNom());
                 if (tuileSelect.isActif()) {
                     Tuile[i].setEnabled(true);
                 } else {
                     Tuile[i].setEnabled(false);
                 }
-
-                if (tuileSelect.getEtat() == Etat.INONDE) {
-                    Tuile[i].setBackground(new Color(119, 181, 254));
-                } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
-                    //Tuile[i].setBackground(new Color(34, 66, 124));
-                    String rep = "";
-                    File path = new File(rep);
-                    Tuile[i].setText("");
-                    Tuile[i].setIcon(new ImageIcon(path.getAbsolutePath() + "/src/ressources_imgTuile/SUBMERGE.png"));
-                    Tuile[i].setDisabledIcon(Tuile[i].getIcon());
-                } else {
-                    Tuile[i].setBackground(new Color(145, 93, 15));
-                }
+                Tuile[i].setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
             }
 
@@ -545,7 +539,7 @@ public class VueGrille implements Observe {
 
     }
 
-    public void setCliquable(Grille grille) {
+    public void setCliquable(Grille grille,Color couleur) {
 
         /*for (Button b : this.conteneurTuile.){
            
@@ -560,7 +554,7 @@ public class VueGrille implements Observe {
             if (tuileSelect.isActif()) {
 
                 Tuile[i].setEnabled(true);
-
+                Tuile[i].setBorder(BorderFactory.createLineBorder(couleur, 2));
                 Tuile[i].addActionListener(
                         new ActionListener() {
                     @Override
@@ -586,6 +580,7 @@ public class VueGrille implements Observe {
     public void repaintInfoBouton() {
 
         for (int i = 0; i < 36; i++) {
+
             Tuile[i].setEnabled(true);
             infoBouton[i].repaint();
             Tuile[i].setEnabled(false);
@@ -604,23 +599,14 @@ public class VueGrille implements Observe {
 
             Tuile tuileSelect = grille.getTuile(ci, cj);
             grille.getTuile(ci, cj).setActif(false);
+            if (tuileSelect.getEtat() == Etat.NULL) {
+                Tuile[i].setBorder(BorderFactory.createLineBorder(Color.GRAY, 0));
+            } else {
+                Tuile[i].setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+            }
+
             Tuile[i].setEnabled(false);
 
-            if (tuileSelect.getEtat() == Etat.NULL) {
-                Tuile[i].setBackground(Color.WHITE);
-            } else if (tuileSelect.getEtat() == Etat.INONDE) {
-                Tuile[i].setBackground(new Color(119, 181, 254));
-            } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
-                //Tuile[i].setBackground(new Color(34, 66, 124));
-                String rep = "";
-                File path = new File(rep);
-                Tuile[i].setText("");
-                Tuile[i].setIcon(new ImageIcon(path.getAbsolutePath() + "/src/ressources_imgTuile/SUBMERGE.png"));
-                Tuile[i].setDisabledIcon(Tuile[i].getIcon());
-
-            } else {
-                Tuile[i].setBackground(new Color(145, 93, 15));
-            }
             cj++;
             if (cj == 6) {
                 ci++;
@@ -628,36 +614,11 @@ public class VueGrille implements Observe {
             };
 
         }
+        repaintInfoBouton();
     }
 
     public void actualiserGrille(Grille grille) {
-        ci = 0;
-        cj = 0;
-        for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
-
-            Tuile tuileSelect = grille.getTuile(ci, cj);
-
-            cj++;
-            if (cj == 6) {
-                ci++;
-                cj = 0;
-            };
-
-            if (tuileSelect.getEtat() == Etat.NULL) {
-                Tuile[i].setBackground(Color.WHITE);
-            } else if (tuileSelect.getEtat() == Etat.INONDE) {
-                Tuile[i].setBackground(new Color(119, 181, 254));
-            } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
-                //Tuile[i].setBackground(new Color(34, 66, 124));
-                String rep = "";
-                File path = new File(rep);
-                Tuile[i].setText("");
-                Tuile[i].setIcon(new ImageIcon(path.getAbsolutePath() + "/src/ressources_imgTuile/SUBMERGE.png"));
-                Tuile[i].setDisabledIcon(Tuile[i].getIcon());
-            } else {
-                Tuile[i].setBackground(new Color(145, 93, 15));
-            }
-        }
+        repaintInfoBouton();
     }
     
     /*public void actualiserNiveauEau(NiveauEau niveauEau){
