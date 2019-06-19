@@ -99,7 +99,7 @@ public class VueGrille implements Observe {
     public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions) /*throws IOException*/ {
         frame = new JFrame();
         frame.setTitle("Ile Interdite");
-        frame.setSize(1400, 800);
+        frame.setSize(1050, 1050);
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel joueurs = new JPanel();
