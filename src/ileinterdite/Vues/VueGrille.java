@@ -79,10 +79,7 @@ public class VueGrille implements Observe {
 
     //Bouton des joueurs
     private JButton[] btnJ;
-    private JButton btnJ1;
-    private JButton btnJ2;
-    private JButton btnJ3;
-    private JButton btnJ4;
+    private int nbJoueurs;
 
     private JButton deplace;
     private JButton assecher;
@@ -107,6 +104,7 @@ public class VueGrille implements Observe {
         frame.setSize(1400, 800);
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        nbJoueurs = pions.size();
         JPanel joueurs = new JPanel();
         JButton[] B_joueurs = new JButton[4];
 
@@ -250,31 +248,20 @@ public class VueGrille implements Observe {
         conteneurDroite = new JPanel(new BorderLayout());
 
         zoneJoueurs = new JPanel(new GridLayout(5, 1));
-        btnJ = new JButton[4];
-
-        btnJ1 = new JButton(pions.get(0).getNomj());
-        btnJ2 = new JButton(pions.get(1).getNomj());
-        btnJ3 = new JButton(pions.get(2).getNomj());
-        btnJ4 = new JButton(pions.get(3).getNomj());
-
-        btnJ1.setIcon(pions.get(0).getRole().getImgAventurier());
-        btnJ1.setBorder(BorderFactory.createLineBorder(Color.PINK, 5));
-
-        btnJ2.setIcon(pions.get(1).getRole().getImgAventurier());
-        btnJ2.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
-
-        btnJ3.setIcon(pions.get(2).getRole().getImgAventurier());
-        btnJ3.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
-
-        btnJ4.setIcon(pions.get(3).getRole().getImgAventurier());
-        btnJ4.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
-
-        btnJ[0] = btnJ1;
-        btnJ[1] = btnJ2;
-        btnJ[2] = btnJ3;
-        btnJ[3] = btnJ4;
-
-        btnJ1.addMouseListener(new MouseListener() {
+        btnJ = new JButton[pions.size()];
+        for (int i = 0; i < nbJoueurs; i++) {
+            int show =i;
+            JButton btnj = new JButton(pions.get(i).getNomj(), pions.get(i).getRole().getImgAventurier());
+            btnj.setForeground(Color.WHITE);
+            btnj.setVerticalTextPosition(JLabel.CENTER);
+            btnj.setHorizontalTextPosition(JLabel.CENTER);
+            if(i==0){
+                btnj.setBorder(BorderFactory.createLineBorder(Color.PINK, 5));
+            }else{
+                btnj.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
+            }
+            
+            btnj.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent arg0) {
 
@@ -282,7 +269,7 @@ public class VueGrille implements Observe {
 
             @Override
             public void mousePressed(MouseEvent arg0) {
-                c1.show(zoneCartes, "0");
+                c1.show(zoneCartes, show+"");
             }
 
             @Override
@@ -298,86 +285,18 @@ public class VueGrille implements Observe {
             public void mouseExited(MouseEvent arg0) {
             }
         });
+            btnJ[i]=btnj;
+            zoneJoueurs.add(btnj);
+        }
+        System.out.println(nbJoueurs);
+        for(int i =nbJoueurs;i<4;i++ ){
+            JButton btnj = new JButton("[Vide]");
+            btnj.setEnabled(false);
+            zoneJoueurs.add(btnj);
+        }
 
-        btnJ2.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent arg0) {
 
-            }
 
-            @Override
-            public void mousePressed(MouseEvent arg0) {
-                c1.show(zoneCartes, "1");
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent arg0) {
-                c1.show(zoneCartes, tourJoueur + "");
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent arg0) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent arg0) {
-            }
-        });
-
-        btnJ3.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent arg0) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent arg0) {
-                c1.show(zoneCartes, "2");
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent arg0) {
-                c1.show(zoneCartes, tourJoueur + "");
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent arg0) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent arg0) {
-            }
-        });
-
-        btnJ4.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent arg0) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent arg0) {
-                c1.show(zoneCartes, "3");
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent arg0) {
-                c1.show(zoneCartes, tourJoueur + "");
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent arg0) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent arg0) {
-            }
-        });
-
-        zoneJoueurs.add(btnJ1);
-        zoneJoueurs.add(btnJ2);
-        zoneJoueurs.add(btnJ3);
-        zoneJoueurs.add(btnJ4);
 
         JButton info = new JButton("Information");
         info.addActionListener(new ActionListener() {
@@ -500,7 +419,7 @@ public class VueGrille implements Observe {
         //pour decaler le joueur selectionner visible.
         btnJ[tourJoueur].setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
         tourJoueur++;
-        tourJoueur %= 4;
+        tourJoueur %= nbJoueurs;
         c1.show(zoneCartes, "" + tourJoueur);
         btnJ[tourJoueur].setBorder(BorderFactory.createLineBorder(Color.PINK, 5));
     }
