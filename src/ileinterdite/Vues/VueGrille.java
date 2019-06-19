@@ -254,62 +254,69 @@ public class VueGrille implements Observe {
         conteneurDroite = new JPanel(new BorderLayout());
 
         zoneJoueurs = new JPanel(new GridLayout(5, 1));
+
+        infoJoueurActif = new JPanel(new GridLayout(3, 1));
+
+        labelJoueurCourant = new JLabel("Joueur courant :");
+        labelNomJoueurCourant = new JLabel(pions.get(tourJoueur).getNomj() + "[" + pions.get(tourJoueur).getRole().getNomA() + "]");
+        labelPointsAction = new JLabel("Points d'Actions : " + pions.get(tourJoueur).getNbAction());
+
+        infoJoueurActif.add(labelJoueurCourant);
+        infoJoueurActif.add(labelNomJoueurCourant);
+        infoJoueurActif.add(labelPointsAction);
+        zoneJoueurs.add(infoJoueurActif);
+
         btnJ = new JButton[pions.size()];
         for (int i = 0; i < nbJoueurs; i++) {
-            int show =i;
+            int show = i;
             JButton btnj = new JButton(pions.get(i).getNomj(), pions.get(i).getRole().getImgAventurier());
             btnj.setForeground(Color.WHITE);
             btnj.setVerticalTextPosition(JLabel.CENTER);
             btnj.setHorizontalTextPosition(JLabel.CENTER);
-            if(i==0){
+            if (i == 0) {
                 btnj.setBorder(BorderFactory.createLineBorder(Color.PINK, 5));
-            }else{
+            } else {
                 btnj.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
             }
-            
+
             btnj.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent arg0) {
+                @Override
+                public void mouseClicked(MouseEvent arg0) {
 
-            }
+                }
 
-            @Override
-            public void mousePressed(MouseEvent arg0) {
-                c1.show(zoneCartes, show+"");
-            }
+                @Override
+                public void mousePressed(MouseEvent arg0) {
+                    c1.show(zoneCartes, show + "");
+                }
 
-            @Override
-            public void mouseReleased(MouseEvent arg0) {
-                c1.show(zoneCartes, tourJoueur + "");
-            }
+                @Override
+                public void mouseReleased(MouseEvent arg0) {
+                    c1.show(zoneCartes, tourJoueur + "");
+                }
 
-            @Override
-            public void mouseEntered(MouseEvent arg0) {
-            }
+                @Override
+                public void mouseEntered(MouseEvent arg0) {
+                }
 
-            @Override
-            public void mouseExited(MouseEvent arg0) {
-            }
-        });
-            btnJ[i]=btnj;
+                @Override
+                public void mouseExited(MouseEvent arg0) {
+                }
+            });
+            btnJ[i] = btnj;
             zoneJoueurs.add(btnj);
         }
         System.out.println(nbJoueurs);
-        for(int i =nbJoueurs;i<4;i++ ){
+        for (int i = nbJoueurs; i < 4; i++) {
             JButton btnj = new JButton("[Vide]");
             btnj.setEnabled(false);
             zoneJoueurs.add(btnj);
         }
 
-
-
-
         conteneurDroite.add(zoneJoueurs, BorderLayout.CENTER);
 
         zoneAction = new JPanel(new GridLayout(4, 2));
 
-        
-        
         deplace = new JButton("Se deplacer");
         deplace.addActionListener(
                 new ActionListener() {
@@ -349,9 +356,9 @@ public class VueGrille implements Observe {
         });
 
         btnUtiliserCarte = new JButton("Utiliser Carte");
-        
+
         capacite = new JButton("Capacité");
-        
+
         recupTresor = new JButton("Récuperer Tresor");
         recupTresor.addActionListener(new ActionListener() {
             @Override
@@ -391,15 +398,15 @@ public class VueGrille implements Observe {
                 }
             }
         });
-        
-        info  = new JButton("Information");
+
+        info = new JButton("Information");
         info.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 VueInformation vueInfo = new VueInformation(pions);
             }
         });
-        
+
         finTour = new JButton("Fin Tour");
 
         finTour.addActionListener(new ActionListener() {
@@ -561,12 +568,11 @@ public class VueGrille implements Observe {
         
         niveauEau.setNiveau();
     }*/
-    
-    public void actualiserInfoJA(Pion pionActif){
-        labelNomJoueurCourant.setText(pionActif.getNomj() + "[" + pionActif.getRole().getNomA()+ "]" );
+    public void actualiserInfoJA(Pion pionActif) {
+        labelNomJoueurCourant.setText(pionActif.getNomj() + "[" + pionActif.getRole().getNomA() + "]");
         labelPointsAction.setText("Points d'Actions : " + pionActif.getNbAction());
     }
-    
+
     public void setMsg(Message msg) {
         this.msg = msg;
     }
@@ -614,7 +620,7 @@ public class VueGrille implements Observe {
     public void activationDon(boolean b) {
         donner.setEnabled(b);
     }
-    
+
     private void configureWindow(JFrame window) {
         window.setSize(500, 200);
         window.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
