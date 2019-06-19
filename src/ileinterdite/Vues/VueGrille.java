@@ -102,6 +102,9 @@ public class VueGrille implements Observe {
     private JButton valid;
     private JButton annul;
 
+    private JLabel labelJoueurCourant;
+    private JLabel labelNomJoueurCourant;
+    private JLabel labelPointsAction;
     private File chemin = new File("");
 
     public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions) /*throws IOException*/ {
@@ -376,7 +379,20 @@ public class VueGrille implements Observe {
             public void mouseExited(MouseEvent arg0) {
             }
         });
-
+        
+        labelJoueurCourant = new JLabel("Joueur Courant : ");
+        labelNomJoueurCourant = new JLabel(pions.get(tourJoueur).getNomj() + " [" + pions.get(tourJoueur).getRole().getNomA()+ "]");
+        labelPointsAction = new JLabel("Points d'Action : " + pions.get(tourJoueur).getNbAction());
+        
+        infoJoueurActif = new JPanel(new GridLayout(3,1));
+        
+        infoJoueurActif.add(labelJoueurCourant);
+        infoJoueurActif.add(labelNomJoueurCourant);
+        infoJoueurActif.add(labelPointsAction);
+        
+        
+        
+        zoneJoueurs.add(infoJoueurActif);
         zoneJoueurs.add(btnJ1);
         zoneJoueurs.add(btnJ2);
         zoneJoueurs.add(btnJ3);
@@ -639,6 +655,12 @@ public class VueGrille implements Observe {
         
         niveauEau.setNiveau();
     }*/
+    
+    public void actualiserInfoJA(Pion pionActif){
+        labelNomJoueurCourant.setText(pionActif.getNomj() + "[" + pionActif.getRole().getNomA()+ "]" );
+        labelPointsAction.setText("Points d'Actions : " + pionActif.getNbAction());
+    }
+    
     public void setMsg(Message msg) {
         this.msg = msg;
     }
@@ -686,6 +708,8 @@ public class VueGrille implements Observe {
     public void activationDon(boolean b) {
         donner.setEnabled(b);
     }
+    
+    
 
     private void configureWindow(JFrame window) {
         window.setSize(500, 200);
