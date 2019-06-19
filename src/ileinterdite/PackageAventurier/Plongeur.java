@@ -34,8 +34,8 @@ public class Plongeur extends Aventurier{
         ArrayList<Tuile> tuileSubmerger =new ArrayList<>();
         tuileValable = grille.getTuilesCroix(tuile);
 
-        while (! tuileSubmerger.containsAll(grille.getSubmerge(tuileValable))){
-            for (Tuile tuileS : grille.getSubmerge(tuileValable)){
+        while (! tuileSubmerger.containsAll(grille.getSubInn(tuileValable))){
+            for (Tuile tuileS : grille.getSubInn(tuileValable)){
                 if ( ! tuileSubmerger.contains(tuileS)){
                     tuileSubmerger.add(tuileS);
                     for (Tuile tuileNew : grille.getTuilesCroix(tuileS)){
@@ -47,7 +47,18 @@ public class Plongeur extends Aventurier{
             }
         }       
         tuileValable.remove(tuile);
+        
         return grille.getNonSubmerge(tuileValable);
+        //attention le plongeur peut travrser les inondées
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
         
 }

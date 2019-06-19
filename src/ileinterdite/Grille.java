@@ -101,6 +101,12 @@ public class Grille {
         }
         return tns;
     }
+    
+    
+    
+    
+    
+    
 
     public ArrayList<Tuile> getSubmerge(ArrayList<Tuile> tAC) {
         ArrayList<Tuile> ts = new ArrayList<>();
@@ -122,6 +128,14 @@ public class Grille {
         return ti;
     }
      
+     
+     
+     public ArrayList<Tuile> getSubInn(ArrayList<Tuile> tuiles){
+         ArrayList<Tuile> temp = new ArrayList<>();
+         temp=getSubmerge(tuiles);
+         temp.addAll(getTuilesInnondees(tuiles));
+         return temp;
+     }
      /* dans le plongeur
         public ArrayList<Tuile> getTuilesDispoPourDeplacement(Grille grille, Tuile tuile) {
         ArrayList<Tuile> tuileValable =new ArrayList<>();
