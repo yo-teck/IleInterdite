@@ -202,9 +202,12 @@ public class VueGrille implements Observe {
         infoTresors = new InfoTresor[4];
         
         for(int i = 0 ; i<4;i++){
+            
             InfoTresor tresor = new InfoTresor(LesTresors.get(i));
+            
             infoTresors[i]=tresor;
-            zoneTresors.add(tresor);
+            
+            zoneTresors.add(infoTresors[i]);
        }
 
         conteneurBas.add(zoneTresors, BorderLayout.WEST);

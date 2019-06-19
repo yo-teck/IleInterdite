@@ -524,20 +524,20 @@ public class Controleur implements Observateur {
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             ihm.actualiserInfoJA(pionActif);
         } else if (m.getType() == TypesMessage.RECUPERER_TROPHEE) {
-            /*for (OTresor objetTresor : tresors) {
+            for (OTresor objetTresor : tresors) {
                 System.out.println(objetTresor.getType());
                 if (objetTresor.getType() == m.getObjetTresor().getType()) {
                     objetTresor.setEstRecupere(true);
                     ihm.actualiserInfoTresor();
                 }
-            }*/
-            for (int i = 0; i < 4; i++) {
+            }
+            /*for (int i = 0; i < 4; i++) {
 
                 if (tresors.get(i).getType() == m.getObjetTresor().getType()) {
                     tresors.get(i).setEstRecupere(true);
                     ihm.actualiserInfoTresor();
                 }
-            }
+            }*/
             //On compte le nombre de cartes qu'on va enlever
             int cnt = 0;
             int i = 0;
