@@ -18,6 +18,9 @@ public class NiveauEau {
     }
 
     public void setNiveau(int niveau) {
+        if(niveau>10){
+            niveau=10;
+        }
         this.niveau = niveau;
     }
 

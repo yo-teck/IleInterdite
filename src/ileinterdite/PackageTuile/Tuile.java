@@ -79,7 +79,6 @@ public class Tuile {
         File chemin = new File("");
         if (getEtat() != Etat.NULL) {
             imageSEC = new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgTuile/" + getNom() + ".png");
-            System.out.println(chemin.getAbsolutePath() + "/src/ressources/imgTuile/" + getNom() + ".png");
             imageINNONDER = new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgTuile/" + getNom() + "INNONDER.png");
             imageSUBMERGER = new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgTuile/SUBMERGER.png");
         } else {

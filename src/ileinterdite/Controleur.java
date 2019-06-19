@@ -55,7 +55,6 @@ public class Controleur implements Observateur {
     private VueDefausse vueDefausse;
     private VueDonnerCarte vueDonCarte;
 
-    
     private boolean debutDePartie;
 
     public Controleur() {
@@ -495,7 +494,7 @@ public class Controleur implements Observateur {
             pionActif.setTuilePosition(m.getTuile());
 
             ihm.setNonCliquable(ile);
-            ihm.repaintInfoBouton();
+            ihm.repaintInfoTuile();
 
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
@@ -525,18 +524,25 @@ public class Controleur implements Observateur {
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             ihm.actualiserInfoJA(pionActif);
         } else if (m.getType() == TypesMessage.RECUPERER_TROPHEE) {
-            for (OTresor objetTresor : tresors) {
+            /*for (OTresor objetTresor : tresors) {
                 System.out.println(objetTresor.getType());
                 if (objetTresor.getType() == m.getObjetTresor().getType()) {
                     objetTresor.setEstRecupere(true);
-                    ihm.activerTresor(m.getObjetTresor());
+                    ihm.actualiserInfoTresor();
+                }
+            }*/
+            for (int i = 0; i < 4; i++) {
+
+                if (tresors.get(i).getType() == m.getObjetTresor().getType()) {
+                    tresors.get(i).setEstRecupere(true);
+                    ihm.actualiserInfoTresor();
                 }
             }
             //On compte le nombre de cartes qu'on va enlever
             int cnt = 0;
             int i = 0;
-            while(cnt<4 && i<pionActif.getNbCartes()){
-                if(pionActif.getCartesTresors().get(i).getType().toString().contains(m.getObjetTresor().getType().toString())){
+            while (cnt < 4 && i < pionActif.getNbCartes()) {
+                if (pionActif.getCartesTresors().get(i).getType().toString().contains(m.getObjetTresor().getType().toString())) {
                     pionActif.getCartesTresors().remove(i);
                     i--;
                     ihm.actualiserCartes(pions);
@@ -565,7 +571,7 @@ public class Controleur implements Observateur {
         this.pions.add(p2);
         this.pions.add(p3);
         this.pions.add(p4);
-        
+
     }
 
     public void initInondation() {
@@ -600,7 +606,7 @@ public class Controleur implements Observateur {
 
         debutDePartie = true;
 
-        ihm = new VueGrille(ile, niveauEau, pions);
+        ihm = new VueGrille(ile, niveauEau, pions, tresors);
         ihm.addObservateur(this);
         initPioche(pions);
         for (Pion pion : pions) {
@@ -627,7 +633,7 @@ public class Controleur implements Observateur {
         jouerUnTour();
 
         System.out.println("");
-        ihm = new VueGrille(ile, niveauEau, pions);
+        ihm = new VueGrille(ile, niveauEau, pions, tresors);
         ihm.addObservateur(this);
         initPioche(pions);
         for (Pion pion : pions) {
@@ -744,7 +750,7 @@ public class Controleur implements Observateur {
             CarteTresor ct = pile.get(0);
             if (ct.getType() == CTresor.MONTEE_DES_EAUX) {
                 niveauEau.setNiveau(niveauEau.getNiveau() + 1);
-                // ihm.actualiserNiveauEau(niveauEau);
+                ihm.actualiserInfoNiveauEau();
                 pileCarteInondations.addAll(tuilesPiochees);
                 Collections.shuffle(pileCarteInondations);
                 tuilesPiochees.clear();

@@ -27,14 +27,14 @@ import javax.swing.JPanel;
  *
  * @author domingoy
  */
-public class InfoBouton extends JPanel {
+public class InfoTuile extends JPanel {
 
     private ArrayList<Pion> pions;
     private Tuile tuile;
     private int taille;              // diametre du bouton en pixels
     private BufferedImage image;
 
-    public InfoBouton(Tuile tuile) {
+    public InfoTuile(Tuile tuile) {
 
         Dimension dimension = getSize();
 

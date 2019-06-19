@@ -74,7 +74,9 @@ public class VueGrille implements Observe {
     private int tourJoueur = 0;
 
     private JButton[] Tuile;
-    private InfoBouton[] infoBouton;
+    private InfoTresor[] infoTresors;
+    private InfoTuile[] infoBouton;
+    private InfoNiveauEau infoNiveau;
 
     private Message msg;
 
@@ -104,17 +106,18 @@ public class VueGrille implements Observe {
     private JLabel labelPointsAction;
     private File chemin = new File("");
 
-    public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions) /*throws IOException*/ {
+    public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions,ArrayList<OTresor> LesTresors){
 
         //Creation d'une variable qui stock le nombre de joueur pour le reutilisé
         nbJoueurs = pions.size();
-        
+
 ////////////////////////////////////////////////////////////////////////////////        
 //Creation de la fenetre////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
         frame = new JFrame();
         frame.setTitle("Ile Interdite");
-        frame.setSize(1400, 800);
+        frame.setSize(1100, 850);
+        frame.setResizable(false);
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         nbJoueurs = pions.size();
@@ -125,27 +128,12 @@ public class VueGrille implements Observe {
 ////////////////////////////////////////////////////////////////////////////////        
 //Creation du conteneur gauche//////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-        JPanel conteneurNivEau = new JPanel();
+        JPanel conteneurNivEau = new JPanel(new GridLayout(1, 1));
+        conteneurNivEau.setPreferredSize(new Dimension(200, 750));
+        conteneurNivEau.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
 
-        conteneurNivEau.setLayout(new GridLayout(11, 1));
-        JButton[] n_Eau = new JButton[10];
-
-        JLabel txtO = new JLabel("Niveau d'eau : " + niveauEau.getNiveau());
-        conteneurNivEau.add(txtO);
-        for (int i = 0; i < 10; i++) { //////////////////////Initialisation de la barre d'eau
-
-            n_Eau[i] = new JButton(" ");
-            n_Eau[i].setEnabled(false);
-
-            if (i >= 10 - niveauEau.getNiveau()) {
-                n_Eau[i].setBackground(Color.blue);
-            } else {
-                n_Eau[i].setBackground(Color.white);
-            }
-
-            conteneurNivEau.add(n_Eau[i]);
-
-        }
+        infoNiveau = new InfoNiveauEau(niveauEau);
+        conteneurNivEau.add(infoNiveau);
 
         frame.add(conteneurNivEau, BorderLayout.WEST);
 ////////////////////////////////////////////////////////////////////////////////        
@@ -156,10 +144,11 @@ public class VueGrille implements Observe {
 //Creation du conteneur du centre///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
         conteneurTuile = new JPanel();
+        conteneurTuile.setPreferredSize(new Dimension(750, 750));
         conteneurTuile.setLayout(new GridLayout(6, 6));
-        conteneurTuile.setPreferredSize(new Dimension(1300, 1300));
+
         Tuile = new JButton[36];
-        infoBouton = new InfoBouton[36];
+        infoBouton = new InfoTuile[36];
         ci = 0;
         cj = 0;
         for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
@@ -186,7 +175,7 @@ public class VueGrille implements Observe {
                 Tuile[i].setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
             }
-            infoBouton[i] = new InfoBouton(tuileSelect);
+            infoBouton[i] = new InfoTuile(tuileSelect);
             Tuile[i].add(infoBouton[i]);
             cj++;
             if (cj == 6) {
@@ -203,31 +192,20 @@ public class VueGrille implements Observe {
 //Creation du conteneur du bas//////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
         conteneurBas = new JPanel(new BorderLayout());
-
+        conteneurBas.setPreferredSize(new Dimension(1100, 100));
         //Creation temporaire des trophées
         zoneTresors = new JPanel();
 
         zoneTresors.setLayout(new GridLayout(2, 2));
-
-        tresorEau = new JButton("Eau");
-        tresorEau.setBackground(Color.lightGray);
-        tresorEau.setEnabled(false);
-        zoneTresors.add(tresorEau);
-
-        tresorFeu = new JButton("Feu");
-        tresorFeu.setBackground(Color.lightGray);
-        tresorFeu.setEnabled(false);
-        zoneTresors.add(tresorFeu);
-
-        tresorAir = new JButton("Air");
-        tresorAir.setBackground(Color.lightGray);
-        tresorAir.setEnabled(false);
-        zoneTresors.add(tresorAir);
-
-        tresorTerre = new JButton("Terre");
-        tresorTerre.setBackground(Color.lightGray);
-        tresorTerre.setEnabled(false);
-        zoneTresors.add(tresorTerre);
+        zoneTresors.setPreferredSize(new Dimension(100, 100));
+        
+        infoTresors = new InfoTresor[4];
+        
+        for(int i = 0 ; i<4;i++){
+            InfoTresor tresor = new InfoTresor(LesTresors.get(i));
+            infoTresors[i]=tresor;
+            zoneTresors.add(tresor);
+       }
 
         conteneurBas.add(zoneTresors, BorderLayout.WEST);
 
@@ -262,7 +240,7 @@ public class VueGrille implements Observe {
 
         conteneurBas.add(zoneValidation, BorderLayout.EAST);
 
-        conteneurBas.setPreferredSize(new Dimension(1300, 100));
+
         frame.add(conteneurBas, BorderLayout.SOUTH);
 ////////////////////////////////////////////////////////////////////////////////        
 //Fin du conteneur du bas///////////////////////////////////////////////////////
@@ -272,7 +250,7 @@ public class VueGrille implements Observe {
 //Creation du conteneur droit//////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
         conteneurDroite = new JPanel(new BorderLayout());
-
+        conteneurDroite.setPreferredSize(new Dimension(150,750));
 ////////////////////////////////////////////////////////////////////////////////
 //Creation du panel pour faire les différentes actions (positionnée en haut
         zoneAction = new JPanel(new GridLayout(4, 2));
@@ -543,10 +521,19 @@ public class VueGrille implements Observe {
 
     }
 
-    public void repaintInfoBouton() {
+    public void actualiserInfoNiveauEau() {
+        infoNiveau.repaint();
+    }
+
+    public void actualiserInfoTresor(){
+        for(int i = 0 ; i<4;i++){
+            infoTresors[i].repaint();
+       }
+    }
+    public void repaintInfoTuile() {
 
         for (int i = 0; i < 36; i++) {
-
+            
             Tuile[i].setEnabled(true);
             infoBouton[i].repaint();
             Tuile[i].setEnabled(false);
@@ -556,9 +543,6 @@ public class VueGrille implements Observe {
 
     public void setNonCliquable(Grille grille) {
 
-        /*for (Button b : this.conteneurTuile.){
-           
-       }*/
         ci = 0;
         cj = 0;
         for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
@@ -580,17 +564,13 @@ public class VueGrille implements Observe {
             };
 
         }
-        repaintInfoBouton();
+        repaintInfoTuile();
     }
 
     public void actualiserGrille(Grille grille) {
-        repaintInfoBouton();
+        repaintInfoTuile();
     }
 
-    /*public void actualiserNiveauEau(NiveauEau niveauEau){
-        
-        niveauEau.setNiveau();
-    }*/
     public void actualiserInfoJA(Pion pionActif) {
         labelNomJoueurCourant.setText(pionActif.getNomj() + "[" + pionActif.getRole().getNomA() + "]");
         labelPointsAction.setText("Points d'Actions : " + pionActif.getNbAction());
