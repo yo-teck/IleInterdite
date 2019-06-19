@@ -58,10 +58,13 @@ public class Controleur implements Observateur {
 
     public Controleur() {
         ile = new Grille();
+
         pile = new ArrayList<>();
         defausse = new ArrayList<>();
+
         tuilesPiochees = new ArrayList<>();
         pileCarteInondations = new ArrayList<>();
+
         tresors = new ArrayList<>();
         pions = new ArrayList<>();
         niveauEau = new NiveauEau(Difficulte.NOVICE);
@@ -461,11 +464,21 @@ public class Controleur implements Observateur {
             }
 
         } else if (m.getType() == TypesMessage.DEFAUSSE) {
-            defausser(m.getCarteTresor());
-
-        } else if (m.getType() == TypesMessage.FIN_TOUR) {
+            for (CarteTresor ct : m.getCartesTresor()) {
+                defausser(ct);
+            }
             joueurSuivant();
-
+            ihm.actualiserCartes(pions);
+            ihm.activationBoutons(true);
+        } else if (m.getType() == TypesMessage.FIN_TOUR) {
+            fairePiocher(pionActif);
+            if (pionActif.getNbCartes() > 5) {
+            vueDefausse = new VueDefausse(pionActif);
+            vueDefausse.addObservateur(this);
+            ihm.activationBoutons(false);
+        } else {
+            joueurSuivant();
+        }
         } else if (m.getType() == TypesMessage.DEPLACEMENT) {
 
             //System.out.println("Rentree");
@@ -618,8 +631,7 @@ public class Controleur implements Observateur {
     }
 
     public void joueurSuivant() {
-        fairePiocher(pionActif);
-
+        
         int i = 0;
         while (i < pions.size() && pions.get(i) != pionActif) {
             i++;
@@ -628,15 +640,12 @@ public class Controleur implements Observateur {
         if (pions.get(i) == pionActif) {
             pionActif = pions.get((i + 1) % 4);
         }
-
+        ihm.joueurSuivant();
     }
 
     public void defausser(CarteTresor carteTresor) {
-        for (CarteTresor c : pionActif.getCartesTresors()) {
-            if (c == carteTresor) {
-                pionActif.getCartesTresors().remove(c);
-            }
-        }
+        pionActif.getCartesTresors().remove(carteTresor);
+        defausse.add(carteTresor);
     }
 
     public void donnerCarte(CarteTresor carteTresor, Pion pion) {
@@ -663,7 +672,7 @@ public class Controleur implements Observateur {
                 check();
             }
 
-            joueurSuivant();
+            fairePiocher(pionActif);
             jouerUnTour();
 
         }
@@ -698,28 +707,25 @@ public class Controleur implements Observateur {
     }
 
     public void fairePiocher(Pion pion) {
-        if (pion.getNbCartes() > 5) {
-            vueDefausse = new VueDefausse(pion);
-        }
-
+        ihm.actualiserGrille(ile);
+        ihm.actualiserCartes(pions);      
         for (int i = 0; i < 2; i++) {
+            verifPile();
             CarteTresor ct = pile.get(0);
             if (ct.getType() == CTresor.MONTEE_DES_EAUX) {
                 niveauEau.setNiveau(niveauEau.getNiveau() + 1);
                 Collections.shuffle(pileCarteInondations);
                 pileCarteInondations.addAll(tuilesPiochees);
                 tuilesPiochees.clear();
-                
+                defausse.add(ct);
             } else {
                 pion.addCarte(pile.get(0));
-                if (pion.getNbCartes() > 5) {
-                    vueDefausse = new VueDefausse(pion);
-                }
             }
             pile.remove(0);
+
         }
 
-        if (!debutDePartie) {
+        if (!debutDePartie && !pileCarteInondations.isEmpty()) {
             for (int i = 0; i < niveauEau.getEchelon(); i++) {
                 tuilesPiochees.add(pileCarteInondations.get(0));
                 pileCarteInondations.remove(0);
@@ -729,8 +735,18 @@ public class Controleur implements Observateur {
 
         ihm.actualiserGrille(ile);
         ihm.actualiserCartes(pions);
+        
     }
 
+    public void verifPile(){
+        if(pile.isEmpty()){
+            Collections.shuffle(defausse);
+            pile.addAll(defausse);
+            defausse.clear();
+            System.out.println("Pile remise.");
+        }
+    }
+    
     public static void main(String[] args) {
 
         new Controleur();

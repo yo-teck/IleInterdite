@@ -20,6 +20,7 @@ public class Message {
     private Tuile tuile;
     private CTresor typeCarteTresor;
     private CarteTresor carteTresor;
+    private ArrayList<CarteTresor> cartesTresor;
     private Pion pion;
     private ArrayList<String> nomJoueurs;
     private String difficulte;
@@ -37,11 +38,13 @@ public class Message {
 
     public Message(TypesMessage type) {
         setType(type);
+        this.cartesTresor = new ArrayList<>();
     }
 
     public Message(TypesMessage type, Pion pion) {
         this.type = type;
         this.pion = pion;
+        this.cartesTresor = new ArrayList<>();
     }
 
     public Message(TypesMessage type, ArrayList<String> nomJoueurs, String difficulte, String modeInitialisation) {
@@ -49,6 +52,8 @@ public class Message {
         this.nomJoueurs = nomJoueurs;
         this.difficulte = difficulte;
         this.modeInitialisation = modeInitialisation;
+        this.cartesTresor = new ArrayList<>();
+
     }
 
     public void setType(TypesMessage type) {
@@ -127,4 +132,15 @@ public class Message {
         this.pions = pions;
     }
 
+    public ArrayList<CarteTresor> getCartesTresor() {
+        return cartesTresor;
+    }
+
+    public void setCartesTresor(ArrayList<CarteTresor> cartesTresor) {
+        this.cartesTresor = cartesTresor;
+    }
+
+    public void addCarteTresor(CarteTresor carteTresor) {
+        this.cartesTresor.add(carteTresor);
+    }
 }
