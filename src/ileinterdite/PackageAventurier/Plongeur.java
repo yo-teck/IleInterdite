@@ -18,14 +18,14 @@ public class Plongeur extends Aventurier{
 
     public Plongeur(String nomA, String description, Tuile tuileDepart) {
         super(nomA, description, tuileDepart);
-        this.couleur=Color.MAGENTA;   
+        this.couleur=Color.BLACK;   
     }
  
     public Plongeur(){
         super("Plongeur","Le Plongeur peut passer par une ou deux tuiles adjacentes "
                         + "inondées et/ou manquantes pour une action (il doit "
                         + "terminer le tour sur une tuile).");
-        this.couleur=Color.MAGENTA;   
+        this.couleur=Color.BLACK;   
     }
     
         @Override

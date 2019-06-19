@@ -9,6 +9,7 @@ import ileinterdite.Grille;
 import ileinterdite.PackageTuile.Tuile;
 import java.awt.Color;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -19,6 +20,7 @@ public class Explorateur extends Aventurier{
     public Explorateur(String nomA, String description, Tuile tuileDepart) {
         super(nomA, description, tuileDepart);
         this.couleur=Color.GREEN;
+        
     }
     public Explorateur() {
         super("Explorateur",

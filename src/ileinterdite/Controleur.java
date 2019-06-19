@@ -25,6 +25,7 @@ import ileinterdite.Vues.VueGrille;
 import ileinterdite.Vues.VueIndividuelle;
 import java.util.ArrayList;
 import java.util.Collections;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -54,6 +55,7 @@ public class Controleur implements Observateur {
     private VueDefausse vueDefausse;
     private VueDonnerCarte vueDonCarte;
 
+    
     private boolean debutDePartie;
 
     public Controleur() {
