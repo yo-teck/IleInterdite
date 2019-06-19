@@ -317,6 +317,8 @@ public class VueGrille implements Observe {
 
         zoneAction = new JPanel(new GridLayout(4, 2));
 
+        
+        
         deplace = new JButton("Se deplacer");
         deplace.addActionListener(
                 new ActionListener() {
@@ -568,11 +570,12 @@ public class VueGrille implements Observe {
         
         niveauEau.setNiveau();
     }*/
-    public void actualiserInfoJA(Pion pionActif) {
-        labelNomJoueurCourant.setText(pionActif.getNomj() + "[" + pionActif.getRole().getNomA() + "]");
+    
+    public void actualiserInfoJA(Pion pionActif){
+        labelNomJoueurCourant.setText(pionActif.getNomj() + "[" + pionActif.getRole().getNomA()+ "]" );
         labelPointsAction.setText("Points d'Actions : " + pionActif.getNbAction());
     }
-
+    
     public void setMsg(Message msg) {
         this.msg = msg;
     }
@@ -620,6 +623,8 @@ public class VueGrille implements Observe {
     public void activationDon(boolean b) {
         donner.setEnabled(b);
     }
+    
+    
 
     private void configureWindow(JFrame window) {
         window.setSize(500, 200);
