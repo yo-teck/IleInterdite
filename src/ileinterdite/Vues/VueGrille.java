@@ -620,6 +620,11 @@ public class VueGrille implements Observe {
     public void actualiserGrille(Grille grille) {
         repaintInfoBouton();
     }
+    
+    /*public void actualiserNiveauEau(NiveauEau niveauEau){
+        
+        niveauEau.setNiveau();
+    }*/
 
     public void setMsg(Message msg) {
         this.msg = msg;
@@ -653,7 +658,7 @@ public class VueGrille implements Observe {
         } else if (objetTresor.getType() == Tresor.EAU) {
             tresorEau.setBackground(Color.BLUE);
             tresorEau.setEnabled(true);
-            tresorEau.setForeground(Color.WHITE);
+            tresorEau.setForeground(Color.BLACK);
         }
     }
 
