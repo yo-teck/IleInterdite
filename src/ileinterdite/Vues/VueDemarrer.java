@@ -47,7 +47,7 @@ public class VueDemarrer implements Observe {
         JFrame fenetre = new JFrame("Ile Interdite - Menu Démarrage");
         fenetre.setSize(600, 250);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         JPanel conteneur = new JPanel(new BorderLayout());
         fenetre.add(conteneur);
 
@@ -109,32 +109,32 @@ public class VueDemarrer implements Observe {
 
         //Zone de validation
         JButton btnValider = new JButton("Valider");
-        
+
         btnValider.addActionListener(
                 new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        ArrayList<String> noms = new ArrayList<>();
-                        noms.add(nomj1.getText());
-                        noms.add(nomj2.getText());
-                        noms.add(nomj3.getText());
-                        noms.add(nomj4.getText());
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<String> noms = new ArrayList<>();
+                noms.add(nomj1.getText());
+                noms.add(nomj2.getText());
+                noms.add(nomj3.getText());
+                noms.add(nomj4.getText());
 
-                        String dif = choixDiff.getSelectedItem().toString();
-                        
-                        String init = new String();
-                        for (int i = 0; i < choixInit.length; i++) {
-                            
-                            if (choixInit[i].isSelected()){
-                                init = choixInit[i].getText();
-                            }                        
-                        }
+                String dif = choixDiff.getSelectedItem().toString();
 
-                        Message m = new Message(TypesMessage.COMMENCER_PARTIE,noms,dif,init);
-                        notifierObservateur(m);
-                        fenetre.setVisible(false);
+                String init = new String();
+                for (int i = 0; i < choixInit.length; i++) {
+
+                    if (choixInit[i].isSelected()) {
+                        init = choixInit[i].getText();
                     }
-                });
+                }
+
+                Message m = new Message(TypesMessage.COMMENCER_PARTIE, noms, dif, init);
+                notifierObservateur(m);
+                fenetre.setVisible(false);
+            }
+        });
 
         validation.add(new JLabel(""));
         validation.add(new JLabel(""));

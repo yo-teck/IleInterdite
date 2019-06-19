@@ -1,4 +1,4 @@
-package ileinterdite.PackageAutres;
+package ileinterdite.NonUtilise;
 
 import ileinterdite.Pion;
 import java.awt.BorderLayout;
