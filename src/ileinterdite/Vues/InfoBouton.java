@@ -54,37 +54,38 @@ public class InfoBouton extends JPanel {
       
         taille = 50;
 
-        String rep = "";
-        File path = new File(rep);
+
+        File path = new File("");
         for (int i = 0; i < pions.size(); i++) {
             if (i == 0) {
                 try {
-                    image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources_imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
+                    image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources/imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
                 } catch (IOException ex) {
                 }
                 g2d.drawImage(image, 0, 0, taille, taille, this);
             } else if (i == 1) {
                 try {
-                    image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources_imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
+                    image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources/imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
                 } catch (IOException ex) {
                 }
                 g2d.drawImage(image, largeurf - taille, 0, taille, taille, this);
             } else if (i == 2) {
                 try {
-                    image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources_imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
+                    image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources/imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
                 } catch (IOException ex) {
                 }
                 g2d.drawImage(image, 0, hauteurf - taille, taille, taille, this);
 
             } else if (i == 3) {
                 try {
-                    image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources_imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
+                    image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources/imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
                 } catch (IOException ex) {
                 }
                 g2d.drawImage(image, largeurf - taille, hauteurf - taille, taille, taille, this);
 
             }
         }
+        /*
         taille -=10;
         if (tuile.getEtat()!=Etat.SUBMERGE&&(tuile.getEvent() == Evenement.AIR || tuile.getEvent() == Evenement.EAU
                 || tuile.getEvent() == Evenement.TERRE || tuile.getEvent() == Evenement.FEU)) {
@@ -96,7 +97,7 @@ public class InfoBouton extends JPanel {
 
             }
             g2d.drawImage(image, ((largeurf / 2) - (taille/2)), (hauteurf - image.getHeight() - (taille - image.getHeight())), taille, taille, this);
-        }
+        }*/
     }
 
 }

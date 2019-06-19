@@ -96,6 +96,8 @@ public class VueGrille implements Observe {
     private JButton valid;
     private JButton annul;
 
+    private File chemin = new File("");
+
     public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions) /*throws IOException*/ {
         frame = new JFrame();
         frame.setTitle("Ile Interdite");
@@ -163,16 +165,18 @@ public class VueGrille implements Observe {
                 }
 
                 if (tuileSelect.getEtat() == Etat.INONDE) {
-                    Tuile[i].setBackground(new Color(119, 181, 254));
+
+                    Tuile[i].setIcon(tuileSelect.getImageINNONDER());
+                    Tuile[i].setDisabledIcon(tuileSelect.getImageINNONDER());
                 } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
-                    //Tuile[i].setBackground(new Color(34, 66, 124));
-                    String rep = "";
-                    File path = new File(rep);
+
                     Tuile[i].setText("");
-                    Tuile[i].setIcon(new ImageIcon(path.getAbsolutePath() + "/src/ressources_imgTuile/SUBMERGE.png"));
-                    Tuile[i].setDisabledIcon(Tuile[i].getIcon());
+                    Tuile[i].setIcon(tuileSelect.getImageSUBMERGER());
+                    Tuile[i].setDisabledIcon(tuileSelect.getImageSUBMERGER());
                 } else {
-                    Tuile[i].setBackground(new Color(145, 93, 15));
+                    Tuile[i].setText("");
+                    Tuile[i].setIcon(tuileSelect.getImageSEC());
+                    Tuile[i].setDisabledIcon(tuileSelect.getImageSEC());
                 }
 
             }
@@ -608,17 +612,18 @@ public class VueGrille implements Observe {
             if (tuileSelect.getEtat() == Etat.NULL) {
                 Tuile[i].setBackground(Color.WHITE);
             } else if (tuileSelect.getEtat() == Etat.INONDE) {
-                Tuile[i].setBackground(new Color(119, 181, 254));
+                Tuile[i].setIcon(tuileSelect.getImageINNONDER());
+                Tuile[i].setDisabledIcon(tuileSelect.getImageINNONDER());
             } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
                 //Tuile[i].setBackground(new Color(34, 66, 124));
-                String rep = "";
-                File path = new File(rep);
+
                 Tuile[i].setText("");
-                Tuile[i].setIcon(new ImageIcon(path.getAbsolutePath() + "/src/ressources_imgTuile/SUBMERGE.png"));
+                Tuile[i].setIcon(tuileSelect.getImageSUBMERGER());
                 Tuile[i].setDisabledIcon(Tuile[i].getIcon());
 
             } else {
-                Tuile[i].setBackground(new Color(145, 93, 15));
+                Tuile[i].setIcon(tuileSelect.getImageSEC());
+                Tuile[i].setDisabledIcon(tuileSelect.getImageSEC());
             }
             cj++;
             if (cj == 6) {
@@ -645,16 +650,17 @@ public class VueGrille implements Observe {
             if (tuileSelect.getEtat() == Etat.NULL) {
                 Tuile[i].setBackground(Color.WHITE);
             } else if (tuileSelect.getEtat() == Etat.INONDE) {
-                Tuile[i].setBackground(new Color(119, 181, 254));
+                Tuile[i].setIcon(tuileSelect.getImageINNONDER());
+                Tuile[i].setDisabledIcon(tuileSelect.getImageINNONDER());
             } else if (tuileSelect.getEtat() == Etat.SUBMERGE) {
                 //Tuile[i].setBackground(new Color(34, 66, 124));
-                String rep = "";
-                File path = new File(rep);
+
                 Tuile[i].setText("");
-                Tuile[i].setIcon(new ImageIcon(path.getAbsolutePath() + "/src/ressources_imgTuile/SUBMERGE.png"));
+                Tuile[i].setIcon(tuileSelect.getImageSUBMERGER());
                 Tuile[i].setDisabledIcon(Tuile[i].getIcon());
             } else {
-                Tuile[i].setBackground(new Color(145, 93, 15));
+                Tuile[i].setIcon(tuileSelect.getImageSEC());
+                Tuile[i].setDisabledIcon(tuileSelect.getImageSEC());
             }
         }
     }

@@ -6,7 +6,9 @@
 package ileinterdite.PackageTuile;
 
 import ileinterdite.Pion;
+import java.io.File;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -21,6 +23,10 @@ public class Tuile {
     private String nom;
     private ArrayList<Pion> pions;
     private boolean actif;
+    private ImageIcon imageSEC;
+    private ImageIcon imageINNONDER;
+    private ImageIcon imageSUBMERGER;
+    private ImageIcon imageNULL;
 
     //Constructeur pour tuiles hors île (placement manuel)
     public Tuile(Etat etat, int i, int j) {
@@ -29,10 +35,11 @@ public class Tuile {
             this.setEvent(event.RIEN);
             this.setI(i);
             this.setJ(j);
-            this.setNom("");
+            this.setNom("NULL");
         }
         this.actif = false;
         pions = new ArrayList<>();
+        creeImg();
     }
 
     //Constructeur pour tuile à placement manuel
@@ -44,6 +51,7 @@ public class Tuile {
         this.setNom(nom);
         pions = new ArrayList<>();
         this.actif = false;
+        creeImg();
     }
 
     //Constructeur pour tuile hors île à placement aléatoire
@@ -55,6 +63,7 @@ public class Tuile {
         }
         this.actif = false;
         pions = new ArrayList<>();
+        creeImg();
     }
 
     //Constructeur pour partie à placement aléatoire
@@ -63,6 +72,20 @@ public class Tuile {
         this.setEvent(event);
         this.setNom(nom);
         pions = new ArrayList<>();
+        creeImg();
+    }
+
+    public void creeImg() {
+        File chemin = new File("");
+        if (getEtat() != Etat.NULL) {
+            imageSEC = new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgTuile/" + getNom() + ".png");
+            System.out.println(chemin.getAbsolutePath() + "/src/ressources/imgTuile/" + getNom() + ".png");
+            imageINNONDER = new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgTuile/" + getNom() + "INNONDER.png");
+            imageSUBMERGER = new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgTuile/SUBMERGER.png");
+        } else {
+            imageNULL = new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgTuile/NULL.png");
+        }
+
     }
 
     public boolean isActif() {
@@ -116,10 +139,30 @@ public class Tuile {
     public void addPion(Pion pion) {
         pions.add(pion);
     }
+
     public void removePion(Pion pion) {
         pions.remove(pion);
     }
+
     public ArrayList<Pion> getPions() {
         return pions;
     }
+
+    public ImageIcon getImageSEC() {
+        return imageSEC;
+    }
+
+    public ImageIcon getImageINNONDER() {
+        return imageINNONDER;
+    }
+
+    public ImageIcon getImageSUBMERGER() {
+        return imageSUBMERGER;
+    }
+
+    public ImageIcon getImageNULL() {
+        return imageNULL;
+    }
+    
+    
 }
