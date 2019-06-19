@@ -643,6 +643,7 @@ public class Controleur implements Observateur {
             pionActif = pions.get((i + 1) % 4);
         }
         ihm.joueurSuivant();
+        ihm.activationBoutons(true);
     }
 
     public void defausser(CarteTresor carteTresor) {
@@ -684,23 +685,30 @@ public class Controleur implements Observateur {
         return pionActif.getNbAction() == 0;
 
     }
-
+    
     public void check() {
-        if (pionActif.getRole().getTuilesDispoPourDeplacement(ile, pionActif.getTuilePosition()).size() == 0) {
+        if (pionActif.getRole().getTuilesDispoPourDeplacement(ile, pionActif.getTuilePosition()).size() == 0 ) {
             //desactiver seDeplacer
             ihm.activationDeplacement(false);
-        }
-        if (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() == 0) {
+        }/*else{ 
+            ihm.activationDeplacement(true);
+            
+        }*/
+        if (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() == 0 ) {
             //desactiver assecher
             ihm.activationAssechement(false);
-        }
+        }/*else{
+            ihm.activationAssechement(true);
+        }*/
         if (pionActif.getCartesTresors().size() == 0) {
             //desactiver donnercarte
             ihm.activationDon(false);
-        }
+        }/*else{
+            ihm.activationDon(true);
+        }*/
 
     }
-
+    
     public void initPioche(ArrayList<Pion> pions) {
         for (Pion pion : pions) {
             fairePiocher(pion);
@@ -716,15 +724,16 @@ public class Controleur implements Observateur {
             CarteTresor ct = pile.get(0);
             if (ct.getType() == CTresor.MONTEE_DES_EAUX) {
                 niveauEau.setNiveau(niveauEau.getNiveau() + 1);
-                Collections.shuffle(pileCarteInondations);
+                // ihm.actualiserNiveauEau(niveauEau);
                 pileCarteInondations.addAll(tuilesPiochees);
+                Collections.shuffle(pileCarteInondations);
                 tuilesPiochees.clear();
                 defausse.add(ct);
-                System.out.println("Montée des eaux");
+                System.out.println("Montée des eaux !");
             } else {
-                pion.addCarte(pile.get(0));
+                pion.addCarte(ct);
             }
-            pile.remove(0);
+            pile.remove(ct);
 
         }
 
