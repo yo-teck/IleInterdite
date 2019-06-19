@@ -105,18 +105,26 @@ public class VueGrille implements Observe {
     private File chemin = new File("");
 
     public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions) /*throws IOException*/ {
+
+        //Creation d'une variable qui stock le nombre de joueur pour le reutilisé
+        nbJoueurs = pions.size();
+        
+////////////////////////////////////////////////////////////////////////////////        
+//Creation de la fenetre////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
         frame = new JFrame();
         frame.setTitle("Ile Interdite");
         frame.setSize(1400, 800);
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         nbJoueurs = pions.size();
-        JPanel joueurs = new JPanel();
-        JButton[] B_joueurs = new JButton[4];
+////////////////////////////////////////////////////////////////////////////////        
+//Fin creation fenetre//////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////    
 
-        /////////////////////////////////////////////////////////////////////// Fenetre de demarrage
-        ///////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////// Coté niveau eau
+////////////////////////////////////////////////////////////////////////////////        
+//Creation du conteneur gauche//////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
         JPanel conteneurNivEau = new JPanel();
 
         conteneurNivEau.setLayout(new GridLayout(11, 1));
@@ -140,9 +148,13 @@ public class VueGrille implements Observe {
         }
 
         frame.add(conteneurNivEau, BorderLayout.WEST);
+////////////////////////////////////////////////////////////////////////////////        
+//Fin du conteneur gauche///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////         
 
-        ////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////// Coté carte
+////////////////////////////////////////////////////////////////////////////////        
+//Creation du conteneur du centre///////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
         conteneurTuile = new JPanel();
         conteneurTuile.setLayout(new GridLayout(6, 6));
         conteneurTuile.setPreferredSize(new Dimension(1300, 1300));
@@ -183,9 +195,13 @@ public class VueGrille implements Observe {
             };
         }
         frame.add(conteneurTuile);
+////////////////////////////////////////////////////////////////////////////////        
+//Fin du conteneur du centre////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////        
 
-        // fenetre.add(map);
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////        
+//Creation du conteneur du bas//////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
         conteneurBas = new JPanel(new BorderLayout());
 
         //Creation temporaire des trophées
@@ -248,13 +264,129 @@ public class VueGrille implements Observe {
 
         conteneurBas.setPreferredSize(new Dimension(1300, 100));
         frame.add(conteneurBas, BorderLayout.SOUTH);
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+////////////////////////////////////////////////////////////////////////////////        
+//Fin du conteneur du bas///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
-        //////////////////////////////////////////////////////////////////////////////////// Fenetre joueurs choisis
+////////////////////////////////////////////////////////////////////////////////
+//Creation du conteneur droit//////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
         conteneurDroite = new JPanel(new BorderLayout());
 
-        zoneJoueurs = new JPanel(new GridLayout(5, 1));
+////////////////////////////////////////////////////////////////////////////////
+//Creation du panel pour faire les différentes actions (positionnée en haut
+        zoneAction = new JPanel(new GridLayout(4, 2));
+//Creation des boutons et de leurs actionListener
+//Creation du bouton permettant de se deplacer
+        deplace = new JButton("Se deplacer");
+        deplace.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message(TypesMessage.DEPLACEMENT, pions.get(tourJoueur));
+                notifierObservateur(m);
+            }
+        }
+        );
+//Creation du bouton permettant d'assecher un case
+        assecher = new JButton("Assecher");
+        assecher.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message(TypesMessage.ASSECHER, pions.get(tourJoueur));
+                notifierObservateur(m);
+            }
+        }
+        );
+//Creation du bouton permettant de donner une carte
+        donner = new JButton("Donner carte");
+        donner.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message(TypesMessage.VUE_DONNER_CARTE);
+                notifierObservateur(m);
+                activationBoutons(false);
+            }
+        });
+//Creation du bouton permettant d'utilisé une carte
+        btnUtiliserCarte = new JButton("Utiliser Carte");
+//Creation du bouton permettant d'utilisé la capacité spécial
+        capacite = new JButton("Capacité");
+//Creation du bouton permettant de recuperer un tresor
+        recupTresor = new JButton("Récuperer Tresor");
+        recupTresor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int sommeCleEau = 0;
+                int sommeCleFeu = 0;
+                int sommeCleTerre = 0;
+                int sommeCleAir = 0;
 
+                Message m = new Message(TypesMessage.RECUPERER_TROPHEE);
+
+                for (CarteTresor ct : pions.get(tourJoueur).getCartesTresors()) {
+                    if (ct.getType() == CTresor.CLE_EAU) {
+                        sommeCleEau++;
+                    } else if (ct.getType() == CTresor.CLE_FEU) {
+                        sommeCleFeu++;
+                    } else if (ct.getType() == CTresor.CLE_TERRE) {
+                        sommeCleTerre++;
+                    } else if (ct.getType() == CTresor.CLE_AIR) {
+                        sommeCleAir++;
+                    }
+                }
+                //On vérifie la somme des clés et la position du joueur
+                if (sommeCleAir >= 4 && pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.AIR) {
+                    m.setObjetTresor(new OTresor(Tresor.AIR, true));
+                    notifierObservateur(m);
+                } else if (sommeCleEau >= 4 && pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.EAU) {
+                    m.setObjetTresor(new OTresor(Tresor.EAU, true));
+                    notifierObservateur(m);
+                } else if (sommeCleTerre >= 4 && pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.TERRE) {
+                    m.setObjetTresor(new OTresor(Tresor.TERRE, true));
+                    notifierObservateur(m);
+                } else if (sommeCleFeu >= 4 && pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.FEU) {
+                    m.setObjetTresor(new OTresor(Tresor.FEU, true));
+                    notifierObservateur(m);
+                }
+            }
+        });
+//Creation du bouton permettant d'avoir les informations des joueurs
+        info = new JButton("Information");
+        info.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                VueInformation vueInfo = new VueInformation(pions);
+            }
+        });
+//Creation du bouton permettant la fin du tour
+        finTour = new JButton("Fin Tour");
+        finTour.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message(TypesMessage.FIN_TOUR, pions.get(tourJoueur));
+                notifierObservateur(m);
+            }
+        });
+//Ajout au panel des differentes actions
+        zoneAction.add(deplace);
+        zoneAction.add(assecher);
+        zoneAction.add(donner);
+        zoneAction.add(btnUtiliserCarte);
+        zoneAction.add(capacite);
+        zoneAction.add(recupTresor);
+        zoneAction.add(info);
+        zoneAction.add(finTour);
+//Ajout du panel en haut à la zone de droite 
+        conteneurDroite.add(zoneAction, BorderLayout.NORTH);
+////////////////////////////////////////////////////////////////////////////////  
+
+////////////////////////////////////////////////////////////////////////////////        
+//Creation du panel concernant les joueurs (positionner au centre)
+        zoneJoueurs = new JPanel(new GridLayout(5, 1));
+//Creation du panel des informations sur le tour (nb action, joueur actif, role)
         infoJoueurActif = new JPanel(new GridLayout(3, 1));
 
         labelJoueurCourant = new JLabel("Joueur courant :");
@@ -265,24 +397,26 @@ public class VueGrille implements Observe {
         infoJoueurActif.add(labelNomJoueurCourant);
         infoJoueurActif.add(labelPointsAction);
         zoneJoueurs.add(infoJoueurActif);
-
+//Creation des boutons pour voire les cartes du joueur
         btnJ = new JButton[pions.size()];
+
         for (int i = 0; i < nbJoueurs; i++) {
+
             int show = i;
             JButton btnj = new JButton(pions.get(i).getNomj(), pions.get(i).getRole().getImgAventurier());
             btnj.setForeground(Color.WHITE);
             btnj.setVerticalTextPosition(JLabel.CENTER);
             btnj.setHorizontalTextPosition(JLabel.CENTER);
+
             if (i == 0) {
                 btnj.setBorder(BorderFactory.createLineBorder(Color.PINK, 5));
             } else {
                 btnj.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
             }
-
+            //MouseListener qui permet de voire les cartes d'un joueur uniquement quand on appuies sur sa case            
             btnj.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent arg0) {
-
                 }
 
                 @Override
@@ -306,132 +440,19 @@ public class VueGrille implements Observe {
             btnJ[i] = btnj;
             zoneJoueurs.add(btnj);
         }
-        System.out.println(nbJoueurs);
+//Si le nb de joueur est inferieur à 4 on rajoute des boutons nul pour remplir le GridLayout
         for (int i = nbJoueurs; i < 4; i++) {
             JButton btnj = new JButton("[Vide]");
             btnj.setEnabled(false);
             zoneJoueurs.add(btnj);
         }
-
+//Ajout du Layout au centre à la zone à droite
         conteneurDroite.add(zoneJoueurs, BorderLayout.CENTER);
+////////////////////////////////////////////////////////////////////////////////        
 
-        zoneAction = new JPanel(new GridLayout(4, 2));
-
-        
-        
-        deplace = new JButton("Se deplacer");
-        deplace.addActionListener(
-                new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                Message m = new Message(TypesMessage.DEPLACEMENT, pions.get(tourJoueur));
-                notifierObservateur(m);
-
-            }
-        }
-        );
-
-        assecher = new JButton("Assecher");
-        assecher.addActionListener(
-                new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                Message m = new Message(TypesMessage.ASSECHER, pions.get(tourJoueur));
-                notifierObservateur(m);
-
-            }
-        }
-        );
-
-        donner = new JButton("Donner carte");
-        donner.addActionListener(
-                new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                Message m = new Message(TypesMessage.VUE_DONNER_CARTE);
-                notifierObservateur(m);
-                activationBoutons(false);
-            }
-        });
-
-        btnUtiliserCarte = new JButton("Utiliser Carte");
-
-        capacite = new JButton("Capacité");
-
-        recupTresor = new JButton("Récuperer Tresor");
-        recupTresor.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int sommeCleEau = 0;
-                int sommeCleFeu = 0;
-                int sommeCleTerre = 0;
-                int sommeCleAir = 0;
-
-                Message m = new Message(TypesMessage.RECUPERER_TROPHEE);
-
-                for (CarteTresor ct : pions.get(tourJoueur).getCartesTresors()) {
-                    if (ct.getType() == CTresor.CLE_EAU) {
-                        sommeCleEau++;
-                    } else if (ct.getType() == CTresor.CLE_FEU) {
-                        sommeCleFeu++;
-                    } else if (ct.getType() == CTresor.CLE_TERRE) {
-                        sommeCleTerre++;
-                    } else if (ct.getType() == CTresor.CLE_AIR) {
-                        sommeCleAir++;
-                    }
-
-                }
-                //On vérifie la somme des clés et la position du joueur
-                if (sommeCleAir >= 4 && pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.AIR) {
-                    m.setObjetTresor(new OTresor(Tresor.AIR, true));
-                    notifierObservateur(m);
-                } else if (sommeCleEau >= 4 && pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.EAU) {
-                    m.setObjetTresor(new OTresor(Tresor.EAU, true));
-                    notifierObservateur(m);
-                } else if (sommeCleTerre >= 4 && pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.TERRE) {
-                    m.setObjetTresor(new OTresor(Tresor.TERRE, true));
-                    notifierObservateur(m);
-                } else if (sommeCleFeu >= 4 && pions.get(tourJoueur).getTuilePosition().getEvent() == Evenement.FEU) {
-                    m.setObjetTresor(new OTresor(Tresor.FEU, true));
-                    notifierObservateur(m);
-                }
-            }
-        });
-
-        info = new JButton("Information");
-        info.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                VueInformation vueInfo = new VueInformation(pions);
-            }
-        });
-
-        finTour = new JButton("Fin Tour");
-
-        finTour.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                Message m = new Message(TypesMessage.FIN_TOUR, pions.get(tourJoueur));
-                notifierObservateur(m);
-
-            }
-        });
-
-        zoneAction.add(deplace);
-        zoneAction.add(assecher);
-        zoneAction.add(donner);
-        zoneAction.add(btnUtiliserCarte);
-        zoneAction.add(capacite);
-        zoneAction.add(recupTresor);
-        zoneAction.add(info);
-        zoneAction.add(finTour);
-        conteneurDroite.setPreferredSize(new Dimension(200, 700));
-        conteneurDroite.add(zoneAction, BorderLayout.NORTH);
-
+////////////////////////////////////////////////////////////////////////////////
+//Fin du conteneur droit////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
         frame.add(conteneurDroite, BorderLayout.EAST);
 
         frame.setVisible(true);
@@ -570,12 +591,11 @@ public class VueGrille implements Observe {
         
         niveauEau.setNiveau();
     }*/
-    
-    public void actualiserInfoJA(Pion pionActif){
-        labelNomJoueurCourant.setText(pionActif.getNomj() + "[" + pionActif.getRole().getNomA()+ "]" );
+    public void actualiserInfoJA(Pion pionActif) {
+        labelNomJoueurCourant.setText(pionActif.getNomj() + "[" + pionActif.getRole().getNomA() + "]");
         labelPointsAction.setText("Points d'Actions : " + pionActif.getNbAction());
     }
-    
+
     public void setMsg(Message msg) {
         this.msg = msg;
     }
@@ -623,8 +643,6 @@ public class VueGrille implements Observe {
     public void activationDon(boolean b) {
         donner.setEnabled(b);
     }
-    
-    
 
     private void configureWindow(JFrame window) {
         window.setSize(500, 200);
