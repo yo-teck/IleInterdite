@@ -747,4 +747,6 @@ public class VueGrille implements Observe {
             observateur.traiterMessage(m);
         }
     }
+    
+    
 }
