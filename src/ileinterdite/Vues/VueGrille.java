@@ -150,32 +150,31 @@ public class VueGrille implements Observe {
         ci = 0;
         cj = 0;
         for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
+
             Tuile[i] = new JButton();
 
             Tuile tuileSelect = grille.getTuile(ci, cj);
-
             conteneurTuile.add(Tuile[i]);
+
             if (i == 0 || i == 1 || i == 4 || i == 5 || i == 6 || i == 11 || i == 24 || i == 29 || i == 30 || i == 31 || i == 34 || i == 35) {
-                Tuile[i].setEnabled(false); // Cases null non cliquable
+
                 Tuile[i].setBorder(BorderFactory.createLineBorder(Color.GRAY, 0));
-                infoBouton[i] = new InfoBouton(tuileSelect);
-                Tuile[i].add(infoBouton[i]);
+                Tuile[i].setEnabled(false);
 
             } else {
-
                 Tuile[i].setText(tuileSelect.getNom());
+
                 if (tuileSelect.isActif()) {
                     Tuile[i].setEnabled(true);
                 } else {
                     Tuile[i].setEnabled(false);
                 }
+
                 Tuile[i].setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
             }
-
             infoBouton[i] = new InfoBouton(tuileSelect);
             Tuile[i].add(infoBouton[i]);
-
             cj++;
             if (cj == 6) {
                 ci++;
@@ -261,10 +260,17 @@ public class VueGrille implements Observe {
         btnJ3 = new JButton(pions.get(2).getNomj());
         btnJ4 = new JButton(pions.get(3).getNomj());
 
-        btnJ1.setBackground(Color.pink);
-        btnJ2.setBackground(Color.white);
-        btnJ3.setBackground(Color.white);
-        btnJ4.setBackground(Color.white);
+        btnJ1.setIcon(pions.get(0).getRole().getImgAventurier());
+        btnJ1.setBorder(BorderFactory.createLineBorder(Color.PINK, 5));
+
+        btnJ2.setIcon(pions.get(1).getRole().getImgAventurier());
+        btnJ2.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
+
+        btnJ3.setIcon(pions.get(2).getRole().getImgAventurier());
+        btnJ3.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
+
+        btnJ4.setIcon(pions.get(3).getRole().getImgAventurier());
+        btnJ4.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
 
         btnJ[0] = btnJ1;
         btnJ[1] = btnJ2;
@@ -502,11 +508,11 @@ public class VueGrille implements Observe {
 
     public void joueurSuivant() {
         //pour decaler le joueur selectionner visible.
-        btnJ[tourJoueur].setBackground(Color.white);
+        btnJ[tourJoueur].setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
         tourJoueur++;
         tourJoueur %= 4;
         c1.show(zoneCartes, "" + tourJoueur);
-        btnJ[tourJoueur].setBackground(Color.pink);
+        btnJ[tourJoueur].setBorder(BorderFactory.createLineBorder(Color.PINK, 5));
     }
 
     public JPanel Carte(Pion pion) {

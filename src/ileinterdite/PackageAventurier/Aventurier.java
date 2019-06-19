@@ -9,7 +9,9 @@ import ileinterdite.Grille;
 import ileinterdite.Pion;
 import ileinterdite.PackageTuile.Tuile;
 import java.awt.Color;
+import java.io.File;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -21,17 +23,21 @@ public abstract class Aventurier {
     private String description;
     private Pion pion;
     private Tuile tuileDepart;
+    private ImageIcon imgAventurier;
+    private File chemin = new File("");
     protected Color couleur;
 
     public Aventurier(String nomA, String description, Tuile tuileDepart) {
         setNomA(nomA);
         setDescription(description);
         setTuileDepart(tuileDepart);
+        setImgAventurier(new ImageIcon(getChemin().getAbsolutePath() + "/src/ressources/imgRole/" + getNomA() + ".png"));
     }
 
     public Aventurier(String nomA, String description) {
         setNomA(nomA);
         setDescription(description);
+        setImgAventurier(new ImageIcon(getChemin().getAbsolutePath() + "/src/ressources/imgRole/" + getNomA() + ".png"));
     }
 
     public Color getCouleur() {
@@ -70,6 +76,20 @@ public abstract class Aventurier {
         this.tuileDepart = tuileDepart;
     }
 
+    public File getChemin() {
+        return chemin;
+    }
+
+    public void setImgAventurier(ImageIcon imgAventurier) {
+        this.imgAventurier = imgAventurier;
+    }
+
+    public ImageIcon getImgAventurier() {
+        return imgAventurier;
+    }
+    
+    
+    
     public ArrayList<Tuile> getTuilesDispoPourDeplacement(Grille grille, Tuile tuile) {
         ArrayList<Tuile> tuilesDispoPourDeplacement = new ArrayList<>();
         tuilesDispoPourDeplacement = grille.getTuilesCroix(tuile);
