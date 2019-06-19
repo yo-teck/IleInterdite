@@ -9,10 +9,11 @@ import ileinterdite.PackageTuile.Etat;
 import ileinterdite.PackageTuile.Evenement;
 import ileinterdite.PackageTuile.Tuile;
 import ileinterdite.Pion;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -51,11 +52,20 @@ public class InfoBouton extends JPanel {
         int hauteurf = dimension.height;
         int largeurf = dimension.width;
 
-      
-        taille = 50;
-
-
         File path = new File("");
+
+        if (tuile.getEtat() == Etat.NULL) {
+            g2d.drawImage(tuile.getImageNULL().getImage(), 0, 0, largeurf, hauteurf, this);
+        } else if (tuile.getEtat() == Etat.INONDE) {
+            g2d.drawImage(tuile.getImageINNONDER().getImage(), 0, 0, largeurf, hauteurf, this);
+        } else if (tuile.getEtat() == Etat.SUBMERGE) {
+            g2d.drawImage(tuile.getImageSUBMERGER().getImage(), 0, 0, largeurf, hauteurf, this);
+        } else {
+            g2d.drawImage(tuile.getImageSEC().getImage(), 0, 0, largeurf, hauteurf, this);
+        }
+
+        taille = largeurf/3;
+        
         for (int i = 0; i < pions.size(); i++) {
             if (i == 0) {
                 try {
@@ -68,36 +78,24 @@ public class InfoBouton extends JPanel {
                     image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources/imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
                 } catch (IOException ex) {
                 }
-                g2d.drawImage(image, largeurf - taille, 0, taille, taille, this);
+                g2d.drawImage(image, taille, 0, taille, taille, this);
             } else if (i == 2) {
                 try {
                     image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources/imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
                 } catch (IOException ex) {
                 }
-                g2d.drawImage(image, 0, hauteurf - taille, taille, taille, this);
+                g2d.drawImage(image, taille*2, 0, taille, taille, this);
 
             } else if (i == 3) {
                 try {
                     image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources/imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
                 } catch (IOException ex) {
                 }
-                g2d.drawImage(image, largeurf - taille, hauteurf - taille, taille, taille, this);
+                g2d.drawImage(image, taille, hauteurf - taille, taille, taille, this);
 
             }
         }
-        /*
-        taille -=10;
-        if (tuile.getEtat()!=Etat.SUBMERGE&&(tuile.getEvent() == Evenement.AIR || tuile.getEvent() == Evenement.EAU
-                || tuile.getEvent() == Evenement.TERRE || tuile.getEvent() == Evenement.FEU)) {
 
-            try {
-
-                image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources_imgTresor/" + tuile.getEvent() + ".png"));
-            } catch (IOException ex) {
-
-            }
-            g2d.drawImage(image, ((largeurf / 2) - (taille/2)), (hauteurf - image.getHeight() - (taille - image.getHeight())), taille, taille, this);
-        }*/
     }
 
 }

@@ -199,29 +199,29 @@ public class Controleur implements Observateur {
         //Instanciation des tuiles
         Tuile t00 = new Tuile(Etat.NULL, 0, 0);
         Tuile t02 = new Tuile(Etat.SEC, Evenement.RIEN, 0, 2, "Le_Pont_des_Abimes");
-        Tuile t03 = new Tuile(Etat.INONDE, Evenement.SPAWN_INGENIEUR, 0, 3, "La_Porte_de_Bronze");
+        Tuile t03 = new Tuile(Etat.SEC, Evenement.SPAWN_INGENIEUR, 0, 3, "La_Porte_de_Bronze");
         Tuile t11 = new Tuile(Etat.SEC, Evenement.FEU, 1, 1, "La_Caverne_des_Ombres");
         Tuile t12 = new Tuile(Etat.SEC, Evenement.SPAWN_PLONGEUR, 1, 2, "La_Porte_de_Fer");
         Tuile t13 = new Tuile(Etat.SEC, Evenement.SPAWN_NAVIGATEUR, 1, 3, "La_Porte_d'Or");
         Tuile t14 = new Tuile(Etat.SEC, Evenement.RIEN, 1, 4, "Les_Falaises_de_l'Oubli");        //Ligne 2
         Tuile t20 = new Tuile(Etat.SEC, Evenement.EAU, 2, 0, "Le_Palais_de_Corail");
         Tuile t21 = new Tuile(Etat.SEC, Evenement.SPAWN_MESSAGER, 2, 1, "La_Porte_d'Argent");
-        Tuile t22 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 2, 2, "Les_Dunes_de_l'Illusion");
+        Tuile t22 = new Tuile(Etat.SEC, Evenement.RIEN, 2, 2, "Les_Dunes_de_l'Illusion");
         Tuile t23 = new Tuile(Etat.SEC, Evenement.HELIPORT, 2, 3, "Heliport");
         Tuile t24 = new Tuile(Etat.SEC, Evenement.SPAWN_EXPLORATEUR, 2, 4, "La_Porte_de_Cuivre");
         Tuile t25 = new Tuile(Etat.SEC, Evenement.AIR, 2, 5, "Le_Jardin_des_Hurlements");
         Tuile t30 = new Tuile(Etat.SEC, Evenement.RIEN, 3, 0, "La_Foret_Pourpre");
-        Tuile t31 = new Tuile(Etat.INONDE, Evenement.RIEN, 3, 1, "Le_Lagon_Perdu");
-        Tuile t32 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 2, "Le_Marais_Brumeux");
-        Tuile t33 = new Tuile(Etat.INONDE, Evenement.RIEN, 3, 3, "Observatoire");
-        Tuile t34 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 4, "Le_Rocher_Fantome");
-        Tuile t35 = new Tuile(Etat.INONDE, Evenement.FEU, 3, 5, "La_Caverne_du_Brasier");
+        Tuile t31 = new Tuile(Etat.SEC, Evenement.RIEN, 3, 1, "Le_Lagon_Perdu");
+        Tuile t32 = new Tuile(Etat.SEC, Evenement.RIEN, 3, 2, "Le_Marais_Brumeux");
+        Tuile t33 = new Tuile(Etat.SEC, Evenement.RIEN, 3, 3, "Observatoire");
+        Tuile t34 = new Tuile(Etat.SEC, Evenement.RIEN, 3, 4, "Le_Rocher_Fantome");
+        Tuile t35 = new Tuile(Etat.SEC, Evenement.FEU, 3, 5, "La_Caverne_du_Brasier");
         Tuile t41 = new Tuile(Etat.SEC, Evenement.TERRE, 4, 1, "Le_Temple_du_Soleil");
-        Tuile t42 = new Tuile(Etat.SUBMERGE, Evenement.TERRE, 4, 2, "Le_Temple_de_la_Lune");
+        Tuile t42 = new Tuile(Etat.SEC, Evenement.TERRE, 4, 2, "Le_Temple_de_la_Lune");
         Tuile t43 = new Tuile(Etat.SEC, Evenement.EAU, 4, 3, "Le_Palais_des_Marees");
         Tuile t44 = new Tuile(Etat.SEC, Evenement.RIEN, 4, 4, "Le_Val_du_Crepuscule");
         Tuile t52 = new Tuile(Etat.SEC, Evenement.RIEN, 5, 2, "La_Tour_du_Guet");
-        Tuile t53 = new Tuile(Etat.INONDE, Evenement.AIR, 5, 3, "Le_Jardin_des_Murmures");
+        Tuile t53 = new Tuile(Etat.SEC, Evenement.AIR, 5, 3, "Le_Jardin_des_Murmures");
 
 
         for (Pion pion : pions) {
@@ -414,7 +414,7 @@ public class Controleur implements Observateur {
 
         //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
         ihm.setMsg(new Message(TypesMessage.TUILE_DEPLACEMENT));
-        ihm.setCliquable(ile);
+        ihm.setCliquable(ile,pionActif.getCouleur());
 
     }
 
@@ -428,7 +428,7 @@ public class Controleur implements Observateur {
 
         //On montre les cases dispo pour l'assechement puis on demande la case à l'utilisateur puis on asseche la tuile.
         ihm.setMsg(new Message(TypesMessage.TUILE_ASSECHEMENT));
-        ihm.setCliquable(ile);
+        ihm.setCliquable(ile,pionActif.getCouleur());
 
     }
 
