@@ -29,48 +29,49 @@ import javax.swing.JRadioButton;
  * @author richomml
  */
 public class VueDefausse implements Observe {
+
     private Observateur observateur;
-    
+
     private JFrame fenetre;
-    
+
     private JPanel conteneurCartes;
-    
+
     private HashMap<Integer, JCheckBox> cartesADefausser;
-    
+
     private JButton btnValider;
-    
-    public VueDefausse(Pion pionActif){
+
+    public VueDefausse(Pion pionActif) {
         fenetre = new JFrame("Cartes de " + pionActif.getNomj());
-        fenetre.setSize(600,400);
+        fenetre.setSize(600, 400);
         fenetre.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         fenetre.setLayout(new BorderLayout());
-        
-        conteneurCartes = new JPanel(new GridLayout(7,1));
-        
+
+        conteneurCartes = new JPanel(new GridLayout(7, 1));
+
         cartesADefausser = new HashMap<>();
         JCheckBox caseACocher;
-        
+
         int i = 0;
-        for(CarteTresor ct : pionActif.getCartesTresors()){            
+        for (CarteTresor ct : pionActif.getCartesTresors()) {
             caseACocher = new JCheckBox(ct.getType().toString());
             cartesADefausser.put(i, caseACocher);
             i++;
         }
-        
-        for(Integer j : cartesADefausser.keySet()) {
+
+        for (Integer j : cartesADefausser.keySet()) {
             conteneurCartes.add(cartesADefausser.get(j));
         }
-    
-        fenetre.add(new JLabel(pionActif.getNomj() + " a plus de 5 cartes veuillez défausser au moins " + (pionActif.getNbCartes()-5) + " cartes : "), BorderLayout.NORTH);
+
+        fenetre.add(new JLabel(pionActif.getNomj() + " a plus de 5 cartes veuillez défausser au moins " + (pionActif.getNbCartes() - 5) + " cartes : "), BorderLayout.NORTH);
         fenetre.add(conteneurCartes, BorderLayout.CENTER);
-        
+
         btnValider = new JButton("Valider");
-        btnValider.addActionListener(new ActionListener(){
+        btnValider.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.DEFAUSSE);
-                for(int i = 0; i<pionActif.getNbCartes(); i++){
-                    if(cartesADefausser.get(i).isSelected()){
+                for (int i = 0; i < pionActif.getNbCartes(); i++) {
+                    if (cartesADefausser.get(i).isSelected()) {
                         System.out.println(cartesADefausser.get(i).isSelected());
                         m.addCarteTresor(pionActif.getCartesTresors().get(i));
                     }
@@ -79,11 +80,11 @@ public class VueDefausse implements Observe {
                 fenetre.setVisible(false);
             }
         });
-        
+
         fenetre.add(btnValider, BorderLayout.SOUTH);
         fenetre.setVisible(true);
     }
-    
+
     @Override
     public void addObservateur(Observateur o) {
         this.observateur = o;

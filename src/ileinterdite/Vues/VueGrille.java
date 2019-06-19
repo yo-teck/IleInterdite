@@ -149,6 +149,7 @@ public class VueGrille implements Observe {
         for (int i = 0; i < 36; i++) { // Boucle afin d'ajouter tout les boutons de la grille 
 
             Tuile[i] = new JButton();
+
             Tuile tuileSelect = grille.getTuile(ci, cj);
             conteneurTuile.add(Tuile[i]);
 
@@ -717,4 +718,5 @@ public class VueGrille implements Observe {
             observateur.traiterMessage(m);
         }
     }
+
 }

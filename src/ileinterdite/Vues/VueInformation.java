@@ -18,29 +18,30 @@ import javax.swing.JPanel;
  * @author richomml
  */
 public class VueInformation {
+
     private JFrame fenetre;
     private JPanel conteneur;
     private JPanel conteneurNoms;
     private JPanel conteneurDescriptions;
-    
-    VueInformation(ArrayList<Pion> pions){
+
+    VueInformation(ArrayList<Pion> pions) {
         fenetre = new JFrame();
         fenetre.setSize(1135, 500);
-        
+
         conteneur = new JPanel(new BorderLayout());
-        
-        conteneurNoms = new JPanel(new GridLayout(pions.size(), 1));        
-        for (int i = 0; i<pions.size(); i++){
+
+        conteneurNoms = new JPanel(new GridLayout(pions.size(), 1));
+        for (int i = 0; i < pions.size(); i++) {
             conteneurNoms.add(new JLabel(pions.get(i).getNomj() + " (" + pions.get(i).getRole().getNomA() + ")   "));
-        }        
+        }
         conteneur.add(conteneurNoms, BorderLayout.WEST);
-        
-        conteneurDescriptions = new JPanel(new GridLayout(pions.size(), 1));        
-        for (int i = 0; i<pions.size(); i++){
+
+        conteneurDescriptions = new JPanel(new GridLayout(pions.size(), 1));
+        for (int i = 0; i < pions.size(); i++) {
             conteneurDescriptions.add(new JLabel(pions.get(i).getRole().getDescription()));
-        }        
+        }
         conteneur.add(conteneurDescriptions, BorderLayout.CENTER);
-        
+
         fenetre.add(conteneur);
         fenetre.setVisible(true);
     }

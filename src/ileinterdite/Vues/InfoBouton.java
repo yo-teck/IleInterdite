@@ -64,8 +64,8 @@ public class InfoBouton extends JPanel {
             g2d.drawImage(tuile.getImageSEC().getImage(), 0, 0, largeurf, hauteurf, this);
         }
 
-        taille = largeurf/3;
-        
+        taille = largeurf / 3;
+
         for (int i = 0; i < pions.size(); i++) {
             if (i == 0) {
                 try {
@@ -84,7 +84,7 @@ public class InfoBouton extends JPanel {
                     image = ImageIO.read(new File(path.getAbsolutePath() + "/src/ressources/imgRole/" + pions.get(i).getRole().getNomA() + ".png"));
                 } catch (IOException ex) {
                 }
-                g2d.drawImage(image, taille*2, 0, taille, taille, this);
+                g2d.drawImage(image, taille * 2, 0, taille, taille, this);
 
             } else if (i == 3) {
                 try {
