@@ -738,7 +738,19 @@ public class Controleur implements Observateur {
 
         }
 
-        if (!debutDePartie && !pileCarteInondations.isEmpty()) {
+        if (!debutDePartie && pileCarteInondations.size()>=niveauEau.getEchelon()) {
+            //Si pile de cartes inondation suffisante on tire les cartes et on inonde
+            for (int i = 0; i < niveauEau.getEchelon(); i++) {
+                tuilesPiochees.add(pileCarteInondations.get(0));
+                pileCarteInondations.remove(0);
+            }
+            inonderTuiles();
+        } else if (pileCarteInondations.size()<niveauEau.getEchelon()) {
+            //Si pile de cartes inondation insuffisante, on remet les cartes de la défausse dans la pile et on tire les cartes et on inonde
+            pileCarteInondations.addAll(tuilesPiochees);
+            Collections.shuffle(pileCarteInondations);
+            tuilesPiochees.clear();
+            System.out.println("Problème reglé");
             for (int i = 0; i < niveauEau.getEchelon(); i++) {
                 tuilesPiochees.add(pileCarteInondations.get(0));
                 pileCarteInondations.remove(0);
