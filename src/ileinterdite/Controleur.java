@@ -223,7 +223,6 @@ public class Controleur implements Observateur {
         Tuile t52 = new Tuile(Etat.SEC, Evenement.RIEN, 5, 2, "La_Tour_du_Guet");
         Tuile t53 = new Tuile(Etat.SEC, Evenement.AIR, 5, 3, "Le_Jardin_des_Murmures");
 
-
         for (Pion pion : pions) {
             if (pion.getRole().getNomA().equals("Explorateur")) {
                 pion.setTuilePositionIni(t24);
@@ -414,7 +413,7 @@ public class Controleur implements Observateur {
 
         //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
         ihm.setMsg(new Message(TypesMessage.TUILE_DEPLACEMENT));
-        ihm.setCliquable(ile,pionActif.getCouleur());
+        ihm.setCliquable(ile, pionActif.getCouleur());
 
     }
 
@@ -428,7 +427,7 @@ public class Controleur implements Observateur {
 
         //On montre les cases dispo pour l'assechement puis on demande la case à l'utilisateur puis on asseche la tuile.
         ihm.setMsg(new Message(TypesMessage.TUILE_ASSECHEMENT));
-        ihm.setCliquable(ile,pionActif.getCouleur());
+        ihm.setCliquable(ile, pionActif.getCouleur());
 
     }
 
@@ -686,16 +685,16 @@ public class Controleur implements Observateur {
         return pionActif.getNbAction() == 0;
 
     }
-    
+
     public void check() {
-        if (pionActif.getRole().getTuilesDispoPourDeplacement(ile, pionActif.getTuilePosition()).size() == 0 ) {
+        if (pionActif.getRole().getTuilesDispoPourDeplacement(ile, pionActif.getTuilePosition()).size() == 0) {
             //desactiver seDeplacer
             ihm.activationDeplacement(false);
         }/*else{ 
             ihm.activationDeplacement(true);
             
         }*/
-        if (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() == 0 ) {
+        if (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() == 0) {
             //desactiver assecher
             ihm.activationAssechement(false);
         }/*else{
@@ -709,7 +708,7 @@ public class Controleur implements Observateur {
         }*/
 
     }
-    
+
     public void initPioche(ArrayList<Pion> pions) {
         for (Pion pion : pions) {
             fairePiocher(pion);
@@ -738,14 +737,14 @@ public class Controleur implements Observateur {
 
         }
 
-        if (!debutDePartie && pileCarteInondations.size()>=niveauEau.getEchelon()) {
+        if (!debutDePartie && pileCarteInondations.size() >= niveauEau.getEchelon()) {
             //Si pile de cartes inondation suffisante on tire les cartes et on inonde
             for (int i = 0; i < niveauEau.getEchelon(); i++) {
                 tuilesPiochees.add(pileCarteInondations.get(0));
                 pileCarteInondations.remove(0);
             }
             inonderTuiles();
-        } else if (pileCarteInondations.size()<niveauEau.getEchelon()) {
+        } else if (pileCarteInondations.size() < niveauEau.getEchelon()) {
             //Si pile de cartes inondation insuffisante, on remet les cartes de la défausse dans la pile et on tire les cartes et on inonde
             pileCarteInondations.addAll(tuilesPiochees);
             Collections.shuffle(pileCarteInondations);

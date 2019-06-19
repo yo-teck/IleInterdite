@@ -124,28 +124,28 @@ public class VueDonnerCarte implements Observe {
                     i++;
                 }
                 //On vérifie la position du pion dans l'ArrayList et on le met dans le message en conséquence
-                if(numPion==0){
-                    m.setPion(pions.get(i+1));
-                } else if (numPion==1) {
-                    if(i<1){
+                if (numPion == 0) {
+                    m.setPion(pions.get(i + 1));
+                } else if (numPion == 1) {
+                    if (i < 1) {
                         m.setPion(pions.get(i));
                     } else {
-                        m.setPion(pions.get(i+1));
+                        m.setPion(pions.get(i + 1));
                     }
-                } else if (numPion==2) {
-                    if(i<2){
+                } else if (numPion == 2) {
+                    if (i < 2) {
                         m.setPion(pions.get(i));
                     } else {
-                        m.setPion(pions.get(i+1));
+                        m.setPion(pions.get(i + 1));
                     }
-                } else if (numPion==3) {
-                    if(i<3){
+                } else if (numPion == 3) {
+                    if (i < 3) {
                         m.setPion(pions.get(i));
                     } else {
-                        m.setPion(pions.get(i+1));
+                        m.setPion(pions.get(i + 1));
                     }
                 }
-                
+
                 fenetre.setVisible(false);
                 notifierObservateur(m);
             }
