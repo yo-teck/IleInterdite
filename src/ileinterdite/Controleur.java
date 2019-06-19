@@ -473,12 +473,12 @@ public class Controleur implements Observateur {
         } else if (m.getType() == TypesMessage.FIN_TOUR) {
             fairePiocher(pionActif);
             if (pionActif.getNbCartes() > 5) {
-            vueDefausse = new VueDefausse(pionActif);
-            vueDefausse.addObservateur(this);
-            ihm.activationBoutons(false);
-        } else {
-            joueurSuivant();
-        }
+                vueDefausse = new VueDefausse(pionActif);
+                vueDefausse.addObservateur(this);
+                ihm.activationBoutons(false);
+            } else {
+                joueurSuivant();
+            }
         } else if (m.getType() == TypesMessage.DEPLACEMENT) {
 
             //System.out.println("Rentree");
@@ -550,26 +550,28 @@ public class Controleur implements Observateur {
 
     public void initInondation() {
         for (int i = 0; i < 6; i++) {
+            if (pileCarteInondations.get(0).getEtat() == Etat.SEC) {
+                pileCarteInondations.get(0).setEtat(Etat.INONDE);
+            } else if (pileCarteInondations.get(i).getEtat() == Etat.INONDE) {
+                pileCarteInondations.get(0).setEtat(Etat.SUBMERGE);
+            }
             tuilesPiochees.add(pileCarteInondations.get(0));
             pileCarteInondations.remove(0);
         }
-        inonderTuiles(tuilesPiochees);
     }
 
-    public void inonderTuiles(ArrayList<Tuile> tuilesAInonder) {
-        ArrayList<Tuile> tuilesASupprimer = new ArrayList<>();
-        for (Tuile tuile : tuilesAInonder) {
-            if (tuile.getEtat() == Etat.SEC) {
-                tuile.setEtat(Etat.INONDE);
-            } else if (tuile.getEtat() == Etat.INONDE) {
-                tuile.setEtat(Etat.SUBMERGE);
-                tuilesASupprimer.add(tuile);
+    public void inonderTuiles() {
+
+        for (int i = 0; i < niveauEau.getEchelon(); i++) {
+            if (pileCarteInondations.get(0).getEtat() == Etat.SEC) {
+                pileCarteInondations.get(0).setEtat(Etat.INONDE);
+            } else if (pileCarteInondations.get(i).getEtat() == Etat.INONDE) {
+                pileCarteInondations.get(0).setEtat(Etat.SUBMERGE);
             }
+            tuilesPiochees.add(pileCarteInondations.get(0));
+            pileCarteInondations.remove(0);
         }
-        while (!tuilesASupprimer.isEmpty()) {
-            tuilesAInonder.remove(tuilesASupprimer.get(0));
-            tuilesASupprimer.remove(0);
-        }
+
     }
 
     public void demo() {
@@ -631,7 +633,7 @@ public class Controleur implements Observateur {
     }
 
     public void joueurSuivant() {
-        
+
         int i = 0;
         while (i < pions.size() && pions.get(i) != pionActif) {
             i++;
@@ -708,7 +710,7 @@ public class Controleur implements Observateur {
 
     public void fairePiocher(Pion pion) {
         ihm.actualiserGrille(ile);
-        ihm.actualiserCartes(pions);      
+        ihm.actualiserCartes(pions);
         for (int i = 0; i < 2; i++) {
             verifPile();
             CarteTresor ct = pile.get(0);
@@ -718,6 +720,7 @@ public class Controleur implements Observateur {
                 pileCarteInondations.addAll(tuilesPiochees);
                 tuilesPiochees.clear();
                 defausse.add(ct);
+                System.out.println("Montée des eaux");
             } else {
                 pion.addCarte(pile.get(0));
             }
@@ -730,23 +733,23 @@ public class Controleur implements Observateur {
                 tuilesPiochees.add(pileCarteInondations.get(0));
                 pileCarteInondations.remove(0);
             }
-            inonderTuiles(tuilesPiochees);
+            inonderTuiles();
         }
 
         ihm.actualiserGrille(ile);
         ihm.actualiserCartes(pions);
-        
+
     }
 
-    public void verifPile(){
-        if(pile.isEmpty()){
+    public void verifPile() {
+        if (pile.isEmpty()) {
             Collections.shuffle(defausse);
             pile.addAll(defausse);
             defausse.clear();
             System.out.println("Pile remise.");
         }
     }
-    
+
     public static void main(String[] args) {
 
         new Controleur();
