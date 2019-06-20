@@ -626,6 +626,19 @@ public class VueGrille implements Observe {
     public void activationDon(boolean b) {
         donner.setEnabled(b);
     }
+    
+    public void activationRecupe(boolean b) {
+        recupTresor.setEnabled(b);
+    }
+    
+    public void activationCapacite(boolean b) {
+        capacite.setEnabled(b);
+    }
+    
+    public void activationUtilise(boolean b) {
+        btnUtiliserCarte.setEnabled(b);
+    }
+    
 
     private void configureWindow(JFrame window) {
         window.setSize(500, 200);

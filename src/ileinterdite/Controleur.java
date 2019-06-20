@@ -479,6 +479,7 @@ public class Controleur implements Observateur {
                 ihm.activationBoutons(false);
             } else {
                 joueurSuivant();
+                //pionActif.setNbAction(3);
                 ihm.actualiserInfoJA(pionActif);
             }
         } else if (m.getType() == TypesMessage.DEPLACEMENT) {
@@ -697,7 +698,7 @@ public class Controleur implements Observateur {
             //A FAIRE
             //
             while (!isNbActionNul()) {
-                //proposer des actions + 
+                //proposer des actions +             
                 check();
             }
 
@@ -732,7 +733,16 @@ public class Controleur implements Observateur {
         }/*else{
             ihm.activationDon(true);
         }*/
-
+        /*
+        if (pionActif.getNbAction()<=0){
+            ihm.activationDeplacement(false);
+            ihm.activationAssechement(false);
+            ihm.activationDon(false);
+            ihm.activationCapacite(false);
+            ihm.activationRecupe(false);
+            ihm.activationUtilise(false);
+        }
+        */
     }
 
     public void initPioche(ArrayList<Pion> pions) {
