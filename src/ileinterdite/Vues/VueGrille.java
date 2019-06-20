@@ -79,6 +79,7 @@ public class VueGrille implements Observe {
     private int cj;
     private int tourJoueur = 0;
 
+    private JPanel[] carteJ;
     private JButton[] Tuile;
     private InfoTresor[] infoTresors;
     private InfoTuile[] infoBouton;
@@ -240,6 +241,15 @@ public class VueGrille implements Observe {
         c1 = new CardLayout();
         zoneCartes = new JPanel(c1);
 
+        carteJ =new JPanel[pions.size()];
+        
+        for(int i = 0; i<pions.size();i++){
+            JPanel carteJoueur = new InfoCarte(pions.get(i));
+            carteJ[i]=carteJoueur;
+            zoneCartes.add(carteJ[i], i+"");
+            System.out.println(i);
+        }
+        /*
         carteJ1 = new JPanel();
         carteJ1 = Carte(pions.get(0));
         carteJ2 = new JPanel();
@@ -247,12 +257,9 @@ public class VueGrille implements Observe {
         carteJ3 = new JPanel();
         carteJ3 = Carte(pions.get(2));
         carteJ4 = new JPanel();
-        carteJ4 = Carte(pions.get(3));
+        carteJ4 = Carte(pions.get(3));*/
 
-        zoneCartes.add(carteJ1, "0");
-        zoneCartes.add(carteJ2, "1");
-        zoneCartes.add(carteJ3, "2");
-        zoneCartes.add(carteJ4, "3");
+
 
         c1.show(zoneCartes, "0");
         conteneurBas.add(zoneCartes, BorderLayout.CENTER);
@@ -464,7 +471,7 @@ public class VueGrille implements Observe {
 
                 @Override
                 public void mousePressed(MouseEvent arg0) {
-                    c1.show(zoneCartes, show + "");
+                    c1.show(zoneCartes, show+"");
                 }
 
                 @Override
@@ -534,7 +541,7 @@ public class VueGrille implements Observe {
 
     public void actualiserCartes(ArrayList<Pion> pions) {
 
-        zoneCartes.remove(carteJ1);
+       /* zoneCartes.remove(carteJ1);
         zoneCartes.remove(carteJ2);
         zoneCartes.remove(carteJ3);
         zoneCartes.remove(carteJ4);
@@ -547,7 +554,12 @@ public class VueGrille implements Observe {
         zoneCartes.add(carteJ1, "0");
         zoneCartes.add(carteJ2, "1");
         zoneCartes.add(carteJ3, "2");
-        zoneCartes.add(carteJ4, "3");
+        zoneCartes.add(carteJ4, "3");*/
+       for(int i=0;i<pions.size();i++){
+
+                carteJ[i].repaint();
+       }
+       
         c1.show(zoneCartes, tourJoueur + "");
 
     }

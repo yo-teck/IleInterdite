@@ -885,7 +885,7 @@ public class Controleur implements Observateur {
 
     public void fairePiocher(Pion pion) {
         ihm.actualiserGrille(ile);
-        ihm.actualiserCartes(pions);
+       // ihm.actualiserCartes(pions);
         for (int i = 0; i < 2; i++) {
             verifPile();
             CarteTresor ct = pile.get(0);

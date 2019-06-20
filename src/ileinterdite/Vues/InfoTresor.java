@@ -36,8 +36,11 @@ public class InfoTresor extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         int hauteurf = dimension.height;
         int largeurf = dimension.width;
-        g2d.setColor(Color.lightGray);
-        g2d.drawRect(0, 0, largeurf, hauteurf);
+        
+                File chemin = new File("");
+
+
+        g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgDecor/boisPanneau.png").getImage(), 0, 0, largeurf,hauteurf , this);
         if (tresor.isEstRecupere()) {
             g2d.drawImage((tresor.getImageTresorR()).getImage(), 0, 0, largeurf, hauteurf, this);
         } else if (!tresor.isEstRecupere()) {
