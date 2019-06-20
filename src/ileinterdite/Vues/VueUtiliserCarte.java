@@ -57,6 +57,7 @@ public class VueUtiliserCarte implements Observe {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             m.setPion(pion);
+                            m.setTuile(pion.getTuilePosition()); // Pour check la position sur heliport pour la victoire
                             m.setCarteTresor(ct);
                             boutonCarte.setEnabled(false);
                             btnSauvegarde.setEnabled(true);

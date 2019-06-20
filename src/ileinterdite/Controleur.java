@@ -18,6 +18,7 @@ import ileinterdite.PackageAventurier.Messager;
 import ileinterdite.PackageAventurier.Plongeur;
 import ileinterdite.PackageAventurier.Explorateur;
 import ileinterdite.PackageAventurier.Pilote;
+import ileinterdite.Vues.VueFin;
 import ileinterdite.Vues.VueDefausse;
 import ileinterdite.Vues.VueDemarrer;
 import ileinterdite.Vues.VueDonnerCarte;
@@ -62,6 +63,9 @@ public class Controleur implements Observateur {
     private VueUtiliserCarte vueUtiliserCarte;
     private VueInformation vueInfo;
     private VueNavigateur vueNavigateur;
+    
+    private VueFin vueFin;
+    
 
     private boolean debutDePartie;
 
@@ -410,6 +414,10 @@ public class Controleur implements Observateur {
         tresors.add(tAir);
         tresors.add(tFeu);
         tresors.add(tTerre);
+        tEau.setEstRecupere(true);
+        tAir.setEstRecupere(true);
+        tFeu.setEstRecupere(true);
+        tTerre.setEstRecupere(true);
     }
 
     public void seDeplacer(Pion pion) {
@@ -429,15 +437,25 @@ public class Controleur implements Observateur {
     public void seDeplacerNavigateur(Pion pion) {
         ihm.activationBoutons(false);
         Pion explo = new Pion(new Explorateur());
+        Pion normal = new Pion(new Navigateur());
         int i = 0;
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
         tuilesDispo = explo.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition());
         for (Tuile tuile : tuilesDispo) {
             tuile.setActif(true);
         }
-        tuilesDispo = pion.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition());
+        if (pion.getRole().getNomA().equals("Plongeur") || pion.getRole().getNomA().equals("Explorateur")) {
+            tuilesDispo = normal.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition());
+        } else {
+            tuilesDispo = pion.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition());
+        }
+        for (int j = 0; j < tuilesDispo.size(); j++) {
+            tuilesDispo.addAll(pion.getRole().getTuilesDispoPourDeplacement(ile, tuilesDispo.get(j)));
+        }
+
         while (i < tuilesDispo.size()) {
-            tuilesDispo = pion.getRole().getTuilesDispoPourDeplacement(ile, tuilesDispo.get(i));
+
+            System.out.println(i);
             tuilesDispo.remove(pion.getTuilePosition());
             tuilesDispo.get(i).setActif(true);
             i++;
@@ -595,6 +613,7 @@ public class Controleur implements Observateur {
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             ihm.actualiserInfoJA(pionActif);
             ihm.activationBoutons(true);
+            ihm.activationCapacite(false);
 
         } else if (m.getType() == TypesMessage.TUILE_ASSECHEMENT_SS) {
             m.getTuile().setEtat(Etat.SEC);
@@ -612,7 +631,6 @@ public class Controleur implements Observateur {
 
         } else if (m.getType() == TypesMessage.DONNER_CARTE) {
             donnerCarte(m.getCarteTresor(), m.getPion());
-
             ihm.activationBoutons(true);
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
@@ -651,9 +669,16 @@ public class Controleur implements Observateur {
                 defausser(m.getPion(), m.getCarteTresor());
                 ihm.actualiserInfoJA(pionActif);
             } else { //Carte Helicoptere
-                seDeplacerHelico(m.getPion());
-                defausser(m.getPion(), m.getCarteTresor());
-                ihm.actualiserInfoJA(pionActif);
+                if (m.getTuile().getNom() == "Heliport" && m.getTuile().getPions().size() == 4) {
+                    if (checkVictoire()) {
+                        vueFin = new VueFin("VICTOIRE ! ");
+                        System.out.println("Victoire");
+                    }
+                } else {
+                    seDeplacerHelico(m.getPion());
+                    defausser(m.getPion(), m.getCarteTresor());
+                    ihm.actualiserInfoJA(pionActif);
+                }
             }
         } else if (m.getType() == TypesMessage.AFFICHER_INFO) {
             vueInfo = new VueInformation(pions);
@@ -662,7 +687,7 @@ public class Controleur implements Observateur {
         } else if (m.getType() == TypesMessage.FERMER_INFO) {
             ihm.activationInfo(true);
         } else if (m.getType() == TypesMessage.CAPACITE) {
-        
+
             if (pionActif.getRole().getNomA().equals("Pilote")) {
                 seDeplacerHelico(pionActif);
                 pionActif.setNbAction(pionActif.getNbAction() - 1);
@@ -672,17 +697,16 @@ public class Controleur implements Observateur {
                 pionActif.getRole().setCapaciteUtilisee(true);
             } else if (pionActif.getRole().getNomA().equals("Navigateur")) {
                 //seDeplacerHelico(m.getPion());
-                vueNavigateur = new VueNavigateur(pionActif,pions);
+                vueNavigateur = new VueNavigateur(pionActif, pions);
                 vueNavigateur.addObservateur(this);
-                ihm.activationBoutons(false); 
+                ihm.activationBoutons(false);
             }
-            
-        } else if(m.getType() == TypesMessage.DEPLACEMENT_AMI){
+
+        } else if (m.getType() == TypesMessage.DEPLACEMENT_AMI) {
             System.out.println(m.getPion());
             seDeplacerNavigateur(m.getPion());
             ihm.activationBoutons(true);
-        }
-        else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_AMI) {
+        } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_AMI) {
 
             m.getPion().setTuilePosition(m.getTuile());
 
@@ -694,6 +718,11 @@ public class Controleur implements Observateur {
             ihm.activationBoutons(true);
         }
         check();
+        if (checkDefaite()) {
+            //Lancer vue defaite ;
+            vueFin = new VueFin("DEFAITE !");
+
+        }
     }
 
     public void initPion() {
@@ -868,10 +897,70 @@ public class Controleur implements Observateur {
         }
         if (pionActif.getRole().getNomA().equals("Plongeur") || pionActif.getRole().getNomA().equals("Explorateur")
                 || pionActif.getRole().getNomA().equals("Messager") || pionActif.getRole().isCapaciteUtilisee()
-                ) {
+                || (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() < 2 && pionActif.getRole().getNomA().equals("Ingenieur"))) {
             ihm.activationCapacite(false);
-            // Condition ingénieur : (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() < 2 && pionActif.getRole().getNomA().equals("Ingenieur"))
-            
+        }
+        for (Pion pion : pions) {
+            if (pion.getTuilePosition().getEtat() == Etat.SUBMERGE && !checkDefaite()) {
+
+                if (pion.getRole().getNomA().equals("Pilote")) {
+                    seDeplacerHelico(pion);
+                } else {
+                    seDeplacer(pion);
+                }
+
+                pionActif.setNbAction(pionActif.getNbAction() + 1);
+            }
+        }
+
+    }
+
+    public boolean checkVictoire() {
+        int c = 0;
+        for (OTresor tresor : tresors) {
+            if (tresor.isEstRecupere()) {
+                c++;
+
+                //Aller dans traiter message UTILISER_CARTE et ajouter un test pour voir si les 4 joueurs sont sur la case heliport et le nombre de tresor possedé = 4
+            }
+        }
+        return c == 4;
+    }
+
+    public boolean checkDefaite() {
+        int a = 0;
+        int t = 0;
+        int f = 0;
+        int e = 0;
+        for (Tuile tuile : ile.getTuiles()) {
+            if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.HELIPORT) {
+                return true;
+            } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.AIR) {
+                a++;
+            } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.TERRE) {
+                t++;
+            } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.FEU) {
+                f++;
+            } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.EAU) {
+                e++;
+            }
+        }
+
+        for (Pion p : pions) {
+            if (p.getTuilePosition().getEtat() == Etat.SUBMERGE && p.getRole().getTuilesDispoPourDeplacement(ile, p.getTuilePosition()).size() == 0) {
+                return true;
+            }
+        }
+        if (a == 2 || t == 2 || f == 2 || e == 2) {
+            System.out.println("troph");
+            return true;
+
+        } else if (niveauEau.getNiveau() == 10) {
+            System.out.println("lvl");
+            return true;
+
+        } else {
+            return false;
         }
 
     }
@@ -896,11 +985,7 @@ public class Controleur implements Observateur {
                 Collections.shuffle(pileCarteInondations);
                 tuilesPiochees.clear();
                 defausse.add(ct);
-                
 
-
-                
-                
                 System.out.println("Montée des eaux !");
             } else {
                 pion.addCarte(ct);
