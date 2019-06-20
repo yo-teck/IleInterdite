@@ -54,7 +54,24 @@ public class VueDefausse implements Observe {
         int i = 0;
         for (CarteTresor ct : pionActif.getCartesTresors()) {
             caseACocher = new JCheckBox(ct.getType().toString());
+
             cartesADefausser.put(i, caseACocher);
+            caseACocher.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int somme = 0;
+                    for (int j = 0; j < pionActif.getNbCartes(); j++) {
+                        if (cartesADefausser.get(j).isSelected()) {
+                            somme++;
+                        }
+                    }
+                    if (somme > pionActif.getNbCartes()-6) {
+                        btnValider.setEnabled(true);
+                    } else {
+                        btnValider.setEnabled(false);
+                    }
+                }
+            });
             i++;
         }
 
@@ -80,8 +97,8 @@ public class VueDefausse implements Observe {
                 fenetre.setVisible(false);
             }
         });
-
         fenetre.add(btnValider, BorderLayout.SOUTH);
+        btnValider.setEnabled(false);
         fenetre.setVisible(true);
     }
 

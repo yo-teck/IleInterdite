@@ -23,6 +23,9 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -37,6 +40,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
@@ -45,7 +51,7 @@ import javax.swing.ImageIcon;
  * @author Yoann
  */
 public class VueGrille implements Observe {
-
+    
     private JFrame fenetre;
     private JFrame frame;
 
@@ -101,6 +107,8 @@ public class VueGrille implements Observe {
     private JLabel labelJoueurCourant;
     private JLabel labelNomJoueurCourant;
     private JLabel labelPointsAction;
+    
+    private Font police;
     private File chemin = new File("");
 
     private ActionListener al;
@@ -109,7 +117,19 @@ public class VueGrille implements Observe {
 
         //Creation d'une variable qui stock le nombre de joueur pour le reutilisé
         nbJoueurs = pions.size();
-
+        
+    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        try {
+            police = Font.createFont(Font.TRUETYPE_FONT,new File(chemin.getAbsolutePath()+"/src/ressources/police/PiecesofEight.ttf"));
+            ge.registerFont(police);
+        } catch (FontFormatException ex) {
+            System.out.println("Nont");
+        } catch (IOException ex) {
+            System.out.println("Nont");
+          
+        }
+        police = new Font("Pieces of Eight", Font.PLAIN,24);
+        
 ////////////////////////////////////////////////////////////////////////////////        
 //Creation de la fenetre////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -117,6 +137,7 @@ public class VueGrille implements Observe {
         frame.setTitle("Ile Interdite");
         frame.setLayout(new BorderLayout());
         configureWindow(frame);
+
         nbJoueurs = pions.size();
 ////////////////////////////////////////////////////////////////////////////////        
 //Fin creation fenetre//////////////////////////////////////////////////////////
@@ -239,8 +260,14 @@ public class VueGrille implements Observe {
         zoneValidation = new JPanel(new GridLayout(2, 1));
 
         valid = new JButton("Validation");
+        ajoutBoisBtn(valid);
+        
         annul = new JButton("Annuler");
-
+        ajoutBoisBtn(annul);
+        
+        
+        
+        
         zoneValidation.add(valid);
         zoneValidation.add(annul);
 
@@ -318,7 +345,7 @@ public class VueGrille implements Observe {
         });
         ajoutBoisBtn(capacite);
 //Creation du bouton permettant de recuperer un tresor
-        recupTresor = new JButton("Récuperer Tresor");
+        recupTresor = new JButton("Tresor");
         ajoutBoisBtn(recupTresor);
         recupTresor.addActionListener(new ActionListener() {
             @Override
@@ -401,8 +428,11 @@ public class VueGrille implements Observe {
         FondPlanche fp = new FondPlanche();
         
         labelJoueurCourant = new JLabel("Joueur courant :");
+        labelJoueurCourant.setFont(police);
         labelNomJoueurCourant = new JLabel("[" + pions.get(tourJoueur).getRole().getNomA() + "] " + pions.get(tourJoueur).getNomj());
+        labelNomJoueurCourant.setFont(police);
         labelPointsAction = new JLabel("Points d'Actions : " + pions.get(tourJoueur).getNbAction());
+        labelPointsAction.setFont(police);
 
 
         fondPanneau.add(labelJoueurCourant);
@@ -416,9 +446,10 @@ public class VueGrille implements Observe {
 
             int show = i;
             JButton btnj = new JButton(pions.get(i).getNomj(), pions.get(i).getRole().getImgAventurier());
-            btnj.setForeground(Color.WHITE);
             btnj.setVerticalTextPosition(JLabel.CENTER);
             btnj.setHorizontalTextPosition(JLabel.CENTER);
+            btnj.setForeground(Color.WHITE);
+            btnj.setFont(police.deriveFont(35f));
 
             if (i == 0) {
                 btnj.setBorder(BorderFactory.createLineBorder(Color.PINK, 5));
@@ -468,6 +499,10 @@ public class VueGrille implements Observe {
         frame.add(conteneurDroite, BorderLayout.EAST);
 
         frame.setVisible(true);
+        
+
+
+
     }
 
     public void joueurSuivant() {
@@ -624,6 +659,7 @@ public class VueGrille implements Observe {
         bouton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 0));
         bouton.setVerticalTextPosition(JLabel.CENTER);
         bouton.setHorizontalTextPosition(JLabel.CENTER);
+        bouton.setFont(police);
 
     }
     public void activationFinTour(boolean b) {
@@ -685,6 +721,7 @@ public class VueGrille implements Observe {
                 window.setVisible(false);
                 System.exit(0);
             }
+            
         });
     }
 
