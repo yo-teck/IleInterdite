@@ -15,7 +15,7 @@ import javax.swing.JPanel;
  *
  * @author richomml
  */
-public class VueDefaite {
+public class VueFin {
     
     private JFrame fenetre;
     
@@ -25,17 +25,17 @@ public class VueDefaite {
     
     private Font font;
     
-    public VueDefaite(){
-        fenetre = new JFrame("Vous avez perdu ! ");
+    public VueFin(String etatPartie){
+        fenetre = new JFrame("Fin de la partie ");
         fenetre.setSize(600, 400);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetre.setLayout(new BorderLayout());
         
         conteneurLabel = new JPanel(new BorderLayout());
         
-        texteDefaite = new JLabel("DEFAITE !");
+        texteDefaite = new JLabel(etatPartie);
         
-        font = new Font("Defaite",Font.PLAIN,80);
+        font = new Font(etatPartie,Font.PLAIN,80);
         
         texteDefaite.setFont(font);
         
@@ -43,8 +43,9 @@ public class VueDefaite {
         
         conteneurLabel.add(texteDefaite,BorderLayout.CENTER);
         
+        fenetre.add(conteneurLabel,BorderLayout.CENTER);
         
-        
+        fenetre.setVisible(true);
     }
     
 }
