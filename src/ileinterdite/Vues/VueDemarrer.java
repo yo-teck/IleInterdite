@@ -19,11 +19,18 @@ import ileinterdite.Pion;
 import ileinterdite.TypesMessage;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -42,51 +49,121 @@ public class VueDemarrer implements Observe {
     private String[] difficulte = new String[]{"Novice", "Normal", "Elite", "Legendaire"};
     private JRadioButton[] choixInit;
     private ButtonGroup groupeBoutons;
+    private JTextField[] nomJ;
+    private int nb;
+    private JLabel infoValid;
+    private JLabel[] infoLabel;
+    private Font police;
+    private File chemin;
 
     public VueDemarrer() {
         JFrame fenetre = new JFrame("Ile Interdite - Menu Démarrage");
-        fenetre.setSize(600, 250);
+        fenetre.setSize(650, 550);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        fenetre.setResizable(false);
 
-        JPanel conteneur = new JPanel(new BorderLayout());
+        chemin = new File("");
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        try {
+            police = Font.createFont(Font.TRUETYPE_FONT, new File(chemin.getAbsolutePath() + "/src/ressources/police/PiecesofEight.ttf"));
+            ge.registerFont(police);
+        } catch (FontFormatException ex) {
+            System.out.println("Nont");
+        } catch (IOException ex) {
+            System.out.println("Nont");
+
+        }
+        police = new Font("Pieces of Eight", Font.PLAIN, 20);
+
+        JPanel conteneur = new FondDemarrer();
+        conteneur.setBorder(BorderFactory.createEmptyBorder(160, 20, 130, 20));
+        conteneur.setLayout(new BorderLayout());
         fenetre.add(conteneur);
 
-        JPanel joueurs = new JPanel(new GridLayout(2, 4));
+        JPanel joueurs = new JPanel(new GridLayout(3, 4));
+        joueurs.setOpaque(false);
 
         JPanel options = new JPanel(new GridLayout(3, 5));
         conteneur.add(options, BorderLayout.CENTER);
+        options.setOpaque(false);
 
         JPanel validation = new JPanel(new GridLayout(1, 5));
         conteneur.add(validation, BorderLayout.SOUTH);
+        validation.setOpaque(false);
 
-        //Zone pour les noms des joueurs
-        JLabel j1 = new JLabel("Nom du Joueur 1 : ");
-        JLabel j2 = new JLabel("Nom du Joueur 2 : ");
-        JLabel j3 = new JLabel("Nom du Joueur 3 : ");
-        JLabel j4 = new JLabel("Nom du Joueur 4 : ");
+        JLabel nbJoueur = new JLabel("Nombre de joueur :");
+        nbJoueur.setFont(police);
+        joueurs.add(nbJoueur);
+        Object[] nbjPossible = {2, 3, 4};
+        JComboBox choixNbJoueur = new JComboBox(nbjPossible);
+        choixNbJoueur.setFocusable(false);
+        choixNbJoueur.setFont(police);
+        choixNbJoueur.setBackground(new Color(210, 182, 106));
 
-        JTextField nomj1 = new JTextField();
-        JTextField nomj2 = new JTextField();
-        JTextField nomj3 = new JTextField();
-        JTextField nomj4 = new JTextField();
+        nb = (int) choixNbJoueur.getSelectedItem() - 1;
+        choixNbJoueur.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nb = (int) choixNbJoueur.getSelectedItem() - 1;
 
-        joueurs.add(j1);
-        joueurs.add(nomj1);
-        joueurs.add(j2);
-        joueurs.add(nomj2);
-        joueurs.add(j3);
-        joueurs.add(nomj3);
-        joueurs.add(j4);
-        joueurs.add(nomj4);
+                for (int i = 0; i < 4; i++) {
+                    if (i <= nb) {
+                        nomJ[i].setEnabled(true);
+                        infoLabel[i].setEnabled(true);
+                        nomJ[i].setBackground(new Color(210, 182, 106));
+                    } else {
+                        nomJ[i].setText("");
+                        nomJ[i].setEnabled(false);
+                        infoLabel[i].setEnabled(false);
+                        nomJ[i].setBackground(Color.LIGHT_GRAY);
+                    }
+                }
+            }
+        });
+        joueurs.add(choixNbJoueur);
+        joueurs.add(new JLabel(""));
+        joueurs.add(new JLabel(""));
 
+        nomJ = new JTextField[4];
+        infoLabel = new JLabel[4];
+
+        int numeroJ = 1;
+
+        for (int i = 0; i < 4; i++) {
+
+            JLabel info = new JLabel("Nom du Joueur " + numeroJ + " : ");
+            info.setFont(police);
+            infoLabel[i] = info;
+
+            JTextField nom = new JTextField();
+            nom.setFont(police);
+            nomJ[i] = nom;
+            nomJ[i].setBackground(new Color(210, 182, 106));
+            if (i > nb) {
+                nomJ[i].setEnabled(false);
+                nomJ[i].setBackground(Color.LIGHT_GRAY);
+                infoLabel[i].setEnabled(false);
+            }
+            numeroJ++;
+
+            joueurs.add(info);
+            joueurs.add(nomJ[i]);
+
+        }
         conteneur.add(joueurs, BorderLayout.NORTH);
 
         //Zone pour les options
         JLabel labelDiff = new JLabel("Difficulté : ");
+        labelDiff.setFont(police);
         options.add(labelDiff);
         JComboBox choixDiff = new JComboBox(difficulte);
+        choixDiff.setFocusable(false);
+        choixDiff.setBackground(new Color(210, 182, 106));
+        choixDiff.setFont(police);
         options.add(choixDiff);
+
         JLabel labelInit = new JLabel("Choix Initialisation :");
+        labelInit.setFont(police);
 
         JRadioButton bouton;
 
@@ -100,6 +177,12 @@ public class VueDemarrer implements Observe {
 
         bouton = new JRadioButton("Aléatoire");
         choixInit[1] = bouton;
+
+        choixInit[0].setFont(police);
+        choixInit[1].setFont(police);
+        choixInit[0].setOpaque(false);
+        choixInit[1].setOpaque(false);
+
         groupeBoutons.add(bouton);
 
         options.add(labelInit);
@@ -108,17 +191,19 @@ public class VueDemarrer implements Observe {
         options.add(choixInit[1]);
 
         //Zone de validation
-        JButton btnValider = new JButton("Valider");
-
+        JButton btnValider = new JButton("Démarrer");
+        btnValider.setFont(police);
         btnValider.addActionListener(
                 new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<String> noms = new ArrayList<>();
-                noms.add(nomj1.getText());
-                noms.add(nomj2.getText());
-                noms.add(nomj3.getText());
-                noms.add(nomj4.getText());
+
+                for (int i = 0; i < 4; i++) {
+                    String nom = nomJ[i].getText();
+
+                    noms.add(nomJ[i].getText());
+                }
 
                 String dif = choixDiff.getSelectedItem().toString();
 
@@ -133,13 +218,16 @@ public class VueDemarrer implements Observe {
                 Message m = new Message(TypesMessage.COMMENCER_PARTIE, noms, dif, init);
                 notifierObservateur(m);
                 fenetre.setVisible(false);
+
             }
         });
 
         validation.add(new JLabel(""));
         validation.add(new JLabel(""));
         validation.add(btnValider);
-        validation.add(new JLabel(""));
+        infoValid = new JLabel("");
+        infoValid.setFont(police);
+        validation.add(infoValid);
         validation.add(new JLabel(""));
 
         fenetre.setVisible(true);
