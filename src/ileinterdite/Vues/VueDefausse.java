@@ -80,7 +80,16 @@ public class VueDefausse implements Observe {
                 fenetre.setVisible(false);
             }
         });
-
+        btnValider.setEnabled(false);
+        int somme = 0;
+        for (int j = 0; j < pionActif.getNbCartes(); j++) {
+            if (cartesADefausser.get(i).isSelected()) {
+                somme++;
+            }
+        }
+        if(somme==0){
+            btnValider.setEnabled(true);
+        }
         fenetre.add(btnValider, BorderLayout.SOUTH);
         fenetre.setVisible(true);
     }
