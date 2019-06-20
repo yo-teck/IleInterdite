@@ -36,7 +36,6 @@ public class InfoTuile extends JPanel {
 
     public InfoTuile(Tuile tuile) {
 
-        Dimension dimension = getSize();
 
         this.tuile = tuile;
         this.pions = tuile.getPions();

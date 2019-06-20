@@ -76,6 +76,8 @@ public class VueGrille implements Observe {
     private JButton[] Tuile;
     private InfoTresor[] infoTresors;
     private InfoTuile[] infoBouton;
+
+    private FondPanneau fondPanneau;
     private InfoNiveauEau infoNiveau;
 
     private Message msg;
@@ -92,11 +94,6 @@ public class VueGrille implements Observe {
     private JButton capacite;
     private JButton recupTresor;
     private JButton finTour;
-
-    private JButton tresorEau;
-    private JButton tresorFeu;
-    private JButton tresorAir;
-    private JButton tresorTerre;
 
     private JButton valid;
     private JButton annul;
@@ -260,12 +257,14 @@ public class VueGrille implements Observe {
 ////////////////////////////////////////////////////////////////////////////////
         conteneurDroite = new JPanel(new BorderLayout());
         conteneurDroite.setPreferredSize(new Dimension(250, 750));
+
 ////////////////////////////////////////////////////////////////////////////////
 //Creation du panel pour faire les différentes actions (positionnée en haut
         zoneAction = new JPanel(new GridLayout(4, 2));
 //Creation des boutons et de leurs actionListener
 //Creation du bouton permettant de se deplacer
         deplace = new JButton("Se deplacer");
+        ajoutBoisBtn(deplace);
         deplace.addActionListener(
                 new ActionListener() {
             @Override
@@ -277,6 +276,7 @@ public class VueGrille implements Observe {
         );
 //Creation du bouton permettant d'assecher un case
         assecher = new JButton("Assecher");
+        ajoutBoisBtn(assecher);
         assecher.addActionListener(
                 new ActionListener() {
             @Override
@@ -288,6 +288,7 @@ public class VueGrille implements Observe {
         );
 //Creation du bouton permettant de donner une carte
         donner = new JButton("Donner carte");
+        ajoutBoisBtn(donner);
         donner.addActionListener(
                 new ActionListener() {
             @Override
@@ -299,10 +300,13 @@ public class VueGrille implements Observe {
         });
 //Creation du bouton permettant d'utilisé une carte
         btnUtiliserCarte = new JButton("Utiliser Carte");
+        ajoutBoisBtn(btnUtiliserCarte);
 //Creation du bouton permettant d'utilisé la capacité spécial
         capacite = new JButton("Capacité");
+        ajoutBoisBtn(capacite);
 //Creation du bouton permettant de recuperer un tresor
         recupTresor = new JButton("Récuperer Tresor");
+        ajoutBoisBtn(recupTresor);
         recupTresor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -342,6 +346,7 @@ public class VueGrille implements Observe {
         });
 //Creation du bouton permettant d'avoir les informations des joueurs
         info = new JButton("Information");
+        ajoutBoisBtn(info);
         info.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -350,6 +355,7 @@ public class VueGrille implements Observe {
         });
 //Creation du bouton permettant la fin du tour
         finTour = new JButton("Fin Tour");
+        ajoutBoisBtn(finTour);
         finTour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -375,15 +381,20 @@ public class VueGrille implements Observe {
         zoneJoueurs = new JPanel(new GridLayout(5, 1));
 //Creation du panel des informations sur le tour (nb action, joueur actif, role)
         infoJoueurActif = new JPanel(new GridLayout(3, 1));
-
+        
+        fondPanneau = new FondPanneau();
+        fondPanneau.setLayout(new GridLayout(3,1));
+        FondPlanche fp = new FondPlanche();
+        
         labelJoueurCourant = new JLabel("Joueur courant :");
         labelNomJoueurCourant = new JLabel(pions.get(tourJoueur).getNomj() + "[" + pions.get(tourJoueur).getRole().getNomA() + "]");
         labelPointsAction = new JLabel("Points d'Actions : " + pions.get(tourJoueur).getNbAction());
 
-        infoJoueurActif.add(labelJoueurCourant);
-        infoJoueurActif.add(labelNomJoueurCourant);
-        infoJoueurActif.add(labelPointsAction);
-        zoneJoueurs.add(infoJoueurActif);
+
+        fondPanneau.add(labelJoueurCourant);
+        fondPanneau.add(labelNomJoueurCourant);
+        fondPanneau.add(labelPointsAction);
+        zoneJoueurs.add(fondPanneau);
 //Creation des boutons pour voire les cartes du joueur
         btnJ = new JButton[pions.size()];
 
@@ -593,24 +604,11 @@ public class VueGrille implements Observe {
         annul.setEnabled(b);
     }
 
-    public void activerTresor(OTresor objetTresor) {
-        if (objetTresor.getType() == Tresor.FEU) {
-            tresorFeu.setBackground(Color.RED);
-            tresorFeu.setEnabled(true);
-            tresorFeu.setForeground(Color.BLACK);
-        } else if (objetTresor.getType() == Tresor.AIR) {
-            tresorAir.setForeground(Color.BLACK);
-            tresorAir.setEnabled(true);
-            tresorAir.setBackground(Color.CYAN);
-        } else if (objetTresor.getType() == Tresor.TERRE) {
-            tresorTerre.setForeground(Color.BLACK);
-            tresorTerre.setEnabled(true);
-            tresorTerre.setBackground(Color.ORANGE);
-        } else if (objetTresor.getType() == Tresor.EAU) {
-            tresorEau.setBackground(Color.BLUE);
-            tresorEau.setEnabled(true);
-            tresorEau.setForeground(Color.BLACK);
-        }
+    public void ajoutBoisBtn(JButton bouton) {
+        bouton.setIcon(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgDecor/boisBtnAct.png"));
+        bouton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 0));
+        bouton.setVerticalTextPosition(JLabel.CENTER);
+        bouton.setHorizontalTextPosition(JLabel.CENTER);
     }
 
     public void activationDeplacement(boolean b) {

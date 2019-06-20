@@ -37,8 +37,6 @@ public class InfoNiveauEau extends JPanel{
 
     public InfoNiveauEau(NiveauEau niveauEau) {
 
-        Dimension dimension = getSize();
-
         this.niveauEau = niveauEau ;
         
     }
