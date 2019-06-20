@@ -408,6 +408,10 @@ public class Controleur implements Observateur {
         tresors.add(tAir);
         tresors.add(tFeu);
         tresors.add(tTerre);
+        tEau.setEstRecupere(true);
+        tAir.setEstRecupere(true);
+        tFeu.setEstRecupere(true);
+        tTerre.setEstRecupere(true);
     }
 
     public void seDeplacer(Pion pion) {
@@ -649,9 +653,16 @@ public class Controleur implements Observateur {
                 defausser(m.getPion(), m.getCarteTresor());
                 ihm.actualiserInfoJA(pionActif);
             } else { //Carte Helicoptere
+                if(m.getTuile().getNom() == "Heliport" && m.getTuile().getPions().size() == 4){
+                    if(checkVictoire()){
+                        //Lancer la vue victoire
+                        System.out.println("Victoire");
+                    }
+                }else{
                 seDeplacerHelico(m.getPion());
                 defausser(m.getPion(), m.getCarteTresor());
                 ihm.actualiserInfoJA(pionActif);
+                }
             }
         } else if (m.getType() == TypesMessage.AFFICHER_INFO) {
             vueInfo = new VueInformation(pions);
@@ -660,7 +671,7 @@ public class Controleur implements Observateur {
         } else if (m.getType() == TypesMessage.FERMER_INFO) {
             ihm.activationInfo(true);
         } else if (m.getType() == TypesMessage.CAPACITE) {
-        
+
             if (pionActif.getRole().getNomA().equals("Pilote")) {
                 seDeplacerHelico(pionActif);
                 pionActif.setNbAction(pionActif.getNbAction() - 1);
@@ -670,17 +681,16 @@ public class Controleur implements Observateur {
                 pionActif.getRole().setCapaciteUtilisee(true);
             } else if (pionActif.getRole().getNomA().equals("Navigateur")) {
                 //seDeplacerHelico(m.getPion());
-                vueNavigateur = new VueNavigateur(pionActif,pions);
+                vueNavigateur = new VueNavigateur(pionActif, pions);
                 vueNavigateur.addObservateur(this);
-                ihm.activationBoutons(false); 
+                ihm.activationBoutons(false);
             }
-            
-        } else if(m.getType() == TypesMessage.DEPLACEMENT_AMI){
+
+        } else if (m.getType() == TypesMessage.DEPLACEMENT_AMI) {
             System.out.println(m.getPion());
             seDeplacerNavigateur(m.getPion());
             ihm.activationBoutons(true);
-        }
-        else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_AMI) {
+        } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_AMI) {
 
             m.getPion().setTuilePosition(m.getTuile());
 
@@ -692,6 +702,9 @@ public class Controleur implements Observateur {
             ihm.activationBoutons(true);
         }
         check();
+        if(checkDefaite()){
+            //Lancer vue defaite ;
+        }
     }
 
     public void initPion() {
@@ -865,13 +878,49 @@ public class Controleur implements Observateur {
             ihm.activationFinTour(true);
         }
         if (pionActif.getRole().getNomA().equals("Plongeur") || pionActif.getRole().getNomA().equals("Explorateur")
-                || pionActif.getRole().getNomA().equals("Messager") || pionActif.getRole().isCapaciteUtilisee()
-                ) {
+                || pionActif.getRole().getNomA().equals("Messager") || pionActif.getRole().isCapaciteUtilisee()) {
             ihm.activationCapacite(false);
             // Condition ingénieur : (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() < 2 && pionActif.getRole().getNomA().equals("Ingenieur"))
-            
+
         }
 
+    }
+
+    public boolean checkVictoire() {
+        int c = 0;
+        for (OTresor tresor : tresors) {
+            if (tresor.isEstRecupere()) {
+                c++;
+
+                //Aller dans traiter message UTILISER_CARTE et ajouter un test pour voir si les 4 joueurs sont sur la case heliport et le nombre de tresor possedé = 4
+            }
+        }
+        return c == 4;
+    }
+
+    public boolean checkDefaite() {
+        int a = 0;
+        int t = 0;
+        int f = 0;
+        int e = 0;
+        for (Tuile tuile : ile.getTuiles()) {
+            if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.HELIPORT) {
+                return true;
+            } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.AIR) {
+                a++;
+            } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.TERRE) {
+                t++;
+            } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.FEU) {
+                f++;
+            } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.EAU) {
+                e++;
+            }
+        }
+        if (a == 2 || t == 2 || f == 2 || e == 2) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void initPioche(ArrayList<Pion> pions) {
