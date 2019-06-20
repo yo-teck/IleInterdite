@@ -100,13 +100,7 @@ public class Grille {
             }
         }
         return tns;
-    }
-    
-    
-    
-    
-    
-    
+    }  
 
     public ArrayList<Tuile> getSubmerge(ArrayList<Tuile> tAC) {
         ArrayList<Tuile> ts = new ArrayList<>();
@@ -118,7 +112,7 @@ public class Grille {
         return ts;
     }
     
-     public ArrayList<Tuile> getTuilesInnondees(ArrayList<Tuile> tAC) {
+     public ArrayList<Tuile> getTuilesInondees(ArrayList<Tuile> tAC) {
         ArrayList<Tuile> ti = new ArrayList<>();         
         for (Tuile tuile : tAC) {
             if (tuile.getEtat() == Etat.INONDE) {
@@ -133,7 +127,7 @@ public class Grille {
      public ArrayList<Tuile> getSubInn(ArrayList<Tuile> tuiles){
          ArrayList<Tuile> temp = new ArrayList<>();
          temp=getSubmerge(tuiles);
-         temp.addAll(getTuilesInnondees(tuiles));
+         temp.addAll(getTuilesInondees(tuiles));
          return temp;
      }
      /* dans le plongeur

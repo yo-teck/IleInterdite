@@ -299,6 +299,14 @@ public class VueGrille implements Observe {
         });
 //Creation du bouton permettant d'utilisé une carte
         btnUtiliserCarte = new JButton("Utiliser Carte");
+        btnUtiliserCarte.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Message m = new Message(TypesMessage.VUE_UTILISER_CARTE);
+                notifierObservateur(m);
+                activationBoutons(false);
+            }
+        });
 //Creation du bouton permettant d'utilisé la capacité spécial
         capacite = new JButton("Capacité");
 //Creation du bouton permettant de recuperer un tresor
@@ -588,6 +596,7 @@ public class VueGrille implements Observe {
         assecher.setEnabled(b);
         finTour.setEnabled(b);
         recupTresor.setEnabled(b);
+        btnUtiliserCarte.setEnabled(b);
 
         valid.setEnabled(b);
         annul.setEnabled(b);

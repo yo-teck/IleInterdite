@@ -23,6 +23,7 @@ import ileinterdite.Vues.VueDemarrer;
 import ileinterdite.Vues.VueDonnerCarte;
 import ileinterdite.Vues.VueGrille;
 import ileinterdite.Vues.VueIndividuelle;
+import ileinterdite.Vues.VueUtiliserCarte;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.ImageIcon;
@@ -54,6 +55,7 @@ public class Controleur implements Observateur {
     private VueDemarrer menu;
     private VueDefausse vueDefausse;
     private VueDonnerCarte vueDonCarte;
+    private VueUtiliserCarte vueUtiliserCarte;
 
     private boolean debutDePartie;
 
@@ -418,9 +420,9 @@ public class Controleur implements Observateur {
 
     }
 
-    public void Assecher(Pion pion) {
+    public void assecher(Pion pion) {
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
-        tuilesDispo = ile.getTuilesInnondees(pion.getRole().getTuilesAdjacentesInnondees(ile, pion.getTuilePosition()));
+        tuilesDispo = ile.getTuilesInondees(pion.getRole().getTuilesAdjacentesInnondees(ile, pion.getTuilePosition()));
         for (Tuile tuile : tuilesDispo) {
             tuile.setActif(true);
 
@@ -428,6 +430,19 @@ public class Controleur implements Observateur {
 
         //On montre les cases dispo pour l'assechement puis on demande la case à l'utilisateur puis on asseche la tuile.
         ihm.setMsg(new Message(TypesMessage.TUILE_ASSECHEMENT));
+        ihm.setCliquable(ile, pionActif.getCouleur());
+
+    }
+    
+    public void assecherSacSable() {
+        ArrayList<Tuile> tuilesDispo = new ArrayList<>();
+        tuilesDispo = ile.getTuilesInondees(ile.getTuiles());
+        for (Tuile tuile : tuilesDispo) {
+            tuile.setActif(true);
+
+        }
+        //On montre les cases dispo pour l'assechement puis on demande la case à l'utilisateur puis on asseche la tuile.
+        ihm.setMsg(new Message(TypesMessage.TUILE_ASSECHEMENT_SS));
         ihm.setCliquable(ile, pionActif.getCouleur());
 
     }
@@ -466,7 +481,7 @@ public class Controleur implements Observateur {
 
         } else if (m.getType() == TypesMessage.DEFAUSSE) {
             for (CarteTresor ct : m.getCartesTresor()) {
-                defausser(ct);
+                defausser(pionActif, ct);
             }
             ihm.actualiserCartes(pions);
             ihm.activationBoutons(true);
@@ -500,7 +515,7 @@ public class Controleur implements Observateur {
             ihm.actualiserInfoJA(pionActif);
             ihm.activationBoutons(true);
         } else if (m.getType() == TypesMessage.ASSECHER) {
-            Assecher(pionActif);
+            assecher(pionActif);
             ihm.activationBoutons(false);
 
         } else if (m.getType() == TypesMessage.TUILE_ASSECHEMENT) {
@@ -511,9 +526,16 @@ public class Controleur implements Observateur {
             ihm.actualiserInfoJA(pionActif);
             ihm.activationBoutons(true);
 
-        } else if (m.getType() == TypesMessage.VUE_DONNER_CARTE) {
-            VueDonnerCarte vueDonnerCarte = new VueDonnerCarte(pionActif, pions);
-            vueDonnerCarte.addObservateur(this);
+        } else if(m.getType() == TypesMessage.TUILE_ASSECHEMENT_SS){
+            m.getTuile().setEtat(Etat.SEC);
+            ihm.setNonCliquable(ile);
+            //decrementer le nombre d'action du joueur en cours
+            ihm.actualiserInfoJA(pionActif);
+            ihm.actualiserCartes(pions);
+            ihm.activationBoutons(true);
+        }else if (m.getType() == TypesMessage.VUE_DONNER_CARTE) {
+            vueDonCarte = new VueDonnerCarte(pionActif, pions);
+            vueDonCarte.addObservateur(this);
 
         } else if (m.getType() == TypesMessage.DONNER_CARTE) {
             donnerCarte(m.getCarteTresor(), m.getPion());
@@ -537,8 +559,6 @@ public class Controleur implements Observateur {
                     pionActif.getCartesTresors().remove(i);
                     i--;
                     ihm.actualiserCartes(pions);
-                    System.out.println(i);
-                    System.out.println("NRV");
                     cnt++;
                 }
                 i++;
@@ -546,8 +566,17 @@ public class Controleur implements Observateur {
             //decrementer le nombre d'action du joueur en cours           
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             ihm.actualiserInfoJA(pionActif);
-        } else if (m.getType()==TypesMessage.ANNULER) {
+        } else if (m.getType() == TypesMessage.ANNULER) {
             ihm.activationBoutons(true);
+        } else if (m.getType() == TypesMessage.VUE_UTILISER_CARTE) {
+            vueUtiliserCarte = new VueUtiliserCarte(pions);
+            vueUtiliserCarte.addObservateur(this);
+        } else if (m.getType() == TypesMessage.UTILISER_CARTE) {
+            if(m.getCarteTresor().getType()==CTresor.SAC_SABLE){
+                assecherSacSable();
+                defausser(m.getPion(), m.getCarteTresor());
+                ihm.actualiserInfoJA(pionActif);
+            }
         }
         check();
     }
@@ -665,8 +694,8 @@ public class Controleur implements Observateur {
         ihm.activationBoutons(true);
     }
 
-    public void defausser(CarteTresor carteTresor) {
-        pionActif.getCartesTresors().remove(carteTresor);
+    public void defausser(Pion pion, CarteTresor carteTresor) {
+        pion.getCartesTresors().remove(carteTresor);
         defausse.add(carteTresor);
     }
 
