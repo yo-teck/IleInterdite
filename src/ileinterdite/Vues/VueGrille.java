@@ -106,7 +106,9 @@ public class VueGrille implements Observe {
     private JLabel labelPointsAction;
     private File chemin = new File("");
 
-    public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions,ArrayList<OTresor> LesTresors){
+    private ActionListener al;
+
+    public VueGrille(Grille grille, NiveauEau niveauEau, ArrayList<Pion> pions, ArrayList<OTresor> LesTresors) {
 
         //Creation d'une variable qui stock le nombre de joueur pour le reutilisé
         nbJoueurs = pions.size();
@@ -116,10 +118,8 @@ public class VueGrille implements Observe {
 ////////////////////////////////////////////////////////////////////////////////
         frame = new JFrame();
         frame.setTitle("Ile Interdite");
-        frame.setSize(1100, 850);
-        frame.setResizable(false);
         frame.setLayout(new BorderLayout());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        configureWindow(frame);
         nbJoueurs = pions.size();
 ////////////////////////////////////////////////////////////////////////////////        
 //Fin creation fenetre//////////////////////////////////////////////////////////
@@ -165,7 +165,14 @@ public class VueGrille implements Observe {
 
             } else {
                 Tuile[i].setText(tuileSelect.getNom());
-
+                Tuile[i].addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        System.out.println("Action performed");
+                        msg.setTuile(tuileSelect);
+                        notifierObservateur(msg);
+                    }
+                });
                 if (tuileSelect.isActif()) {
                     Tuile[i].setEnabled(true);
                 } else {
@@ -198,17 +205,17 @@ public class VueGrille implements Observe {
 
         zoneTresors.setLayout(new GridLayout(2, 2));
         zoneTresors.setPreferredSize(new Dimension(100, 100));
-        
+
         infoTresors = new InfoTresor[4];
-        
-        for(int i = 0 ; i<4;i++){
-            
+
+        for (int i = 0; i < 4; i++) {
+
             InfoTresor tresor = new InfoTresor(LesTresors.get(i));
-            
-            infoTresors[i]=tresor;
-            
+
+            infoTresors[i] = tresor;
+
             zoneTresors.add(infoTresors[i]);
-       }
+        }
 
         conteneurBas.add(zoneTresors, BorderLayout.WEST);
 
@@ -243,7 +250,6 @@ public class VueGrille implements Observe {
 
         conteneurBas.add(zoneValidation, BorderLayout.EAST);
 
-
         frame.add(conteneurBas, BorderLayout.SOUTH);
 ////////////////////////////////////////////////////////////////////////////////        
 //Fin du conteneur du bas///////////////////////////////////////////////////////
@@ -253,7 +259,7 @@ public class VueGrille implements Observe {
 //Creation du conteneur droit//////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
         conteneurDroite = new JPanel(new BorderLayout());
-        conteneurDroite.setPreferredSize(new Dimension(150,750));
+        conteneurDroite.setPreferredSize(new Dimension(250, 750));
 ////////////////////////////////////////////////////////////////////////////////
 //Creation du panel pour faire les différentes actions (positionnée en haut
         zoneAction = new JPanel(new GridLayout(4, 2));
@@ -502,16 +508,7 @@ public class VueGrille implements Observe {
 
                 Tuile[i].setEnabled(true);
                 Tuile[i].setBorder(BorderFactory.createLineBorder(couleur, 2));
-                Tuile[i].addActionListener(
-                        new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
 
-                        msg.setTuile(tuileSelect);
-                        notifierObservateur(msg);
-
-                    }
-                });
             } else {
                 Tuile[i].setEnabled(false);
             }
@@ -528,15 +525,16 @@ public class VueGrille implements Observe {
         infoNiveau.repaint();
     }
 
-    public void actualiserInfoTresor(){
-        for(int i = 0 ; i<4;i++){
+    public void actualiserInfoTresor() {
+        for (int i = 0; i < 4; i++) {
             infoTresors[i].repaint();
-       }
+        }
     }
+
     public void repaintInfoTuile() {
 
         for (int i = 0; i < 36; i++) {
-            
+
             Tuile[i].setEnabled(true);
             infoBouton[i].repaint();
             Tuile[i].setEnabled(false);
@@ -626,22 +624,21 @@ public class VueGrille implements Observe {
     public void activationDon(boolean b) {
         donner.setEnabled(b);
     }
-    
+
     public void activationRecupe(boolean b) {
         recupTresor.setEnabled(b);
     }
-    
+
     public void activationCapacite(boolean b) {
         capacite.setEnabled(b);
     }
-    
+
     public void activationUtilise(boolean b) {
         btnUtiliserCarte.setEnabled(b);
     }
-    
 
     private void configureWindow(JFrame window) {
-        window.setSize(500, 200);
+        window.setSize(1300, 850);
         window.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
         window.addWindowListener(new java.awt.event.WindowListener() {
             public void windowOpened(java.awt.event.WindowEvent e) {

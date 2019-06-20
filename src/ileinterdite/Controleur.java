@@ -468,20 +468,18 @@ public class Controleur implements Observateur {
             for (CarteTresor ct : m.getCartesTresor()) {
                 defausser(ct);
             }
-            joueurSuivant();
             ihm.actualiserCartes(pions);
             ihm.activationBoutons(true);
         } else if (m.getType() == TypesMessage.FIN_TOUR) {
             fairePiocher(pionActif);
+            joueurSuivant();
             if (pionActif.getNbCartes() > 5) {
                 vueDefausse = new VueDefausse(pionActif);
                 vueDefausse.addObservateur(this);
                 ihm.activationBoutons(false);
-            } else {
-                joueurSuivant();
-                //pionActif.setNbAction(3);
-                ihm.actualiserInfoJA(pionActif);
             }
+            pionActif.setNbAction(3);
+            ihm.actualiserInfoJA(pionActif);
         } else if (m.getType() == TypesMessage.DEPLACEMENT) {
 
             //System.out.println("Rentree");
@@ -532,14 +530,6 @@ public class Controleur implements Observateur {
                     ihm.actualiserInfoTresor();
                 }
             }
-            /*for (int i = 0; i < 4; i++) {
-
-                if (tresors.get(i).getType() == m.getObjetTresor().getType()) {
-                    tresors.get(i).setEstRecupere(true);
-                    ihm.actualiserInfoTresor();
-                }
-            }*/
-            //On compte le nombre de cartes qu'on va enlever
             int cnt = 0;
             int i = 0;
             while (cnt < 4 && i < pionActif.getNbCartes()) {
@@ -556,6 +546,8 @@ public class Controleur implements Observateur {
             //decrementer le nombre d'action du joueur en cours           
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             ihm.actualiserInfoJA(pionActif);
+        } else if (m.getType()==TypesMessage.ANNULER) {
+            ihm.activationBoutons(true);
         }
         check();
     }
@@ -733,7 +725,7 @@ public class Controleur implements Observateur {
         }/*else{
             ihm.activationDon(true);
         }*/
-        /*
+ /*
         if (pionActif.getNbAction()<=0){
             ihm.activationDeplacement(false);
             ihm.activationAssechement(false);
@@ -742,7 +734,7 @@ public class Controleur implements Observateur {
             ihm.activationRecupe(false);
             ihm.activationUtilise(false);
         }
-        */
+         */
     }
 
     public void initPioche(ArrayList<Pion> pions) {

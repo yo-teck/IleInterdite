@@ -34,6 +34,7 @@ public class VueDonnerCarte implements Observe {
 
     private JPanel conteneurJoueurs;
     private JPanel conteneurCartes;
+    private JPanel conteneurBoutons;
 
     private JLabel labelJoueurs;
     private JLabel labelCartes;
@@ -45,6 +46,7 @@ public class VueDonnerCarte implements Observe {
     private ButtonGroup groupeCartes;
 
     private JButton btnValider;
+    private JButton btnAnnuler;
 
     private int numPion;
 
@@ -107,6 +109,7 @@ public class VueDonnerCarte implements Observe {
 
         fenetre.add(conteneurCartes, BorderLayout.EAST);
 
+        conteneurBoutons = new JPanel(new GridLayout(1,5));
         //Ajout bouton valider
         btnValider = new JButton("Valider");
         btnValider.addActionListener(new ActionListener() {
@@ -150,7 +153,23 @@ public class VueDonnerCarte implements Observe {
                 notifierObservateur(m);
             }
         });
-        fenetre.add(btnValider, BorderLayout.SOUTH);
+        btnAnnuler = new JButton("Annuler");
+        btnAnnuler.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Message m = new Message(TypesMessage.ANNULER);
+                notifierObservateur(m);
+                fenetre.setVisible(false);
+            }
+        });
+        
+        conteneurBoutons.add(new JLabel(""));
+        conteneurBoutons.add(btnValider);
+        conteneurBoutons.add(new JLabel(""));
+        conteneurBoutons.add(btnAnnuler);
+        conteneurBoutons.add(new JLabel(""));
+        
+        fenetre.add(conteneurBoutons, BorderLayout.SOUTH);
         fenetre.setVisible(true);
     }
 

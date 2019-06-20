@@ -11,6 +11,7 @@ package ileinterdite;
  */
 public enum TypesMessage {
     ASSECHER,
+    ANNULER,
     DEPLACEMENT,
     DEPLACEMENT_AMI,
     UTILISER_CARTE,
