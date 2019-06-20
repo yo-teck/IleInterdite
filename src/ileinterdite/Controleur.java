@@ -23,6 +23,8 @@ import ileinterdite.Vues.VueDemarrer;
 import ileinterdite.Vues.VueDonnerCarte;
 import ileinterdite.Vues.VueGrille;
 import ileinterdite.Vues.VueIndividuelle;
+import ileinterdite.Vues.VueInformation;
+import ileinterdite.Vues.VueNavigateur;
 import ileinterdite.Vues.VueUtiliserCarte;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,6 +60,8 @@ public class Controleur implements Observateur {
     private VueDefausse vueDefausse;
     private VueDonnerCarte vueDonCarte;
     private VueUtiliserCarte vueUtiliserCarte;
+    private VueInformation vueInfo;
+    private VueNavigateur vueNavigateur;
 
     private boolean debutDePartie;
 
@@ -422,6 +426,31 @@ public class Controleur implements Observateur {
 
     }
 
+    public void seDeplacerNavigateur(Pion pion) {
+        ihm.activationBoutons(false);
+        Pion explo = new Pion(new Explorateur());
+        int i = 0;
+        ArrayList<Tuile> tuilesDispo = new ArrayList<>();
+        tuilesDispo = explo.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition());
+        for (Tuile tuile : tuilesDispo) {
+            tuile.setActif(true);
+        }
+        tuilesDispo = pion.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition());
+        while (i < tuilesDispo.size()) {
+            tuilesDispo = pion.getRole().getTuilesDispoPourDeplacement(ile, tuilesDispo.get(i));
+            tuilesDispo.remove(pion.getTuilePosition());
+            tuilesDispo.get(i).setActif(true);
+            i++;
+        }
+
+        //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
+        Message m = new Message(TypesMessage.TUILE_DEPLACEMENT_AMI);
+        m.setPion(pion);
+        ihm.setMsg(m);
+        ihm.setCliquable(ile, pion.getCouleur());
+
+    }
+
     public void seDeplacerHelico(Pion pion) {
         ihm.activationBoutons(false);
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
@@ -465,6 +494,19 @@ public class Controleur implements Observateur {
 
     }
 
+    public void assecherIngenieur() {
+        ArrayList<Tuile> tuilesDispo = new ArrayList<>();
+        tuilesDispo = ile.getTuilesInondees(pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()));
+        for (Tuile tuile : tuilesDispo) {
+            tuile.setActif(true);
+
+        }
+
+        //On montre les cases dispo pour l'assechement puis on demande la case à l'utilisateur puis on asseche la tuile.
+        ihm.setMsg(new Message(TypesMessage.TUILE_ASSECHEMENT_INGENIEUR));
+        ihm.setCliquable(ile, pionActif.getCouleur());
+    }
+
     @Override
     public void traiterMessage(Message m) {
 
@@ -505,6 +547,7 @@ public class Controleur implements Observateur {
             ihm.activationBoutons(true);
         } else if (m.getType() == TypesMessage.FIN_TOUR) {
             fairePiocher(pionActif);
+            pionActif.getRole().setCapaciteUtilisee(false);
             joueurSuivant();
             if (pionActif.getNbCartes() > 5) {
                 vueDefausse = new VueDefausse(pionActif);
@@ -534,12 +577,13 @@ public class Controleur implements Observateur {
             ihm.activationBoutons(true);
         } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_HELICO) {
             m.getPion().setTuilePosition(m.getTuile());
-            
+
             ihm.setNonCliquable(ile);
             ihm.repaintInfoTuile();
-            
+
             ihm.actualiserInfoJA(pionActif);
             ihm.activationBoutons(true);
+
         } else if (m.getType() == TypesMessage.ASSECHER) {
             assecher(pionActif);
             ihm.activationBoutons(false);
@@ -559,6 +603,9 @@ public class Controleur implements Observateur {
             ihm.actualiserInfoJA(pionActif);
             ihm.actualiserCartes(pions);
             ihm.activationBoutons(true);
+        } else if (m.getType() == TypesMessage.TUILE_ASSECHEMENT_INGENIEUR) {
+            m.getTuile().setEtat(Etat.SEC);
+            assecher(pionActif);
         } else if (m.getType() == TypesMessage.VUE_DONNER_CARTE) {
             vueDonCarte = new VueDonnerCarte(pionActif, pions);
             vueDonCarte.addObservateur(this);
@@ -596,6 +643,7 @@ public class Controleur implements Observateur {
             ihm.activationBoutons(true);
         } else if (m.getType() == TypesMessage.VUE_UTILISER_CARTE) {
             vueUtiliserCarte = new VueUtiliserCarte(pions);
+            ihm.activationBoutons(false);
             vueUtiliserCarte.addObservateur(this);
         } else if (m.getType() == TypesMessage.UTILISER_CARTE) {
             if (m.getCarteTresor().getType() == CTresor.SAC_SABLE) {
@@ -607,6 +655,43 @@ public class Controleur implements Observateur {
                 defausser(m.getPion(), m.getCarteTresor());
                 ihm.actualiserInfoJA(pionActif);
             }
+        } else if (m.getType() == TypesMessage.AFFICHER_INFO) {
+            vueInfo = new VueInformation(pions);
+            vueInfo.addObservateur(this);
+            ihm.activationInfo(false);
+        } else if (m.getType() == TypesMessage.FERMER_INFO) {
+            ihm.activationInfo(true);
+        } else if (m.getType() == TypesMessage.CAPACITE) {
+        
+            if (pionActif.getRole().getNomA().equals("Pilote")) {
+                seDeplacerHelico(pionActif);
+                pionActif.setNbAction(pionActif.getNbAction() - 1);
+                pionActif.getRole().setCapaciteUtilisee(true);
+            } else if (pionActif.getRole().getNomA().equals("Ingenieur")) {
+                assecherIngenieur();
+                pionActif.getRole().setCapaciteUtilisee(true);
+            } else if (pionActif.getRole().getNomA().equals("Navigateur")) {
+                //seDeplacerHelico(m.getPion());
+                vueNavigateur = new VueNavigateur(pionActif,pions);
+                vueNavigateur.addObservateur(this);
+                ihm.activationBoutons(false); 
+            }
+            
+        } else if(m.getType() == TypesMessage.DEPLACEMENT_AMI){
+            System.out.println(m.getPion());
+            seDeplacerNavigateur(m.getPion());
+            ihm.activationBoutons(true);
+        }
+        else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_AMI) {
+
+            m.getPion().setTuilePosition(m.getTuile());
+
+            ihm.setNonCliquable(ile);
+            ihm.repaintInfoTuile();
+            //decrementer le nombre d'action du joueur en cours
+            pionActif.setNbAction(pionActif.getNbAction() - 1);
+            ihm.actualiserInfoJA(pionActif);
+            ihm.activationBoutons(true);
         }
         check();
     }
@@ -777,10 +862,18 @@ public class Controleur implements Observateur {
             //desactiver donnercarte
             ihm.activationDon(false);
         }
-        if(pionActif.getNbAction() <= 0){
+        if (pionActif.getNbAction() <= 0) {
             ihm.activationBoutons(false);
             ihm.activationFinTour(true);
         }
+        if (pionActif.getRole().getNomA().equals("Plongeur") || pionActif.getRole().getNomA().equals("Explorateur")
+                || pionActif.getRole().getNomA().equals("Messager") || pionActif.getRole().isCapaciteUtilisee()
+                ) {
+            ihm.activationCapacite(false);
+            // Condition ingénieur : (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() < 2 && pionActif.getRole().getNomA().equals("Ingenieur"))
+            
+        }
+
     }
 
     public void initPioche(ArrayList<Pion> pions) {

@@ -186,7 +186,6 @@ public class VueGrille implements Observe {
                 Tuile[i].addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        System.out.println("Action performed");
                         msg.setTuile(tuileSelect);
                         notifierObservateur(msg);
                     }
@@ -327,9 +326,23 @@ public class VueGrille implements Observe {
         });
 //Creation du bouton permettant d'utilisé une carte
         btnUtiliserCarte = new JButton("Utiliser Carte");
+        btnUtiliserCarte.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Message m = new Message(TypesMessage.VUE_UTILISER_CARTE);
+                notifierObservateur(m);
+            }
+        });
         ajoutBoisBtn(btnUtiliserCarte);
 //Creation du bouton permettant d'utilisé la capacité spécial
         capacite = new JButton("Capacité");
+        capacite.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Message m = new Message(TypesMessage.CAPACITE);
+                notifierObservateur(m);
+            }
+        });
         ajoutBoisBtn(capacite);
 //Creation du bouton permettant de recuperer un tresor
         recupTresor = new JButton("Tresor");
@@ -377,7 +390,8 @@ public class VueGrille implements Observe {
         info.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VueInformation vueInfo = new VueInformation(pions);
+                Message m = new Message(TypesMessage.AFFICHER_INFO);
+                notifierObservateur(m);
             }
         });
 //Creation du bouton permettant la fin du tour
@@ -674,6 +688,11 @@ public class VueGrille implements Observe {
     public void activationUtilise(boolean b) {
         btnUtiliserCarte.setEnabled(b);
     }
+    
+    public void activationInfo(boolean b) {
+        info.setEnabled(b);
+    }
+    
 
 
     private void configureWindow(JFrame window) {
@@ -699,7 +718,7 @@ public class VueGrille implements Observe {
             }
 
             public void windowClosing(java.awt.event.WindowEvent e) {
-                frame.setVisible(false);
+                window.setVisible(false);
                 System.exit(0);
             }
             
