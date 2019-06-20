@@ -299,9 +299,9 @@ public class VueGrille implements Observe {
         });
 //Creation du bouton permettant d'utilisé une carte
         btnUtiliserCarte = new JButton("Utiliser Carte");
-        btnUtiliserCarte.addActionListener(new ActionListener(){
+        btnUtiliserCarte.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.VUE_UTILISER_CARTE);
                 notifierObservateur(m);
                 activationBoutons(false);
@@ -385,7 +385,7 @@ public class VueGrille implements Observe {
         infoJoueurActif = new JPanel(new GridLayout(3, 1));
 
         labelJoueurCourant = new JLabel("Joueur courant :");
-        labelNomJoueurCourant = new JLabel(pions.get(tourJoueur).getNomj() + "[" + pions.get(tourJoueur).getRole().getNomA() + "]");
+        labelNomJoueurCourant = new JLabel("[" + pions.get(tourJoueur).getRole().getNomA() + "] " + pions.get(tourJoueur).getNomj());
         labelPointsAction = new JLabel("Points d'Actions : " + pions.get(tourJoueur).getNbAction());
 
         infoJoueurActif.add(labelJoueurCourant);
@@ -581,7 +581,7 @@ public class VueGrille implements Observe {
     }
 
     public void actualiserInfoJA(Pion pionActif) {
-        labelNomJoueurCourant.setText(pionActif.getNomj() + "[" + pionActif.getRole().getNomA() + "]");
+        labelNomJoueurCourant.setText("[" + pionActif.getRole().getNomA() + "] " + pionActif.getNomj());
         labelPointsAction.setText("Points d'Actions : " + pionActif.getNbAction());
     }
 
@@ -602,24 +602,8 @@ public class VueGrille implements Observe {
         annul.setEnabled(b);
     }
 
-    public void activerTresor(OTresor objetTresor) {
-        if (objetTresor.getType() == Tresor.FEU) {
-            tresorFeu.setBackground(Color.RED);
-            tresorFeu.setEnabled(true);
-            tresorFeu.setForeground(Color.BLACK);
-        } else if (objetTresor.getType() == Tresor.AIR) {
-            tresorAir.setForeground(Color.BLACK);
-            tresorAir.setEnabled(true);
-            tresorAir.setBackground(Color.CYAN);
-        } else if (objetTresor.getType() == Tresor.TERRE) {
-            tresorTerre.setForeground(Color.BLACK);
-            tresorTerre.setEnabled(true);
-            tresorTerre.setBackground(Color.ORANGE);
-        } else if (objetTresor.getType() == Tresor.EAU) {
-            tresorEau.setBackground(Color.BLUE);
-            tresorEau.setEnabled(true);
-            tresorEau.setForeground(Color.BLACK);
-        }
+    public void activationFinTour(boolean b) {
+        finTour.setEnabled(b);
     }
 
     public void activationDeplacement(boolean b) {
@@ -646,6 +630,26 @@ public class VueGrille implements Observe {
         btnUtiliserCarte.setEnabled(b);
     }
 
+    public void activerTresor(OTresor objetTresor) {
+        if (objetTresor.getType() == Tresor.FEU) {
+            tresorFeu.setBackground(Color.RED);
+            tresorFeu.setEnabled(true);
+            tresorFeu.setForeground(Color.BLACK);
+        } else if (objetTresor.getType() == Tresor.AIR) {
+            tresorAir.setForeground(Color.BLACK);
+            tresorAir.setEnabled(true);
+            tresorAir.setBackground(Color.CYAN);
+        } else if (objetTresor.getType() == Tresor.TERRE) {
+            tresorTerre.setForeground(Color.BLACK);
+            tresorTerre.setEnabled(true);
+            tresorTerre.setBackground(Color.ORANGE);
+        } else if (objetTresor.getType() == Tresor.EAU) {
+            tresorEau.setBackground(Color.BLUE);
+            tresorEau.setEnabled(true);
+            tresorEau.setForeground(Color.BLACK);
+        }
+    }
+
     private void configureWindow(JFrame window) {
         window.setSize(1300, 850);
         window.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
@@ -669,6 +673,7 @@ public class VueGrille implements Observe {
             }
 
             public void windowClosing(java.awt.event.WindowEvent e) {
+                frame.setVisible(false);
                 System.exit(0);
             }
         });

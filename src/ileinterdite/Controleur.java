@@ -420,6 +420,22 @@ public class Controleur implements Observateur {
 
     }
 
+    public void seDeplacerHelico(Pion pion) {
+        ihm.activationBoutons(false);
+        ArrayList<Tuile> tuilesDispo = new ArrayList<>();
+        tuilesDispo = ile.getNonSubmerge(ile.getTuiles());
+        for (Tuile tuile : tuilesDispo) {
+            tuile.setActif(true);
+
+        }
+
+        //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
+        Message m = new Message(TypesMessage.TUILE_DEPLACEMENT_HELICO);
+        m.setPion(pion);
+        ihm.setMsg(m);
+        ihm.setCliquable(ile, pion.getCouleur());
+    }
+
     public void assecher(Pion pion) {
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
         tuilesDispo = ile.getTuilesInondees(pion.getRole().getTuilesAdjacentesInnondees(ile, pion.getTuilePosition()));
@@ -433,7 +449,7 @@ public class Controleur implements Observateur {
         ihm.setCliquable(ile, pionActif.getCouleur());
 
     }
-    
+
     public void assecherSacSable() {
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
         tuilesDispo = ile.getTuilesInondees(ile.getTuiles());
@@ -514,6 +530,14 @@ public class Controleur implements Observateur {
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             ihm.actualiserInfoJA(pionActif);
             ihm.activationBoutons(true);
+        } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_HELICO) {
+            m.getPion().setTuilePosition(m.getTuile());
+            
+            ihm.setNonCliquable(ile);
+            ihm.repaintInfoTuile();
+            
+            ihm.actualiserInfoJA(pionActif);
+            ihm.activationBoutons(true);
         } else if (m.getType() == TypesMessage.ASSECHER) {
             assecher(pionActif);
             ihm.activationBoutons(false);
@@ -526,14 +550,14 @@ public class Controleur implements Observateur {
             ihm.actualiserInfoJA(pionActif);
             ihm.activationBoutons(true);
 
-        } else if(m.getType() == TypesMessage.TUILE_ASSECHEMENT_SS){
+        } else if (m.getType() == TypesMessage.TUILE_ASSECHEMENT_SS) {
             m.getTuile().setEtat(Etat.SEC);
             ihm.setNonCliquable(ile);
             //decrementer le nombre d'action du joueur en cours
             ihm.actualiserInfoJA(pionActif);
             ihm.actualiserCartes(pions);
             ihm.activationBoutons(true);
-        }else if (m.getType() == TypesMessage.VUE_DONNER_CARTE) {
+        } else if (m.getType() == TypesMessage.VUE_DONNER_CARTE) {
             vueDonCarte = new VueDonnerCarte(pionActif, pions);
             vueDonCarte.addObservateur(this);
 
@@ -572,8 +596,12 @@ public class Controleur implements Observateur {
             vueUtiliserCarte = new VueUtiliserCarte(pions);
             vueUtiliserCarte.addObservateur(this);
         } else if (m.getType() == TypesMessage.UTILISER_CARTE) {
-            if(m.getCarteTresor().getType()==CTresor.SAC_SABLE){
+            if (m.getCarteTresor().getType() == CTresor.SAC_SABLE) {
                 assecherSacSable();
+                defausser(m.getPion(), m.getCarteTresor());
+                ihm.actualiserInfoJA(pionActif);
+            } else { //Carte Helicoptere
+                seDeplacerHelico(m.getPion());
                 defausser(m.getPion(), m.getCarteTresor());
                 ihm.actualiserInfoJA(pionActif);
             }
@@ -738,32 +766,19 @@ public class Controleur implements Observateur {
         if (pionActif.getRole().getTuilesDispoPourDeplacement(ile, pionActif.getTuilePosition()).size() == 0) {
             //desactiver seDeplacer
             ihm.activationDeplacement(false);
-        }/*else{ 
-            ihm.activationDeplacement(true);
-            
-        }*/
+        }
         if (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() == 0) {
             //desactiver assecher
             ihm.activationAssechement(false);
-        }/*else{
-            ihm.activationAssechement(true);
-        }*/
+        }
         if (pionActif.getCartesTresors().size() == 0) {
             //desactiver donnercarte
             ihm.activationDon(false);
-        }/*else{
-            ihm.activationDon(true);
-        }*/
- /*
-        if (pionActif.getNbAction()<=0){
-            ihm.activationDeplacement(false);
-            ihm.activationAssechement(false);
-            ihm.activationDon(false);
-            ihm.activationCapacite(false);
-            ihm.activationRecupe(false);
-            ihm.activationUtilise(false);
         }
-         */
+        if(pionActif.getNbAction() <= 0){
+            ihm.activationBoutons(false);
+            ihm.activationFinTour(true);
+        }
     }
 
     public void initPioche(ArrayList<Pion> pions) {
