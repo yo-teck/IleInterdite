@@ -47,7 +47,7 @@ public class Explorateur extends Aventurier{
         
         
         tuilesAdjacentesInnondees= grille.getTuilesCroix(tuile);
-        tuilesAdjacentesInnondees.addAll(grille.getTuilesInnondees(grille.getTuilesDiagonale(tuile)));
+        tuilesAdjacentesInnondees.addAll(grille.getTuilesInondees(grille.getTuilesDiagonale(tuile)));
        
         
         

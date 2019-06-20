@@ -387,7 +387,7 @@ public class VueGrille implements Observe {
         FondPlanche fp = new FondPlanche();
         
         labelJoueurCourant = new JLabel("Joueur courant :");
-        labelNomJoueurCourant = new JLabel(pions.get(tourJoueur).getNomj() + "[" + pions.get(tourJoueur).getRole().getNomA() + "]");
+        labelNomJoueurCourant = new JLabel("[" + pions.get(tourJoueur).getRole().getNomA() + "] " + pions.get(tourJoueur).getNomj());
         labelPointsAction = new JLabel("Points d'Actions : " + pions.get(tourJoueur).getNbAction());
 
 
@@ -584,7 +584,7 @@ public class VueGrille implements Observe {
     }
 
     public void actualiserInfoJA(Pion pionActif) {
-        labelNomJoueurCourant.setText(pionActif.getNomj() + "[" + pionActif.getRole().getNomA() + "]");
+        labelNomJoueurCourant.setText("[" + pionActif.getRole().getNomA() + "] " + pionActif.getNomj());
         labelPointsAction.setText("Points d'Actions : " + pionActif.getNbAction());
     }
 
@@ -599,6 +599,7 @@ public class VueGrille implements Observe {
         assecher.setEnabled(b);
         finTour.setEnabled(b);
         recupTresor.setEnabled(b);
+        btnUtiliserCarte.setEnabled(b);
 
         valid.setEnabled(b);
         annul.setEnabled(b);
@@ -609,8 +610,11 @@ public class VueGrille implements Observe {
         bouton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 0));
         bouton.setVerticalTextPosition(JLabel.CENTER);
         bouton.setHorizontalTextPosition(JLabel.CENTER);
-    }
 
+    }
+    public void activationFinTour(boolean b) {
+        finTour.setEnabled(b);}
+    
     public void activationDeplacement(boolean b) {
         deplace.setEnabled(b);
     }
@@ -635,6 +639,7 @@ public class VueGrille implements Observe {
         btnUtiliserCarte.setEnabled(b);
     }
 
+
     private void configureWindow(JFrame window) {
         window.setSize(1300, 850);
         window.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
@@ -658,6 +663,7 @@ public class VueGrille implements Observe {
             }
 
             public void windowClosing(java.awt.event.WindowEvent e) {
+                frame.setVisible(false);
                 System.exit(0);
             }
         });
