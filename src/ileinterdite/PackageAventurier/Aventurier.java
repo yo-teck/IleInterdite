@@ -24,20 +24,32 @@ public abstract class Aventurier {
     private Pion pion;
     private Tuile tuileDepart;
     private ImageIcon imgAventurier;
+    private boolean capaciteUtilisee;
     private File chemin = new File("");
     protected Color couleur;
+    
 
     public Aventurier(String nomA, String description, Tuile tuileDepart) {
         setNomA(nomA);
         setDescription(description);
         setTuileDepart(tuileDepart);
         setImgAventurier(new ImageIcon(getChemin().getAbsolutePath() + "/src/ressources/imgRole/" + getNomA() + ".png"));
+        capaciteUtilisee = false;
     }
 
     public Aventurier(String nomA, String description) {
         setNomA(nomA);
         setDescription(description);
         setImgAventurier(new ImageIcon(getChemin().getAbsolutePath() + "/src/ressources/imgRole/" + getNomA() + ".png"));
+        capaciteUtilisee = false;
+    }
+
+    public boolean isCapaciteUtilisee() {
+        return capaciteUtilisee;
+    }
+
+    public void setCapaciteUtilisee(boolean capaciteUtilisee) {
+        this.capaciteUtilisee = capaciteUtilisee;
     }
 
     public Color getCouleur() {
@@ -87,9 +99,7 @@ public abstract class Aventurier {
     public ImageIcon getImgAventurier() {
         return imgAventurier;
     }
-    
-    
-    
+
     public ArrayList<Tuile> getTuilesDispoPourDeplacement(Grille grille, Tuile tuile) {
         ArrayList<Tuile> tuilesDispoPourDeplacement = new ArrayList<>();
         tuilesDispoPourDeplacement = grille.getTuilesCroix(tuile);
