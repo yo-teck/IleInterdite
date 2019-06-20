@@ -26,6 +26,8 @@ import ileinterdite.Vues.VueIndividuelle;
 import ileinterdite.Vues.VueUtiliserCarte;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 /**
@@ -801,6 +803,11 @@ public class Controleur implements Observateur {
                 Collections.shuffle(pileCarteInondations);
                 tuilesPiochees.clear();
                 defausse.add(ct);
+                
+
+
+                
+                
                 System.out.println("Montée des eaux !");
             } else {
                 pion.addCarte(ct);
