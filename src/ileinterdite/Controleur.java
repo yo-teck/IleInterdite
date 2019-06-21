@@ -662,11 +662,11 @@ public class Controleur implements Observateur {
         if (pionActif.getNbAction() <= 0) {
             vueGrille.activationBoutons(false);
             vueGrille.activationFinTour(true);
+            vueGrille.activationUtilise(true);
         }
         if (pionActif.getNbAction() > 3) {
             pionActif.setNbAction(3);
         }
-
         if (pionActif.getRole().getNomA().equals("Plongeur") || pionActif.getRole().getNomA().equals("Explorateur")
                 || pionActif.getRole().getNomA().equals("Messager") || pionActif.getRole().isCapaciteUtilisee()
                 || (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() < 2 && pionActif.getRole().getNomA().equals("Ingenieur"))) {
@@ -752,6 +752,7 @@ public class Controleur implements Observateur {
             CarteTresor ct = pileCartesTresor.get(0);
             if (ct.getType() == CTresor.MONTEE_DES_EAUX && !debutDePartie) {
                 niveauEau.setNiveau(niveauEau.getNiveau() + 1);
+                vueGrille.setLog(vueGrille.getLog() + ", Une montée des eaux a été piochée ");
                 vueGrille.actualiserInfoNiveauEau();
                 pileCartesInondation.addAll(defausseCartesInondation);
                 Collections.shuffle(pileCartesInondation);
@@ -864,6 +865,7 @@ public class Controleur implements Observateur {
             } else {
                 lancerPartieAleatoire();
             }
+            vueGrille.setLog("Début de partie ");
 
         } else if (m.getType() == TypesMessage.RECOMMENCER) {
             debutDePartie = true;
@@ -873,6 +875,7 @@ public class Controleur implements Observateur {
             //Traitements des messages d'action du joueur
         } else if (m.getType() == TypesMessage.FIN_TOUR) {
 
+            vueGrille.setLog("Fin du tour de : " + pionActif.getNomj());
             fairePiocher(pionActif);
             pionActif.getRole().setCapaciteUtilisee(false);
             joueurSuivant();
@@ -886,6 +889,7 @@ public class Controleur implements Observateur {
             pionActif.setNbAction(3);
             vueGrille.actualiserInfoJA(pionActif);
 
+            vueGrille.setLog(vueGrille.getLog() + ", Début du tour de : " + pionActif.getNomj());
         } else if (m.getType() == TypesMessage.DEFAUSSE) {
 
             for (CarteTresor ct : m.getCartesTresor()) {
@@ -894,6 +898,14 @@ public class Controleur implements Observateur {
 
             vueGrille.actualiserCartes(pions);
             vueGrille.activationBoutons(true);
+            if (m.getCartesTresor().size() == 1) {
+                vueGrille.setLog(pionActif.getNomj() + "à defaussé la carte " + m.getCartesTresor().get(0).getType().toString());
+            } else if (m.getCartesTresor().size() > 1) {
+                vueGrille.setLog(pionActif.getNomj() + "à defaussé la carte " + m.getCartesTresor().get(0).getType().toString());
+                for (int i = 1; i < m.getCartesTresor().size(); i++) {
+                    vueGrille.setLog(vueGrille.getLog() + ", " + m.getCartesTresor().get(i).getType().toString());
+                }
+            }
 
         } else if (m.getType() == TypesMessage.DEPLACEMENT) {
 
@@ -904,8 +916,9 @@ public class Controleur implements Observateur {
             vueGrille.activationDeplacement(true);
 
         } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT) {
+            vueGrille.setLog(pionActif.getNomj() + " s'est déplacé la tuile " + pionActif.getTuilePosition().getNom());
             m.getPion().setTuilePosition(m.getTuile());
-
+            vueGrille.setLog(vueGrille.getLog() + " vers la tuile " + m.getTuile().getNom());
             vueGrille.setNonCliquable(ile);
             vueGrille.repaintInfoTuile();
             vueGrille.changerEtatBouton();
@@ -916,8 +929,9 @@ public class Controleur implements Observateur {
             vueGrille.activationBoutons(true);
 
         } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_HELICO) {
+            vueGrille.setLog(pionActif.getNomj() + " s'est déplacé la tuile " + pionActif.getTuilePosition().getNom());
             m.getPion().setTuilePosition(m.getTuile());
-
+            vueGrille.setLog(vueGrille.getLog() + " vers la tuile " + m.getTuile().getNom());
             vueGrille.setNonCliquable(ile);
             vueGrille.repaintInfoTuile();
             vueGrille.actualiserInfoJA(pionActif);
@@ -932,7 +946,7 @@ public class Controleur implements Observateur {
 
         } else if (m.getType() == TypesMessage.TUILE_ASSECHEMENT) {
             m.getTuile().setEtat(Etat.SEC);
-
+            vueGrille.setLog(pionActif.getNomj() + " a assecher la tuile " + m.getTuile().getNom());
             vueGrille.setNonCliquable(ile);
 
             //decrementer le nombre d'action du joueur en cours
@@ -943,7 +957,7 @@ public class Controleur implements Observateur {
 
         } else if (m.getType() == TypesMessage.TUILE_ASSECHEMENT_SS) {
             m.getTuile().setEtat(Etat.SEC);
-
+            vueGrille.setLog(pionActif.getNomj() + " a assecher la tuile " + pionActif.getTuilePosition().getNom());
             vueGrille.setNonCliquable(ile);
 
             //decrementer le nombre d'action du joueur en cours
@@ -955,7 +969,7 @@ public class Controleur implements Observateur {
             m.getTuile().setEtat(Etat.SEC);
 
             assecher(pionActif);
-
+            vueGrille.setLog(pionActif.getNomj() + " a assecher la tuile " + m.getTuile().getNom());
         } else if (m.getType() == TypesMessage.VUE_DONNER_CARTE) {
 
             vueDonnerCarte = new VueDonnerCarte(pionActif, pions);
@@ -964,6 +978,7 @@ public class Controleur implements Observateur {
         } else if (m.getType() == TypesMessage.DONNER_CARTE) {
 
             donnerCarte(m.getCarteTresor(), m.getPion());
+            vueGrille.setLog(pionActif.getNomj() + "a donner la carte " + m.getCarteTresor().getType().toString() + " a " + m.getPion().getNomj());
             vueGrille.activationBoutons(true);
 
             //decrementer le nombre d'action du joueur en cours
@@ -978,6 +993,7 @@ public class Controleur implements Observateur {
                     vueGrille.actualiserInfoTresor();
                 }
             }
+            vueGrille.setLog(pionActif.getNomj() + " a récuperer le trésor " + m.getObjetTresor().getType().toString());
 
             int cnt = 0;
             int i = 0;
@@ -1001,7 +1017,7 @@ public class Controleur implements Observateur {
             vueGrille.activationBoutons(true);
             vueGrille.setNonCliquable(ile);
             vueGrille.actualiserGrille(ile);
-
+            vueGrille.setLog(pionActif.getNomj() + "a annuler son action");
         } else if (m.getType() == TypesMessage.VUE_UTILISER_CARTE) {
 
             vueUtiliserCarte = new VueUtiliserCarte(pions);
@@ -1014,6 +1030,7 @@ public class Controleur implements Observateur {
                 assecherSacSable();
                 defausser(m.getPion(), m.getCarteTresor());
                 vueGrille.actualiserInfoJA(pionActif);
+
             } else { //Carte Helicoptere
 
                 if (m.getTuile().getNom() == "Heliport" && m.getTuile().getPions().size() == 4) {
@@ -1026,7 +1043,11 @@ public class Controleur implements Observateur {
                         vueFin = new VueFin("VICTOIRE ! ", temps);
                         vueFin.addObservateur(this);
                     }
-
+                    if (pionActif == m.getPion()) {
+                        vueGrille.setLog(pionActif + " à utiliser la carte " + m.getCarteTresor().getType().toString());
+                    } else {
+                        vueGrille.setLog(pionActif + " à utiliser la carte " + m.getCarteTresor().getType().toString() + " qui appartenait a " + m.getPion().getNomj());
+                    }
                 } else {
                     seDeplacerHelico(m.getPion());
                     defausser(m.getPion(), m.getCarteTresor());
@@ -1050,6 +1071,7 @@ public class Controleur implements Observateur {
                 seDeplacerHelico(pionActif);
                 pionActif.setNbAction(pionActif.getNbAction() - 1);
                 pionActif.getRole().setCapaciteUtilisee(true);
+                
             } else if (pionActif.getRole().getNomA().equals("Ingenieur")) {
                 assecherIngenieur();
                 pionActif.getRole().setCapaciteUtilisee(true);
@@ -1059,16 +1081,16 @@ public class Controleur implements Observateur {
                 vueNavigateur.addObservateur(this);
                 vueGrille.activationBoutons(false);
             }
-
+            vueGrille.setLog(pionActif.getNomj() +"qui est"+" [" + pionActif.getRole().getNomA()+"] " + " a utiliser sa capacité spéciale");
         } else if (m.getType() == TypesMessage.DEPLACEMENT_AMI) {
 
             seDeplacerNavigateur(m.getPion());
             vueGrille.activationBoutons(true);
 
         } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_AMI) {
-
+            vueGrille.setLog(pionActif.getNomj() +"qui est"+" [" + pionActif.getRole().getNomA()+"] " + " a deplacer" + m.getPion().getNomj() +" de la case " + m.getPion().getTuilePosition().getNom());
             m.getPion().setTuilePosition(m.getTuile());
-
+            vueGrille.setLog(vueGrille.getLog() + " vers la tuile " + m.getPion().getTuilePosition().getNom());
             vueGrille.setNonCliquable(ile);
             vueGrille.repaintInfoTuile();
 
