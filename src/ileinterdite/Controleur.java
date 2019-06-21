@@ -460,6 +460,11 @@ public class Controleur implements Observateur {
         tresors.add(tAir);
         tresors.add(tFeu);
         tresors.add(tTerre);
+
+        tEau.setEstRecupere(true);
+        tAir.setEstRecupere(true);
+        tFeu.setEstRecupere(true);
+        tTerre.setEstRecupere(true);
     }
 
     //Initialisation démo
@@ -637,6 +642,8 @@ public class Controleur implements Observateur {
     }
 
     public void check() {
+        int j = 0;
+        int i = 0;
         if (pionActif.getRole().getTuilesDispoPourDeplacement(ile, pionActif.getTuilePosition()).size() == 0) {
             //desactiver seDeplacer
             vueGrille.activationDeplacement(false);
@@ -681,11 +688,9 @@ public class Controleur implements Observateur {
                 } else {
                     seDéplacerCoule(pion);
                 }
-
                 pionActif.setNbAction(pionActif.getNbAction() + 1);
-            }
+            }   
         }
-
     }
 
     public boolean checkVictoire() {
@@ -868,6 +873,10 @@ public class Controleur implements Observateur {
             vueGrille.setLog("Début de partie ");
 
         } else if (m.getType() == TypesMessage.RECOMMENCER) {
+            h = now().getHour();
+            min = now().getMinute();
+            sec = now().getSecond();
+
             debutDePartie = true;
             vueGrille.dispose();
             vueDemarrer.montrer(true);
@@ -1023,6 +1032,7 @@ public class Controleur implements Observateur {
             vueUtiliserCarte = new VueUtiliserCarte(pions);
             vueGrille.activationBoutons(false);
             vueUtiliserCarte.addObservateur(this);
+            System.out.println(vueUtiliserCarte.getPionSansCarte());
 
         } else if (m.getType() == TypesMessage.UTILISER_CARTE) {
 
@@ -1038,7 +1048,7 @@ public class Controleur implements Observateur {
 
             } else { //Carte Helicoptere
 
-                if (m.getTuile().getNom() == "Heliport" && m.getTuile().getPions().size() == 4) {
+                if (m.getTuile().getNom() == "Heliport" && m.getTuile().getPions().size() == pions.size()) {
 
                     if (checkVictoire()) {
                         int hFin = now().getHour() - h;
@@ -1113,7 +1123,7 @@ public class Controleur implements Observateur {
             int hFin = now().getHour() - h;
             int minFin = now().getMinute() - min;
             int secFin = now().getSecond() - sec;
-            String temps = new String(hFin + "h" + minFin + "m" + secFin + "s");
+            String temps = new String("Votre Temps : " + hFin + "h" + minFin + "m" + secFin + "s");
             vueFin = new VueFin("DEFAITE !", temps);
 
             vueFin.addObservateur(this);

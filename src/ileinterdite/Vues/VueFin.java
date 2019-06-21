@@ -46,7 +46,7 @@ public class VueFin implements Observe {
     
     public VueFin(String etatPartie,String temps){
         fenetre = new JFrame("Fin de la partie ");
-        fenetre.setSize(600, 400);
+        fenetre.setSize(1350, 800);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetre.setLayout(new BorderLayout());
         
