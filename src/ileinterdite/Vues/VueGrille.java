@@ -45,6 +45,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -54,11 +55,8 @@ public class VueGrille implements Observe {
 
     private JFrame frame;
 
-    private JPanel conteneurMilieu;
-    private JPanel conteneurGauche;
     private JPanel conteneurDroite;
-    private JPanel conteneurNivEau;
-    private JPanel niveauEau;
+    private JPanel conteneurLog;
     private JPanel zoneAction;
     private JPanel conteneurBas;
     private JPanel zoneTresors;
@@ -110,6 +108,7 @@ public class VueGrille implements Observe {
     private JLabel labelJoueurCourant;
     private JLabel labelNomJoueurCourant;
     private JLabel labelPointsAction;
+    private JLabel labelLog;
 
     private Font police;
     private File chemin = new File("");
@@ -550,6 +549,13 @@ public class VueGrille implements Observe {
 
         frame.setVisible(true);
 
+////////////////////////////////////////////////////////////////////////////////
+//Debut conteneur haut droite///////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+        conteneurLog = new JPanel(new BorderLayout());
+        labelLog = new JLabel("TEST");
+        conteneurLog.add(labelLog,BorderLayout.CENTER);
+        frame.add(conteneurLog,BorderLayout.NORTH);
     }
 
     public void joueurSuivant() {
@@ -774,6 +780,12 @@ public class VueGrille implements Observe {
 
     public void dispose() {
         frame.dispose();
+    }
+    public String getLog(){
+        return this.labelLog.getText();
+    }
+    public void setLog(String log){
+        this.labelLog.setText(log);
     }
 
     private void configureWindow(JFrame window) {
