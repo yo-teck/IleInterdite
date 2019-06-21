@@ -504,7 +504,7 @@ public class Controleur implements Observateur {
         m.setPion(pion);
         vueGrille.setMsg(m);
         vueGrille.setCliquable(ile, pion.getCouleur());
-
+        vueGrille.actualiserCartes(pions);
     }
 
     public void seDeplacerNavigateur(Pion pion) {
@@ -537,7 +537,7 @@ public class Controleur implements Observateur {
         m.setPion(pion);
         vueGrille.setMsg(m);
         vueGrille.setCliquable(ile, pion.getCouleur());
-
+        vueGrille.actualiserCartes(pions);
     }
 
     public void seDeplacerHelico(Pion pion) {
@@ -554,6 +554,7 @@ public class Controleur implements Observateur {
         m.setPion(pion);
         vueGrille.setMsg(m);
         vueGrille.setCliquable(ile, pion.getCouleur());
+        vueGrille.actualiserCartes(pions);
     }
 
     public void seDéplacerCoule(Pion pion) {
