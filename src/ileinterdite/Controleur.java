@@ -937,6 +937,7 @@ public class Controleur implements Observateur {
 
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
+            vueGrille.changerEtatBoutonCapaIngenieur(true);
             vueGrille.actualiserInfoJA(pionActif);
             vueGrille.activationBoutons(true);
             vueGrille.changerEtatBouton();
@@ -1052,6 +1053,8 @@ public class Controleur implements Observateur {
                 pionActif.getRole().setCapaciteUtilisee(true);
             } else if (pionActif.getRole().getNomA().equals("Ingenieur")) {
                 assecherIngenieur();
+                vueGrille.activationBoutons(false);
+                vueGrille.changerEtatBoutonCapaIngenieur(false);
             } else if (pionActif.getRole().getNomA().equals("Navigateur")) {
                 //seDeplacerHelico(m.getPion());
                 vueNavigateur = new VueNavigateur(pionActif, pions);
