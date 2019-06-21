@@ -582,7 +582,6 @@ public class Controleur implements Observateur {
         tuilesDispo = ile.getTuilesInondees(pion.getRole().getTuilesAdjacentesInnondees(ile, pion.getTuilePosition()));
         for (Tuile tuile : tuilesDispo) {
             tuile.setActif(true);
-
         }
 
         //On montre les cases dispo pour l'assechement puis on demande la case à l'utilisateur puis on asseche la tuile.
@@ -601,7 +600,6 @@ public class Controleur implements Observateur {
         //On montre les cases dispo pour l'assechement puis on demande la case à l'utilisateur puis on asseche la tuile.
         vueGrille.setMsg(new Message(TypesMessage.TUILE_ASSECHEMENT_SS));
         vueGrille.setCliquable(ile, pionActif.getCouleur());
-
     }
 
     public void assecherIngenieur() {
@@ -609,7 +607,6 @@ public class Controleur implements Observateur {
         tuilesDispo = ile.getTuilesInondees(pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()));
         for (Tuile tuile : tuilesDispo) {
             tuile.setActif(true);
-
         }
 
         //On montre les cases dispo pour l'assechement puis on demande la case à l'utilisateur puis on asseche la tuile.
@@ -669,8 +666,12 @@ public class Controleur implements Observateur {
 
         if (pionActif.getRole().getNomA().equals("Plongeur") || pionActif.getRole().getNomA().equals("Explorateur")
                 || pionActif.getRole().getNomA().equals("Messager") || pionActif.getRole().isCapaciteUtilisee()
-                || (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() < 2 && pionActif.getRole().getNomA().equals("Ingenieur"))) {
+                || (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() < 2
+                && pionActif.getRole().getNomA().equals("Ingenieur"))) {
             vueGrille.activationCapacite(false);
+            System.out.println(pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size());
+        } else {
+            vueGrille.activationCapacite(true);
         }
         for (Pion pion : pions) {
             if (pion.getTuilePosition().getEtat() == Etat.SUBMERGE && !checkDefaite()) {
@@ -793,17 +794,17 @@ public class Controleur implements Observateur {
     }
 
     public void inonderTuiles() {
-
-        for (int i = 0; i < niveauEau.getEchelon(); i++) {
-            if (pileCartesInondation.get(0).getEtat() == Etat.SEC) {
-                pileCartesInondation.get(0).setEtat(Etat.INONDE);
-            } else if (pileCartesInondation.get(0).getEtat() == Etat.INONDE) {
-                pileCartesInondation.get(0).setEtat(Etat.SUBMERGE);
+        if (!pileCartesInondation.isEmpty()) {
+            for (int i = 0; i < niveauEau.getEchelon(); i++) {
+                if (pileCartesInondation.get(0).getEtat() == Etat.SEC) {
+                    pileCartesInondation.get(0).setEtat(Etat.INONDE);
+                } else if (pileCartesInondation.get(0).getEtat() == Etat.INONDE) {
+                    pileCartesInondation.get(0).setEtat(Etat.SUBMERGE);
+                }
+                defausseCartesInondation.add(pileCartesInondation.get(0));
+                pileCartesInondation.remove(0);
             }
-            defausseCartesInondation.add(pileCartesInondation.get(0));
-            pileCartesInondation.remove(0);
         }
-
     }
 
     public void verifPile() {
@@ -1052,7 +1053,6 @@ public class Controleur implements Observateur {
                 pionActif.getRole().setCapaciteUtilisee(true);
             } else if (pionActif.getRole().getNomA().equals("Ingenieur")) {
                 assecherIngenieur();
-                pionActif.getRole().setCapaciteUtilisee(true);
             } else if (pionActif.getRole().getNomA().equals("Navigateur")) {
                 //seDeplacerHelico(m.getPion());
                 vueNavigateur = new VueNavigateur(pionActif, pions);
