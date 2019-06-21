@@ -944,9 +944,9 @@ public class Controleur implements Observateur {
                     seDeplacer(pion);
                 }
 
-              
+                pionActif.setNbAction(pionActif.getNbAction() + 1);
             }
-        } pionActif.setNbAction(pionActif.getNbAction() + 1);
+        } 
 
     }
 

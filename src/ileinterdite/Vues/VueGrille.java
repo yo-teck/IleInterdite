@@ -106,8 +106,8 @@ public class VueGrille implements Observe {
     private JButton recupTresor;
     private JButton finTour;
 
-    private JButton valid;
-    private JButton annul;
+    private JButton btnRecommencer;
+    private JButton btnQuitter;
 
     private JLabel labelJoueurCourant;
     private JLabel labelNomJoueurCourant;
@@ -269,14 +269,27 @@ public class VueGrille implements Observe {
 
         zoneValidation = new JPanel(new GridLayout(2, 1));
 
-        valid = new JButton("Validation");
-        ajoutBoisBtn(valid);
+        btnRecommencer = new JButton("Recommencer");
+        ajoutBoisBtn(btnRecommencer);
+        btnRecommencer.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Message m = new Message(TypesMessage.RECOMMENCER);
+                notifierObservateur(m);
+            }
+        });
 
-        annul = new JButton("Annuler");
-        ajoutBoisBtn(annul);
+        btnQuitter = new JButton("Quitter");
+        ajoutBoisBtn(btnQuitter);
+        btnQuitter.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                System.exit(0);
+            }
+        });
 
-        zoneValidation.add(valid);
-        zoneValidation.add(annul);
+        zoneValidation.add(btnRecommencer);
+        zoneValidation.add(btnQuitter);
 
         conteneurBas.add(zoneValidation, BorderLayout.EAST);
 
@@ -699,8 +712,8 @@ public class VueGrille implements Observe {
         recupTresor.setEnabled(b);
         btnUtiliserCarte.setEnabled(b);
 
-        valid.setEnabled(b);
-        annul.setEnabled(b);
+        btnRecommencer.setEnabled(b);
+        btnQuitter.setEnabled(b);
     }
 
     public void ajoutBoisBtn(JButton bouton) {
