@@ -504,7 +504,7 @@ public class Controleur implements Observateur {
         m.setPion(pion);
         vueGrille.setMsg(m);
         vueGrille.setCliquable(ile, pion.getCouleur());
-
+        vueGrille.actualiserCartes(pions);
     }
 
     public void seDeplacerNavigateur(Pion pion) {
@@ -537,7 +537,7 @@ public class Controleur implements Observateur {
         m.setPion(pion);
         vueGrille.setMsg(m);
         vueGrille.setCliquable(ile, pion.getCouleur());
-
+        vueGrille.actualiserCartes(pions);
     }
 
     public void seDeplacerHelico(Pion pion) {
@@ -554,9 +554,23 @@ public class Controleur implements Observateur {
         m.setPion(pion);
         vueGrille.setMsg(m);
         vueGrille.setCliquable(ile, pion.getCouleur());
+        vueGrille.actualiserCartes(pions);
     }
 
     public void seDéplacerCoule(Pion pion) {
+        Pion normal = new Pion(new Navigateur());
+        ArrayList<Tuile> tuileSave = new ArrayList<>();
+        tuileSave = (normal.getRole().getTuilesDispoPourDeplacement(ile, pion.getTuilePosition()));
+        for (Tuile tuile : tuileSave) {
+            tuile.setActif(true);
+        }
+
+        //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
+        Message m = new Message(TypesMessage.TUILE_DEPLACEMENT);
+        m.setPion(pion);
+        vueGrille.setMsg(m);
+        vueGrille.setCliquable(ile, pion.getCouleur());
+        vueGrille.actualiserCartes(pions);
 
     }
 
@@ -649,6 +663,9 @@ public class Controleur implements Observateur {
             vueGrille.activationBoutons(false);
             vueGrille.activationFinTour(true);
         }
+        if (pionActif.getNbAction() > 3) {
+            pionActif.setNbAction(3);
+        }
 
         if (pionActif.getRole().getNomA().equals("Plongeur") || pionActif.getRole().getNomA().equals("Explorateur")
                 || pionActif.getRole().getNomA().equals("Messager") || pionActif.getRole().isCapaciteUtilisee()
@@ -660,8 +677,10 @@ public class Controleur implements Observateur {
 
                 if (pion.getRole().getNomA().equals("Pilote")) {
                     seDeplacerHelico(pion);
-                } else {
+                } else if (pion.getRole().getNomA().equals("Plongeur")) {
                     seDeplacer(pion);
+                } else {
+                    seDéplacerCoule(pion);
                 }
 
                 pionActif.setNbAction(pionActif.getNbAction() + 1);
