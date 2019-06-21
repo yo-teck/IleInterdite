@@ -37,22 +37,24 @@ public class VueFin implements Observe {
     
     private JLabel texteDefaite;
     private JLabel votreTemps;
+    private JLabel conditions;
     
     private JButton recommencer,quitter;
     
     private Font police;
+    private Font police2;
     
     private File chemin = new File("");
     
-    public VueFin(String etatPartie,String temps){
+    public VueFin(String etatPartie,String temps,String conditionsFin){
         fenetre = new JFrame("Fin de la partie ");
         fenetre.setSize(1350, 800);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetre.setLayout(new BorderLayout());
         
-        conteneurLabel = new JPanel(new GridLayout(2,1));
+        conteneurLabel = new JPanel(new GridLayout(3,1));
         conteneurBoutons = new JPanel(new GridLayout(1,5));
-        
+        conditions = new JLabel(conditionsFin,SwingConstants.CENTER);
         texteDefaite = new JLabel(etatPartie,SwingConstants.CENTER);
         votreTemps = new JLabel(temps,SwingConstants.CENTER);
         
@@ -84,12 +86,15 @@ public class VueFin implements Observe {
           
         }
         police = new Font("Pieces of Eight", Font.PLAIN,80);
-        
+        police2 = new Font("Pieces of Eight", Font.PLAIN,30);
+        conditions.setFont(police2);
         texteDefaite.setFont(police);
         votreTemps.setFont(police);
         
         conteneurLabel.add(texteDefaite);
+        conteneurLabel.add(conditions);
         conteneurLabel.add(votreTemps);
+        
         conteneurBoutons.add(new JLabel(""));
         conteneurBoutons.add(recommencer);
         conteneurBoutons.add(new JLabel(""));

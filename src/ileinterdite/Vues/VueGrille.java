@@ -550,12 +550,28 @@ public class VueGrille implements Observe {
         frame.setVisible(true);
 
 ////////////////////////////////////////////////////////////////////////////////
-//Debut conteneur haut droite///////////////////////////////////////////////////
+//Debut conteneur Log///////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
         conteneurLog = new JPanel(new BorderLayout());
-        labelLog = new JLabel("TEST");
+        labelLog = new JLabel("");
+        
+        GraphicsEnvironment gef = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        try {
+            police = Font.createFont(Font.TRUETYPE_FONT,new File(chemin.getAbsolutePath()+"/src/ressources/police/PiecesofEight.ttf"));
+            gef.registerFont(police);
+        } catch (FontFormatException ex) {
+            System.out.println("Nont");
+        } catch (IOException ex) {
+            System.out.println("Nont");
+          
+        }
+        labelLog.setFont(new Font("Pieces of Eight", Font.PLAIN,20));
         conteneurLog.add(labelLog,BorderLayout.CENTER);
         frame.add(conteneurLog,BorderLayout.NORTH);
+////////////////////////////////////////////////////////////////////////////////
+//Fin conteneur Log///////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////        
+        
     }
 
     public void joueurSuivant() {
