@@ -413,10 +413,6 @@ public class Controleur implements Observateur {
         tresors.add(tAir);
         tresors.add(tFeu);
         tresors.add(tTerre);
-        tEau.setEstRecupere(true);
-        tAir.setEstRecupere(true);
-        tFeu.setEstRecupere(true);
-        tTerre.setEstRecupere(true);
     }
     
     public void seDeplacer(Pion pion) {
