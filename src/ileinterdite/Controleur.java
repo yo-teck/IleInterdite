@@ -669,7 +669,7 @@ public class Controleur implements Observateur {
                 || (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() < 2
                 && pionActif.getRole().getNomA().equals("Ingenieur"))) {
             vueGrille.activationCapacite(false);
-        } else {
+        } else if (pionActif.getRole().getNomA().equals("Ingenieur")) {
             vueGrille.activationCapacite(true);
         }
         for (Pion pion : pions) {
@@ -1062,7 +1062,6 @@ public class Controleur implements Observateur {
         } else if (m.getType() == TypesMessage.DEPLACEMENT_AMI) {
 
             seDeplacerNavigateur(m.getPion());
-            vueGrille.activationBoutons(true);
 
         } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_AMI) {
 
