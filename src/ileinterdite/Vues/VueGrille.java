@@ -51,7 +51,7 @@ import javax.swing.ImageIcon;
  * @author Yoann
  */
 public class VueGrille implements Observe {
-    
+
     private JFrame frame;
 
     private JPanel conteneurMilieu;
@@ -92,8 +92,13 @@ public class VueGrille implements Observe {
     private JButton[] btnJ;
     private int nbJoueurs;
 
-    private JButton info;
+    private ActionListener seDeplacerAL;
+    private ActionListener annulerDeplacementAL;
+    private ActionListener assecherAL;
+    private ActionListener annulerAssechementAL;
+
     private JButton deplace;
+    private JButton info;
     private JButton assecher;
     private JButton donner;
     private JButton btnUtiliserCarte;
@@ -107,7 +112,7 @@ public class VueGrille implements Observe {
     private JLabel labelJoueurCourant;
     private JLabel labelNomJoueurCourant;
     private JLabel labelPointsAction;
-    
+
     private Font police;
     private File chemin = new File("");
 
@@ -117,19 +122,19 @@ public class VueGrille implements Observe {
 
         //Creation d'une variable qui stock le nombre de joueur pour le reutilisé
         nbJoueurs = pions.size();
-        
-    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         try {
-            police = Font.createFont(Font.TRUETYPE_FONT,new File(chemin.getAbsolutePath()+"/src/ressources/police/PiecesofEight.ttf"));
+            police = Font.createFont(Font.TRUETYPE_FONT, new File(chemin.getAbsolutePath() + "/src/ressources/police/PiecesofEight.ttf"));
             ge.registerFont(police);
         } catch (FontFormatException ex) {
             System.out.println("Nont");
         } catch (IOException ex) {
             System.out.println("Nont");
-          
+
         }
-        police = new Font("Pieces of Eight", Font.PLAIN,24);
-        
+        police = new Font("Pieces of Eight", Font.PLAIN, 24);
+
 ////////////////////////////////////////////////////////////////////////////////        
 //Creation de la fenetre////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -187,7 +192,7 @@ public class VueGrille implements Observe {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         msg.setTuile(tuileSelect);
-                        
+
                         notifierObservateur(msg);
                     }
                 });
@@ -241,12 +246,12 @@ public class VueGrille implements Observe {
         c1 = new CardLayout();
         zoneCartes = new JPanel(c1);
 
-        carteJ =new JPanel[pions.size()];
-        
-        for(int i = 0; i<pions.size();i++){
+        carteJ = new JPanel[pions.size()];
+
+        for (int i = 0; i < pions.size(); i++) {
             JPanel carteJoueur = new InfoCarte(pions.get(i));
-            carteJ[i]=carteJoueur;
-            zoneCartes.add(carteJ[i], i+"");
+            carteJ[i] = carteJoueur;
+            zoneCartes.add(carteJ[i], i + "");
             System.out.println(i);
         }
         /*
@@ -259,8 +264,6 @@ public class VueGrille implements Observe {
         carteJ4 = new JPanel();
         carteJ4 = Carte(pions.get(3));*/
 
-
-
         c1.show(zoneCartes, "0");
         conteneurBas.add(zoneCartes, BorderLayout.CENTER);
 
@@ -268,13 +271,10 @@ public class VueGrille implements Observe {
 
         valid = new JButton("Validation");
         ajoutBoisBtn(valid);
-        
+
         annul = new JButton("Annuler");
         ajoutBoisBtn(annul);
-        
-        
-        
-        
+
         zoneValidation.add(valid);
         zoneValidation.add(annul);
 
@@ -296,29 +296,58 @@ public class VueGrille implements Observe {
         zoneAction = new JPanel(new GridLayout(4, 2));
 //Creation des boutons et de leurs actionListener
 //Creation du bouton permettant de se deplacer
-        deplace = new JButton("Se deplacer");
-        ajoutBoisBtn(deplace);
-        deplace.addActionListener(
-                new ActionListener() {
+
+        seDeplacerAL = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.DEPLACEMENT, pions.get(tourJoueur));
+                deplace.setText("Annuler");
                 notifierObservateur(m);
+                deplace.removeActionListener(seDeplacerAL);
+                deplace.addActionListener(annulerDeplacementAL);
             }
-        }
-        );
+        };
+
+        annulerDeplacementAL = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message(TypesMessage.ANNULER);
+                deplace.setText("Se déplacer");
+                notifierObservateur(m);
+                deplace.removeActionListener(annulerDeplacementAL);
+                deplace.addActionListener(seDeplacerAL);
+            }
+        };
+
+        deplace = new JButton("Se deplacer");
+        ajoutBoisBtn(deplace);
+        deplace.addActionListener(seDeplacerAL);
 //Creation du bouton permettant d'assecher un case
-        assecher = new JButton("Assecher");
-        ajoutBoisBtn(assecher);
-        assecher.addActionListener(
-                new ActionListener() {
+        assecherAL = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.ASSECHER, pions.get(tourJoueur));
+                assecher.setText("Annuler");
                 notifierObservateur(m);
+                assecher.removeActionListener(assecherAL);
+                assecher.addActionListener(annulerAssechementAL);
             }
-        }
-        );
+        };
+
+        annulerAssechementAL = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message(TypesMessage.ANNULER);
+                assecher.setText("Assecher");
+                notifierObservateur(m);
+                assecher.removeActionListener(annulerAssechementAL);
+                assecher.addActionListener(assecherAL);
+            }
+        };
+        assecher = new JButton("Assecher");
+        
+        ajoutBoisBtn(assecher);
+        assecher.addActionListener(assecherAL);
 //Creation du bouton permettant de donner une carte
         donner = new JButton("Donner carte");
         ajoutBoisBtn(donner);
@@ -333,9 +362,9 @@ public class VueGrille implements Observe {
         });
 //Creation du bouton permettant d'utilisé une carte
         btnUtiliserCarte = new JButton("Utiliser Carte");
-        btnUtiliserCarte.addActionListener(new ActionListener(){
+        btnUtiliserCarte.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.VUE_UTILISER_CARTE);
                 notifierObservateur(m);
             }
@@ -343,9 +372,9 @@ public class VueGrille implements Observe {
         ajoutBoisBtn(btnUtiliserCarte);
 //Creation du bouton permettant d'utilisé la capacité spécial
         capacite = new JButton("Capacité");
-        capacite.addActionListener(new ActionListener(){
+        capacite.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.CAPACITE);
                 notifierObservateur(m);
             }
@@ -429,18 +458,17 @@ public class VueGrille implements Observe {
         zoneJoueurs = new JPanel(new GridLayout(5, 1));
 //Creation du panel des informations sur le tour (nb action, joueur actif, role)
         infoJoueurActif = new JPanel(new GridLayout(3, 1));
-        
+
         fondPanneau = new FondPanneau();
-        fondPanneau.setLayout(new GridLayout(3,1));
+        fondPanneau.setLayout(new GridLayout(3, 1));
         FondPlanche fp = new FondPlanche();
-        
+
         labelJoueurCourant = new JLabel("Joueur courant :");
         labelJoueurCourant.setFont(police);
         labelNomJoueurCourant = new JLabel("[" + pions.get(tourJoueur).getRole().getNomA() + "] " + pions.get(tourJoueur).getNomj());
         labelNomJoueurCourant.setFont(police);
         labelPointsAction = new JLabel("Points d'Actions : " + pions.get(tourJoueur).getNbAction());
         labelPointsAction.setFont(police);
-
 
         fondPanneau.add(labelJoueurCourant);
         fondPanneau.add(labelNomJoueurCourant);
@@ -471,7 +499,7 @@ public class VueGrille implements Observe {
 
                 @Override
                 public void mousePressed(MouseEvent arg0) {
-                    c1.show(zoneCartes, show+"");
+                    c1.show(zoneCartes, show + "");
                 }
 
                 @Override
@@ -506,9 +534,6 @@ public class VueGrille implements Observe {
         frame.add(conteneurDroite, BorderLayout.EAST);
 
         frame.setVisible(true);
-        
-
-
 
     }
 
@@ -541,7 +566,7 @@ public class VueGrille implements Observe {
 
     public void actualiserCartes(ArrayList<Pion> pions) {
 
-       /* zoneCartes.remove(carteJ1);
+        /* zoneCartes.remove(carteJ1);
         zoneCartes.remove(carteJ2);
         zoneCartes.remove(carteJ3);
         zoneCartes.remove(carteJ4);
@@ -555,11 +580,11 @@ public class VueGrille implements Observe {
         zoneCartes.add(carteJ2, "1");
         zoneCartes.add(carteJ3, "2");
         zoneCartes.add(carteJ4, "3");*/
-       for(int i=0;i<pions.size();i++){
+        for (int i = 0; i < pions.size(); i++) {
 
-                carteJ[i].repaint();
-       }
-       
+            carteJ[i].repaint();
+        }
+
         c1.show(zoneCartes, tourJoueur + "");
 
     }
@@ -652,7 +677,19 @@ public class VueGrille implements Observe {
     public void setMsg(Message msg) {
         this.msg = msg;
     }
-   
+
+    public void changerEtatBouton() {
+        if (deplace.getText().equals("Annuler")) {
+            deplace.setText("Se déplacer");
+            deplace.removeActionListener(annulerDeplacementAL);
+            deplace.addActionListener(seDeplacerAL);
+        } else if (assecher.getText().equals("Annuler")) {
+            assecher.setText("Assecher");
+            assecher.removeActionListener(annulerAssechementAL);
+            assecher.addActionListener(assecherAL);
+        }
+    }
+
     public void activationBoutons(boolean b) {
         donner.setEnabled(b);
         capacite.setEnabled(b);
@@ -674,9 +711,11 @@ public class VueGrille implements Observe {
         bouton.setFont(police);
 
     }
+
     public void activationFinTour(boolean b) {
-        finTour.setEnabled(b);}
-    
+        finTour.setEnabled(b);
+    }
+
     public void activationDeplacement(boolean b) {
         deplace.setEnabled(b);
     }
@@ -700,15 +739,16 @@ public class VueGrille implements Observe {
     public void activationUtilise(boolean b) {
         btnUtiliserCarte.setEnabled(b);
     }
-    
+
     public void activationInfo(boolean b) {
         info.setEnabled(b);
     }
-    
-    public void montrer(boolean b){
+
+    public void montrer(boolean b) {
         frame.setVisible(b);
     }
-    public void dispose(){
+
+    public void dispose() {
         frame.dispose();
     }
 
@@ -738,11 +778,10 @@ public class VueGrille implements Observe {
                 window.setVisible(false);
                 System.exit(0);
             }
-            
+
         });
     }
 
-    
     private Observateur observateur;
 
     @Override

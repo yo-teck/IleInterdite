@@ -67,8 +67,9 @@ public class VueDonnerCarte implements Observe {
             n++;
         }
 
+        pionsDon = pionActif.getTuilePosition().getPions();
         pionsDon.remove(pionActif);
-
+        
         //Création de la zone de choix du joueur
         conteneurJoueurs = new JPanel(new GridLayout(pionsDon.size() + 1, 1));
 
@@ -109,7 +110,7 @@ public class VueDonnerCarte implements Observe {
 
         fenetre.add(conteneurCartes, BorderLayout.EAST);
 
-        conteneurBoutons = new JPanel(new GridLayout(1,5));
+        conteneurBoutons = new JPanel(new GridLayout(1, 5));
         //Ajout bouton valider
         btnValider = new JButton("Valider");
         btnValider.addActionListener(new ActionListener() {
@@ -154,21 +155,21 @@ public class VueDonnerCarte implements Observe {
             }
         });
         btnAnnuler = new JButton("Annuler");
-        btnAnnuler.addActionListener(new ActionListener(){
+        btnAnnuler.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.ANNULER);
                 notifierObservateur(m);
                 fenetre.setVisible(false);
             }
         });
-        
+
         conteneurBoutons.add(new JLabel(""));
         conteneurBoutons.add(btnValider);
         conteneurBoutons.add(new JLabel(""));
         conteneurBoutons.add(btnAnnuler);
         conteneurBoutons.add(new JLabel(""));
-        
+
         fenetre.add(conteneurBoutons, BorderLayout.SOUTH);
         fenetre.setVisible(true);
     }

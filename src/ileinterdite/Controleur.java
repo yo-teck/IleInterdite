@@ -598,7 +598,7 @@ public class Controleur implements Observateur {
             seDeplacer(pionActif);
             //rendre non clicable apres choix
             ihm.activationBoutons(false);
-
+            ihm.activationDeplacement(true);
         }//si une action decrementer nbaction du joueuerActif
         else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT) {
 
@@ -606,7 +606,7 @@ public class Controleur implements Observateur {
 
             ihm.setNonCliquable(ile);
             ihm.repaintInfoTuile();
-
+            ihm.changerEtatBouton();
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             ihm.actualiserInfoJA(pionActif);
@@ -623,7 +623,7 @@ public class Controleur implements Observateur {
         } else if (m.getType() == TypesMessage.ASSECHER) {
             assecher(pionActif);
             ihm.activationBoutons(false);
-
+            ihm.activationAssechement(true);
         } else if (m.getType() == TypesMessage.TUILE_ASSECHEMENT) {
             m.getTuile().setEtat(Etat.SEC);
             ihm.setNonCliquable(ile);
@@ -631,8 +631,7 @@ public class Controleur implements Observateur {
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             ihm.actualiserInfoJA(pionActif);
             ihm.activationBoutons(true);
-            ihm.activationCapacite(false);
-
+            ihm.changerEtatBouton();
         } else if (m.getType() == TypesMessage.TUILE_ASSECHEMENT_SS) {
             m.getTuile().setEtat(Etat.SEC);
             ihm.setNonCliquable(ile);
@@ -677,6 +676,8 @@ public class Controleur implements Observateur {
             ihm.actualiserInfoJA(pionActif);
         } else if (m.getType() == TypesMessage.ANNULER) {
             ihm.activationBoutons(true);
+            ihm.setNonCliquable(ile);
+            ihm.actualiserGrille(ile);
         } else if (m.getType() == TypesMessage.VUE_UTILISER_CARTE) {
             vueUtiliserCarte = new VueUtiliserCarte(pions);
             ihm.activationBoutons(false);
@@ -692,8 +693,8 @@ public class Controleur implements Observateur {
                         int hFin = now().getHour() - h;
                         int minFin = now().getMinute() - min;
                         int secFin = now().getSecond() - sec;
-                        String temps = new String("Votre temps : " +hFin + "h" + minFin + "m" + secFin + "s");
-                        vueFin = new VueFin("VICTOIRE ! ",temps);
+                        String temps = new String("Votre temps : " + hFin + "h" + minFin + "m" + secFin + "s");
+                        vueFin = new VueFin("VICTOIRE ! ", temps);
                         vueFin.addObservateur(this);
                         System.out.println("Victoire");
                     }
@@ -925,6 +926,7 @@ public class Controleur implements Observateur {
             ihm.activationBoutons(false);
             ihm.activationFinTour(true);
         }
+
         if (pionActif.getRole().getNomA().equals("Plongeur") || pionActif.getRole().getNomA().equals("Explorateur")
                 || pionActif.getRole().getNomA().equals("Messager") || pionActif.getRole().isCapaciteUtilisee()
                 || (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() < 2 && pionActif.getRole().getNomA().equals("Ingenieur"))) {

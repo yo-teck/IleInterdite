@@ -87,6 +87,7 @@ public class VueFin implements Observe {
         
         texteDefaite.setFont(police);
         votreTemps.setFont(police);
+        
         conteneurLabel.add(texteDefaite);
         conteneurLabel.add(votreTemps);
         conteneurBoutons.add(new JLabel(""));
