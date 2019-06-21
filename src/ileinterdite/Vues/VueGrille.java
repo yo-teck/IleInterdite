@@ -188,6 +188,7 @@ public class VueGrille implements Observe {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         msg.setTuile(tuileSelect);
+                        
                         notifierObservateur(msg);
                     }
                 });
@@ -652,7 +653,7 @@ public class VueGrille implements Observe {
     public void setMsg(Message msg) {
         this.msg = msg;
     }
-
+   
     public void activationBoutons(boolean b) {
         donner.setEnabled(b);
         capacite.setEnabled(b);

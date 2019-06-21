@@ -55,6 +55,7 @@ public class VueDemarrer implements Observe {
     private JLabel[] infoLabel;
     private Font police;
     private File chemin;
+    private JButton btnValider;
 
     public VueDemarrer() {
         JFrame fenetre = new JFrame("Ile Interdite - Menu Démarrage");
@@ -191,7 +192,7 @@ public class VueDemarrer implements Observe {
         options.add(choixInit[1]);
 
         //Zone de validation
-        JButton btnValider = new JButton("Démarrer");
+        btnValider = new JButton("Démarrer");
         btnValider.setFont(police);
         btnValider.addActionListener(
                 new ActionListener() {
@@ -215,7 +216,7 @@ public class VueDemarrer implements Observe {
                     }
                 }
 
-                Message m = new Message(TypesMessage.COMMENCER_PARTIE, noms, dif, init);
+                Message m = new Message(TypesMessage.COMMENCER_PARTIE, noms, dif, init, nb);
                 notifierObservateur(m);
                 fenetre.setVisible(false);
 

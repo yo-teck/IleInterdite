@@ -27,6 +27,7 @@ public class Message {
     private String modeInitialisation;
     private ArrayList<Pion> pions;
     private OTresor objetTresor;
+    private int nbJoueurs;
 
     public OTresor getObjetTresor() {
         return objetTresor;
@@ -47,13 +48,13 @@ public class Message {
         this.cartesTresor = new ArrayList<>();
     }
 
-    public Message(TypesMessage type, ArrayList<String> nomJoueurs, String difficulte, String modeInitialisation) {
+    public Message(TypesMessage type, ArrayList<String> nomJoueurs, String difficulte, String modeInitialisation, int nbJoueurs) {
         this.type = type;
         this.nomJoueurs = nomJoueurs;
         this.difficulte = difficulte;
         this.modeInitialisation = modeInitialisation;
         this.cartesTresor = new ArrayList<>();
-
+        this.nbJoueurs = nbJoueurs;
     }
 
     public void setType(TypesMessage type) {
@@ -143,4 +144,14 @@ public class Message {
     public void addCarteTresor(CarteTresor carteTresor) {
         this.cartesTresor.add(carteTresor);
     }
+
+    public int getNbJoueurs() {
+        return nbJoueurs;
+    }
+
+    public void setNbJoueurs(int nbJoueurs) {
+        this.nbJoueurs = nbJoueurs;
+    }
+    
+    
 }

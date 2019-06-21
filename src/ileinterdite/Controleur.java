@@ -424,8 +424,10 @@ public class Controleur implements Observateur {
         }
 
         //On montre les cases dispo puis on demande la case à l'utilisateur puis on le déplace sur la tuile.
-        ihm.setMsg(new Message(TypesMessage.TUILE_DEPLACEMENT));
-        ihm.setCliquable(ile, pionActif.getCouleur());
+        Message m = new Message(TypesMessage.TUILE_DEPLACEMENT);
+        m.setPion(pion);
+        ihm.setMsg(m);
+        ihm.setCliquable(ile, pion.getCouleur());
         
     }
     
@@ -525,7 +527,7 @@ public class Controleur implements Observateur {
         if (m.getType() == TypesMessage.COMMENCER_PARTIE) {
             initCartes();
             initTresors();
-            initPion();
+            initPion(m.getNbJoueurs());
             
             int i = 0;
             
@@ -567,7 +569,10 @@ public class Controleur implements Observateur {
             }
             pionActif.setNbAction(3);
             ihm.actualiserInfoJA(pionActif);
-        } else if (m.getType() == TypesMessage.DEPLACEMENT) {
+        } else if(m.getType() == TypesMessage.RECOMMENCER){
+            
+        }
+        else if (m.getType() == TypesMessage.DEPLACEMENT) {
 
             //System.out.println("Rentree");
             seDeplacer(pionActif);
@@ -577,7 +582,7 @@ public class Controleur implements Observateur {
         }//si une action decrementer nbaction du joueuerActif
         else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT) {
             
-            pionActif.setTuilePosition(m.getTuile());
+            m.getPion().setTuilePosition(m.getTuile());
             
             ihm.setNonCliquable(ile);
             ihm.repaintInfoTuile();
@@ -718,19 +723,13 @@ public class Controleur implements Observateur {
         }
     }
     
-    public void initPion() {
+    public void initPion(int nbJoueurs) {
         ArrayList<Aventurier> aventuriers = initAventurier();
-        Pion p1 = new Pion(aventuriers.get(0));
-        Pion p2 = new Pion(aventuriers.get(1));
-        Pion p3 = new Pion(aventuriers.get(2));
-        Pion p4 = new Pion(aventuriers.get(3));
-        
-        pionActif = p1;
-        this.pions.add(p1);
-        this.pions.add(p2);
-        this.pions.add(p3);
-        this.pions.add(p4);
-        
+
+        for (int i = 0; i<nbJoueurs+1; i++){
+            this.pions.add(new Pion(aventuriers.get(i)));
+        }
+        pionActif = pions.get(0);
     }
     
     public void initInondation() {
@@ -750,7 +749,7 @@ public class Controleur implements Observateur {
         for (int i = 0; i < niveauEau.getEchelon(); i++) {
             if (pileCarteInondations.get(0).getEtat() == Etat.SEC) {
                 pileCarteInondations.get(0).setEtat(Etat.INONDE);
-            } else if (pileCarteInondations.get(i).getEtat() == Etat.INONDE) {
+            } else if (pileCarteInondations.get(0).getEtat() == Etat.INONDE) {
                 pileCarteInondations.get(0).setEtat(Etat.SUBMERGE);
             }
             tuilesPiochees.add(pileCarteInondations.get(0));
@@ -825,7 +824,7 @@ public class Controleur implements Observateur {
         }
         
         if (pions.get(i) == pionActif) {
-            pionActif = pions.get((i + 1) % 4);
+            pionActif = pions.get((i + 1) % pions.size());
         }
         ihm.joueurSuivant();
         ihm.activationBoutons(true);
@@ -884,6 +883,13 @@ public class Controleur implements Observateur {
             //desactiver donnercarte
             ihm.activationDon(false);
         }
+        if  (pionActif.getRole().getNomA().equals("Messager")){
+            ihm.activationDon(true);
+        } else if (pionActif.getTuilePosition().getPions().size()>=2){
+            ihm.activationDon(true);
+        } else {
+            ihm.activationDon(false);
+        }
         if (pionActif.getNbAction() <= 0) {
             ihm.activationBoutons(false);
             ihm.activationFinTour(true);
@@ -905,6 +911,7 @@ public class Controleur implements Observateur {
                 pionActif.setNbAction(pionActif.getNbAction() + 1);
             }
         }
+        
         
     }
     
