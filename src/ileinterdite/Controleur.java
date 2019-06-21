@@ -656,14 +656,6 @@ public class Controleur implements Observateur {
         } else {
             vueGrille.activationDon(false);
         }
-        if (pionActif.getNbAction() <= 0) {
-            vueGrille.activationBoutons(false);
-            vueGrille.activationFinTour(true);
-            vueGrille.activationUtilise(true);
-        }
-        if (pionActif.getNbAction() > 3) {
-            pionActif.setNbAction(3);
-        }
         if (pionActif.getRole().getNomA().equals("Plongeur") || pionActif.getRole().getNomA().equals("Explorateur")
                 || pionActif.getRole().getNomA().equals("Messager") || pionActif.getRole().isCapaciteUtilisee()
                 || (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() < 2
@@ -671,6 +663,13 @@ public class Controleur implements Observateur {
             vueGrille.activationCapacite(false);
         } else if (pionActif.getRole().getNomA().equals("Ingenieur")) {
             vueGrille.activationCapacite(true);
+        }
+        if (pionActif.getNbAction() <= 0) {
+            vueGrille.activationBoutons(false);
+            vueGrille.activationFinTour(true);
+        }
+        if (pionActif.getNbAction() > 3) {
+            pionActif.setNbAction(3);
         }
         for (Pion pion : pions) {
             if (pion.getTuilePosition().getEtat() == Etat.SUBMERGE && !checkDefaite()) {
