@@ -243,6 +243,7 @@ public class VueDonnerCarte implements Observe {
         conteneurBoutons = new JPanel(new GridLayout(1, 5));
         //Ajout bouton valider
         btnValider = new JButton("Valider");
+        
         btnValider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

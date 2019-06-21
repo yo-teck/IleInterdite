@@ -34,6 +34,9 @@ public class VueUtiliserCarte implements Observe {
     private JButton btnValider;
     private JButton btnAnnuler;
     private JButton btnSauvegarde;
+    
+    private int compteurDeCarteNull;
+    private int pionSansCarte;
 
     public VueUtiliserCarte(ArrayList<Pion> pions) {
         fenetre = new JFrame("Utiliser une carte");
@@ -44,7 +47,9 @@ public class VueUtiliserCarte implements Observe {
         Message m = new Message(TypesMessage.UTILISER_CARTE);
         btnSauvegarde = new JButton();
         
+        pionSansCarte = 0 ;
         for (Pion pion : pions) {
+            compteurDeCarteNull = 0;
             fenetre.add(new JLabel("Cartes de " + pion.getNomj() + " :"));
             JPanel conteneurCarte = new JPanel(new GridLayout(1, pion.getNbCartes()));
             
@@ -66,6 +71,11 @@ public class VueUtiliserCarte implements Observe {
                     });
                     
                     conteneurCarte.add(boutonCarte);
+                } else if(ct.getType() != CTresor.SAC_SABLE || ct.getType() != CTresor.HELICO){
+                    compteurDeCarteNull++;
+                }
+                if(compteurDeCarteNull == pion.getCartesTresors().size()){
+                    pionSansCarte++;
                 }
                 
             }
@@ -76,6 +86,9 @@ public class VueUtiliserCarte implements Observe {
         conteneurBoutonsConfirmation = new JPanel(new GridLayout(1, 5));
 
         btnValider = new JButton("Valider");
+        if(pionSansCarte == pions.size()){
+            btnValider.setEnabled(false);
+        }
         btnValider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -101,6 +114,11 @@ public class VueUtiliserCarte implements Observe {
         conteneurBoutonsConfirmation.add(new JLabel(""));
         fenetre.add(conteneurBoutonsConfirmation);
         fenetre.setVisible(true);
+    }
+    
+    
+    public int getPionSansCarte(){
+        return pionSansCarte;
     }
 
     private Observateur observateur;
