@@ -725,9 +725,6 @@ public class VueGrille implements Observe {
         finTour.setEnabled(b);
         recupTresor.setEnabled(b);
         btnUtiliserCarte.setEnabled(b);
-
-        btnRecommencer.setEnabled(b);
-        btnQuitter.setEnabled(b);
     }
 
     public void ajoutBoisBtn(JButton bouton) {
