@@ -51,13 +51,18 @@ public class VueDonnerCarte implements Observe {
     private int numPion;
 
     public VueDonnerCarte(Pion pionActif, ArrayList<Pion> pions) {
+        
         ArrayList<Pion> pionsDon = new ArrayList<>();
         pionsDon.addAll(pions);
+        
+        
         fenetre = new JFrame(pionActif.getNomj() + " - Donner une carte");
         fenetre.setLayout(new BorderLayout());
         fenetre.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         fenetre.setSize(500, 500);
-
+        
+        
+        
         //On enlève le joueur actif de l'ArrayList des pions car il ne peut pas se donner de carte à lui-même
         int n = 0;
         for (Pion pion : pions) {
@@ -174,6 +179,7 @@ public class VueDonnerCarte implements Observe {
         conteneurBoutons.add(new JLabel(""));
 
         fenetre.add(conteneurBoutons, BorderLayout.SOUTH);
+        
         fenetre.setVisible(true);
     }
 
