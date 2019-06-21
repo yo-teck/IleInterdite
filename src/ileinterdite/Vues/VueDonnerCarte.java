@@ -51,6 +51,7 @@ public class VueDonnerCarte implements Observe {
     private JButton btnAnnuler;
 
     private Font police;
+    private JLabel txtlololo;
     private File chemin = new File("");
     private boolean activeValide;
 
@@ -80,7 +81,8 @@ public class VueDonnerCarte implements Observe {
         //Parametrage de la fenetre
         fenetre = new JFrame(pionActif.getNomj() + " - Donner une carte");
         fenetre.setLayout(new BorderLayout());
-
+        fenetre.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        fenetre.setResizable(false);
         fenetre.setSize(800, 300 + pions.size() * 100);
 
         //creation d'un JLabel avec un backgrouned
@@ -89,13 +91,17 @@ public class VueDonnerCarte implements Observe {
         conteneur.setLayout(new BorderLayout());
 
         //Creation du JPanel du haut
-        conteneurPionActif = new JPanel(new GridLayout(2, 1));
+        conteneurPionActif = new JPanel(new GridLayout(2,1));
         conteneurPionActif.setOpaque(false);
         conteneurPionActif.setPreferredSize(new Dimension(800, 200));
 
-        JLabel texteD = new JLabel("Choisissez la carte à donner :");
-        texteD.setFont(police);
-        conteneurPionActif.add(texteD);
+        
+        txtlololo = new JLabel("Choisissez la carte à donner :"); 
+        txtlololo.setFont(police.deriveFont(35f));
+         conteneurPionActif.add(txtlololo);
+        
+
+
 
         //creation d'une Selection de carte
         cartesA = new SelectionCarteUniqueBool(pionActif, false);
@@ -112,7 +118,8 @@ public class VueDonnerCarte implements Observe {
         JPanel conteneurDonGau = new JPanel(new GridLayout(pions.size(), 1));
         conteneurDonGau.setPreferredSize(new Dimension(100, pions.size() * 100));
         conteneurDonGau.setOpaque(false);
-
+        JLabel texteD = new JLabel("");
+        texteD.setFont(police);
         texteD.setText("Donner à :");
         conteneurDonGau.add(texteD);
         creeMouseListener(pions);
