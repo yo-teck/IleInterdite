@@ -5,6 +5,10 @@
  */
 package ileinterdite.Vues;
 
+import ileinterdite.Message;
+import ileinterdite.Observateur;
+import ileinterdite.Observe;
+import ileinterdite.TypesMessage;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -24,7 +28,7 @@ import javax.swing.SwingConstants;
  *
  * @author richomml
  */
-public class VueFin {
+public class VueFin implements Observe {
     
     private JFrame fenetre;
     
@@ -32,6 +36,7 @@ public class VueFin {
     private JPanel conteneurBoutons;
     
     private JLabel texteDefaite;
+    private JLabel votreTemps;
     
     private JButton recommencer,quitter;
     
@@ -39,26 +44,34 @@ public class VueFin {
     
     private File chemin = new File("");
     
-    public VueFin(String etatPartie){
+    public VueFin(String etatPartie,String temps){
         fenetre = new JFrame("Fin de la partie ");
         fenetre.setSize(600, 400);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetre.setLayout(new BorderLayout());
         
-        conteneurLabel = new JPanel(new BorderLayout());
+        conteneurLabel = new JPanel(new GridLayout(2,1));
         conteneurBoutons = new JPanel(new GridLayout(1,5));
         
         texteDefaite = new JLabel(etatPartie,SwingConstants.CENTER);
+        votreTemps = new JLabel(temps,SwingConstants.CENTER);
         
         recommencer = new JButton("Recommencer");
         recommencer.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-      
+                Message m = new Message(TypesMessage.RECOMMENCER);
+                fenetre.setVisible(false);
+                notifierObservateur(m);
             }
         });
         quitter = new JButton("Quitter");
-        
+        quitter.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+             System.exit(0);
+            }
+        });
         
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         try {
@@ -73,8 +86,9 @@ public class VueFin {
         police = new Font("Pieces of Eight", Font.PLAIN,80);
         
         texteDefaite.setFont(police);
-        
-        conteneurLabel.add(texteDefaite,BorderLayout.CENTER);
+        votreTemps.setFont(police);
+        conteneurLabel.add(texteDefaite);
+        conteneurLabel.add(votreTemps);
         conteneurBoutons.add(new JLabel(""));
         conteneurBoutons.add(recommencer);
         conteneurBoutons.add(new JLabel(""));
@@ -83,9 +97,27 @@ public class VueFin {
         
         
         fenetre.add(conteneurLabel,BorderLayout.CENTER);
-        fenetre.add(conteneurBoutons);
+        fenetre.add(conteneurBoutons,BorderLayout.SOUTH);
         
         fenetre.setVisible(true);
+    }
+    
+    
+    
+    
+    
+    private Observateur observateur;
+
+    @Override
+    public void addObservateur(Observateur o) {
+        this.observateur = o;
+    }
+
+    @Override
+    public void notifierObservateur(Message m) {
+        if (observateur != null) {
+            observateur.traiterMessage(m);
+        }
     }
     
 }

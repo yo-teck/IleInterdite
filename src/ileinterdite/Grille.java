@@ -15,9 +15,9 @@ import java.util.ArrayList;
  */
 public class Grille {
 
-   private Tuile[][] ile;
+    private Tuile[][] ile;
 
-   public Grille() {
+    public Grille() {
         setIle(new Tuile[6][6]);
     }
 
@@ -42,11 +42,11 @@ public class Grille {
     public Tuile getTuile(int i, int j) {
         return ile[i][j];
     }
-    
-    public ArrayList<Tuile> getTuiles(){
+
+    public ArrayList<Tuile> getTuiles() {
         ArrayList<Tuile> tuiles = new ArrayList<>();
-        for(int i = 0; i<6; i++){
-            for(int j = 0; j<6; j++){
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 6; j++) {
                 tuiles.add(ile[i][j]);
             }
         }
@@ -55,20 +55,20 @@ public class Grille {
 
     public ArrayList<Tuile> getTuilesCroix(Tuile t) {
         ArrayList<Tuile> tAC = new ArrayList<>();
-        
-        if (t.getI()+1<=5 && getTuile(t.getI()+1, t.getJ()).getEtat()!=Etat.NULL){
-            tAC.add(getTuile(t.getI()+1, t.getJ()));
+
+        if (t.getI() + 1 <= 5 && getTuile(t.getI() + 1, t.getJ()).getEtat() != Etat.NULL) {
+            tAC.add(getTuile(t.getI() + 1, t.getJ()));
         }
-        if (t.getI()-1>=0 && getTuile(t.getI()-1, t.getJ()).getEtat()!=Etat.NULL){
-            tAC.add(getTuile(t.getI()-1, t.getJ()));
-        }        
-        if (t.getJ()+1<=5 && getTuile(t.getI(), t.getJ()+1).getEtat()!=Etat.NULL){
-            tAC.add(getTuile(t.getI(), t.getJ()+1));
+        if (t.getI() - 1 >= 0 && getTuile(t.getI() - 1, t.getJ()).getEtat() != Etat.NULL) {
+            tAC.add(getTuile(t.getI() - 1, t.getJ()));
         }
-        if (t.getJ()-1>=0 && getTuile(t.getI(), t.getJ()-1).getEtat()!=Etat.NULL){
-            tAC.add(getTuile(t.getI(), t.getJ()-1));
-        }        
-        tAC.add(t);      
+        if (t.getJ() + 1 <= 5 && getTuile(t.getI(), t.getJ() + 1).getEtat() != Etat.NULL) {
+            tAC.add(getTuile(t.getI(), t.getJ() + 1));
+        }
+        if (t.getJ() - 1 >= 0 && getTuile(t.getI(), t.getJ() - 1).getEtat() != Etat.NULL) {
+            tAC.add(getTuile(t.getI(), t.getJ() - 1));
+        }
+        tAC.add(t);
         return tAC;
 
     }
@@ -76,18 +76,18 @@ public class Grille {
     public ArrayList<Tuile> getTuilesDiagonale(Tuile t) {
         ArrayList<Tuile> tAD = new ArrayList<>();
 
-        if ( ((t.getI()+1)<=5 && (t.getJ()+1)<=5) && getTuile(t.getI()+1, t.getJ()+1).getEtat()!=Etat.NULL){
-            tAD.add(getTuile(t.getI()+1, t.getJ()+1));
+        if (((t.getI() + 1) <= 5 && (t.getJ() + 1) <= 5) && getTuile(t.getI() + 1, t.getJ() + 1).getEtat() != Etat.NULL) {
+            tAD.add(getTuile(t.getI() + 1, t.getJ() + 1));
         }
-        if ( (t.getI()-1>=0 && t.getJ()-1>=0) && getTuile(t.getI()-1, t.getJ()-1).getEtat()!=Etat.NULL){
-            tAD.add(getTuile(t.getI()-1, t.getJ()-1));
+        if ((t.getI() - 1 >= 0 && t.getJ() - 1 >= 0) && getTuile(t.getI() - 1, t.getJ() - 1).getEtat() != Etat.NULL) {
+            tAD.add(getTuile(t.getI() - 1, t.getJ() - 1));
         }
-        if ( (t.getI()+1<=5 && t.getJ()-1>=0) && getTuile(t.getI()+1, t.getJ()-1).getEtat()!=Etat.NULL){
-            tAD.add(getTuile(t.getI()+1, t.getJ()-1));
+        if ((t.getI() + 1 <= 5 && t.getJ() - 1 >= 0) && getTuile(t.getI() + 1, t.getJ() - 1).getEtat() != Etat.NULL) {
+            tAD.add(getTuile(t.getI() + 1, t.getJ() - 1));
         }
-        if ( (t.getI()-1>=0 && t.getJ()+1<=5) && getTuile(t.getI()-1, t.getJ()+1).getEtat()!=Etat.NULL){
-            tAD.add(getTuile(t.getI()-1, t.getJ()+1));
-        }               
+        if ((t.getI() - 1 >= 0 && t.getJ() + 1 <= 5) && getTuile(t.getI() - 1, t.getJ() + 1).getEtat() != Etat.NULL) {
+            tAD.add(getTuile(t.getI() - 1, t.getJ() + 1));
+        }
 
         return tAD;
     }
@@ -100,7 +100,7 @@ public class Grille {
             }
         }
         return tns;
-    }  
+    }
 
     public ArrayList<Tuile> getSubmerge(ArrayList<Tuile> tAC) {
         ArrayList<Tuile> ts = new ArrayList<>();
@@ -111,9 +111,9 @@ public class Grille {
         }
         return ts;
     }
-    
-     public ArrayList<Tuile> getTuilesInondees(ArrayList<Tuile> tAC) {
-        ArrayList<Tuile> ti = new ArrayList<>();         
+
+    public ArrayList<Tuile> getTuilesInondees(ArrayList<Tuile> tAC) {
+        ArrayList<Tuile> ti = new ArrayList<>();
         for (Tuile tuile : tAC) {
             if (tuile.getEtat() == Etat.INONDE) {
                 ti.add(tuile);
@@ -121,36 +121,11 @@ public class Grille {
         }
         return ti;
     }
-     
-     
-     
-     public ArrayList<Tuile> getSubInn(ArrayList<Tuile> tuiles){
-         ArrayList<Tuile> temp = new ArrayList<>();
-         temp=getSubmerge(tuiles);
-         temp.addAll(getTuilesInondees(tuiles));
-         return temp;
-     }
-     /* dans le plongeur
-        public ArrayList<Tuile> getTuilesDispoPourDeplacement(Grille grille, Tuile tuile) {
-        ArrayList<Tuile> tuileValable =new ArrayList<>();
-        ArrayList<Tuile> tuileSubmerger =new ArrayList<>();
-        tuileValable = grille.getTuilesCroix(tuile);
 
-        while (! tuileSubmerger.containsAll(grille.getSubmerge(tuileValable))){
-            for (Tuile tuileS : grille.getSubmerge(tuileValable)){
-                if ( ! tuileSubmerger.contains(tuileS)){
-                    tuileSubmerger.add(tuileS);
-                    for (Tuile tuileNew : grille.getTuilesCroix(tuileS)){
-                        if (! tuileValable.contains(tuileNew)){
-                            tuileValable.add(tuileNew);
-                        }
-                   }
-                }
-            }
-        }       
-        tuileValable.remove(tuile);
-        return grille.getNonSubmerge(tuileValable);
+    public ArrayList<Tuile> getSubInn(ArrayList<Tuile> tuiles) {
+        ArrayList<Tuile> temp = new ArrayList<>();
+        temp = getSubmerge(tuiles);
+        temp.addAll(getTuilesInondees(tuiles));
+        return temp;
     }
-
-    */
 }

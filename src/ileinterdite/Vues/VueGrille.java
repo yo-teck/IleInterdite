@@ -52,7 +52,6 @@ import javax.swing.ImageIcon;
  */
 public class VueGrille implements Observe {
     
-    private JFrame fenetre;
     private JFrame frame;
 
     private JPanel conteneurMilieu;
@@ -706,7 +705,12 @@ public class VueGrille implements Observe {
         info.setEnabled(b);
     }
     
-
+    public void montrer(boolean b){
+        frame.setVisible(b);
+    }
+    public void dispose(){
+        frame.dispose();
+    }
 
     private void configureWindow(JFrame window) {
         window.setSize(1300, 850);
@@ -738,6 +742,7 @@ public class VueGrille implements Observe {
         });
     }
 
+    
     private Observateur observateur;
 
     @Override

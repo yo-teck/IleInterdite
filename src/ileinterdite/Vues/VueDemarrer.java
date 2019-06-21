@@ -56,9 +56,10 @@ public class VueDemarrer implements Observe {
     private Font police;
     private File chemin;
     private JButton btnValider;
+    private JFrame fenetre;
 
     public VueDemarrer() {
-        JFrame fenetre = new JFrame("Ile Interdite - Menu Démarrage");
+        fenetre = new JFrame("Ile Interdite - Menu Démarrage");
         fenetre.setSize(650, 550);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetre.setResizable(false);
@@ -232,6 +233,10 @@ public class VueDemarrer implements Observe {
         validation.add(new JLabel(""));
 
         fenetre.setVisible(true);
+    }
+
+    public void montrer(boolean b) {
+        fenetre.setVisible(b);
     }
 
     private void configureWindow(JFrame window) {
