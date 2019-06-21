@@ -20,38 +20,48 @@ import javax.swing.JPanel;
  *
  * @author Yoann
  */
-public class InfoCarte extends JPanel{
-        private ArrayList<CarteTresor> cartes;
-        private Pion pion;
-    public InfoCarte(Pion pion) {
+public class InfoCarte extends JPanel {
+
+    private ArrayList<CarteTresor> cartes;
+    private Pion pion;
+    private boolean back;
+    private boolean icone;
+
+    public InfoCarte(Pion pion, boolean back, boolean icone) {
 
         this.cartes = pion.getCartesTresors();
-        this.pion=pion;
+        this.pion = pion;
+        this.back = back;
+        this.icone = icone;
     }
-    
+
     @Override
     public void paintComponent(Graphics g) {
-        
+
         Dimension dimension = getSize();
         Graphics2D g2d = (Graphics2D) g;
         int hauteurf = dimension.height;
         int largeurf = dimension.width;
-        
-        int position =(largeurf/5)/4;
+
+        int position = largeurf/(5*2) - hauteurf/2;
         
         File chemin = new File("");
 
-
-        g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/carteFond.png").getImage(), 0, 0, largeurf,hauteurf , this);
-        g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgRole/"+pion.getRole().getNomA()+".png").getImage(), 0, 0, 50, 50, this);
-        for (CarteTresor c : cartes){
-            g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/"+c.getType()+".png").getImage(), position, 0,hauteurf ,hauteurf , this);
-            position+=largeurf/5;
+        if (back) {
+            g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/carteFond.png").getImage(), 0, 0, largeurf, hauteurf, this);
         }
-        for (int i =0;i<5-cartes.size();i++){
-             g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/carteVide.png").getImage(), position, 0,hauteurf ,hauteurf , this);
-             position+=largeurf/5;
+        if (icone) {
+            g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgRole/" + pion.getRole().getNomA() + ".png").getImage(), 0, 0, 50, 50, this);
         }
         
+        for (CarteTresor c : cartes) {
+            g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/" + c.getType() + ".png").getImage(), position, 0, hauteurf, hauteurf, this);
+            position += largeurf / 5;
+        }
+        for (int i = 0; i < 5 - cartes.size(); i++) {
+            g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/carteVide.png").getImage(), position, 0, hauteurf, hauteurf, this);
+            position += largeurf / 5;
+        }
+
     }
 }

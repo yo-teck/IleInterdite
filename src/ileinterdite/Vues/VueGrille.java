@@ -5,6 +5,8 @@
  */
 package ileinterdite.Vues;
 
+import ileinterdite.Vues.Fond.FondPlanche;
+import ileinterdite.Vues.Fond.FondPanneau;
 import ileinterdite.Grille;
 import ileinterdite.Message;
 import ileinterdite.NiveauEau;
@@ -77,6 +79,7 @@ public class VueGrille implements Observe {
 
     private JPanel[] carteJ;
     private JButton[] Tuile;
+
     private InfoTresor[] infoTresors;
     private InfoTuile[] infoBouton;
 
@@ -136,7 +139,6 @@ public class VueGrille implements Observe {
 //Creation de la fenetre////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
         frame = new JFrame();
-
         frame.setTitle("Ile Interdite");
         frame.setLayout(new BorderLayout());
         configureWindow(frame);
@@ -247,7 +249,7 @@ public class VueGrille implements Observe {
         carteJ = new JPanel[pions.size()];
 
         for (int i = 0; i < pions.size(); i++) {
-            JPanel carteJoueur = new InfoCarte(pions.get(i));
+            JPanel carteJoueur = new InfoCarte(pions.get(i),true,true);
             carteJ[i] = carteJoueur;
             zoneCartes.add(carteJ[i], i + "");
             System.out.println(i);

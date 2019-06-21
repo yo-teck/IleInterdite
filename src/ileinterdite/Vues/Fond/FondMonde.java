@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ileinterdite.Vues;
+package ileinterdite.Vues.Fond;
 
 
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -18,8 +17,9 @@ import javax.swing.JPanel;
  *
  * @author Yoann
  */
-public class FondPanneau extends JPanel{
-       public FondPanneau() {      
+public class FondMonde extends JPanel{
+    
+          public FondMonde() {      
     }
     
     @Override
@@ -30,9 +30,9 @@ public class FondPanneau extends JPanel{
         
         int hauteurf = dimension.height;
         int largeurf = dimension.width;
-        
-        File chemin = new File("");
-        g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgDecor/boisPanneau.png").getImage(), 0, 0, largeurf,hauteurf , this);
 
-    }
+        File chemin = new File("");
+        g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgDecor/fondCarteMonde.jpg").getImage(), 0, 0, largeurf,hauteurf , this);
+
+    } 
 }

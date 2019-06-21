@@ -7,50 +7,85 @@ package ileinterdite.Vues;
 
 import ileinterdite.PackageCarteTresor.CarteTresor;
 import ileinterdite.Pion;
+import ileinterdite.Vues.InfoCarte;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Yoann
  */
-public class DonnerCarte extends JPanel{
-        private ArrayList<CarteTresor> cartes;
-        private Pion pion;
-    public DonnerCarte(Pion pion) {
+public class DonnerCarte extends JPanel {
 
-        this.cartes = pion.getCartesTresors();
-        this.pion=pion;
-    }
+    private ArrayList<CarteTresor> cartes;
     
+    private ArrayList<Pion> pionsNonA;
+    private JPanel conteneur;
+
+    private InfoCarte carteA;
+    private JPanel conteneurText;
+    private JPanel conteneurSelection;
+
+    private boolean[] carteSelection;
+
+    public DonnerCarte(Pion pionActif, ArrayList<Pion> pions) {
+        pionsNonA = new ArrayList<>();
+        pionsNonA.addAll(pions);
+        pionsNonA.remove(pionActif);
+        
+        conteneurText = new JPanel(new GridLayout(3, 1));
+        conteneurText.add(new JLabel("Selectionner la carte a donner :"));
+       // carteA = new InfoCarte(pionActif);
+
+        carteA.addMouseListener(
+                new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+               int clicX= e.getX();
+               int taille = carteA.getHeight()/5;
+               int position =(taille)/4;
+               
+               for (int i = 0; i <pionActif.getNbCartes();i++){
+                   if ( position+taille>clicX && clicX>position){
+
+                   }
+                   position+=taille;
+               }
+                
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+        
+        
+    }
+
     @Override
     public void paintComponent(Graphics g) {
-        
-        Dimension dimension = getSize();
-        Graphics2D g2d = (Graphics2D) g;
-        int hauteurf = dimension.height;
-        int largeurf = dimension.width;
-        
-        int position =(largeurf/5)/4;
-        
-        File chemin = new File("");
 
-
-        g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/carteFond.png").getImage(), 0, 0, largeurf,hauteurf , this);
-        g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgRole/"+pion.getRole().getNomA()+".png").getImage(), 0, 0, 50, 50, this);
-        for (CarteTresor c : cartes){
-            g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/"+c.getType()+".png").getImage(), position, 0,hauteurf ,hauteurf , this);
-            position+=largeurf/5;
-        }
-        for (int i =0;i<5-cartes.size();i++){
-             g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/carteVide.png").getImage(), position, 0,hauteurf ,hauteurf , this);
-             position+=largeurf/5;
-        }
-        
     }
 }

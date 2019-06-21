@@ -5,6 +5,7 @@
  */
 package ileinterdite.Vues;
 
+import ileinterdite.Vues.Fond.FondDemarrer;
 import ileinterdite.Message;
 import ileinterdite.Observateur;
 import ileinterdite.Observe;
