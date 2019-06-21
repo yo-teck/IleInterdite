@@ -66,10 +66,11 @@ public class VueDonnerCarte implements Observe {
             }
             n++;
         }
-
-        pionsDon = pionActif.getTuilePosition().getPions();
+        if (!pionActif.getRole().getNomA().equals("Messager")) {
+            pionsDon = pionActif.getTuilePosition().getPions();
+        }
         pionsDon.remove(pionActif);
-        
+
         //Création de la zone de choix du joueur
         conteneurJoueurs = new JPanel(new GridLayout(pionsDon.size() + 1, 1));
 
@@ -164,6 +165,8 @@ public class VueDonnerCarte implements Observe {
             }
         });
 
+        pionsDon.add(pionActif);
+        
         conteneurBoutons.add(new JLabel(""));
         conteneurBoutons.add(btnValider);
         conteneurBoutons.add(new JLabel(""));

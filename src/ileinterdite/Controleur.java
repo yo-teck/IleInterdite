@@ -647,6 +647,9 @@ public class Controleur implements Observateur {
             vueDonCarte.addObservateur(this);
 
         } else if (m.getType() == TypesMessage.DONNER_CARTE) {
+            
+            
+            System.out.println("taile pions dans tuile"+pionActif.getTuilePosition().getPions().size());
             donnerCarte(m.getCarteTresor(), m.getPion());
             ihm.activationBoutons(true);
             //decrementer le nombre d'action du joueur en cours
@@ -941,9 +944,9 @@ public class Controleur implements Observateur {
                     seDeplacer(pion);
                 }
 
-                pionActif.setNbAction(pionActif.getNbAction() + 1);
+              
             }
-        }
+        } pionActif.setNbAction(pionActif.getNbAction() + 1);
 
     }
 
