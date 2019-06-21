@@ -669,7 +669,6 @@ public class Controleur implements Observateur {
                 || (pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size() < 2
                 && pionActif.getRole().getNomA().equals("Ingenieur"))) {
             vueGrille.activationCapacite(false);
-            System.out.println(pionActif.getRole().getTuilesAdjacentesInnondees(ile, pionActif.getTuilePosition()).size());
         } else {
             vueGrille.activationCapacite(true);
         }
