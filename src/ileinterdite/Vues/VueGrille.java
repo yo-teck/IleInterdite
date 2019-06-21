@@ -136,6 +136,7 @@ public class VueGrille implements Observe {
 //Creation de la fenetre////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
         frame = new JFrame();
+
         frame.setTitle("Ile Interdite");
         frame.setLayout(new BorderLayout());
         configureWindow(frame);
