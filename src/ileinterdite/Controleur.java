@@ -101,6 +101,10 @@ public class Controleur implements Observateur {
         return pions;
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+    /////Méthodes d'initialisations du jeu
+    /////////////////////////////////////////////////////////////////////////////
+    
     public void initGrilleDemo() {
 
         //Ligne 0
@@ -419,7 +423,41 @@ public class Controleur implements Observateur {
 
         Collections.shuffle(pile);
     }
+    
+    public void initPion(int nbJoueurs) {
+        ArrayList<Aventurier> aventuriers = initAventurier();
+        pions.clear();
+        for (int i = 0; i < nbJoueurs + 1; i++) {
+            this.pions.add(new Pion(aventuriers.get(i)));
+        }
+        pionActif = pions.get(0);
+    }
 
+    public void initInondation() {
+        for (int i = 0; i < 6; i++) {
+            if (pileCarteInondations.get(0).getEtat() == Etat.SEC) {
+                pileCarteInondations.get(0).setEtat(Etat.INONDE);
+            } else if (pileCarteInondations.get(i).getEtat() == Etat.INONDE) {
+                pileCarteInondations.get(0).setEtat(Etat.SUBMERGE);
+            }
+            tuilesPiochees.add(pileCarteInondations.get(0));
+            pileCarteInondations.remove(0);
+        }
+    }
+
+    public void inonderTuiles() {
+
+        for (int i = 0; i < niveauEau.getEchelon(); i++) {
+            if (pileCarteInondations.get(0).getEtat() == Etat.SEC) {
+                pileCarteInondations.get(0).setEtat(Etat.INONDE);
+            } else if (pileCarteInondations.get(0).getEtat() == Etat.INONDE) {
+                pileCarteInondations.get(0).setEtat(Etat.SUBMERGE);
+            }
+            tuilesPiochees.add(pileCarteInondations.get(0));
+            pileCarteInondations.remove(0);
+        }
+
+    }
     public void initTresors() {
         OTresor tTerre = new OTresor(Tresor.TERRE, false);
         OTresor tFeu = new OTresor(Tresor.FEU, false);
@@ -433,6 +471,10 @@ public class Controleur implements Observateur {
         tresors.add(tTerre);
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Méthodes de déplacement des pions
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     public void seDeplacer(Pion pion) {
         ihm.activationBoutons(false);
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
@@ -498,6 +540,14 @@ public class Controleur implements Observateur {
         ihm.setCliquable(ile, pion.getCouleur());
     }
 
+    public void seDéplacerCoule(Pion pion){
+        
+    }
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Méthodes d'assechement des tuiles
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     public void assecher(Pion pion) {
         ArrayList<Tuile> tuilesDispo = new ArrayList<>();
         tuilesDispo = ile.getTuilesInondees(pion.getRole().getTuilesAdjacentesInnondees(ile, pion.getTuilePosition()));
@@ -541,7 +591,7 @@ public class Controleur implements Observateur {
     @Override
     public void traiterMessage(Message m) {
 
-        //Traitement du message pour initialisé la partie
+        //Traitements du message pour initialiser une partie
         if (m.getType() == TypesMessage.COMMENCER_PARTIE) {
             initCartes();
             initTresors();
@@ -563,107 +613,129 @@ public class Controleur implements Observateur {
             } else if (m.getDifficulte().equals("Legendaire")) {
                 niveauEau.setDifficulte(Difficulte.LEGENDAIRE);
             }
-
             if (m.getModeInitialisation().equals("Démo")) {
                 demo();
             } else {
                 aleatoire();
             }
-
-        } else if (m.getType() == TypesMessage.DEFAUSSE) {
-            for (CarteTresor ct : m.getCartesTresor()) {
-                defausser(pionActif, ct);
-            }
-            ihm.actualiserCartes(pions);
-            ihm.activationBoutons(true);
+            
+        } else if (m.getType() == TypesMessage.RECOMMENCER) {
+            debutDePartie = true;
+            ihm.dispose();
+            menu.montrer(true);
+            
+        //Traitements des messages d'action du joueur
         } else if (m.getType() == TypesMessage.FIN_TOUR) {
+            
             fairePiocher(pionActif);
             pionActif.getRole().setCapaciteUtilisee(false);
             joueurSuivant();
+            
             if (pionActif.getNbCartes() > 5) {
                 vueDefausse = new VueDefausse(pionActif);
                 vueDefausse.addObservateur(this);
                 ihm.activationBoutons(false);
             }
+            
             pionActif.setNbAction(3);
             ihm.actualiserInfoJA(pionActif);
-        } else if (m.getType() == TypesMessage.RECOMMENCER) {
-            debutDePartie = true;
-            ihm.dispose();
-            menu.montrer(true);
+            
+        } else if (m.getType() == TypesMessage.DEFAUSSE) {
+            
+            for (CarteTresor ct : m.getCartesTresor()) {
+                defausser(pionActif, ct);
+            }
+            
+            ihm.actualiserCartes(pions);
+            ihm.activationBoutons(true);
+            
         } else if (m.getType() == TypesMessage.DEPLACEMENT) {
-
-            //System.out.println("Rentree");
+            
             seDeplacer(pionActif);
+            
             //rendre non clicable apres choix
             ihm.activationBoutons(false);
             ihm.activationDeplacement(true);
-        }//si une action decrementer nbaction du joueuerActif
-        else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT) {
-
+            
+        } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT) {
             m.getPion().setTuilePosition(m.getTuile());
 
             ihm.setNonCliquable(ile);
             ihm.repaintInfoTuile();
             ihm.changerEtatBouton();
+            
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             ihm.actualiserInfoJA(pionActif);
             ihm.activationBoutons(true);
+            
         } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_HELICO) {
             m.getPion().setTuilePosition(m.getTuile());
-
+            
             ihm.setNonCliquable(ile);
             ihm.repaintInfoTuile();
-
             ihm.actualiserInfoJA(pionActif);
             ihm.activationBoutons(true);
-
+            
         } else if (m.getType() == TypesMessage.ASSECHER) {
+            
             assecher(pionActif);
+            
             ihm.activationBoutons(false);
             ihm.activationAssechement(true);
+            
         } else if (m.getType() == TypesMessage.TUILE_ASSECHEMENT) {
             m.getTuile().setEtat(Etat.SEC);
+            
             ihm.setNonCliquable(ile);
+            
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             ihm.actualiserInfoJA(pionActif);
             ihm.activationBoutons(true);
             ihm.changerEtatBouton();
+            
         } else if (m.getType() == TypesMessage.TUILE_ASSECHEMENT_SS) {
             m.getTuile().setEtat(Etat.SEC);
+            
             ihm.setNonCliquable(ile);
+            
             //decrementer le nombre d'action du joueur en cours
             ihm.actualiserInfoJA(pionActif);
             ihm.actualiserCartes(pions);
             ihm.activationBoutons(true);
+            
         } else if (m.getType() == TypesMessage.TUILE_ASSECHEMENT_INGENIEUR) {
             m.getTuile().setEtat(Etat.SEC);
+            
             assecher(pionActif);
+            
         } else if (m.getType() == TypesMessage.VUE_DONNER_CARTE) {
+            
             vueDonCarte = new VueDonnerCarte(pionActif, pions);
             vueDonCarte.addObservateur(this);
-
-        } else if (m.getType() == TypesMessage.DONNER_CARTE) {
             
+        } else if (m.getType() == TypesMessage.DONNER_CARTE) {    
             
-            System.out.println("taile pions dans tuile"+pionActif.getTuilePosition().getPions().size());
             donnerCarte(m.getCarteTresor(), m.getPion());
             ihm.activationBoutons(true);
+            
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             ihm.actualiserInfoJA(pionActif);
+            
         } else if (m.getType() == TypesMessage.RECUPERER_TROPHEE) {
-            for (OTresor objetTresor : tresors) {
-                System.out.println(objetTresor.getType());
+            
+            for (OTresor objetTresor : tresors) {               
                 if (objetTresor.getType() == m.getObjetTresor().getType()) {
                     objetTresor.setEstRecupere(true);
                     ihm.actualiserInfoTresor();
-                }
+                }              
             }
+            
             int cnt = 0;
             int i = 0;
+            
             while (cnt < 4 && i < pionActif.getNbCartes()) {
                 if (pionActif.getCartesTresors().get(i).getType().toString().contains(m.getObjetTresor().getType().toString())) {
                     pionActif.getCartesTresors().remove(i);
@@ -673,24 +745,33 @@ public class Controleur implements Observateur {
                 }
                 i++;
             }
+            
             //decrementer le nombre d'action du joueur en cours           
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             ihm.actualiserInfoJA(pionActif);
+            
         } else if (m.getType() == TypesMessage.ANNULER) {
+            
             ihm.activationBoutons(true);
             ihm.setNonCliquable(ile);
             ihm.actualiserGrille(ile);
+            
         } else if (m.getType() == TypesMessage.VUE_UTILISER_CARTE) {
+            
             vueUtiliserCarte = new VueUtiliserCarte(pions);
             ihm.activationBoutons(false);
             vueUtiliserCarte.addObservateur(this);
+            
         } else if (m.getType() == TypesMessage.UTILISER_CARTE) {
+            
             if (m.getCarteTresor().getType() == CTresor.SAC_SABLE) {
                 assecherSacSable();
                 defausser(m.getPion(), m.getCarteTresor());
                 ihm.actualiserInfoJA(pionActif);
             } else { //Carte Helicoptere
+                
                 if (m.getTuile().getNom() == "Heliport" && m.getTuile().getPions().size() == 4) {
+                    
                     if (checkVictoire()) {
                         int hFin = now().getHour() - h;
                         int minFin = now().getMinute() - min;
@@ -700,18 +781,24 @@ public class Controleur implements Observateur {
                         vueFin.addObservateur(this);
                         System.out.println("Victoire");
                     }
+                    
                 } else {
                     seDeplacerHelico(m.getPion());
                     defausser(m.getPion(), m.getCarteTresor());
                     ihm.actualiserInfoJA(pionActif);
                 }
             }
+            
         } else if (m.getType() == TypesMessage.AFFICHER_INFO) {
+            
             vueInfo = new VueInformation(pions);
             vueInfo.addObservateur(this);
             ihm.activationInfo(false);
+            
         } else if (m.getType() == TypesMessage.FERMER_INFO) {
+            
             ihm.activationInfo(true);
+            
         } else if (m.getType() == TypesMessage.CAPACITE) {
 
             if (pionActif.getRole().getNomA().equals("Pilote")) {
@@ -729,21 +816,26 @@ public class Controleur implements Observateur {
             }
 
         } else if (m.getType() == TypesMessage.DEPLACEMENT_AMI) {
+            
             System.out.println(m.getPion());
             seDeplacerNavigateur(m.getPion());
             ihm.activationBoutons(true);
+            
         } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_AMI) {
 
             m.getPion().setTuilePosition(m.getTuile());
 
             ihm.setNonCliquable(ile);
             ihm.repaintInfoTuile();
+            
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             ihm.actualiserInfoJA(pionActif);
             ihm.activationBoutons(true);
         }
+        //On vérifie des conditions grâce à la méthode check pour activer/désactiver des boutons
         check();
+        
         if (checkDefaite()) {
             //Lancer vue defaite ;
             int hFin = now().getHour() - h;
@@ -755,41 +847,6 @@ public class Controleur implements Observateur {
             vueFin.addObservateur(this);
 
         }
-    }
-
-    public void initPion(int nbJoueurs) {
-        ArrayList<Aventurier> aventuriers = initAventurier();
-        pions.clear();
-        for (int i = 0; i < nbJoueurs + 1; i++) {
-            this.pions.add(new Pion(aventuriers.get(i)));
-        }
-        pionActif = pions.get(0);
-    }
-
-    public void initInondation() {
-        for (int i = 0; i < 6; i++) {
-            if (pileCarteInondations.get(0).getEtat() == Etat.SEC) {
-                pileCarteInondations.get(0).setEtat(Etat.INONDE);
-            } else if (pileCarteInondations.get(i).getEtat() == Etat.INONDE) {
-                pileCarteInondations.get(0).setEtat(Etat.SUBMERGE);
-            }
-            tuilesPiochees.add(pileCarteInondations.get(0));
-            pileCarteInondations.remove(0);
-        }
-    }
-
-    public void inonderTuiles() {
-
-        for (int i = 0; i < niveauEau.getEchelon(); i++) {
-            if (pileCarteInondations.get(0).getEtat() == Etat.SEC) {
-                pileCarteInondations.get(0).setEtat(Etat.INONDE);
-            } else if (pileCarteInondations.get(0).getEtat() == Etat.INONDE) {
-                pileCarteInondations.get(0).setEtat(Etat.SUBMERGE);
-            }
-            tuilesPiochees.add(pileCarteInondations.get(0));
-            pileCarteInondations.remove(0);
-        }
-
     }
 
     public void demo() {
@@ -943,9 +1000,9 @@ public class Controleur implements Observateur {
                     seDeplacer(pion);
                 }
 
-              
+                pionActif.setNbAction(pionActif.getNbAction() + 1);
             }
-        } pionActif.setNbAction(pionActif.getNbAction() + 1);
+        } 
 
     }
 
