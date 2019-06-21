@@ -69,10 +69,7 @@ public class VueGrille implements Observe {
     private JPanel conteneurTuile;
 
     private CardLayout c1;
-    private JPanel carteJ1;
-    private JPanel carteJ2;
-    private JPanel carteJ3;
-    private JPanel carteJ4;
+
 
     private int ci;
     private int cj;
@@ -224,7 +221,7 @@ public class VueGrille implements Observe {
         conteneurBas = new JPanel(new BorderLayout());
         conteneurBas.setPreferredSize(new Dimension(1100, 100));
         //Creation temporaire des trophées
-        zoneTresors = new JPanel();
+        zoneTresors = new FondPanneau();
 
         zoneTresors.setLayout(new GridLayout(2, 2));
         zoneTresors.setPreferredSize(new Dimension(100, 100));
@@ -254,15 +251,7 @@ public class VueGrille implements Observe {
             zoneCartes.add(carteJ[i], i + "");
             System.out.println(i);
         }
-        /*
-        carteJ1 = new JPanel();
-        carteJ1 = Carte(pions.get(0));
-        carteJ2 = new JPanel();
-        carteJ2 = Carte(pions.get(1));
-        carteJ3 = new JPanel();
-        carteJ3 = Carte(pions.get(2));
-        carteJ4 = new JPanel();
-        carteJ4 = Carte(pions.get(3));*/
+ 
 
         c1.show(zoneCartes, "0");
         conteneurBas.add(zoneCartes, BorderLayout.CENTER);
@@ -520,9 +509,8 @@ public class VueGrille implements Observe {
         }
 //Si le nb de joueur est inferieur à 4 on rajoute des boutons nul pour remplir le GridLayout
         for (int i = nbJoueurs; i < 4; i++) {
-            JButton btnj = new JButton("[Vide]");
-            btnj.setEnabled(false);
-            zoneJoueurs.add(btnj);
+            JPanel vide = new FondPanneau();
+            zoneJoueurs.add(vide);
         }
 //Ajout du Layout au centre à la zone à droite
         conteneurDroite.add(zoneJoueurs, BorderLayout.CENTER);

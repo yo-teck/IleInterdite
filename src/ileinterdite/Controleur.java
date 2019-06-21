@@ -5,7 +5,6 @@
  */
 package ileinterdite;
 
-import ileinterdite.Vues.VueJeu;
 import ileinterdite.PackageCarteTresor.CarteTresor;
 import ileinterdite.PackageCarteTresor.CTresor;
 import ileinterdite.PackageTuile.Evenement;

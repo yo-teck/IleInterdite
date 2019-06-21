@@ -40,7 +40,7 @@ public class InfoTresor extends JPanel {
                 File chemin = new File("");
 
 
-        g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgDecor/boisPanneau.png").getImage(), 0, 0, largeurf,hauteurf , this);
+
         if (tresor.isEstRecupere()) {
             g2d.drawImage((tresor.getImageTresorR()).getImage(), 0, 0, largeurf, hauteurf, this);
         } else if (!tresor.isEstRecupere()) {
