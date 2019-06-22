@@ -733,17 +733,21 @@ public class Controleur implements Observateur {
 
     public boolean checkDefaite(ArrayList<OTresor> Otresors) {
         if (!debutDePartie) {
+            // Creations locale des variables permettant de compter combien de tuile permettant la recuperation de tresor ont été submergées
             int a = 0;
             int t = 0;
             int f = 0;
             int e = 0;
+            // Creations locale des variables permettant de compter combien de tuile permettant la recuperation de tresor ont été submergées
+            
+            // Boucle parcourant toute les tuiles de la carte afin de determiner si les tuiles tresors ont été submergés
             for (Tuile tuile : ile.getTuiles()) {
                 if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.HELIPORT) {
                     conditionsDefaite = "L'héliport a été submergé !";
                     return true;
                 } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.AIR) {
                     for (OTresor tres : Otresors) {
-
+                        // Test pour savoir si le tresor a déjà été récupéré, si il est déjà récupéré alors on n'incremente pas le compteur
                         if (tres.getType() == Tresor.AIR && !tres.isEstRecupere()) {
                             a++;
                         }
@@ -751,21 +755,21 @@ public class Controleur implements Observateur {
 
                 } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.TERRE) {
                     for (OTresor tres : Otresors) {
-
+                        // Test pour savoir si le tresor a déjà été récupéré, si il est déjà récupéré alors on n'incremente pas le compteur
                         if (tres.getType() == Tresor.TERRE && !tres.isEstRecupere()) {
                             t++;
                         }
                     }
                 } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.FEU) {
                     for (OTresor tres : Otresors) {
-
+                        // Test pour savoir si le tresor a déjà été récupéré, si il est déjà récupéré alors on n'incremente pas le compteur         
                         if (tres.getType() == Tresor.FEU && !tres.isEstRecupere()) {
                             f++;
                         }
                     }
                 } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.EAU) {
                     for (OTresor tres : Otresors) {
-
+                        // Test pour savoir si le tresor a déjà été récupéré, si il est déjà récupéré alors on n'incremente pas le compteur
                         if (tres.getType() == Tresor.EAU && !tres.isEstRecupere()) {
                             e++;
                         }
@@ -775,6 +779,7 @@ public class Controleur implements Observateur {
 
             for (Pion p : pions) {
                 if (p.getTuilePosition().getEtat() == Etat.SUBMERGE && p.getRole().getTuilesDispoPourDeplacement(ile, p.getTuilePosition()).size() == 0) {
+                    conditionsDefaite = "Le joueur " + p.getNomj() +" qui est [" + p.getRole().getNomA() +" ] s'est noyé ! ";
                     return true;
                 }
             }
@@ -825,14 +830,14 @@ public class Controleur implements Observateur {
         }
 
         if (!debutDePartie && pileCartesInondation.size() >= niveauEau.getEchelon()) {
-            //Si pile de cartes inondation suffisante on tire les cartes et on inonde
+//Si pile de cartes inondation suffisante on tire les cartes et on inonde
             for (int i = 0; i < niveauEau.getEchelon(); i++) {
                 defausseCartesInondation.add(pileCartesInondation.get(0));
                 pileCartesInondation.remove(0);
             }
             inonderTuiles();
         } else if (pileCartesInondation.size() < niveauEau.getEchelon()) {
-            //Si pile de cartes inondation insuffisante, on remet les cartes de la défausse dans la pile et on tire les cartes et on inonde
+//Si pile de cartes inondation insuffisante, on remet les cartes de la défausse dans la pile et on tire les cartes et on inonde
             pileCartesInondation.addAll(defausseCartesInondation);
             Collections.shuffle(pileCartesInondation);
             defausseCartesInondation.clear();
@@ -891,7 +896,7 @@ public class Controleur implements Observateur {
     @Override
     public void traiterMessage(Message m) {
 
-        //Traitements du message pour initialiser une partie
+//Traitements du message pour initialiser une partie
         if (m.getType() == TypesMessage.COMMENCER_PARTIE) {
             initCartes();
             initTresors();
@@ -904,7 +909,7 @@ public class Controleur implements Observateur {
                 i++;
             }
 
-            //On vérifie la difficulté demandée
+//On vérifie la difficulté demandée
             if (m.getDifficulte().equals("Novice")) {
                 niveauEau.setDifficulte(Difficulte.NOVICE);
             } else if (m.getDifficulte().equals("Normal")) {
@@ -915,7 +920,7 @@ public class Controleur implements Observateur {
                 niveauEau.setDifficulte(Difficulte.LEGENDAIRE);
             }
 
-            //On vérifie le mode d'initialisation demandé
+//On vérifie le mode d'initialisation demandé
             if (m.getModeInitialisation().equals("Démo")) {
                 lancerDemo();
             } else {
@@ -925,6 +930,8 @@ public class Controleur implements Observateur {
             i++;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
         } else if (m.getType() == TypesMessage.RECOMMENCER) {
+            ecrireFichierTexte.println(" - LA PARTIE A ÉTÉ REINITIALISÉE ");
+// Reset des variables pour le temps et le compteur de ligne du ficher Log.txt
             c = 0;
             h = now().getHour();
             min = now().getMinute();
@@ -933,9 +940,12 @@ public class Controleur implements Observateur {
             debutDePartie = true;
             vueGrille.dispose();
             vueDemarrer.montrer(true);
-
-            //Traitements des messages d'action du joueur
-        } else if (m.getType() == TypesMessage.FIN_TOUR) {
+        } else if (m.getType() == TypesMessage.QUITTER) {
+// Si on ne ferme pas le PrintWriter rien ne s'écrit dans le fichier texte d'où la necessité d'envoyer un message QUITTER lorsque l'on appuie sur le bouton quitter
+            ecrireFichierTexte.close(); 
+            System.exit(0);
+//Traitements des messages d'action du joueur
+        }else if (m.getType() == TypesMessage.FIN_TOUR) {
 
             vueGrille.setLog("Fin du tour de  " + pionActif.getNomj() + " il a pioché les cartes : ");
 

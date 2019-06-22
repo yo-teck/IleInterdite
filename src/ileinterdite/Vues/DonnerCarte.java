@@ -50,7 +50,7 @@ public class DonnerCarte extends JPanel {
                 new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-               int clicX= e.getX();
+               int clicX = e.getX();
                int taille = carteA.getHeight()/5;
                int position =(taille)/4;
                

@@ -183,6 +183,7 @@ public class VueDonnerCarte implements Observe {
         conteneurValidation = new JPanel(new GridLayout(1, 5));
         conteneurValidation.setPreferredSize(new Dimension(800, 20));
         conteneurValidation.setOpaque(false);
+        
         btnValider = new JButton("Valider");
         btnValider.addActionListener(new ActionListener() {
             @Override

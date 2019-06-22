@@ -275,7 +275,8 @@ public class VueGrille implements Observe {
         btnQuitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                Message m = new Message(TypesMessage.QUITTER);
+                notifierObservateur(m);
             }
         });
 
@@ -802,6 +803,8 @@ public class VueGrille implements Observe {
     public void dispose() {
         frame.dispose();
     }
+    
+    // Creation des methodes permettant l'actualisation de l'historique des actions
     public String getLog(){
         return this.labelLog.getText();
     }
