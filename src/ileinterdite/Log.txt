@@ -1,9 +1,0 @@
-Historique des actions 
-0. Initialisation de la console
-1.  CLE_AIR, 
-2.  CLE_AIR,  CLE_AIR, 
-3.  CLE_AIR,  CLE_AIR,  CLE_EAU, 
-4.  CLE_AIR,  CLE_AIR,  CLE_EAU,  SAC_SABLE, 
-4. Début de partie 
-4. Lancement de la vue pour utiliser les cartes 
-4. Vous avez gagner la partie 

@@ -201,6 +201,7 @@ public class VueDemarrer implements Observe {
         
         options.add(new JLabel(""));
         options.add(new JLabel(""));
+        options.add(new JLabel(""));
         options.add(labelInit);
         
         for(int i = 0; i < 8; i++){
