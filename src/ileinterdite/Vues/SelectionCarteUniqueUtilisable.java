@@ -6,8 +6,10 @@
 package ileinterdite.Vues;
 
 import ileinterdite.OTresor;
+import ileinterdite.PackageCarteTresor.CTresor;
 import ileinterdite.PackageCarteTresor.CarteTresor;
 import ileinterdite.Pion;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -22,7 +24,7 @@ import javax.swing.JPanel;
  *
  * @author Yoann
  */
-public class SelectionCarteUnique extends JPanel {
+public class SelectionCarteUniqueUtilisable extends JPanel {
 
     private ArrayList<CarteTresor> cartes;
     private Pion pion;
@@ -32,18 +34,26 @@ public class SelectionCarteUnique extends JPanel {
     private boolean imgBack;
     private boolean actif;
 
-    public SelectionCarteUnique(Pion pion, boolean imgBack) {
+    public SelectionCarteUniqueUtilisable(Pion pion, boolean imgBack) {
         dimension = getSize();
-        this.cartes = pion.getCartesTresors();
+
         this.pion = pion;
         this.imgBack = imgBack;
         this.actif = true;
-        carteSelection = new boolean[cartes.size()];
+        cartes = new ArrayList<>();
+        for (CarteTresor carteUti : pion.getCartesTresors()) {
+
+            if (carteUti.getType().equals(CTresor.HELICO) || carteUti.getType().equals(CTresor.SAC_SABLE)) {
+                this.cartes.add(carteUti);
+                System.out.println(carteUti.getType());
+            }
+        }
+        this.carteSelection = new boolean[cartes.size()];
         for (int i = 0; i < cartes.size(); i++) {
             carteSelection[i] = false;
         }
         carteSelection[0] = true;
-        carte = pion.getCartesTresors().get(0);
+        carte = cartes.get(0);
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -51,28 +61,38 @@ public class SelectionCarteUnique extends JPanel {
                 int hauteurf = getHeight();
                 int largeurf = getWidth();
 
-                int position = 0;
+                int position = largeurf / 6;
 
-                if (clicx > position || clicx < largeurf - position * 2) {
+                if (!(clicx > 0 && clicx < position)) {
                     for (int i = 0; i < cartes.size(); i++) {
 
-                        if (clicx > position && clicx < position + largeurf / cartes.size()) {
+                        if (clicx > position && clicx < position + largeurf / 6) {
                             carteSelection[i] = true;
-                            carte = pion.getCartesTresors().get(i);
-
+                            carte = cartes.get(i);
+                            System.out.println("fait" + i);
                         } else {
                             carteSelection[i] = false;
 
                         }
-                        position += largeurf / cartes.size();
+                        position += largeurf / (6);
 
                     }
+
+                } else {
+                    position = largeurf / 6;
+                    for (int i = 0; i < cartes.size(); i++) {
+                        carteSelection[i] = false;
+                    }
+
+                    carteSelection[0] = true;
+                    carte = cartes.get(0);
+
                 }
-                System.out.println(carte.getType());
                 repaint();
             }
 
             @Override
+
             public void mousePressed(MouseEvent e) {
             }
 
@@ -87,7 +107,8 @@ public class SelectionCarteUnique extends JPanel {
             @Override
             public void mouseExited(MouseEvent e) {
             }
-        });
+        }
+        );
     }
 
     public boolean isActif() {
@@ -114,7 +135,7 @@ public class SelectionCarteUnique extends JPanel {
         int hauteurf = dimension.height;
         int largeurf = dimension.width;
 
-        int position = largeurf / (2 * cartes.size()) - hauteurf / 2;
+        int position = largeurf / (2 * 6) - hauteurf / 2;
 
         File chemin = new File("");
         if (imgBack) {
@@ -122,18 +143,33 @@ public class SelectionCarteUnique extends JPanel {
         }
 
         if (actif) {
+            g2d.drawImage(pion.getRole().getImgAventurier().getImage(), position, 0, hauteurf, hauteurf, this);
+            g2d.setBackground(Color.black);
+
+            position += largeurf / (6);
+            g2d.drawLine(position, 20, position, hauteurf - 20);
+            g2d.drawLine(position + 1, 20, position + 1, hauteurf - 20);
             for (int i = 0; i < cartes.size(); i++) {
                 if (!carteSelection[i]) {
                     g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/" + cartes.get(i).getType() + "D.png").getImage(), position, 0, hauteurf, hauteurf, this);
                 } else {
                     g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/" + cartes.get(i).getType() + ".png").getImage(), position, 0, hauteurf, hauteurf, this);
                 }
-                position += largeurf / cartes.size();
+                position += largeurf / (6);
 
             }
         } else {
+            g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgRole/" + pion.getRole().getNomA() + "D.png").getImage(), position, 0, hauteurf, hauteurf, this);
+            position += largeurf / (6);
+            g2d.setBackground(Color.black);
+            g2d.drawLine(position, 20, position, hauteurf - 20);
+            g2d.drawLine(position + 1, 20, position + 1, hauteurf - 20);
             for (int i = 0; i < cartes.size(); i++) {
+
                 g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/" + cartes.get(i).getType() + "D.png").getImage(), position, 0, hauteurf, hauteurf, this);
+
+                position += largeurf / (6);
+
             }
         }
     }

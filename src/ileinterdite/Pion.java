@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author dusema
  */
-public class Pion {
+public class Pion implements Cloneable{
 
     private String nomj;
     private int nbAction = 3;
@@ -103,4 +103,8 @@ public class Pion {
         return getCartesTresors().size();
     }
 
+    @Override
+        public Object clone() throws CloneNotSupportedException{
+        return super.clone();
+    }
 }

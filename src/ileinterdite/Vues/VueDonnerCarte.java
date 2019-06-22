@@ -60,6 +60,7 @@ public class VueDonnerCarte implements Observe {
     private MouseListener[] ms;
     int index;
     private SelectionPionUnique[] pionSelection;
+    private ArrayList<Pion> pionsPossible;
 
     public VueDonnerCarte(Pion pionActif, ArrayList<Pion> pions) {
         /*
@@ -67,8 +68,17 @@ public class VueDonnerCarte implements Observe {
         pionsDon.addAll(pions);*/
 
         //Initialisation de la police
+        pionsPossible = new ArrayList<>();
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-
+        if (pionActif.getRole().getNomA().equals("Messager")) {
+            pionsPossible = pions;
+        } else {
+            for (Pion pion : pions) {
+                if (pion.getTuilePosition().equals(pionActif.getTuilePosition())) {
+                    pionsPossible.add(pion);
+                }
+            }
+        }
         try {
             police = Font.createFont(Font.TRUETYPE_FONT, new File(chemin.getAbsolutePath() + "/src/ressources/police/PiecesofEight.ttf"));
             ge.registerFont(police);
@@ -85,7 +95,7 @@ public class VueDonnerCarte implements Observe {
         fenetre.setLayout(new BorderLayout());
         fenetre.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         fenetre.setResizable(false);
-        fenetre.setSize(800, 300 + pions.size() * 100);
+        fenetre.setSize(800, 300 + pionsPossible.size() * 100);
 
         //creation d'un JLabel avec un backgrouned
         conteneur = new FondMonde();
@@ -131,49 +141,47 @@ public class VueDonnerCarte implements Observe {
 
         conteneur.add(conteneurPionActif, BorderLayout.NORTH);
 
-        pionSelection = new SelectionPionUnique[pions.size() - 1];
+        pionSelection = new SelectionPionUnique[pionsPossible.size() - 1];
 
         conteneurDon = new JPanel();
         conteneurDon.setOpaque(false);
-        conteneurDon.setPreferredSize(new Dimension(800, pions.size() * 100));
+        conteneurDon.setPreferredSize(new Dimension(800, pionsPossible.size() * 100));
 
-        JPanel conteneurDonGau = new JPanel(new GridLayout(pions.size(), 1));
-        conteneurDonGau.setPreferredSize(new Dimension(100, pions.size() * 100));
+        JPanel conteneurDonGau = new JPanel(new GridLayout(pionsPossible.size(), 1));
+        conteneurDonGau.setPreferredSize(new Dimension(100, pionsPossible.size() * 100));
         conteneurDonGau.setOpaque(false);
         JLabel texteD = new JLabel("");
         texteD.setFont(police);
         texteD.setText("Donner");
         conteneurDonGau.add(texteD);
-        creeMouseListener(pions);
+        creeMouseListener(pionsPossible);
 
         index = 0;
-        for (int i = 0; i < pions.size(); i++) {
+        for (int i = 0; i < pionsPossible.size(); i++) {
 
-            if (!pions.get(i).equals(pionActif)) {
+            if (!pionsPossible.get(i).equals(pionActif)) {
                 System.out.println("ind : " + index);
-                pionSelection[index] = new SelectionPionUnique(pions.get(i), false);
+                pionSelection[index] = new SelectionPionUnique(pionsPossible.get(i), false);
                 pionSelection[index].setActif(false);
                 pionSelection[index].addMouseListener(ms[index]);
                 conteneurDonGau.add(pionSelection[index]);
                 index++;
             }
         }
-        for (int i = 0; i < pions.size() - 1; i++) {
 
-        }
         pionSelection[0].setActif(true);
         conteneurDon.add(conteneurDonGau, BorderLayout.WEST);
 
-        JPanel conteneurDonDroi = new JPanel(new GridLayout(pions.size(), 1));
-        conteneurDonDroi.setPreferredSize(new Dimension(650, pions.size() * 100));
+        JPanel conteneurDonDroi = new JPanel(new GridLayout(pionsPossible.size(), 1));
+        conteneurDonDroi.setPreferredSize(new Dimension(650, pionsPossible.size() * 100));
         textNomJ = new JLabel("");
         textNomJ.setFont(police);
-        changerTextNomJ(pions);
+        changerTextNomJ(pionsPossible);
 
         conteneurDonDroi.add(textNomJ);
-        for (int i = 0; i < pions.size(); i++) {
-            if (!pions.get(i).equals(pionActif)) {
-                conteneurDonDroi.add(new InfoCarte(pions.get(i), false, false));
+        for (int i = 0; i < pionsPossible.size(); i++) {
+            if (!pionsPossible.get(i).equals(pionActif)) {
+                conteneurDonDroi.add(new InfoCarte(pionsPossible.get(i), false, false));
             }
         }
         conteneurDonDroi.setOpaque(false);
@@ -183,14 +191,14 @@ public class VueDonnerCarte implements Observe {
         conteneurValidation = new JPanel(new GridLayout(1, 5));
         conteneurValidation.setPreferredSize(new Dimension(800, 20));
         conteneurValidation.setOpaque(false);
-        
+
         btnValider = new JButton("Valider");
         btnValider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(TypesMessage.DONNER_CARTE);
 
-                for (int i = 0; i < pions.size() - 1; i++) {
+                for (int i = 0; i < pionsPossible.size() - 1; i++) {
                     if (pionSelection[i].isActif()) {
                         msg.setPion(pionSelection[i].getPion());
                     }
@@ -250,7 +258,7 @@ public class VueDonnerCarte implements Observe {
 
                 for (int j = 0; j < pions.size() - 1; j++) {
                     System.out.println("pas bug 2");
-                    if (!pionSelection[j].equals(pionSelection[0])) {
+                    if (j != 0) {
                         pionSelection[j].setActif(false);
 
                     }
@@ -279,7 +287,7 @@ public class VueDonnerCarte implements Observe {
             public void mouseClicked(MouseEvent e) {
                 pionSelection[1].setActif(true);
                 for (int j = 0; j < pions.size() - 1; j++) {
-                    if (!pionSelection[j].equals(pionSelection[1])) {
+                    if (j != 1) {
                         pionSelection[j].setActif(false);
                     }
                 }
@@ -312,7 +320,7 @@ public class VueDonnerCarte implements Observe {
 
                 for (int j = 0; j < pions.size() - 1; j++) {
                     System.out.println("pas bug 2");
-                    if (!pionSelection[j].equals(pionSelection[2])) {
+                    if (j != 2) {
                         pionSelection[j].setActif(false);
 
                     }

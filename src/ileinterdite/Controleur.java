@@ -1122,7 +1122,7 @@ public class Controleur implements Observateur {
             vueUtiliserCarte = new VueUtiliserCarte(pions);
             vueGrille.activationBoutons(false);
             vueUtiliserCarte.addObservateur(this);
-            System.out.println(vueUtiliserCarte.getPionSansCarte());
+
 
         } else if (m.getType() == TypesMessage.UTILISER_CARTE) {
 
