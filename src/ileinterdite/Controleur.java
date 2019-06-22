@@ -74,6 +74,7 @@ public class Controleur implements Observateur {
     private PrintWriter ecrireFichierTexte; // Variable servant a ecrire dans le fichier texte
 
     private static int c; // Compteur de ligne pour la console
+    private int score;
     private int h;
     private int min;
     private int sec;
@@ -115,6 +116,7 @@ public class Controleur implements Observateur {
         vueDemarrer.addObservateur(this);
 
         conditionsDefaite = new String("");
+        score = 0;
 
     }
 
@@ -244,6 +246,7 @@ public class Controleur implements Observateur {
         Collections.shuffle(pileCartesInondation);
 
     }
+
     public void initGrilleDemoNoyade() {
 
         //Ligne 0
@@ -359,6 +362,7 @@ public class Controleur implements Observateur {
         Collections.shuffle(pileCartesInondation);
 
     }
+
     public void initGrilleDemoDefaiteCaseTresorSubmerge() {
 
         //Ligne 0
@@ -474,6 +478,7 @@ public class Controleur implements Observateur {
         Collections.shuffle(pileCartesInondation);
 
     }
+
     public void initGrilleDemoHeliportSubmerge() {
 
         //Ligne 0
@@ -589,6 +594,7 @@ public class Controleur implements Observateur {
         Collections.shuffle(pileCartesInondation);
 
     }
+
     //Initialisation de la grille permettant de montrer la victoire
     public void initGrilleDemoVictoire() {
 
@@ -705,10 +711,11 @@ public class Controleur implements Observateur {
         Collections.shuffle(pileCartesInondation);
 
     }
+
     //Initialisation de la grille permettant 
     //de tester si la partie s'acheve 
     //si les tuiles permettant de recuperer les tresors sont submergées alors que l'on posséde déjà le(s) trésor(s)
-     public void initGrilleTestTresors() {
+    public void initGrilleTestTresors() {
 
         //Ligne 0
         Tuile t00 = new Tuile(Etat.NULL, 0, 0);
@@ -823,7 +830,7 @@ public class Controleur implements Observateur {
         Collections.shuffle(pileCartesInondation);
 
     }
-    
+
     //Initialisation de la grille de manière aléatoire
     public void initGrilleAleatoire() {
         ArrayList<Tuile> tuiles = new ArrayList<>();
@@ -1067,7 +1074,7 @@ public class Controleur implements Observateur {
         tresors.add(tFeu);
         tresors.add(tTerre);
     }
-    
+
     public void initTresorsVictoire() {
         OTresor tTerre = new OTresor(Tresor.TERRE, false);
         OTresor tFeu = new OTresor(Tresor.FEU, false);
@@ -1079,7 +1086,7 @@ public class Controleur implements Observateur {
         tresors.add(tAir);
         tresors.add(tFeu);
         tresors.add(tTerre);
-        
+
         tEau.setEstRecupere(true);
         tAir.setEstRecupere(true);
         tFeu.setEstRecupere(true);
@@ -1098,6 +1105,7 @@ public class Controleur implements Observateur {
         initPioche(pions);
 
     }
+
     //Initialisation demoNoyade
     public void lancerDemoNoyade() {
 
@@ -1110,6 +1118,7 @@ public class Controleur implements Observateur {
         initPioche(pions);
 
     }
+
     // Initialisation demoDefaiteCaseTresorSubmerge
     public void lancerDemoDefaiteCaseTresorSubmerge() {
 
@@ -1122,6 +1131,7 @@ public class Controleur implements Observateur {
         initPioche(pions);
 
     }
+
     //Initialisation demoHeliportSubmerge
     public void lancerDemoHeliportSubmerge() {
 
@@ -1134,6 +1144,7 @@ public class Controleur implements Observateur {
         initPioche(pions);
 
     }
+
     //
     public void lancerDemoVictoire() {
 
@@ -1145,6 +1156,7 @@ public class Controleur implements Observateur {
         vueGrille.addObservateur(this);
         initPioche(pions);
     }
+
     public void lancerDemoTestTresors() {
 
         initGrilleTestTresors();
@@ -1156,7 +1168,6 @@ public class Controleur implements Observateur {
         initPioche(pions);
 
     }
-
 
     //Initialisation aléatoire
     public void lancerPartieAleatoire() {
@@ -1332,8 +1343,7 @@ public class Controleur implements Observateur {
         if (pionActif.getCartesTresors().size() == 0) {
             //desactiver donnercarte
             vueGrille.activationDon(false);
-        }
-        else if (pionActif.getRole().getNomA().equals("Messager")) {
+        } else if (pionActif.getRole().getNomA().equals("Messager")) {
             vueGrille.activationDon(true);
         } else if (pionActif.getTuilePosition().getPions().size() >= 2) {
             vueGrille.activationDon(true);
@@ -1395,11 +1405,12 @@ public class Controleur implements Observateur {
             int f = 0;
             int e = 0;
             // Creations locale des variables permettant de compter combien de tuile permettant la recuperation de tresor ont été submergées
-            
+
             // Boucle parcourant toute les tuiles de la carte afin de determiner si les tuiles tresors ont été submergés
             for (Tuile tuile : ile.getTuiles()) {
                 if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.HELIPORT) {
                     conditionsDefaite = "L'héliport a été submergé !";
+                    ecrireFichierTexte.println(conditionsDefaite);
                     return true;
                 } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.AIR) {
                     for (OTresor tres : Otresors) {
@@ -1435,16 +1446,19 @@ public class Controleur implements Observateur {
 
             for (Pion p : pions) {
                 if (p.getRole().getTuilesDispoPourDeplacement(ile, p.getTuilePosition()).size() == 0) {
-                    conditionsDefaite = "Le joueur " + p.getNomj() +" qui est [" + p.getRole().getNomA() +" ] s'est noyé ! ";
+                    conditionsDefaite = "Le joueur " + p.getNomj() + " qui est [" + p.getRole().getNomA() + " ] s'est noyé ! ";
+                    ecrireFichierTexte.println(conditionsDefaite);
                     return true;
                 }
             }
             if (a == 2 || t == 2 || f == 2 || e == 2) {
                 conditionsDefaite = "Les tuiles qui permettent de recuperer un des tresors ont été submergés !";
+                ecrireFichierTexte.println(conditionsDefaite);
                 return true;
 
             } else if (niveauEau.getNiveau() == 10) {
                 conditionsDefaite = "Le niveau d'eau a atteint son maximum, l'île a sombré !";
+                ecrireFichierTexte.println(conditionsDefaite);
                 return true;
 
             } else {
@@ -1554,10 +1568,10 @@ public class Controleur implements Observateur {
 //Traitements du message pour initialiser une partie
         if (m.getType() == TypesMessage.COMMENCER_PARTIE) {
             initCartes();
-            if(m.getModeInitialisation().equals("DémoVictoire") || m.getModeInitialisation().equals("TestTresors")){
-            initTresorsVictoire();
-            } else{
-            initTresors();
+            if (m.getModeInitialisation().equals("DémoVictoire") || m.getModeInitialisation().equals("TestTresors")) {
+                initTresorsVictoire();
+            } else {
+                initTresors();
             }
             initPions(m.getNbJoueurs());
 
@@ -1582,25 +1596,25 @@ public class Controleur implements Observateur {
 //On vérifie le mode d'initialisation demandé
             if (m.getModeInitialisation().equals("Démo")) {
                 lancerDemo();
-            } else if(m.getModeInitialisation().equals("DémoNoyade")) {
+            } else if (m.getModeInitialisation().equals("DémoNoyade")) {
                 lancerDemoNoyade();
-            } else if(m.getModeInitialisation().equals("DémoCSubmerge")) {
+            } else if (m.getModeInitialisation().equals("DémoCSubmerge")) {
                 lancerDemoDefaiteCaseTresorSubmerge();
-            } else if(m.getModeInitialisation().equals("DémoHeliSub")) {
+            } else if (m.getModeInitialisation().equals("DémoHeliSub")) {
                 lancerDemoHeliportSubmerge();
-            } else if(m.getModeInitialisation().equals("DémoNiveauEau")) {
+            } else if (m.getModeInitialisation().equals("DémoNiveauEau")) {
                 niveauEau.setNiveau(10);
                 lancerDemo();
-            } else if(m.getModeInitialisation().equals("DémoVictoire")) {
+            } else if (m.getModeInitialisation().equals("DémoVictoire")) {
                 lancerDemoVictoire();
                 pionActif.addCarte(new CarteTresor(CTresor.HELICO));
-            } else if(m.getModeInitialisation().equals("TestTresors")) {
+            } else if (m.getModeInitialisation().equals("TestTresors")) {
                 lancerDemoTestTresors();
-                
-            } else{
+
+            } else {
                 lancerPartieAleatoire();
             }
-            
+
             vueGrille.setLog("Début de partie ");
             i++;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
@@ -1617,10 +1631,10 @@ public class Controleur implements Observateur {
             vueDemarrer.montrer(true);
         } else if (m.getType() == TypesMessage.QUITTER) {
 // Si on ne ferme pas le PrintWriter rien ne s'écrit dans le fichier texte d'où la necessité d'envoyer un message QUITTER lorsque l'on appuie sur le bouton quitter
-            ecrireFichierTexte.close(); 
+            ecrireFichierTexte.close();
             System.exit(0);
 //Traitements des messages d'action du joueur
-        }else if (m.getType() == TypesMessage.FIN_TOUR) {
+        } else if (m.getType() == TypesMessage.FIN_TOUR) {
 
             vueGrille.setLog("Fin du tour de  " + pionActif.getNomj() + " il a pioché les cartes : ");
 
@@ -1676,6 +1690,7 @@ public class Controleur implements Observateur {
             m.getPion().setTuilePosition(m.getTuile());
             vueGrille.setLog(vueGrille.getLog() + " vers la tuile " + m.getTuile().getNom());
             c++;
+            score += 15;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
             vueGrille.setNonCliquable(ile);
             vueGrille.repaintInfoTuile();
@@ -1709,6 +1724,7 @@ public class Controleur implements Observateur {
             m.getTuile().setEtat(Etat.SEC);
             vueGrille.setLog(pionActif.getNomj() + " a asseché la tuile " + m.getTuile().getNom());
             c++;
+            score += 15;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
             vueGrille.setNonCliquable(ile);
 
@@ -1816,11 +1832,14 @@ public class Controleur implements Observateur {
                 if (m.getTuile().getNom() == "Heliport" && m.getTuile().getPions().size() == pions.size()) {
 
                     if (checkVictoire()) {
-                        int hFin = now().getHour() - h;
-                        int minFin = now().getMinute() - min;
-                        int secFin = now().getSecond() - sec;
-                        String temps = new String("Votre temps : " + hFin + "h" + minFin + "m" + secFin + "s");
-                        vueFin = new VueFin("VICTOIRE ! ", temps, "vous avez reussi a vous echapper de l'île bravo !");
+                        for (OTresor ot : tresors) {
+
+                            if (ot.isEstRecupere()) {
+                                score += 100;
+                            }
+                        }
+                        String scoreTotal = new String("Votre score : " + score);
+                        vueFin = new VueFin("VICTOIRE ! ", scoreTotal, "vous avez reussi a vous echapper de l'île bravo !");
                         ecrireFichierTexte.println(c + ". Vous avez gagner la partie ");
                         ecrireFichierTexte.close();
                         vueFin.addObservateur(this);
@@ -1839,7 +1858,7 @@ public class Controleur implements Observateur {
                 c++;
                 ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
             }
-
+            score += 25;
         } else if (m.getType() == TypesMessage.AFFICHER_INFO) {
 
             vueInfo = new VueInformation(pions);
@@ -1886,27 +1905,21 @@ public class Controleur implements Observateur {
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             vueGrille.actualiserInfoJA(pionActif);
             vueGrille.activationBoutons(true);
+            score += 25;
         }
         //On vérifie des conditions grâce à la méthode check pour activer/désactiver des boutons
         check();
 
         if (checkDefaite(tresors)) {
             //Lancer vue defaite ;
-            int hFin = now().getHour() - h;
-            int minFin = 0;
-            int secFin = 0;
-            if (now().getMinute() > min) {
-                minFin = now().getMinute() - min;
-            } else {
-                minFin = min - now().getMinute();
-            }
-            if (now().getSecond() > sec) {
-                secFin = now().getSecond() - sec;
-            } else {
-                secFin = sec - now().getSecond();
+            for (OTresor ot : tresors) {
 
+                if (ot.isEstRecupere()) {
+                    score += 100;
+                }
             }
-            String temps = new String("Votre Temps : " + hFin + "h" + minFin + "m" + secFin + "s");
+            String scoreTotal = new String("Votre score : " + score);
+            String temps = new String("Votre Score : " + score);
             vueFin = new VueFin("DEFAITE !", temps, conditionsDefaite);
             ecrireFichierTexte.println(c + ". Vous avez perdu la partie ");
             ecrireFichierTexte.close();
@@ -1914,7 +1927,7 @@ public class Controleur implements Observateur {
 
         }
     }
-    
+
     public static void main(String[] args) throws FileNotFoundException {
 
         new Controleur();
