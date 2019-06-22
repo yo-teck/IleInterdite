@@ -74,6 +74,7 @@ public class Controleur implements Observateur {
     private PrintWriter ecrireFichierTexte; // Variable servant a ecrire dans le fichier texte
 
     private static int c; // Compteur de ligne pour la console
+    private int score;
     private int h;
     private int min;
     private int sec;
@@ -115,6 +116,7 @@ public class Controleur implements Observateur {
         vueDemarrer.addObservateur(this);
 
         conditionsDefaite = new String("");
+        score = 0;
 
     }
 
@@ -189,6 +191,590 @@ public class Controleur implements Observateur {
 
             } else if (pion.getRole().getNomA().equals("Plongeur")) {
                 pion.setTuilePositionIni(t12);
+
+            } else if (pion.getRole().getNomA().equals("Pilote")) {
+                pion.setTuilePositionIni(t23);
+            }
+        }
+        //Ajout des tuiles dans la grille
+        ile = new Grille();
+        // Ligne 0
+        ile.addTuile(t00);
+        ile.addTuile(t01);
+        ile.addTuile(t02);
+        ile.addTuile(t03);
+        ile.addTuile(t04);
+        ile.addTuile(t05);
+        // Ligne 1
+        ile.addTuile(t10);
+        ile.addTuile(t11);
+        ile.addTuile(t12);
+        ile.addTuile(t13);
+        ile.addTuile(t14);
+        ile.addTuile(t15);
+        // Ligne 2
+        ile.addTuile(t20);
+        ile.addTuile(t21);
+        ile.addTuile(t22);
+        ile.addTuile(t23);
+        ile.addTuile(t24);
+        ile.addTuile(t25);
+        //Ligne 3
+        ile.addTuile(t30);
+        ile.addTuile(t31);
+        ile.addTuile(t32);
+        ile.addTuile(t33);
+        ile.addTuile(t34);
+        ile.addTuile(t35);
+        //Ligne 4
+        ile.addTuile(t40);
+        ile.addTuile(t41);
+        ile.addTuile(t42);
+        ile.addTuile(t43);
+        ile.addTuile(t44);
+        ile.addTuile(t45);
+        //Ligne 5
+        ile.addTuile(t50);
+        ile.addTuile(t51);
+        ile.addTuile(t52);
+        ile.addTuile(t53);
+        ile.addTuile(t54);
+        ile.addTuile(t55);
+
+        pileCartesInondation.clear();
+        pileCartesInondation.addAll(ile.getNonSubmerge(ile.getTuiles()));
+        Collections.shuffle(pileCartesInondation);
+
+    }
+
+    public void initGrilleDemoNoyade() {
+
+        //Ligne 0
+        Tuile t00 = new Tuile(Etat.NULL, 0, 0);
+        Tuile t01 = new Tuile(Etat.NULL, 0, 1);
+        Tuile t02 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 0, 2, "Le_Pont_des_Abimes");
+        Tuile t03 = new Tuile(Etat.INONDE, Evenement.SPAWN_INGENIEUR, 0, 3, "La_Porte_de_Bronze");
+        Tuile t04 = new Tuile(Etat.NULL, 0, 4);
+        Tuile t05 = new Tuile(Etat.NULL, 0, 5);
+        //Ligne 1
+        Tuile t10 = new Tuile(Etat.NULL, 1, 0);
+        Tuile t11 = new Tuile(Etat.SUBMERGE, Evenement.FEU, 1, 1, "La_Caverne_des_Ombres");
+        Tuile t12 = new Tuile(Etat.SEC, Evenement.SPAWN_PLONGEUR, 1, 2, "La_Porte_de_Fer");
+        Tuile t13 = new Tuile(Etat.SUBMERGE, Evenement.SPAWN_NAVIGATEUR, 1, 3, "La_Porte_d'Or");
+        Tuile t14 = new Tuile(Etat.SEC, Evenement.RIEN, 1, 4, "Les_Falaises_de_l'Oubli");
+        Tuile t15 = new Tuile(Etat.NULL, 1, 5);
+        //Ligne 2
+        Tuile t20 = new Tuile(Etat.SUBMERGE, Evenement.EAU, 2, 0, "Le_Palais_de_Corail");
+        Tuile t21 = new Tuile(Etat.SEC, Evenement.SPAWN_MESSAGER, 2, 1, "La_Porte_d'Argent");
+        Tuile t22 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 2, 2, "Les_Dunes_de_l'Illusion");
+        Tuile t23 = new Tuile(Etat.SEC, Evenement.HELIPORT, 2, 3, "Heliport");
+        Tuile t24 = new Tuile(Etat.SUBMERGE, Evenement.SPAWN_EXPLORATEUR, 2, 4, "La_Porte_de_Cuivre");
+        Tuile t25 = new Tuile(Etat.SEC, Evenement.AIR, 2, 5, "Le_Jardin_des_Hurlements");
+        //Ligne 3
+        Tuile t30 = new Tuile(Etat.SEC, Evenement.RIEN, 3, 0, "La_Foret_Pourpre");
+        Tuile t31 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 1, "Le_Lagon_Perdu");
+        Tuile t32 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 2, "Le_Marais_Brumeux");
+        Tuile t33 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 3, "Observatoire");
+        Tuile t34 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 4, "Le_Rocher_Fantome");
+        Tuile t35 = new Tuile(Etat.INONDE, Evenement.FEU, 3, 5, "La_Caverne_du_Brasier");
+        //Ligne 4
+        Tuile t40 = new Tuile(Etat.NULL, 4, 0);
+        Tuile t41 = new Tuile(Etat.SEC, Evenement.TERRE, 4, 1, "Le_Temple_du_Soleil");
+        Tuile t42 = new Tuile(Etat.SUBMERGE, Evenement.TERRE, 4, 2, "Le_Temple_de_la_Lune");
+        Tuile t43 = new Tuile(Etat.SEC, Evenement.EAU, 4, 3, "Le_Palais_des_Marees");
+        Tuile t44 = new Tuile(Etat.SEC, Evenement.RIEN, 4, 4, "Le_Val_du_Crepuscule");
+        Tuile t45 = new Tuile(Etat.NULL, 4, 5);
+        //Ligne 5
+        Tuile t50 = new Tuile(Etat.NULL, 5, 0);
+        Tuile t51 = new Tuile(Etat.NULL, 5, 1);
+        Tuile t52 = new Tuile(Etat.SEC, Evenement.RIEN, 5, 2, "La_Tour_du_Guet");
+        Tuile t53 = new Tuile(Etat.INONDE, Evenement.AIR, 5, 3, "Le_Jardin_des_Murmures");
+        Tuile t54 = new Tuile(Etat.NULL, 5, 4);
+        Tuile t55 = new Tuile(Etat.NULL, 5, 5);
+
+        for (Pion pion : pions) {
+            if (pion.getRole().getNomA().equals("Explorateur")) {
+                pion.setTuilePositionIni(t24);
+
+            } else if (pion.getRole().getNomA().equals("Ingenieur")) {
+                pion.setTuilePositionIni(t03);
+
+            } else if (pion.getRole().getNomA().equals("Messager")) {
+                pion.setTuilePositionIni(t21);
+
+            } else if (pion.getRole().getNomA().equals("Navigateur")) {
+                pion.setTuilePositionIni(t13);
+
+            } else if (pion.getRole().getNomA().equals("Plongeur")) {
+                pion.setTuilePositionIni(t12);
+
+            } else if (pion.getRole().getNomA().equals("Pilote")) {
+                pion.setTuilePositionIni(t23);
+            }
+        }
+        //Ajout des tuiles dans la grille
+        ile = new Grille();
+        // Ligne 0
+        ile.addTuile(t00);
+        ile.addTuile(t01);
+        ile.addTuile(t02);
+        ile.addTuile(t03);
+        ile.addTuile(t04);
+        ile.addTuile(t05);
+        // Ligne 1
+        ile.addTuile(t10);
+        ile.addTuile(t11);
+        ile.addTuile(t12);
+        ile.addTuile(t13);
+        ile.addTuile(t14);
+        ile.addTuile(t15);
+        // Ligne 2
+        ile.addTuile(t20);
+        ile.addTuile(t21);
+        ile.addTuile(t22);
+        ile.addTuile(t23);
+        ile.addTuile(t24);
+        ile.addTuile(t25);
+        //Ligne 3
+        ile.addTuile(t30);
+        ile.addTuile(t31);
+        ile.addTuile(t32);
+        ile.addTuile(t33);
+        ile.addTuile(t34);
+        ile.addTuile(t35);
+        //Ligne 4
+        ile.addTuile(t40);
+        ile.addTuile(t41);
+        ile.addTuile(t42);
+        ile.addTuile(t43);
+        ile.addTuile(t44);
+        ile.addTuile(t45);
+        //Ligne 5
+        ile.addTuile(t50);
+        ile.addTuile(t51);
+        ile.addTuile(t52);
+        ile.addTuile(t53);
+        ile.addTuile(t54);
+        ile.addTuile(t55);
+
+        pileCartesInondation.clear();
+        pileCartesInondation.addAll(ile.getNonSubmerge(ile.getTuiles()));
+        Collections.shuffle(pileCartesInondation);
+
+    }
+
+    public void initGrilleDemoDefaiteCaseTresorSubmerge() {
+
+        //Ligne 0
+        Tuile t00 = new Tuile(Etat.NULL, 0, 0);
+        Tuile t01 = new Tuile(Etat.NULL, 0, 1);
+        Tuile t02 = new Tuile(Etat.SEC, Evenement.RIEN, 0, 2, "Le_Pont_des_Abimes");
+        Tuile t03 = new Tuile(Etat.INONDE, Evenement.SPAWN_INGENIEUR, 0, 3, "La_Porte_de_Bronze");
+        Tuile t04 = new Tuile(Etat.NULL, 0, 4);
+        Tuile t05 = new Tuile(Etat.NULL, 0, 5);
+        //Ligne 1
+        Tuile t10 = new Tuile(Etat.NULL, 1, 0);
+        Tuile t11 = new Tuile(Etat.SUBMERGE, Evenement.FEU, 1, 1, "La_Caverne_des_Ombres");
+        Tuile t12 = new Tuile(Etat.SEC, Evenement.SPAWN_PLONGEUR, 1, 2, "La_Porte_de_Fer");
+        Tuile t13 = new Tuile(Etat.SEC, Evenement.SPAWN_NAVIGATEUR, 1, 3, "La_Porte_d'Or");
+        Tuile t14 = new Tuile(Etat.SEC, Evenement.RIEN, 1, 4, "Les_Falaises_de_l'Oubli");
+        Tuile t15 = new Tuile(Etat.NULL, 1, 5);
+        //Ligne 2
+        Tuile t20 = new Tuile(Etat.SUBMERGE, Evenement.EAU, 2, 0, "Le_Palais_de_Corail");
+        Tuile t21 = new Tuile(Etat.SEC, Evenement.SPAWN_MESSAGER, 2, 1, "La_Porte_d'Argent");
+        Tuile t22 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 2, 2, "Les_Dunes_de_l'Illusion");
+        Tuile t23 = new Tuile(Etat.SEC, Evenement.HELIPORT, 2, 3, "Heliport");
+        Tuile t24 = new Tuile(Etat.SEC, Evenement.SPAWN_EXPLORATEUR, 2, 4, "La_Porte_de_Cuivre");
+        Tuile t25 = new Tuile(Etat.SUBMERGE, Evenement.AIR, 2, 5, "Le_Jardin_des_Hurlements");
+        //Ligne 3
+        Tuile t30 = new Tuile(Etat.SEC, Evenement.RIEN, 3, 0, "La_Foret_Pourpre");
+        Tuile t31 = new Tuile(Etat.INONDE, Evenement.RIEN, 3, 1, "Le_Lagon_Perdu");
+        Tuile t32 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 2, "Le_Marais_Brumeux");
+        Tuile t33 = new Tuile(Etat.INONDE, Evenement.RIEN, 3, 3, "Observatoire");
+        Tuile t34 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 4, "Le_Rocher_Fantome");
+        Tuile t35 = new Tuile(Etat.SUBMERGE, Evenement.FEU, 3, 5, "La_Caverne_du_Brasier");
+        //Ligne 4
+        Tuile t40 = new Tuile(Etat.NULL, 4, 0);
+        Tuile t41 = new Tuile(Etat.SUBMERGE, Evenement.TERRE, 4, 1, "Le_Temple_du_Soleil");
+        Tuile t42 = new Tuile(Etat.SUBMERGE, Evenement.TERRE, 4, 2, "Le_Temple_de_la_Lune");
+        Tuile t43 = new Tuile(Etat.SUBMERGE, Evenement.EAU, 4, 3, "Le_Palais_des_Marees");
+        Tuile t44 = new Tuile(Etat.SEC, Evenement.RIEN, 4, 4, "Le_Val_du_Crepuscule");
+        Tuile t45 = new Tuile(Etat.NULL, 4, 5);
+        //Ligne 5
+        Tuile t50 = new Tuile(Etat.NULL, 5, 0);
+        Tuile t51 = new Tuile(Etat.NULL, 5, 1);
+        Tuile t52 = new Tuile(Etat.SEC, Evenement.RIEN, 5, 2, "La_Tour_du_Guet");
+        Tuile t53 = new Tuile(Etat.SUBMERGE, Evenement.AIR, 5, 3, "Le_Jardin_des_Murmures");
+        Tuile t54 = new Tuile(Etat.NULL, 5, 4);
+        Tuile t55 = new Tuile(Etat.NULL, 5, 5);
+
+        for (Pion pion : pions) {
+            if (pion.getRole().getNomA().equals("Explorateur")) {
+                pion.setTuilePositionIni(t24);
+
+            } else if (pion.getRole().getNomA().equals("Ingenieur")) {
+                pion.setTuilePositionIni(t03);
+
+            } else if (pion.getRole().getNomA().equals("Messager")) {
+                pion.setTuilePositionIni(t21);
+
+            } else if (pion.getRole().getNomA().equals("Navigateur")) {
+                pion.setTuilePositionIni(t13);
+
+            } else if (pion.getRole().getNomA().equals("Plongeur")) {
+                pion.setTuilePositionIni(t12);
+
+            } else if (pion.getRole().getNomA().equals("Pilote")) {
+                pion.setTuilePositionIni(t23);
+            }
+        }
+        //Ajout des tuiles dans la grille
+        ile = new Grille();
+        // Ligne 0
+        ile.addTuile(t00);
+        ile.addTuile(t01);
+        ile.addTuile(t02);
+        ile.addTuile(t03);
+        ile.addTuile(t04);
+        ile.addTuile(t05);
+        // Ligne 1
+        ile.addTuile(t10);
+        ile.addTuile(t11);
+        ile.addTuile(t12);
+        ile.addTuile(t13);
+        ile.addTuile(t14);
+        ile.addTuile(t15);
+        // Ligne 2
+        ile.addTuile(t20);
+        ile.addTuile(t21);
+        ile.addTuile(t22);
+        ile.addTuile(t23);
+        ile.addTuile(t24);
+        ile.addTuile(t25);
+        //Ligne 3
+        ile.addTuile(t30);
+        ile.addTuile(t31);
+        ile.addTuile(t32);
+        ile.addTuile(t33);
+        ile.addTuile(t34);
+        ile.addTuile(t35);
+        //Ligne 4
+        ile.addTuile(t40);
+        ile.addTuile(t41);
+        ile.addTuile(t42);
+        ile.addTuile(t43);
+        ile.addTuile(t44);
+        ile.addTuile(t45);
+        //Ligne 5
+        ile.addTuile(t50);
+        ile.addTuile(t51);
+        ile.addTuile(t52);
+        ile.addTuile(t53);
+        ile.addTuile(t54);
+        ile.addTuile(t55);
+
+        pileCartesInondation.clear();
+        pileCartesInondation.addAll(ile.getNonSubmerge(ile.getTuiles()));
+        Collections.shuffle(pileCartesInondation);
+
+    }
+
+    public void initGrilleDemoHeliportSubmerge() {
+
+        //Ligne 0
+        Tuile t00 = new Tuile(Etat.NULL, 0, 0);
+        Tuile t01 = new Tuile(Etat.NULL, 0, 1);
+        Tuile t02 = new Tuile(Etat.SEC, Evenement.RIEN, 0, 2, "Le_Pont_des_Abimes");
+        Tuile t03 = new Tuile(Etat.INONDE, Evenement.SPAWN_INGENIEUR, 0, 3, "La_Porte_de_Bronze");
+        Tuile t04 = new Tuile(Etat.NULL, 0, 4);
+        Tuile t05 = new Tuile(Etat.NULL, 0, 5);
+        //Ligne 1
+        Tuile t10 = new Tuile(Etat.NULL, 1, 0);
+        Tuile t11 = new Tuile(Etat.SEC, Evenement.FEU, 1, 1, "La_Caverne_des_Ombres");
+        Tuile t12 = new Tuile(Etat.SEC, Evenement.SPAWN_PLONGEUR, 1, 2, "La_Porte_de_Fer");
+        Tuile t13 = new Tuile(Etat.SEC, Evenement.SPAWN_NAVIGATEUR, 1, 3, "La_Porte_d'Or");
+        Tuile t14 = new Tuile(Etat.SEC, Evenement.RIEN, 1, 4, "Les_Falaises_de_l'Oubli");
+        Tuile t15 = new Tuile(Etat.NULL, 1, 5);
+        //Ligne 2
+        Tuile t20 = new Tuile(Etat.SEC, Evenement.EAU, 2, 0, "Le_Palais_de_Corail");
+        Tuile t21 = new Tuile(Etat.SEC, Evenement.SPAWN_MESSAGER, 2, 1, "La_Porte_d'Argent");
+        Tuile t22 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 2, 2, "Les_Dunes_de_l'Illusion");
+        Tuile t23 = new Tuile(Etat.SUBMERGE, Evenement.HELIPORT, 2, 3, "Heliport");
+        Tuile t24 = new Tuile(Etat.SEC, Evenement.SPAWN_EXPLORATEUR, 2, 4, "La_Porte_de_Cuivre");
+        Tuile t25 = new Tuile(Etat.SEC, Evenement.AIR, 2, 5, "Le_Jardin_des_Hurlements");
+        //Ligne 3
+        Tuile t30 = new Tuile(Etat.SEC, Evenement.RIEN, 3, 0, "La_Foret_Pourpre");
+        Tuile t31 = new Tuile(Etat.INONDE, Evenement.RIEN, 3, 1, "Le_Lagon_Perdu");
+        Tuile t32 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 2, "Le_Marais_Brumeux");
+        Tuile t33 = new Tuile(Etat.INONDE, Evenement.RIEN, 3, 3, "Observatoire");
+        Tuile t34 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 4, "Le_Rocher_Fantome");
+        Tuile t35 = new Tuile(Etat.INONDE, Evenement.FEU, 3, 5, "La_Caverne_du_Brasier");
+        //Ligne 4
+        Tuile t40 = new Tuile(Etat.NULL, 4, 0);
+        Tuile t41 = new Tuile(Etat.SEC, Evenement.TERRE, 4, 1, "Le_Temple_du_Soleil");
+        Tuile t42 = new Tuile(Etat.SUBMERGE, Evenement.TERRE, 4, 2, "Le_Temple_de_la_Lune");
+        Tuile t43 = new Tuile(Etat.SEC, Evenement.EAU, 4, 3, "Le_Palais_des_Marees");
+        Tuile t44 = new Tuile(Etat.SEC, Evenement.RIEN, 4, 4, "Le_Val_du_Crepuscule");
+        Tuile t45 = new Tuile(Etat.NULL, 4, 5);
+        //Ligne 5
+        Tuile t50 = new Tuile(Etat.NULL, 5, 0);
+        Tuile t51 = new Tuile(Etat.NULL, 5, 1);
+        Tuile t52 = new Tuile(Etat.SEC, Evenement.RIEN, 5, 2, "La_Tour_du_Guet");
+        Tuile t53 = new Tuile(Etat.INONDE, Evenement.AIR, 5, 3, "Le_Jardin_des_Murmures");
+        Tuile t54 = new Tuile(Etat.NULL, 5, 4);
+        Tuile t55 = new Tuile(Etat.NULL, 5, 5);
+
+        for (Pion pion : pions) {
+            if (pion.getRole().getNomA().equals("Explorateur")) {
+                pion.setTuilePositionIni(t24);
+
+            } else if (pion.getRole().getNomA().equals("Ingenieur")) {
+                pion.setTuilePositionIni(t03);
+
+            } else if (pion.getRole().getNomA().equals("Messager")) {
+                pion.setTuilePositionIni(t21);
+
+            } else if (pion.getRole().getNomA().equals("Navigateur")) {
+                pion.setTuilePositionIni(t13);
+
+            } else if (pion.getRole().getNomA().equals("Plongeur")) {
+                pion.setTuilePositionIni(t12);
+
+            } else if (pion.getRole().getNomA().equals("Pilote")) {
+                pion.setTuilePositionIni(t23);
+            }
+        }
+        //Ajout des tuiles dans la grille
+        ile = new Grille();
+        // Ligne 0
+        ile.addTuile(t00);
+        ile.addTuile(t01);
+        ile.addTuile(t02);
+        ile.addTuile(t03);
+        ile.addTuile(t04);
+        ile.addTuile(t05);
+        // Ligne 1
+        ile.addTuile(t10);
+        ile.addTuile(t11);
+        ile.addTuile(t12);
+        ile.addTuile(t13);
+        ile.addTuile(t14);
+        ile.addTuile(t15);
+        // Ligne 2
+        ile.addTuile(t20);
+        ile.addTuile(t21);
+        ile.addTuile(t22);
+        ile.addTuile(t23);
+        ile.addTuile(t24);
+        ile.addTuile(t25);
+        //Ligne 3
+        ile.addTuile(t30);
+        ile.addTuile(t31);
+        ile.addTuile(t32);
+        ile.addTuile(t33);
+        ile.addTuile(t34);
+        ile.addTuile(t35);
+        //Ligne 4
+        ile.addTuile(t40);
+        ile.addTuile(t41);
+        ile.addTuile(t42);
+        ile.addTuile(t43);
+        ile.addTuile(t44);
+        ile.addTuile(t45);
+        //Ligne 5
+        ile.addTuile(t50);
+        ile.addTuile(t51);
+        ile.addTuile(t52);
+        ile.addTuile(t53);
+        ile.addTuile(t54);
+        ile.addTuile(t55);
+
+        pileCartesInondation.clear();
+        pileCartesInondation.addAll(ile.getNonSubmerge(ile.getTuiles()));
+        Collections.shuffle(pileCartesInondation);
+
+    }
+
+    //Initialisation de la grille permettant de montrer la victoire
+    public void initGrilleDemoVictoire() {
+
+        //Ligne 0
+        Tuile t00 = new Tuile(Etat.NULL, 0, 0);
+        Tuile t01 = new Tuile(Etat.NULL, 0, 1);
+        Tuile t02 = new Tuile(Etat.SEC, Evenement.RIEN, 0, 2, "Le_Pont_des_Abimes");
+        Tuile t03 = new Tuile(Etat.INONDE, Evenement.SPAWN_INGENIEUR, 0, 3, "La_Porte_de_Bronze");
+        Tuile t04 = new Tuile(Etat.NULL, 0, 4);
+        Tuile t05 = new Tuile(Etat.NULL, 0, 5);
+        //Ligne 1
+        Tuile t10 = new Tuile(Etat.NULL, 1, 0);
+        Tuile t11 = new Tuile(Etat.SEC, Evenement.FEU, 1, 1, "La_Caverne_des_Ombres");
+        Tuile t12 = new Tuile(Etat.SEC, Evenement.SPAWN_PLONGEUR, 1, 2, "La_Porte_de_Fer");
+        Tuile t13 = new Tuile(Etat.SEC, Evenement.SPAWN_NAVIGATEUR, 1, 3, "La_Porte_d'Or");
+        Tuile t14 = new Tuile(Etat.SEC, Evenement.RIEN, 1, 4, "Les_Falaises_de_l'Oubli");
+        Tuile t15 = new Tuile(Etat.NULL, 1, 5);
+        //Ligne 2
+        Tuile t20 = new Tuile(Etat.SEC, Evenement.EAU, 2, 0, "Le_Palais_de_Corail");
+        Tuile t21 = new Tuile(Etat.SEC, Evenement.SPAWN_MESSAGER, 2, 1, "La_Porte_d'Argent");
+        Tuile t22 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 2, 2, "Les_Dunes_de_l'Illusion");
+        Tuile t23 = new Tuile(Etat.SEC, Evenement.HELIPORT, 2, 3, "Heliport");
+        Tuile t24 = new Tuile(Etat.SEC, Evenement.SPAWN_EXPLORATEUR, 2, 4, "La_Porte_de_Cuivre");
+        Tuile t25 = new Tuile(Etat.SEC, Evenement.AIR, 2, 5, "Le_Jardin_des_Hurlements");
+        //Ligne 3
+        Tuile t30 = new Tuile(Etat.SEC, Evenement.RIEN, 3, 0, "La_Foret_Pourpre");
+        Tuile t31 = new Tuile(Etat.INONDE, Evenement.RIEN, 3, 1, "Le_Lagon_Perdu");
+        Tuile t32 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 2, "Le_Marais_Brumeux");
+        Tuile t33 = new Tuile(Etat.INONDE, Evenement.RIEN, 3, 3, "Observatoire");
+        Tuile t34 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 4, "Le_Rocher_Fantome");
+        Tuile t35 = new Tuile(Etat.INONDE, Evenement.FEU, 3, 5, "La_Caverne_du_Brasier");
+        //Ligne 4
+        Tuile t40 = new Tuile(Etat.NULL, 4, 0);
+        Tuile t41 = new Tuile(Etat.SEC, Evenement.TERRE, 4, 1, "Le_Temple_du_Soleil");
+        Tuile t42 = new Tuile(Etat.SUBMERGE, Evenement.TERRE, 4, 2, "Le_Temple_de_la_Lune");
+        Tuile t43 = new Tuile(Etat.SEC, Evenement.EAU, 4, 3, "Le_Palais_des_Marees");
+        Tuile t44 = new Tuile(Etat.SEC, Evenement.RIEN, 4, 4, "Le_Val_du_Crepuscule");
+        Tuile t45 = new Tuile(Etat.NULL, 4, 5);
+        //Ligne 5
+        Tuile t50 = new Tuile(Etat.NULL, 5, 0);
+        Tuile t51 = new Tuile(Etat.NULL, 5, 1);
+        Tuile t52 = new Tuile(Etat.SEC, Evenement.RIEN, 5, 2, "La_Tour_du_Guet");
+        Tuile t53 = new Tuile(Etat.INONDE, Evenement.AIR, 5, 3, "Le_Jardin_des_Murmures");
+        Tuile t54 = new Tuile(Etat.NULL, 5, 4);
+        Tuile t55 = new Tuile(Etat.NULL, 5, 5);
+
+        for (Pion pion : pions) {
+            if (pion.getRole().getNomA().equals("Explorateur")) {
+                pion.setTuilePositionIni(t23);
+
+            } else if (pion.getRole().getNomA().equals("Ingenieur")) {
+                pion.setTuilePositionIni(t23);
+
+            } else if (pion.getRole().getNomA().equals("Messager")) {
+                pion.setTuilePositionIni(t23);
+
+            } else if (pion.getRole().getNomA().equals("Navigateur")) {
+                pion.setTuilePositionIni(t23);
+
+            } else if (pion.getRole().getNomA().equals("Plongeur")) {
+                pion.setTuilePositionIni(t23);
+
+            } else if (pion.getRole().getNomA().equals("Pilote")) {
+                pion.setTuilePositionIni(t23);
+            }
+        }
+        //Ajout des tuiles dans la grille
+        ile = new Grille();
+        // Ligne 0
+        ile.addTuile(t00);
+        ile.addTuile(t01);
+        ile.addTuile(t02);
+        ile.addTuile(t03);
+        ile.addTuile(t04);
+        ile.addTuile(t05);
+        // Ligne 1
+        ile.addTuile(t10);
+        ile.addTuile(t11);
+        ile.addTuile(t12);
+        ile.addTuile(t13);
+        ile.addTuile(t14);
+        ile.addTuile(t15);
+        // Ligne 2
+        ile.addTuile(t20);
+        ile.addTuile(t21);
+        ile.addTuile(t22);
+        ile.addTuile(t23);
+        ile.addTuile(t24);
+        ile.addTuile(t25);
+        //Ligne 3
+        ile.addTuile(t30);
+        ile.addTuile(t31);
+        ile.addTuile(t32);
+        ile.addTuile(t33);
+        ile.addTuile(t34);
+        ile.addTuile(t35);
+        //Ligne 4
+        ile.addTuile(t40);
+        ile.addTuile(t41);
+        ile.addTuile(t42);
+        ile.addTuile(t43);
+        ile.addTuile(t44);
+        ile.addTuile(t45);
+        //Ligne 5
+        ile.addTuile(t50);
+        ile.addTuile(t51);
+        ile.addTuile(t52);
+        ile.addTuile(t53);
+        ile.addTuile(t54);
+        ile.addTuile(t55);
+
+        pileCartesInondation.clear();
+        pileCartesInondation.addAll(ile.getNonSubmerge(ile.getTuiles()));
+        Collections.shuffle(pileCartesInondation);
+
+    }
+
+    //Initialisation de la grille permettant 
+    //de tester si la partie s'acheve 
+    //si les tuiles permettant de recuperer les tresors sont submergées alors que l'on posséde déjà le(s) trésor(s)
+    public void initGrilleTestTresors() {
+
+        //Ligne 0
+        Tuile t00 = new Tuile(Etat.NULL, 0, 0);
+        Tuile t01 = new Tuile(Etat.NULL, 0, 1);
+        Tuile t02 = new Tuile(Etat.SEC, Evenement.RIEN, 0, 2, "Le_Pont_des_Abimes");
+        Tuile t03 = new Tuile(Etat.INONDE, Evenement.SPAWN_INGENIEUR, 0, 3, "La_Porte_de_Bronze");
+        Tuile t04 = new Tuile(Etat.NULL, 0, 4);
+        Tuile t05 = new Tuile(Etat.NULL, 0, 5);
+        //Ligne 1
+        Tuile t10 = new Tuile(Etat.NULL, 1, 0);
+        Tuile t11 = new Tuile(Etat.SUBMERGE, Evenement.FEU, 1, 1, "La_Caverne_des_Ombres");
+        Tuile t12 = new Tuile(Etat.SEC, Evenement.SPAWN_PLONGEUR, 1, 2, "La_Porte_de_Fer");
+        Tuile t13 = new Tuile(Etat.SEC, Evenement.SPAWN_NAVIGATEUR, 1, 3, "La_Porte_d'Or");
+        Tuile t14 = new Tuile(Etat.SEC, Evenement.RIEN, 1, 4, "Les_Falaises_de_l'Oubli");
+        Tuile t15 = new Tuile(Etat.NULL, 1, 5);
+        //Ligne 2
+        Tuile t20 = new Tuile(Etat.SUBMERGE, Evenement.EAU, 2, 0, "Le_Palais_de_Corail");
+        Tuile t21 = new Tuile(Etat.SEC, Evenement.SPAWN_MESSAGER, 2, 1, "La_Porte_d'Argent");
+        Tuile t22 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 2, 2, "Les_Dunes_de_l'Illusion");
+        Tuile t23 = new Tuile(Etat.SEC, Evenement.HELIPORT, 2, 3, "Heliport");
+        Tuile t24 = new Tuile(Etat.SEC, Evenement.SPAWN_EXPLORATEUR, 2, 4, "La_Porte_de_Cuivre");
+        Tuile t25 = new Tuile(Etat.SUBMERGE, Evenement.AIR, 2, 5, "Le_Jardin_des_Hurlements");
+        //Ligne 3
+        Tuile t30 = new Tuile(Etat.SEC, Evenement.RIEN, 3, 0, "La_Foret_Pourpre");
+        Tuile t31 = new Tuile(Etat.INONDE, Evenement.RIEN, 3, 1, "Le_Lagon_Perdu");
+        Tuile t32 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 2, "Le_Marais_Brumeux");
+        Tuile t33 = new Tuile(Etat.INONDE, Evenement.RIEN, 3, 3, "Observatoire");
+        Tuile t34 = new Tuile(Etat.SUBMERGE, Evenement.RIEN, 3, 4, "Le_Rocher_Fantome");
+        Tuile t35 = new Tuile(Etat.SUBMERGE, Evenement.FEU, 3, 5, "La_Caverne_du_Brasier");
+        //Ligne 4
+        Tuile t40 = new Tuile(Etat.NULL, 4, 0);
+        Tuile t41 = new Tuile(Etat.SUBMERGE, Evenement.TERRE, 4, 1, "Le_Temple_du_Soleil");
+        Tuile t42 = new Tuile(Etat.SUBMERGE, Evenement.TERRE, 4, 2, "Le_Temple_de_la_Lune");
+        Tuile t43 = new Tuile(Etat.SUBMERGE, Evenement.EAU, 4, 3, "Le_Palais_des_Marees");
+        Tuile t44 = new Tuile(Etat.SEC, Evenement.RIEN, 4, 4, "Le_Val_du_Crepuscule");
+        Tuile t45 = new Tuile(Etat.NULL, 4, 5);
+        //Ligne 5
+        Tuile t50 = new Tuile(Etat.NULL, 5, 0);
+        Tuile t51 = new Tuile(Etat.NULL, 5, 1);
+        Tuile t52 = new Tuile(Etat.SEC, Evenement.RIEN, 5, 2, "La_Tour_du_Guet");
+        Tuile t53 = new Tuile(Etat.SUBMERGE, Evenement.AIR, 5, 3, "Le_Jardin_des_Murmures");
+        Tuile t54 = new Tuile(Etat.NULL, 5, 4);
+        Tuile t55 = new Tuile(Etat.NULL, 5, 5);
+
+        for (Pion pion : pions) {
+            if (pion.getRole().getNomA().equals("Explorateur")) {
+                pion.setTuilePositionIni(t23);
+
+            } else if (pion.getRole().getNomA().equals("Ingenieur")) {
+                pion.setTuilePositionIni(t23);
+
+            } else if (pion.getRole().getNomA().equals("Messager")) {
+                pion.setTuilePositionIni(t23);
+
+            } else if (pion.getRole().getNomA().equals("Navigateur")) {
+                pion.setTuilePositionIni(t23);
+
+            } else if (pion.getRole().getNomA().equals("Plongeur")) {
+                pion.setTuilePositionIni(t23);
 
             } else if (pion.getRole().getNomA().equals("Pilote")) {
                 pion.setTuilePositionIni(t23);
@@ -489,10 +1075,91 @@ public class Controleur implements Observateur {
         tresors.add(tTerre);
     }
 
+    public void initTresorsVictoire() {
+        OTresor tTerre = new OTresor(Tresor.TERRE, false);
+        OTresor tFeu = new OTresor(Tresor.FEU, false);
+        OTresor tAir = new OTresor(Tresor.AIR, false);
+        OTresor tEau = new OTresor(Tresor.EAU, false);
+
+        tresors.clear();
+        tresors.add(tEau);
+        tresors.add(tAir);
+        tresors.add(tFeu);
+        tresors.add(tTerre);
+
+        tEau.setEstRecupere(true);
+        tAir.setEstRecupere(true);
+        tFeu.setEstRecupere(true);
+        tTerre.setEstRecupere(true);
+    }
+
     //Initialisation démo
     public void lancerDemo() {
 
         initGrilleDemo();
+
+        debutDePartie = true;
+
+        vueGrille = new VueGrille(ile, niveauEau, pions, tresors);
+        vueGrille.addObservateur(this);
+        initPioche(pions);
+
+    }
+
+    //Initialisation demoNoyade
+    public void lancerDemoNoyade() {
+
+        initGrilleDemoNoyade();
+
+        debutDePartie = true;
+
+        vueGrille = new VueGrille(ile, niveauEau, pions, tresors);
+        vueGrille.addObservateur(this);
+        initPioche(pions);
+
+    }
+
+    // Initialisation demoDefaiteCaseTresorSubmerge
+    public void lancerDemoDefaiteCaseTresorSubmerge() {
+
+        initGrilleDemoDefaiteCaseTresorSubmerge();
+
+        debutDePartie = true;
+
+        vueGrille = new VueGrille(ile, niveauEau, pions, tresors);
+        vueGrille.addObservateur(this);
+        initPioche(pions);
+
+    }
+
+    //Initialisation demoHeliportSubmerge
+    public void lancerDemoHeliportSubmerge() {
+
+        initGrilleDemoHeliportSubmerge();
+
+        debutDePartie = true;
+
+        vueGrille = new VueGrille(ile, niveauEau, pions, tresors);
+        vueGrille.addObservateur(this);
+        initPioche(pions);
+
+    }
+
+    //
+    public void lancerDemoVictoire() {
+
+        initGrilleDemoVictoire();
+
+        debutDePartie = true;
+
+        vueGrille = new VueGrille(ile, niveauEau, pions, tresors);
+        vueGrille.addObservateur(this);
+        initPioche(pions);
+    }
+
+    public void lancerDemoTestTresors() {
+
+        initGrilleTestTresors();
 
         debutDePartie = true;
 
@@ -676,8 +1343,7 @@ public class Controleur implements Observateur {
         if (pionActif.getCartesTresors().size() == 0) {
             //desactiver donnercarte
             vueGrille.activationDon(false);
-        }
-        else if (pionActif.getRole().getNomA().equals("Messager")) {
+        } else if (pionActif.getRole().getNomA().equals("Messager")) {
             vueGrille.activationDon(true);
         } else if (pionActif.getTuilePosition().getPions().size() >= 2) {
             vueGrille.activationDon(true);
@@ -739,11 +1405,12 @@ public class Controleur implements Observateur {
             int f = 0;
             int e = 0;
             // Creations locale des variables permettant de compter combien de tuile permettant la recuperation de tresor ont été submergées
-            
+
             // Boucle parcourant toute les tuiles de la carte afin de determiner si les tuiles tresors ont été submergés
             for (Tuile tuile : ile.getTuiles()) {
                 if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.HELIPORT) {
                     conditionsDefaite = "L'héliport a été submergé !";
+                    ecrireFichierTexte.println(conditionsDefaite);
                     return true;
                 } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.AIR) {
                     for (OTresor tres : Otresors) {
@@ -778,17 +1445,20 @@ public class Controleur implements Observateur {
             }
 
             for (Pion p : pions) {
-                if (p.getTuilePosition().getEtat() == Etat.SUBMERGE && p.getRole().getTuilesDispoPourDeplacement(ile, p.getTuilePosition()).size() == 0) {
-                    conditionsDefaite = "Le joueur " + p.getNomj() +" qui est [" + p.getRole().getNomA() +" ] s'est noyé ! ";
+                if (p.getRole().getTuilesDispoPourDeplacement(ile, p.getTuilePosition()).size() == 0) {
+                    conditionsDefaite = "Le joueur " + p.getNomj() + " qui est [" + p.getRole().getNomA() + " ] s'est noyé ! ";
+                    ecrireFichierTexte.println(conditionsDefaite);
                     return true;
                 }
             }
             if (a == 2 || t == 2 || f == 2 || e == 2) {
                 conditionsDefaite = "Les tuiles qui permettent de recuperer un des tresors ont été submergés !";
+                ecrireFichierTexte.println(conditionsDefaite);
                 return true;
 
             } else if (niveauEau.getNiveau() == 10) {
                 conditionsDefaite = "Le niveau d'eau a atteint son maximum, l'île a sombré !";
+                ecrireFichierTexte.println(conditionsDefaite);
                 return true;
 
             } else {
@@ -808,7 +1478,6 @@ public class Controleur implements Observateur {
             if (ct.getType() == CTresor.MONTEE_DES_EAUX && !debutDePartie) {
                 niveauEau.setNiveau(niveauEau.getNiveau() + 1);
                 vueGrille.setLog(vueGrille.getLog() + " montée des eaux ");
-                i++;
                 c++;
                 ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
                 vueGrille.actualiserInfoNiveauEau();
@@ -899,7 +1568,11 @@ public class Controleur implements Observateur {
 //Traitements du message pour initialiser une partie
         if (m.getType() == TypesMessage.COMMENCER_PARTIE) {
             initCartes();
-            initTresors();
+            if (m.getModeInitialisation().equals("DémoVictoire") || m.getModeInitialisation().equals("TestTresors")) {
+                initTresorsVictoire();
+            } else {
+                initTresors();
+            }
             initPions(m.getNbJoueurs());
 
             int i = 0;
@@ -923,9 +1596,25 @@ public class Controleur implements Observateur {
 //On vérifie le mode d'initialisation demandé
             if (m.getModeInitialisation().equals("Démo")) {
                 lancerDemo();
+            } else if (m.getModeInitialisation().equals("DémoNoyade")) {
+                lancerDemoNoyade();
+            } else if (m.getModeInitialisation().equals("DémoCSubmerge")) {
+                lancerDemoDefaiteCaseTresorSubmerge();
+            } else if (m.getModeInitialisation().equals("DémoHeliSub")) {
+                lancerDemoHeliportSubmerge();
+            } else if (m.getModeInitialisation().equals("DémoNiveauEau")) {
+                niveauEau.setNiveau(10);
+                lancerDemo();
+            } else if (m.getModeInitialisation().equals("DémoVictoire")) {
+                lancerDemoVictoire();
+                pionActif.addCarte(new CarteTresor(CTresor.HELICO));
+            } else if (m.getModeInitialisation().equals("TestTresors")) {
+                lancerDemoTestTresors();
+
             } else {
                 lancerPartieAleatoire();
             }
+
             vueGrille.setLog("Début de partie ");
             i++;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
@@ -942,10 +1631,10 @@ public class Controleur implements Observateur {
             vueDemarrer.montrer(true);
         } else if (m.getType() == TypesMessage.QUITTER) {
 // Si on ne ferme pas le PrintWriter rien ne s'écrit dans le fichier texte d'où la necessité d'envoyer un message QUITTER lorsque l'on appuie sur le bouton quitter
-            ecrireFichierTexte.close(); 
+            ecrireFichierTexte.close();
             System.exit(0);
 //Traitements des messages d'action du joueur
-        }else if (m.getType() == TypesMessage.FIN_TOUR) {
+        } else if (m.getType() == TypesMessage.FIN_TOUR) {
 
             vueGrille.setLog("Fin du tour de  " + pionActif.getNomj() + " il a pioché les cartes : ");
 
@@ -1001,6 +1690,7 @@ public class Controleur implements Observateur {
             m.getPion().setTuilePosition(m.getTuile());
             vueGrille.setLog(vueGrille.getLog() + " vers la tuile " + m.getTuile().getNom());
             c++;
+            score += 15;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
             vueGrille.setNonCliquable(ile);
             vueGrille.repaintInfoTuile();
@@ -1034,6 +1724,7 @@ public class Controleur implements Observateur {
             m.getTuile().setEtat(Etat.SEC);
             vueGrille.setLog(pionActif.getNomj() + " a asseché la tuile " + m.getTuile().getNom());
             c++;
+            score += 15;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
             vueGrille.setNonCliquable(ile);
 
@@ -1141,11 +1832,14 @@ public class Controleur implements Observateur {
                 if (m.getTuile().getNom() == "Heliport" && m.getTuile().getPions().size() == pions.size()) {
 
                     if (checkVictoire()) {
-                        int hFin = now().getHour() - h;
-                        int minFin = now().getMinute() - min;
-                        int secFin = now().getSecond() - sec;
-                        String temps = new String("Votre temps : " + hFin + "h" + minFin + "m" + secFin + "s");
-                        vueFin = new VueFin("VICTOIRE ! ", temps, "vous avez reussi a vous echapper de l'île bravo !");
+                        for (OTresor ot : tresors) {
+
+                            if (ot.isEstRecupere()) {
+                                score += 100;
+                            }
+                        }
+                        String scoreTotal = new String("Votre score : " + score);
+                        vueFin = new VueFin("VICTOIRE ! ", scoreTotal, "vous avez reussi a vous echapper de l'île avec tout les tresors bravo !");
                         ecrireFichierTexte.println(c + ". Vous avez gagner la partie ");
                         ecrireFichierTexte.close();
                         vueFin.addObservateur(this);
@@ -1164,7 +1858,7 @@ public class Controleur implements Observateur {
                 c++;
                 ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
             }
-
+            score += 25;
         } else if (m.getType() == TypesMessage.AFFICHER_INFO) {
 
             vueInfo = new VueInformation(pions);
@@ -1211,27 +1905,21 @@ public class Controleur implements Observateur {
             pionActif.setNbAction(pionActif.getNbAction() - 1);
             vueGrille.actualiserInfoJA(pionActif);
             vueGrille.activationBoutons(true);
+            score += 25;
         }
         //On vérifie des conditions grâce à la méthode check pour activer/désactiver des boutons
         check();
 
         if (checkDefaite(tresors)) {
             //Lancer vue defaite ;
-            int hFin = now().getHour() - h;
-            int minFin = 0;
-            int secFin = 0;
-            if (now().getMinute() > min) {
-                minFin = now().getMinute() - min;
-            } else {
-                minFin = min - now().getMinute();
-            }
-            if (now().getSecond() > sec) {
-                secFin = now().getSecond() - sec;
-            } else {
-                secFin = sec - now().getSecond();
+            for (OTresor ot : tresors) {
 
+                if (ot.isEstRecupere()) {
+                    score += 100;
+                }
             }
-            String temps = new String("Votre Temps : " + hFin + "h" + minFin + "m" + secFin + "s");
+            String scoreTotal = new String("Votre score : " + score);
+            String temps = new String("Votre Score : " + score);
             vueFin = new VueFin("DEFAITE !", temps, conditionsDefaite);
             ecrireFichierTexte.println(c + ". Vous avez perdu la partie ");
             ecrireFichierTexte.close();
@@ -1239,7 +1927,7 @@ public class Controleur implements Observateur {
 
         }
     }
-    
+
     public static void main(String[] args) throws FileNotFoundException {
 
         new Controleur();

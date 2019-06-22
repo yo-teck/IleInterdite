@@ -47,7 +47,7 @@ import javax.swing.JTextField;
  */
 public class VueDemarrer implements Observe {
 
-    private String[] difficulte = new String[]{"Novice", "Normal", "Elite", "Legendaire"};
+    private String[] difficulte;
     private JRadioButton[] choixInit;
     private ButtonGroup groupeBoutons;
     private JTextField[] nomJ;
@@ -60,11 +60,13 @@ public class VueDemarrer implements Observe {
     private JFrame fenetre;
 
     public VueDemarrer() {
+        
         fenetre = new JFrame("Ile Interdite - Menu Démarrage");
         fenetre.setSize(650, 550);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetre.setResizable(false);
 
+        difficulte = new String[]{"Novice", "Normal", "Elite", "Legendaire"};
         chemin = new File("");
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         try {
@@ -171,27 +173,46 @@ public class VueDemarrer implements Observe {
         JRadioButton bouton;
 
         groupeBoutons = new ButtonGroup();
-        choixInit = new JRadioButton[2];
+        choixInit = new JRadioButton[8];
 
         bouton = new JRadioButton("Démo");
         choixInit[0] = bouton;
         groupeBoutons.add(bouton);
         bouton.setSelected(true);
-
-        bouton = new JRadioButton("Aléatoire");
+        bouton = new JRadioButton("DémoNoyade");
         choixInit[1] = bouton;
-
-        choixInit[0].setFont(police);
-        choixInit[1].setFont(police);
-        choixInit[0].setOpaque(false);
-        choixInit[1].setOpaque(false);
-
+        // Demo pour montrer la defaite lorsque les tuiles permettant de recuperer les tresors sont submergées
+        bouton = new JRadioButton("DémoCSubmerge");
+        choixInit[2] = bouton;
+        bouton = new JRadioButton("DémoHeliSub");
+        choixInit[3] = bouton;
+        bouton = new JRadioButton("DémoNiveauEau");
+        choixInit[4] = bouton;
+        bouton = new JRadioButton("DémoVictoire");
+        choixInit[5] = bouton;
+        bouton = new JRadioButton("TestTresors");
+        choixInit[6] = bouton;
+        bouton = new JRadioButton("Aléatoire");
+        choixInit[7] = bouton;
+        
+        
         groupeBoutons.add(bouton);
-
-        options.add(labelInit);
+        
+        
         options.add(new JLabel(""));
-        options.add(choixInit[0]);
-        options.add(choixInit[1]);
+        options.add(new JLabel(""));
+        options.add(new JLabel(""));
+        options.add(labelInit);
+        
+        for(int i = 0; i < 8; i++){
+        choixInit[i].setFont(police);
+        choixInit[i].setOpaque(false);
+        options.add(choixInit[i]);
+        }
+        
+        
+
+        
 
         //Zone de validation
         btnValider = new JButton("Démarrer");
