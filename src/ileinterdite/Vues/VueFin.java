@@ -9,6 +9,7 @@ import ileinterdite.Message;
 import ileinterdite.Observateur;
 import ileinterdite.Observe;
 import ileinterdite.TypesMessage;
+import ileinterdite.Vues.Fond.FondMonde;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -34,10 +35,12 @@ public class VueFin implements Observe {
     
     private JPanel conteneurLabel;
     private JPanel conteneurBoutons;
-    
+    private FondMonde conteneur;
+        
     private JLabel texteDefaite;
     private JLabel votreTemps;
     private JLabel conditions;
+
     
     private JButton recommencer,quitter;
     
@@ -50,10 +53,13 @@ public class VueFin implements Observe {
         fenetre = new JFrame("Fin de la partie ");
         fenetre.setSize(1350, 800);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        fenetre.setLayout(new BorderLayout());
+        conteneur = new FondMonde();
+        conteneur.setLayout(new BorderLayout());
         
         conteneurLabel = new JPanel(new GridLayout(3,1));
+        conteneurLabel.setOpaque(false);
         conteneurBoutons = new JPanel(new GridLayout(1,5));
+        conteneurBoutons.setOpaque(false);
         conditions = new JLabel(conditionsFin,SwingConstants.CENTER);
         texteDefaite = new JLabel(etatPartie,SwingConstants.CENTER);
         votreTemps = new JLabel(temps,SwingConstants.CENTER);
@@ -86,7 +92,7 @@ public class VueFin implements Observe {
           
         }
         police = new Font("Pieces of Eight", Font.PLAIN,80);
-        police2 = new Font("Pieces of Eight", Font.PLAIN,30);
+        police2 = new Font("Pieces of Eight", Font.PLAIN,40);
         conditions.setFont(police2);
         texteDefaite.setFont(police);
         votreTemps.setFont(police);
@@ -102,8 +108,10 @@ public class VueFin implements Observe {
         conteneurBoutons.add(new JLabel(""));
         
         
-        fenetre.add(conteneurLabel,BorderLayout.CENTER);
-        fenetre.add(conteneurBoutons,BorderLayout.SOUTH);
+        conteneur.add(conteneurLabel,BorderLayout.CENTER);
+        conteneur.add(conteneurBoutons,BorderLayout.SOUTH);
+        
+        fenetre.add(conteneur);
         
         fenetre.setVisible(true);
     }

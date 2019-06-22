@@ -46,12 +46,14 @@ public class VueDonnerCarte implements Observe {
     private JPanel conteneurDon;
     private JPanel conteneurValidation;
 
-    private SelectionCarteUniqueBool cartesA;
+    private SelectionCarteUnique cartesA;
     private JButton btnValider;
     private JButton btnAnnuler;
 
     private Font police;
     private JLabel txtlololo;
+    private JLabel textNomJ;
+
     private File chemin = new File("");
     private boolean activeValide;
 
@@ -76,7 +78,7 @@ public class VueDonnerCarte implements Observe {
             System.out.println("Nont");
 
         }
-        police = new Font("Pieces of Eight", Font.PLAIN, 24);
+        police = new Font("Pieces of Eight", Font.PLAIN, 35);
 
         //Parametrage de la fenetre
         fenetre = new JFrame(pionActif.getNomj() + " - Donner une carte");
@@ -91,20 +93,40 @@ public class VueDonnerCarte implements Observe {
         conteneur.setLayout(new BorderLayout());
 
         //Creation du JPanel du haut
-        conteneurPionActif = new JPanel(new GridLayout(2,1));
+        conteneurPionActif = new JPanel(new GridLayout(2, 1));
         conteneurPionActif.setOpaque(false);
         conteneurPionActif.setPreferredSize(new Dimension(800, 200));
 
-        
-        txtlololo = new JLabel("Choisissez la carte à donner :"); 
-        txtlololo.setFont(police.deriveFont(35f));
-         conteneurPionActif.add(txtlololo);
-        
-
-
+        txtlololo = new JLabel("Choisissez la carte à donner :");
+        txtlololo.setFont(police);
+        conteneurPionActif.add(txtlololo);
 
         //creation d'une Selection de carte
-        cartesA = new SelectionCarteUniqueBool(pionActif, false);
+        cartesA = new SelectionCarteUnique(pionActif, false);
+        cartesA.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                changerTextCarte();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+
+        changerTextCarte();
         conteneurPionActif.add(cartesA);
 
         conteneur.add(conteneurPionActif, BorderLayout.NORTH);
@@ -120,7 +142,7 @@ public class VueDonnerCarte implements Observe {
         conteneurDonGau.setOpaque(false);
         JLabel texteD = new JLabel("");
         texteD.setFont(police);
-        texteD.setText("Donner à :");
+        texteD.setText("Donner");
         conteneurDonGau.add(texteD);
         creeMouseListener(pions);
 
@@ -144,7 +166,11 @@ public class VueDonnerCarte implements Observe {
 
         JPanel conteneurDonDroi = new JPanel(new GridLayout(pions.size(), 1));
         conteneurDonDroi.setPreferredSize(new Dimension(650, pions.size() * 100));
-        conteneurDonDroi.add(new JLabel(""));
+        textNomJ = new JLabel("");
+        textNomJ.setFont(police);
+        changerTextNomJ(pions);
+
+        conteneurDonDroi.add(textNomJ);
         for (int i = 0; i < pions.size(); i++) {
             if (!pions.get(i).equals(pionActif)) {
                 conteneurDonDroi.add(new InfoCarte(pions.get(i), false, false));
@@ -193,126 +219,22 @@ public class VueDonnerCarte implements Observe {
         conteneur.add(conteneurValidation, BorderLayout.SOUTH);
 
         fenetre.add(conteneur);
-        /*
-        //On enlève le joueur actif de l'ArrayList des pions car il ne peut pas se donner de carte à lui-même
-        int n = 0;
-        for (Pion pion : pions) {
-            if (pion == pionActif) {
-                numPion = n;
-            }
-            n++;
-        }
-        if (!pionActif.getRole().getNomA().equals("Messager")) {
-            pionsDon = pionActif.getTuilePosition().getPions();
-        }
-        pionsDon.remove(pionActif);
 
-        //Création de la zone de choix du joueur
-        conteneurJoueurs = new JPanel(new GridLayout(pionsDon.size() + 1, 1));
-
-        labelJoueurs = new JLabel("Choisissez un joueur :");
-        conteneurJoueurs.add(labelJoueurs);
-
-        boutonsJoueurs = new JRadioButton[pionsDon.size()];
-        groupeJoueurs = new ButtonGroup();
-        int i = 0;
-        for (Pion pion : pionsDon) {
-            JRadioButton nouveauBouton = new JRadioButton(pion.getNomj());
-            groupeJoueurs.add(nouveauBouton);
-            boutonsJoueurs[i] = nouveauBouton;
-            conteneurJoueurs.add(boutonsJoueurs[i]);
-            i++;
-        }
-        boutonsJoueurs[0].setSelected(true);
-
-        fenetre.add(conteneurJoueurs, BorderLayout.WEST);
-
-        //Création de la zone de choix de la carte à envoyer
-        conteneurCartes = new JPanel(new GridLayout(pionActif.getNbCartes() + 1, 1));
-
-        labelCartes = new JLabel("Choisissez une carte :");
-        conteneurCartes.add(labelCartes);
-
-        boutonsCartes = new JRadioButton[pionActif.getNbCartes()];
-        groupeCartes = new ButtonGroup();
-        i = 0;
-        for (CarteTresor ct : pionActif.getCartesTresors()) {
-            JRadioButton nouveauBouton = new JRadioButton(ct.getType().toString());
-            groupeCartes.add(nouveauBouton);
-            boutonsCartes[i] = nouveauBouton;
-            conteneurCartes.add(boutonsCartes[i]);
-            i++;
-        }
-        boutonsCartes[0].setSelected(true);
-
-        fenetre.add(conteneurCartes, BorderLayout.EAST);
-
-        conteneurBoutons = new JPanel(new GridLayout(1, 5));
-        //Ajout bouton valider
-        btnValider = new JButton("Valider");
-        
-        btnValider.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Message m = new Message(TypesMessage.DONNER_CARTE);
-                int i = 0;
-                while (!boutonsCartes[i].isSelected()) {
-                    i++;
-                }
-                m.setCarteTresor(pionActif.getCartesTresors().get(i));
-
-                i = 0;
-                while (!boutonsJoueurs[i].isSelected()) {
-                    i++;
-                }
-                //On vérifie la position du pion dans l'ArrayList et on le met dans le message en conséquence
-                if (numPion == 0) {
-                    m.setPion(pions.get(i + 1));
-                } else if (numPion == 1) {
-                    if (i < 1) {
-                        m.setPion(pions.get(i));
-                    } else {
-                        m.setPion(pions.get(i + 1));
-                    }
-                } else if (numPion == 2) {
-                    if (i < 2) {
-                        m.setPion(pions.get(i));
-                    } else {
-                        m.setPion(pions.get(i + 1));
-                    }
-                } else if (numPion == 3) {
-                    if (i < 3) {
-                        m.setPion(pions.get(i));
-                    } else {
-                        m.setPion(pions.get(i + 1));
-                    }
-                }
-
-                fenetre.setVisible(false);
-                notifierObservateur(m);
-            }
-        });
-        btnAnnuler = new JButton("Annuler");
-        btnAnnuler.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Message m = new Message(TypesMessage.ANNULER);
-                notifierObservateur(m);
-                fenetre.setVisible(false);
-            }
-        });
-
-        pionsDon.add(pionActif);
-        
-        conteneurBoutons.add(new JLabel(""));
-        conteneurBoutons.add(btnValider);
-        conteneurBoutons.add(new JLabel(""));
-        conteneurBoutons.add(btnAnnuler);
-        conteneurBoutons.add(new JLabel(""));
-        
-        fenetre.add(conteneurBoutons, BorderLayout.SOUTH);
-         */
         fenetre.setVisible(true);
+    }
+
+    public void changerTextCarte() {
+        txtlololo.setText("Choisissez la carte à donner : (" + cartesA.getCarte().getType() + ")");
+    }
+
+    public void changerTextNomJ(ArrayList<Pion> pions) {
+
+        for (int i = 0; i < pions.size() - 1; i++) {
+            if (pionSelection[i].isActif()) {
+                textNomJ.setText("à " + pionSelection[i].getPion().getNomj() + "[" + pionSelection[i].getPion().getRole().getNomA() + "]");
+            }
+        }
+
     }
 
     public void creeMouseListener(ArrayList<Pion> pions) {
@@ -332,6 +254,7 @@ public class VueDonnerCarte implements Observe {
 
                     }
                 }
+                changerTextNomJ(pions);
             }
 
             @Override
@@ -353,18 +276,13 @@ public class VueDonnerCarte implements Observe {
         MouseListener m1 = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("ms" + 1);
                 pionSelection[1].setActif(true);
-
-                System.out.println("pas bug 1");
-
                 for (int j = 0; j < pions.size() - 1; j++) {
-                    System.out.println("pas bug 2");
                     if (!pionSelection[j].equals(pionSelection[1])) {
                         pionSelection[j].setActif(false);
-
                     }
                 }
+                changerTextNomJ(pions);
             }
 
             @Override
@@ -398,6 +316,7 @@ public class VueDonnerCarte implements Observe {
 
                     }
                 }
+                changerTextNomJ(pions);
             }
 
             @Override

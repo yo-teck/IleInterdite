@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  *
  * @author Yoann
  */
-public class SelectionCarteUniqueBool extends JPanel {
+public class SelectionCarteUnique extends JPanel {
 
     private ArrayList<CarteTresor> cartes;
     private Pion pion;
@@ -32,7 +32,7 @@ public class SelectionCarteUniqueBool extends JPanel {
     private boolean imgBack;
 
     
-    public SelectionCarteUniqueBool(Pion pion, boolean imgBack) {
+    public SelectionCarteUnique(Pion pion, boolean imgBack) {
         dimension = getSize();
         this.cartes = pion.getCartesTresors();
         this.pion = pion;
