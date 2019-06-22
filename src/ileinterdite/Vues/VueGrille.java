@@ -71,6 +71,7 @@ public class VueGrille implements Observe {
     private int ci;
     private int cj;
     private int tourJoueur = 0;
+    private int i = 0;
 
     private JPanel[] carteJ;
     private JButton[] Tuile;
@@ -371,29 +372,31 @@ public class VueGrille implements Observe {
             }
         });
         ajoutBoisBtn(btnUtiliserCarte);
-//Creation du bouton permettant d'utilisé la capacité spécial
+//Creation du bouton permettant d'utiliser et annuler la capacité spéciale
         capacite = new JButton("Capacité");
-
-        capaciteAL = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Message m = new Message(TypesMessage.CAPACITE);
-                notifierObservateur(m);
-            }
-        };
-        capacite.addActionListener(capaciteAL);
 
         annulerCapaciteAL = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.ANNULER);
-                capacite.setText("Capacité");
+                capacite.setText("Capacite");
                 notifierObservateur(m);
                 capacite.removeActionListener(annulerCapaciteAL);
                 capacite.addActionListener(capaciteAL);
             }
         };
-
+        capaciteAL = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message(TypesMessage.CAPACITE);
+                i++;
+                if(i <=1){
+                notifierObservateur(m);
+                }
+                
+            }
+        };
+        capacite.addActionListener(capaciteAL);
         ajoutBoisBtn(capacite);
 //Creation du bouton permettant de recuperer un tresor
         recupTresor = new JButton("Tresor");
@@ -802,6 +805,10 @@ public class VueGrille implements Observe {
     }
     public void setLog(String log){
         this.labelLog.setText(log);
+    }
+    
+    public void setI(int i){
+        this.i = i;
     }
 
     private void configureWindow(JFrame window) {

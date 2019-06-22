@@ -677,7 +677,7 @@ public class Controleur implements Observateur {
             //desactiver donnercarte
             vueGrille.activationDon(false);
         }
-        if (pionActif.getRole().getNomA().equals("Messager")) {
+        else if (pionActif.getRole().getNomA().equals("Messager")) {
             vueGrille.activationDon(true);
         } else if (pionActif.getTuilePosition().getPions().size() >= 2) {
             vueGrille.activationDon(true);
@@ -695,6 +695,7 @@ public class Controleur implements Observateur {
         if (pionActif.getNbAction() <= 0) {
             vueGrille.activationBoutons(false);
             vueGrille.activationFinTour(true);
+            vueGrille.activationUtilise(true);
         }
         if (pionActif.getNbAction() > 3) {
             pionActif.setNbAction(3);
@@ -740,32 +741,32 @@ public class Controleur implements Observateur {
                 if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.HELIPORT) {
                     conditionsDefaite = "L'héliport a été submergé !";
                     return true;
-                } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.AIR ) {
-                    for(OTresor tres : Otresors){
-                        
-                        if(tres.getType() == Tresor.AIR && !tres.isEstRecupere()){
+                } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.AIR) {
+                    for (OTresor tres : Otresors) {
+
+                        if (tres.getType() == Tresor.AIR && !tres.isEstRecupere()) {
                             a++;
                         }
                     }
-                    
+
                 } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.TERRE) {
-                    for(OTresor tres : Otresors){
-                        
-                        if(tres.getType() == Tresor.TERRE && !tres.isEstRecupere()){
+                    for (OTresor tres : Otresors) {
+
+                        if (tres.getType() == Tresor.TERRE && !tres.isEstRecupere()) {
                             t++;
                         }
                     }
                 } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.FEU) {
-                    for(OTresor tres : Otresors){
-                        
-                        if(tres.getType() == Tresor.FEU && !tres.isEstRecupere()){
+                    for (OTresor tres : Otresors) {
+
+                        if (tres.getType() == Tresor.FEU && !tres.isEstRecupere()) {
                             f++;
                         }
                     }
                 } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.EAU) {
-                    for(OTresor tres : Otresors){
-                        
-                        if(tres.getType() == Tresor.EAU && !tres.isEstRecupere()){
+                    for (OTresor tres : Otresors) {
+
+                        if (tres.getType() == Tresor.EAU && !tres.isEstRecupere()) {
                             e++;
                         }
                     }
@@ -962,11 +963,11 @@ public class Controleur implements Observateur {
             vueGrille.actualiserCartes(pions);
             vueGrille.activationBoutons(true);
             if (m.getCartesTresor().size() == 1) {
-                vueGrille.setLog(pionActif.getNomj() + "a defaussé la carte " + m.getCartesTresor().get(0).getType().toString());
+                vueGrille.setLog(pionActif.getNomj() + " a defaussé la carte " + m.getCartesTresor().get(0).getType().toString());
                 c++;
                 ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
             } else if (m.getCartesTresor().size() > 1) {
-                vueGrille.setLog(pionActif.getNomj() + "a defaussé la carte " + m.getCartesTresor().get(0).getType().toString());
+                vueGrille.setLog(pionActif.getNomj() + " a defaussé la carte " + m.getCartesTresor().get(0).getType().toString());
 
                 for (int i = 1; i < m.getCartesTresor().size(); i++) {
                     vueGrille.setLog(vueGrille.getLog() + ", " + m.getCartesTresor().get(i).getType().toString());
@@ -1001,8 +1002,9 @@ public class Controleur implements Observateur {
             vueGrille.activationBoutons(true);
 
         } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_HELICO) {
-            vueGrille.setLog(vueGrille.getLog() + " et l'a déplacé de la tuile " + pionActif.getTuilePosition().getNom());
+            vueGrille.setLog(vueGrille.getLog() + " de la tuile " + pionActif.getTuilePosition().getNom());
             m.getPion().setTuilePosition(m.getTuile());
+            vueGrille.setI(0); //Empeche la consomation de plusieurs points d'action lorsque l'on appuie sur le bouton capacité
             vueGrille.setLog(vueGrille.getLog() + " vers la tuile " + m.getTuile().getNom());
             c++;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
@@ -1046,7 +1048,9 @@ public class Controleur implements Observateur {
             m.getTuile().setEtat(Etat.SEC);
 
             assecher(pionActif);
+            vueGrille.setI(0); //Empeche la consomation de plusieurs points d'action lorsque l'on appuie sur le bouton capacité
             vueGrille.setLog(pionActif.getNomj() + " a asseché la tuile " + m.getTuile().getNom());
+            c++;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
         } else if (m.getType() == TypesMessage.VUE_DONNER_CARTE) {
             c++;
@@ -1143,7 +1147,7 @@ public class Controleur implements Observateur {
                     vueGrille.actualiserInfoJA(pionActif);
                 }
                 if (pionActif == m.getPion()) {
-                    vueGrille.setLog(pionActif.getNomj() + " a utilisé la carte " + m.getCarteTresor().getType().toString());
+                    vueGrille.setLog(pionActif.getNomj() + " a utilisé la carte " + m.getCarteTresor().getType().toString() + " et s'est déplacé de ");
                 } else {
                     vueGrille.setLog(pionActif.getNomj() + " a utilisé la carte " + m.getCarteTresor().getType().toString() + " qui appartenait à " + m.getPion().getNomj());
                 }
@@ -1165,6 +1169,7 @@ public class Controleur implements Observateur {
 
             if (pionActif.getRole().getNomA().equals("Pilote")) {
                 seDeplacerHelico(pionActif);
+                System.out.println("Helico probleme");
                 pionActif.setNbAction(pionActif.getNbAction() - 1);
                 pionActif.getRole().setCapaciteUtilisee(true);
 
@@ -1173,7 +1178,6 @@ public class Controleur implements Observateur {
                 vueGrille.activationBoutons(false);
                 vueGrille.changerEtatBoutonCapaIngenieur(false);
             } else if (pionActif.getRole().getNomA().equals("Navigateur")) {
-                //seDeplacerHelico(m.getPion());
                 vueNavigateur = new VueNavigateur(pionActif, pions);
                 vueNavigateur.addObservateur(this);
                 vueGrille.activationBoutons(false);
@@ -1186,6 +1190,7 @@ public class Controleur implements Observateur {
         } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_AMI) {
             vueGrille.setLog(pionActif.getNomj() + " qui est" + " [" + pionActif.getRole().getNomA() + "] " + " a deplacé " + m.getPion().getNomj() + " de la case " + m.getPion().getTuilePosition().getNom());
             m.getPion().setTuilePosition(m.getTuile());
+            vueGrille.setI(0); // Empeche plusieurs fenetre de se creer lorsque l'on appuie sur le bouton capacité
             vueGrille.setLog(vueGrille.getLog() + " vers la tuile " + m.getPion().getTuilePosition().getNom());
             c++;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
@@ -1217,14 +1222,14 @@ public class Controleur implements Observateur {
 
             }
             String temps = new String("Votre Temps : " + hFin + "h" + minFin + "m" + secFin + "s");
-            vueFin = new VueFin("DEFAITE !", temps,conditionsDefaite);
+            vueFin = new VueFin("DEFAITE !", temps, conditionsDefaite);
             ecrireFichierTexte.println(c + ". Vous avez perdu la partie ");
             ecrireFichierTexte.close();
             vueFin.addObservateur(this);
 
         }
     }
-
+    
     public static void main(String[] args) throws FileNotFoundException {
 
         new Controleur();
