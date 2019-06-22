@@ -1839,7 +1839,7 @@ public class Controleur implements Observateur {
                             }
                         }
                         String scoreTotal = new String("Votre score : " + score);
-                        vueFin = new VueFin("VICTOIRE ! ", scoreTotal, "vous avez reussi a vous echapper de l'île bravo !");
+                        vueFin = new VueFin("VICTOIRE ! ", scoreTotal, "vous avez reussi a vous echapper de l'île avec tout les tresors bravo !");
                         ecrireFichierTexte.println(c + ". Vous avez gagner la partie ");
                         ecrireFichierTexte.close();
                         vueFin.addObservateur(this);
