@@ -25,6 +25,7 @@ import ileinterdite.Vues.VueGrille;
 import ileinterdite.Vues.VueInformation;
 import ileinterdite.Vues.VueNavigateur;
 import ileinterdite.Vues.VueUtiliserCarte;
+import ileinterdite.Vues.vueMonterEau;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -56,7 +57,9 @@ public class Controleur implements Observateur {
     private String conditionsDefaite;
 
     private NiveauEau niveauEau;
-
+    
+    private vueMonterEau VME;
+            
     private VueGrille vueGrille;
     private VueDemarrer vueDemarrer;
     private VueDefausse vueDefausse;
@@ -1480,6 +1483,8 @@ public class Controleur implements Observateur {
             verifPile();
             CarteTresor ct = pileCartesTresor.get(0);
             if (ct.getType() == CTresor.MONTEE_DES_EAUX && !debutDePartie) {
+                VME = new vueMonterEau();
+
                 niveauEau.setNiveau(niveauEau.getNiveau() + 1);
                 vueGrille.setLog(vueGrille.getLog() + " montée des eaux ");
                 c++;
@@ -1865,7 +1870,7 @@ public class Controleur implements Observateur {
             score += 25;
         } else if (m.getType() == TypesMessage.AFFICHER_INFO) {
 
-            vueInfo = new VueInformation(pions);
+            vueInfo = new VueInformation(pions,tresors,ile);
             vueInfo.addObservateur(this);
             vueGrille.activationInfo(false);
 
