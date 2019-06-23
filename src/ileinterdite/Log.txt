@@ -1,9 +1,9 @@
 Historique des actions 
 0. Initialisation de la console
-1.  CLE_TERRE, 
-2.  CLE_TERRE,  CLE_FEU, 
-3.  CLE_TERRE,  CLE_FEU,  SAC_SABLE, 
-4.  CLE_TERRE,  CLE_FEU,  SAC_SABLE,  CLE_TERRE, 
+1.  CLE_EAU, 
+2.  CLE_EAU,  CLE_AIR, 
+3.  CLE_EAU,  CLE_AIR,  CLE_FEU, 
+4.  CLE_EAU,  CLE_AIR,  CLE_FEU,  CLE_TERRE, 
 4. Début de partie 
-Le joueur  qui est [Pilote ] s'est noyé ! 
-4. Vous avez perdu la partie 
+4. Lancement de la vue pour utiliser les cartes 
+4. Vous avez gagner la partie 

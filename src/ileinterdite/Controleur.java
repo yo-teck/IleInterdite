@@ -1410,7 +1410,8 @@ public class Controleur implements Observateur {
             for (Tuile tuile : ile.getTuiles()) {
                 if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.HELIPORT) {
                     conditionsDefaite = "L'héliport a été submergé !";
-                    ecrireFichierTexte.println(conditionsDefaite);
+                    c++;
+                    ecrireFichierTexte.println(c + ". " + conditionsDefaite);
                     return true;
                 } else if (tuile.getEtat() == Etat.SUBMERGE && tuile.getEvent() == Evenement.AIR) {
                     for (OTresor tres : Otresors) {
@@ -1447,18 +1448,21 @@ public class Controleur implements Observateur {
             for (Pion p : pions) {
                 if (p.getRole().getTuilesDispoPourDeplacement(ile, p.getTuilePosition()).size() == 0) {
                     conditionsDefaite = "Le joueur " + p.getNomj() + " qui est [" + p.getRole().getNomA() + " ] s'est noyé ! ";
-                    ecrireFichierTexte.println(conditionsDefaite);
+                    c++;
+                    ecrireFichierTexte.println(c + ". " + conditionsDefaite);
                     return true;
                 }
             }
             if (a == 2 || t == 2 || f == 2 || e == 2) {
                 conditionsDefaite = "Les tuiles qui permettent de recuperer un des tresors ont été submergés !";
-                ecrireFichierTexte.println(conditionsDefaite);
+                c++;
+                ecrireFichierTexte.println(c + ". " + conditionsDefaite);
                 return true;
 
             } else if (niveauEau.getNiveau() == 10) {
                 conditionsDefaite = "Le niveau d'eau a atteint son maximum, l'île a sombré !";
-                ecrireFichierTexte.println(conditionsDefaite);
+                c++;
+                ecrireFichierTexte.println(c + ". " + conditionsDefaite);
                 return true;
 
             } else {
@@ -1921,6 +1925,7 @@ public class Controleur implements Observateur {
             String scoreTotal = new String("Votre score : " + score);
             String temps = new String("Votre Score : " + score);
             vueFin = new VueFin("DEFAITE !", temps, conditionsDefaite);
+            c++;
             ecrireFichierTexte.println(c + ". Vous avez perdu la partie ");
             ecrireFichierTexte.close();
             vueFin.addObservateur(this);
