@@ -9,7 +9,7 @@ import ileinterdite.Message;
 import ileinterdite.Observateur;
 import ileinterdite.Observe;
 import ileinterdite.TypesMessage;
-import ileinterdite.Vues.Fond.FondMonde;
+import ileinterdite.Vues.Custom.FondMonde;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;

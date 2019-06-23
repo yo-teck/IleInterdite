@@ -1470,7 +1470,7 @@ public class Controleur implements Observateur {
     }
 
     public void fairePiocher(Pion pion) {
-        vueGrille.actualiserGrille(ile);
+        vueGrille.actualiserGrille();
         // ihm.actualiserCartes(pions);
         for (int i = 0; i < 2; i++) {
             verifPile();
@@ -1518,7 +1518,7 @@ public class Controleur implements Observateur {
             inonderTuiles();
         }
 
-        vueGrille.actualiserGrille(ile);
+        vueGrille.actualiserGrille();
         vueGrille.actualiserCartes(pions);
 
     }
@@ -1693,7 +1693,7 @@ public class Controleur implements Observateur {
             score += 15;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
             vueGrille.setNonCliquable(ile);
-            vueGrille.repaintInfoTuile();
+            vueGrille.actualiserGrille();
             vueGrille.changerEtatBouton();
 
             //decrementer le nombre d'action du joueur en cours
@@ -1709,7 +1709,7 @@ public class Controleur implements Observateur {
             c++;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
             vueGrille.setNonCliquable(ile);
-            vueGrille.repaintInfoTuile();
+            vueGrille.actualiserGrille();
             vueGrille.actualiserInfoJA(pionActif);
             vueGrille.activationBoutons(true);
 
@@ -1804,7 +1804,7 @@ public class Controleur implements Observateur {
 
             vueGrille.activationBoutons(true);
             vueGrille.setNonCliquable(ile);
-            vueGrille.actualiserGrille(ile);
+            vueGrille.actualiserGrille();
             vueGrille.setLog(pionActif.getNomj() + " a annulé son action");
             c++;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
@@ -1846,7 +1846,7 @@ public class Controleur implements Observateur {
                     }
 
                 } else {
-                    seDeplacerHelico(m.getPion());
+                    seDeplacerHelico(pionActif);
                     defausser(m.getPion(), m.getCarteTresor());
                     vueGrille.actualiserInfoJA(pionActif);
                 }
@@ -1899,7 +1899,7 @@ public class Controleur implements Observateur {
             c++;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
             vueGrille.setNonCliquable(ile);
-            vueGrille.repaintInfoTuile();
+            vueGrille.actualiserGrille();
 
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);

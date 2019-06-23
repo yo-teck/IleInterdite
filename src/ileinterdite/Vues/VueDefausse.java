@@ -5,19 +5,19 @@
  */
 package ileinterdite.Vues;
 
+import ileinterdite.Vues.Custom.SelectionCarteMultiple;
 import ileinterdite.Message;
 import ileinterdite.Observateur;
 import ileinterdite.Observe;
 import ileinterdite.PackageCarteTresor.CarteTresor;
 import ileinterdite.Pion;
 import ileinterdite.TypesMessage;
-import ileinterdite.Vues.Fond.FondMonde;
+import ileinterdite.Vues.Custom.FondMonde;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -25,14 +25,10 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+
 
 /**
  *
@@ -57,6 +53,8 @@ public class VueDefausse implements Observe {
 
     public VueDefausse(Pion pionActif) {
 
+        ////////////////////////////////////////////////////////////////////////
+        //Création de la police d'écriture
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
         try {
@@ -69,25 +67,44 @@ public class VueDefausse implements Observe {
 
         }
         police = new Font("Pieces of Eight", Font.PLAIN, 24);
+        
+        ////////////////////////////////////////////////////////////////////////
+        //Paramétrage de la fenetre en fonction du nombre de carte
+        ////////////////////////////////////////////////////////////////////////
         fenetre = new JFrame("Cartes de " + pionActif.getNomj());
         fenetre.setSize(600, 100 + 100 * ((pionActif.getNbCartes() / 5) + 1));
         fenetre.setResizable(false);
         fenetre.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         fenetre.add(new SelectionCarteMultiple(pionActif, true));
 
+        ////////////////////////////////////////////////////////////////////////
+        //Creation d'un JPanel custom avec un fond
+        ////////////////////////////////////////////////////////////////////////
         conteneur = new FondMonde();
         conteneur.setLayout(new BorderLayout());
+        
+        ////////////////////////////////////////////////////////////////////////
+        //Création d'un JLabel donnant les informations sur les cartes à défausser
+        ////////////////////////////////////////////////////////////////////////
         texte = new JLabel(pionActif.getNomj() + "Vous avez plus de 5 cartes veuillez défausser au moins " + (pionActif.getNbCartes() - 5) + " cartes : ");
         texte.setFont(police);
-
+        //Plaçage du JPanel tout en haut
         conteneur.add(texte, BorderLayout.NORTH);
-
+        
+        ////////////////////////////////////////////////////////////////////////
+        //Creation du conteneur permettant de selectionner les cartes à defausser
+        ////////////////////////////////////////////////////////////////////////
+        
+        //Creation d'un JPanel custom qui permet de selection des carte
+        //et d'y acceder avec un getter
         cartesSelectionnees = new SelectionCarteMultiple(pionActif, false);
-        cartesSelectionnees.getCartesSelectionnees();
+ 
 
+        //Ajout d'un mouse listeneur pour savoir quand activé le bouton valider
         cartesSelectionnees.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                //recuperation des cartes et verication du bon nombre
                 carteRenvoi = cartesSelectionnees.getCartesSelectionnees();
                 if (carteRenvoi.size() < pionActif.getNbCartes() - 5) {
                     btnValider.setEnabled(false);
@@ -96,7 +113,6 @@ public class VueDefausse implements Observe {
                 }
 
             }
-
             @Override
             public void mousePressed(MouseEvent e) {
             }
@@ -114,15 +130,22 @@ public class VueDefausse implements Observe {
             }
         });
 
+
         cartesSelectionnees.setPreferredSize(new Dimension(600, 100 * ((pionActif.getNbCartes() / 5) + 1)));
+        //Placement du panel au centre de la fenetre
+        
+        ///////////////////////////////////////////////////////////////////////
+        //Création fe la zone validation
+        ////////////////////////////////////////////////////////////////////////
         conteneur.add(cartesSelectionnees, BorderLayout.CENTER);
 
+        //creation du bouton valider
         btnValider = new JButton("Valider");
         btnValider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.DEFAUSSE);
-
+                //recupere les cartes et les renvois
                 m.setCartesTresor(carteRenvoi);
 
                 notifierObservateur(m);
@@ -132,8 +155,9 @@ public class VueDefausse implements Observe {
 
         btnValider.setPreferredSize(new Dimension(600, 20));
         btnValider.setEnabled(false);
-
+        // on place ce bouton en bas de la fenetre
         conteneur.add(btnValider, BorderLayout.SOUTH);
+        
         fenetre.add(conteneur);
         fenetre.setVisible(true);
     }

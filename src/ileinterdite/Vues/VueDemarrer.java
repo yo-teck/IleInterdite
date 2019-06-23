@@ -5,7 +5,7 @@
  */
 package ileinterdite.Vues;
 
-import ileinterdite.Vues.Fond.FondDemarrer;
+import ileinterdite.Vues.Custom.FondDemarrer;
 import ileinterdite.Message;
 import ileinterdite.Observateur;
 import ileinterdite.Observe;
@@ -58,15 +58,13 @@ public class VueDemarrer implements Observe {
     private File chemin;
     private JButton btnValider;
     private JFrame fenetre;
+    private JPanel joueurs;
+    private JPanel options;
+    private JPanel validation;
 
     public VueDemarrer() {
-        
-        fenetre = new JFrame("Ile Interdite - Menu Démarrage");
-        fenetre.setSize(650, 550);
-        fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        fenetre.setResizable(false);
-
-        difficulte = new String[]{"Novice", "Normal", "Elite", "Legendaire"};
+        ////////////////////////////////////////////////////////////////////////
+        //Création de la police d'écriture
         chemin = new File("");
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         try {
@@ -80,22 +78,41 @@ public class VueDemarrer implements Observe {
         }
         police = new Font("Pieces of Eight", Font.PLAIN, 20);
 
+        ////////////////////////////////////////////////////////////////////////
+        //Paramétrage de la fenetre
+        ////////////////////////////////////////////////////////////////////////
+        fenetre = new JFrame("Ile Interdite - Menu Démarrage");
+        fenetre.setSize(650, 550);
+        fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        fenetre.setResizable(false);
+        //Creation d'un tableau pour l
+
+        ////////////////////////////////////////////////////////////////////////
+        //Creation d'un JPanel custom avec le fond de demarrage
+        ////////////////////////////////////////////////////////////////////////
         JPanel conteneur = new FondDemarrer();
+        //Creation de margin invisible
         conteneur.setBorder(BorderFactory.createEmptyBorder(160, 20, 130, 20));
         conteneur.setLayout(new BorderLayout());
         fenetre.add(conteneur);
 
-        JPanel joueurs = new JPanel(new GridLayout(3, 4));
+        ////////////////////////////////////////////////////////////////////////
+        //Creation des differents  utilisé
+        ////////////////////////////////////////////////////////////////////////
+        joueurs = new JPanel(new GridLayout(3, 4));
         joueurs.setOpaque(false);
 
-        JPanel options = new JPanel(new GridLayout(3, 5));
+        options = new JPanel(new GridLayout(3, 5));
         conteneur.add(options, BorderLayout.CENTER);
         options.setOpaque(false);
 
-        JPanel validation = new JPanel(new GridLayout(1, 5));
+        validation = new JPanel(new GridLayout(1, 5));
         conteneur.add(validation, BorderLayout.SOUTH);
         validation.setOpaque(false);
 
+        ////////////////////////////////////////////////////////////////////////
+        //Creation du JComboBox permettant de selectionner le nb de joueur
+        ////////////////////////////////////////////////////////////////////////
         JLabel nbJoueur = new JLabel("Nombre de joueur :");
         nbJoueur.setFont(police);
         joueurs.add(nbJoueur);
@@ -104,7 +121,8 @@ public class VueDemarrer implements Observe {
         choixNbJoueur.setFocusable(false);
         choixNbJoueur.setFont(police);
         choixNbJoueur.setBackground(new Color(210, 182, 106));
-
+        
+        //Creation d'un action permettant d'activer la bonne zone de saisie
         nb = (int) choixNbJoueur.getSelectedItem() - 1;
         choixNbJoueur.addActionListener(new ActionListener() {
             @Override
@@ -129,11 +147,14 @@ public class VueDemarrer implements Observe {
         joueurs.add(new JLabel(""));
         joueurs.add(new JLabel(""));
 
+        //Creation d'une variable contenant les zones de saisie
         nomJ = new JTextField[4];
+         //Creation d'une variable contenant des labels
         infoLabel = new JLabel[4];
 
         int numeroJ = 1;
 
+        //Creation automatisé de la zone de nom
         for (int i = 0; i < 4; i++) {
 
             JLabel info = new JLabel("Nom du Joueur " + numeroJ + " : ");
@@ -155,10 +176,12 @@ public class VueDemarrer implements Observe {
             joueurs.add(nomJ[i]);
 
         }
+        //ajout de cette zone dans un conteneur
         conteneur.add(joueurs, BorderLayout.NORTH);
 
         //Zone pour les options
         JLabel labelDiff = new JLabel("Difficulté : ");
+        difficulte = new String[]{"Novice", "Normal", "Elite", "Legendaire"};
         labelDiff.setFont(police);
         options.add(labelDiff);
         JComboBox choixDiff = new JComboBox(difficulte);
@@ -172,6 +195,8 @@ public class VueDemarrer implements Observe {
 
         JRadioButton bouton;
 
+        //Creation de groupe de bouton permettant de choisir entre differente
+        //initialisation
         groupeBoutons = new ButtonGroup();
         choixInit = new JRadioButton[8];
 
@@ -194,25 +219,19 @@ public class VueDemarrer implements Observe {
         choixInit[6] = bouton;
         bouton = new JRadioButton("Aléatoire");
         choixInit[7] = bouton;
-        
-        
+
         groupeBoutons.add(bouton);
-        
-        
+
         options.add(new JLabel(""));
         options.add(new JLabel(""));
         options.add(new JLabel(""));
         options.add(labelInit);
-        
-        for(int i = 0; i < 8; i++){
-        choixInit[i].setFont(police);
-        choixInit[i].setOpaque(false);
-        options.add(choixInit[i]);
-        }
-        
-        
 
-        
+        for (int i = 0; i < 8; i++) {
+            choixInit[i].setFont(police);
+            choixInit[i].setOpaque(false);
+            options.add(choixInit[i]);
+        }
 
         //Zone de validation
         btnValider = new JButton("Démarrer");

@@ -5,6 +5,9 @@
  */
 package ileinterdite.Vues;
 
+import ileinterdite.Vues.Custom.SelectionCarteUnique;
+import ileinterdite.Vues.Custom.InfoCarte;
+import ileinterdite.Vues.Custom.SelectionPionUnique;
 import ileinterdite.Message;
 import ileinterdite.Observateur;
 import ileinterdite.Observe;
@@ -12,7 +15,7 @@ import ileinterdite.PackageCarteTresor.CTresor;
 import ileinterdite.PackageCarteTresor.CarteTresor;
 import ileinterdite.Pion;
 import ileinterdite.TypesMessage;
-import ileinterdite.Vues.Fond.FondMonde;
+import ileinterdite.Vues.Custom.FondMonde;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -63,9 +66,7 @@ public class VueDonnerCarte implements Observe {
     private ArrayList<Pion> pionsPossible;
 
     public VueDonnerCarte(Pion pionActif, ArrayList<Pion> pions) {
-        /*
-        ArrayList<Pion> pionsDon = new ArrayList<>();
-        pionsDon.addAll(pions);*/
+
 
         //Initialisation de la police
         pionsPossible = new ArrayList<>();
