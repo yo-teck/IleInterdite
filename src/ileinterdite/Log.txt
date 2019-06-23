@@ -1,0 +1,14 @@
+Historique des actions 
+0. Initialisation de la console
+1.  HELICO, 
+2.  HELICO,  CLE_AIR, 
+3.  HELICO,  CLE_AIR,  SAC_SABLE, 
+4.  HELICO,  CLE_AIR,  SAC_SABLE,  CLE_TERRE, 
+5.  HELICO,  CLE_AIR,  SAC_SABLE,  CLE_TERRE,  SAC_SABLE, 
+6.  HELICO,  CLE_AIR,  SAC_SABLE,  CLE_TERRE,  SAC_SABLE,  HELICO, 
+7.  HELICO,  CLE_AIR,  SAC_SABLE,  CLE_TERRE,  SAC_SABLE,  HELICO,  CLE_AIR, 
+8.  HELICO,  CLE_AIR,  SAC_SABLE,  CLE_TERRE,  SAC_SABLE,  HELICO,  CLE_AIR,  CLE_FEU, 
+8. Début de partie 
+9. Le joueur A qui est [Pilote ] s'est noyé ! 
+10. Le joueur A qui est [Pilote ] s'est noyé ! 
+11. Vous avez perdu la partie 
