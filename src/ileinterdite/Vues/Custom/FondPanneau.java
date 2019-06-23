@@ -18,6 +18,7 @@ import javax.swing.JPanel;
  *
  * @author Yoann
  */
+//Permet d'avoir une image de fond avec un panneau de planche
 public class FondPanneau extends JPanel{
        public FondPanneau() {      
     }

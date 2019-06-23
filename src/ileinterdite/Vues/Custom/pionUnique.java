@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  *
  * @author Yoann
  */
-public class SelectionPionUnique extends JPanel {
+public class pionUnique extends JPanel {
 
     private Pion pion;
     private Dimension dimension;
@@ -30,7 +30,8 @@ public class SelectionPionUnique extends JPanel {
     private boolean imgBack;
     private boolean actif;
 
-    public SelectionPionUnique(Pion pion, boolean imgBack) {
+    //Permet d'afficher l'image d'un role
+    public pionUnique(Pion pion, boolean imgBack) {
 
         dimension = getSize();
         this.actif = false;

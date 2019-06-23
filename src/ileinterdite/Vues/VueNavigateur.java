@@ -6,7 +6,7 @@
 package ileinterdite.Vues;
 
 import ileinterdite.Vues.Custom.SelectionCarteUnique;
-import ileinterdite.Vues.Custom.SelectionPionUnique;
+import ileinterdite.Vues.Custom.pionUnique;
 import ileinterdite.Message;
 import ileinterdite.Observateur;
 import ileinterdite.Observe;
@@ -57,7 +57,7 @@ public class VueNavigateur implements Observe {
 
     private MouseListener[] ms;
     int index;
-    private SelectionPionUnique[] pionSelection;
+    private pionUnique[] pionSelection;
 
     public VueNavigateur(Pion pionActif, ArrayList<Pion> pions) {
 
@@ -109,7 +109,7 @@ public class VueNavigateur implements Observe {
         conteneurDonGau.setOpaque(false);
 
         //Creation d'une variable contenant des pions
-        pionSelection = new SelectionPionUnique[pions.size() - 1];
+        pionSelection = new pionUnique[pions.size() - 1];
         //creation des mouseListeneur
         creeMouseListener(pions);
 
@@ -119,7 +119,7 @@ public class VueNavigateur implements Observe {
         for (int i = 0; i < pions.size(); i++) {
 
             if (!pions.get(i).equals(pionActif)) {
-                pionSelection[index] = new SelectionPionUnique(pions.get(i), false);
+                pionSelection[index] = new pionUnique(pions.get(i), false);
                 pionSelection[index].setActif(false);
                 pionSelection[index].addMouseListener(ms[index]);
                 conteneurDonGau.add(pionSelection[index]);
@@ -186,7 +186,7 @@ public class VueNavigateur implements Observe {
                 fenetre.setVisible(false);
             }
         });
-        //creation du bouton valider
+        //creation du bouton annuler
         btnAnnuler = new JButton("Annuler");
         //creation ActionListener permettant de annuler l'action
         btnAnnuler.addActionListener(new ActionListener() {
@@ -224,12 +224,12 @@ public class VueNavigateur implements Observe {
     
     //Creation des mouseListener permettant d'activer un pion et rendre inactif les autres;
     public void creeMouseListener(ArrayList<Pion> pions) {
-        //creation un a un des MouseListener car avec un for cela ne marcher pas S
+        //creation un a un des MouseListener car avec une boucle cela ne marcher pas 
         ms = new MouseListener[3];
         MouseListener m0 = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //rendre le pion selection actif
+                //rendre le pion selectionner actif
                 pionSelection[0].setActif(true);
                 setInfoAction(pions);
                 

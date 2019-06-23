@@ -22,6 +22,7 @@ import javax.swing.JPanel;
  *
  * @author Yoann
  */
+//Permet de selection plusieurs carte (en couleur si il est actif et en nuance de gris si il est inactif)
 public class SelectionCarteMultiple extends JPanel {
 
     private ArrayList<CarteTresor> cartes;
@@ -43,7 +44,7 @@ public class SelectionCarteMultiple extends JPanel {
             carteSelection[i] = false;
         }
 
-
+        //Permet de add les cartes selectioner à une variable
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -57,7 +58,9 @@ public class SelectionCarteMultiple extends JPanel {
 
                 int positionX = 0;
                 int positionY = 0;
-
+                
+                //creation des if permetant selon un clique d'ajouter les cartes selectionner 
+                //a une variable ou de l'enlever si elle deselectionné
                 for (int i = 0; i < cartes.size(); i++) {
 
                     if (clicx > positionX && clicx < positionX + largeur && clicy > positionY && clicy < positionY + taille) {
@@ -119,7 +122,7 @@ public class SelectionCarteMultiple extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-
+//Placage des pions sur l'image 
         Dimension dimension = getSize();
         Graphics2D g2d = (Graphics2D) g;
         int hauteurf = dimension.height;

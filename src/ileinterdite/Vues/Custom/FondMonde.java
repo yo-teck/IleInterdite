@@ -17,6 +17,7 @@ import javax.swing.JPanel;
  *
  * @author Yoann
  */
+//Permet d'avoir une image de fond avec une carte du monde
 public class FondMonde extends JPanel{
     
           public FondMonde() {      

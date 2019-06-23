@@ -54,8 +54,8 @@ public class VueUtiliserCarte implements Observe {
     private JButton btnAnnuler;
 
     private Font police;
-    private JLabel txtlololo;
-    private JLabel textNomJ;
+    private JLabel text;
+    private JLabel infoAction;
 
     private File chemin = new File("");
     private boolean activeValide;
@@ -67,6 +67,8 @@ public class VueUtiliserCarte implements Observe {
     private ArrayList<Pion> pionsCartesUtilise;
 
     public VueUtiliserCarte(ArrayList<Pion> pions) {
+
+        ///////////////////////////////////////////////////////////////////////
         //Creation de la variable qui stock les joueurs valable pour l'action
         pionsCartesUtilise = new ArrayList<>();
         for (Pion pion : pions) {
@@ -78,6 +80,7 @@ public class VueUtiliserCarte implements Observe {
             }
         }
 
+        ///////////////////////////////////////////////////////////////////////
         //Initialisation de la police
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
@@ -93,7 +96,7 @@ public class VueUtiliserCarte implements Observe {
         police = new Font("Pieces of Eight", Font.PLAIN, 35);
 
         ////////////////////////////////////////////////////////////////////////
-        //Paramétrage de la fenetre en fonction du nombre de joueur valable
+        //Paramétrage de la fenetre en fonction du nombre des joueurs valables
         ////////////////////////////////////////////////////////////////////////
         fenetre = new JFrame(" - Utiliser une carte");
         fenetre.setLayout(new BorderLayout());
@@ -106,17 +109,23 @@ public class VueUtiliserCarte implements Observe {
         conteneur.setOpaque(false);
         conteneur.setLayout(new BorderLayout());
 
-        //Creation du JPanel du haut
+        ////////////////////////////////////////////////////////////////////////
+        //Creation du JPanel central en fonction du nombre des joueurs valables
+        ////////////////////////////////////////////////////////////////////////
         conteneurUtil = new JPanel(new GridLayout(pionsCartesUtilise.size() + 2, 1));
         conteneurUtil.setOpaque(false);
         conteneurUtil.setPreferredSize(new Dimension(800, pionsCartesUtilise.size() * 80));
 
-        txtlololo = new JLabel("Selectionne un carte : ");
-        txtlololo.setFont(police);
-        conteneurUtil.add(txtlololo);
+        //Ajout d'un text informatif
+        text = new JLabel("Selectionne un carte : ");
+        text.setFont(police);
+        conteneurUtil.add(text);
 
+        //Creation d'une variable contenant des composants customs
         carteSelection = new SelectionCarteUniqueUtilisable[pionsCartesUtilise.size()];
         creeMouseListener(pionsCartesUtilise);
+
+        //Creation des composants customs pour selection une carte et ajout au panel central
         for (int i = 0; i < pionsCartesUtilise.size(); i++) {
             carteSelection[i] = new SelectionCarteUniqueUtilisable(pionsCartesUtilise.get(i), false);
             carteSelection[i].setActif(false);
@@ -124,20 +133,30 @@ public class VueUtiliserCarte implements Observe {
             conteneurUtil.add(carteSelection[i]);
 
         }
-        textNomJ = new JLabel("");
-        textNomJ.setFont(police);
-        conteneurUtil.add(textNomJ);
 
+        //Ajout d'un text qui informe de la carte selectionnée
+        infoAction = new JLabel("");
+        infoAction.setFont(police);
+        conteneurUtil.add(infoAction);
+
+        //Ajout du conteneur central au centre
         conteneur.add(conteneurUtil, BorderLayout.CENTER);
 
+        ////////////////////////////////////////////////////////////////////////
+        //Creation du JPanel du bas
+        ////////////////////////////////////////////////////////////////////////
         conteneurBoutonsConfirmation = new JPanel(new GridLayout(1, 5));
         conteneurBoutonsConfirmation.setOpaque(false);
+
+        //creation du bouton valider
         btnValider = new JButton("Valider");
         btnValider.setEnabled(false);
+        //creation ActionListener permettant de valider l'action
         btnValider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.UTILISER_CARTE);
+                //On recupere la carte selectionner en fonction de la variable active
                 for (int i = 0; i < carteSelection.length; i++) {
                     if (carteSelection[i].isActif()) {
                         m.setPion(carteSelection[i].getPion());
@@ -149,7 +168,9 @@ public class VueUtiliserCarte implements Observe {
             }
         });
 
+        //creation du bouton valider
         btnAnnuler = new JButton("Annuler");
+         //creation ActionListener permettant d'annulé
         btnAnnuler.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -170,16 +191,22 @@ public class VueUtiliserCarte implements Observe {
 
         fenetre.setVisible(true);
     }
-
+    //Creation des mouseListener permettant d'activer un pion et rendre inactif les autres
     public void creeMouseListener(ArrayList<Pion> pions) {
+        
         ms = new MouseListener[4];
+        //creation un a un des MouseListener car avec une boucle cela ne marcher pas 
         MouseListener m0 = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                //rendre la carte selectionner active
                 carteSelection[0].setActif(true);
+                //rendre le bouton valider actif
                 btnValider.setEnabled(true);
-                textNomJ.setFont(police.deriveFont(24f));
-                textNomJ.setText("Utiliser la carte " + carteSelection[0].getCarte().getType() + " de " + carteSelection[0].getPion().getNomj() + " [" + carteSelection[0].getPion().getRole().getNomA() + "]");
+                //mise à jour du text informatif sur l'action
+                infoAction.setFont(police.deriveFont(24f));
+                infoAction.setText("Utiliser la carte " + carteSelection[0].getCarte().getType() + " de " + carteSelection[0].getPion().getNomj() + " [" + carteSelection[0].getPion().getRole().getNomA() + "]");
+                //rendre les autres cartes selectionners inactif
                 for (int j = 0; j < pionsCartesUtilise.size(); j++) {
                     if (j != 0) {
                         carteSelection[j].setActif(false);
@@ -208,8 +235,8 @@ public class VueUtiliserCarte implements Observe {
             public void mouseClicked(MouseEvent e) {
                 carteSelection[1].setActif(true);
                 btnValider.setEnabled(true);
-                textNomJ.setFont(police.deriveFont(24f));
-                textNomJ.setText("Utiliser la carte " + carteSelection[1].getCarte().getType() + "de " + carteSelection[1].getPion().getNomj() + " [" + carteSelection[1].getPion().getRole().getNomA() + "]");
+                infoAction.setFont(police.deriveFont(24f));
+                infoAction.setText("Utiliser la carte " + carteSelection[1].getCarte().getType() + "de " + carteSelection[1].getPion().getNomj() + " [" + carteSelection[1].getPion().getRole().getNomA() + "]");
 
                 for (int j = 0; j < pionsCartesUtilise.size(); j++) {
                     if (j != 1) {
@@ -239,8 +266,8 @@ public class VueUtiliserCarte implements Observe {
             public void mouseClicked(MouseEvent e) {
                 carteSelection[2].setActif(true);
                 btnValider.setEnabled(true);
-                textNomJ.setFont(police.deriveFont(24f));
-                textNomJ.setText("Utiliser la carte " + carteSelection[2].getCarte().getType() + "de " + carteSelection[2].getPion().getNomj() + " [" + carteSelection[2].getPion().getRole().getNomA() + "]");
+                infoAction.setFont(police.deriveFont(24f));
+                infoAction.setText("Utiliser la carte " + carteSelection[2].getCarte().getType() + "de " + carteSelection[2].getPion().getNomj() + " [" + carteSelection[2].getPion().getRole().getNomA() + "]");
 
                 for (int j = 0; j < pionsCartesUtilise.size(); j++) {
                     if (j != 2) {
@@ -271,8 +298,8 @@ public class VueUtiliserCarte implements Observe {
             public void mouseClicked(MouseEvent e) {
                 carteSelection[3].setActif(true);
                 btnValider.setEnabled(true);
-                textNomJ.setFont(police.deriveFont(24f));
-                textNomJ.setText("Utiliser la carte " + carteSelection[3].getCarte().getType() + "de " + carteSelection[3].getPion().getNomj() + " [" + carteSelection[3].getPion().getRole().getNomA() + "]");
+                infoAction.setFont(police.deriveFont(24f));
+                infoAction.setText("Utiliser la carte " + carteSelection[3].getCarte().getType() + "de " + carteSelection[3].getPion().getNomj() + " [" + carteSelection[3].getPion().getRole().getNomA() + "]");
 
                 for (int j = 0; j < pionsCartesUtilise.size(); j++) {
 
@@ -319,4 +346,3 @@ public class VueUtiliserCarte implements Observe {
         }
     }
 }
-

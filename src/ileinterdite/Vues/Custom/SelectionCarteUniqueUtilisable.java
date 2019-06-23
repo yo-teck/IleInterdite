@@ -34,12 +34,15 @@ public class SelectionCarteUniqueUtilisable extends JPanel {
     private boolean imgBack;
     private boolean actif;
 
+//Permet de selectionner une unique carte utilisable (en couleur si il est actif et en nuance de gris si il est inactif)
     public SelectionCarteUniqueUtilisable(Pion pion, boolean imgBack) {
         dimension = getSize();
 
         this.pion = pion;
         this.imgBack = imgBack;
         this.actif = true;
+
+        //initialisation des cartes qui peuvent etre utilisé 
         cartes = new ArrayList<>();
         for (CarteTresor carteUti : pion.getCartesTresors()) {
 
@@ -54,6 +57,9 @@ public class SelectionCarteUniqueUtilisable extends JPanel {
         }
         carteSelection[0] = true;
         carte = cartes.get(0);
+
+        //creation des if permetant selon un clique de changer la carte selectionner
+        //a une variable et d'enlever l'ancienne
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -131,6 +137,7 @@ public class SelectionCarteUniqueUtilisable extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+//Placage des cartes sur l'image 
 
         Dimension dimension = getSize();
         Graphics2D g2d = (Graphics2D) g;

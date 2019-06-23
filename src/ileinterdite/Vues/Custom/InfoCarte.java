@@ -5,7 +5,6 @@
  */
 package ileinterdite.Vues.Custom;
 
-import ileinterdite.OTresor;
 import ileinterdite.PackageCarteTresor.CarteTresor;
 import ileinterdite.Pion;
 import java.awt.Dimension;
@@ -26,7 +25,7 @@ public class InfoCarte extends JPanel {
     private Pion pion;
     private boolean back;
     private boolean icone;
-
+//Permet d'afficher les cartes du joueur avec si voulue un backGround et une L'icone du joueur
     public InfoCarte(Pion pion, boolean back, boolean icone) {
 
         this.cartes = pion.getCartesTresors();

@@ -18,6 +18,7 @@ import javax.swing.JPanel;
  *
  * @author Yoann
  */
+//Permet d'avoir une image de fond avec une planche
 public class FondPlanche extends JButton {
 
     public FondPlanche() {

@@ -17,6 +17,8 @@ import javax.swing.JPanel;
  *
  * @author Yoann
  */
+//Permet d'avoir une image de fond avec une image de demarrage
+
 public class FondDemarrer extends JPanel{
           public FondDemarrer() {      
     }

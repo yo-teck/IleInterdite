@@ -6,39 +6,26 @@
 package ileinterdite.Vues.Custom;
 
 import ileinterdite.NiveauEau;
-import ileinterdite.PackageTuile.Etat;
-import ileinterdite.PackageTuile.Evenement;
-import ileinterdite.PackageTuile.Tuile;
-import ileinterdite.Pion;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
 /**
  *
  * @author Yoann
  */
-public class InfoNiveauEau extends JPanel{
-    
-
+public class InfoNiveauEau extends JPanel {
 
     private NiveauEau niveauEau;
 
-
+//Permet d'afficher l'image en fonction du niveau d'eau
     public InfoNiveauEau(NiveauEau niveauEau) {
 
-        this.niveauEau = niveauEau ;
-        
+        this.niveauEau = niveauEau;
+
     }
 
     @Override
@@ -51,8 +38,6 @@ public class InfoNiveauEau extends JPanel{
         int largeurf = dimension.width;
         File chemin = new File("");
         g2d.drawImage((new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgNiveauEau/niveauDesEaux" + niveau + ".png")).getImage(), 0, 0, largeurf, hauteurf, this);
-        
-        
 
     }
 }

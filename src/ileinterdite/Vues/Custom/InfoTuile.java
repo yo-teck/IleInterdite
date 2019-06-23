@@ -6,20 +6,15 @@
 package ileinterdite.Vues.Custom;
 
 import ileinterdite.PackageTuile.Etat;
-import ileinterdite.PackageTuile.Evenement;
 import ileinterdite.PackageTuile.Tuile;
 import ileinterdite.Pion;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -31,11 +26,11 @@ public class InfoTuile extends JPanel {
 
     private ArrayList<Pion> pions;
     private Tuile tuile;
-    private int taille;              // diametre du bouton en pixels
+    private int taille;
     private BufferedImage image;
 
+    //Permet de mettre toute les info sur la tuile image de fond et joueur dessus
     public InfoTuile(Tuile tuile) {
-
 
         this.tuile = tuile;
         this.pions = tuile.getPions();
