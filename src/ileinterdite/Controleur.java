@@ -1474,7 +1474,7 @@ public class Controleur implements Observateur {
     }
 
     public void fairePiocher(Pion pion) {
-        vueGrille.actualiserGrille(ile);
+        vueGrille.actualiserGrille();
         // ihm.actualiserCartes(pions);
         for (int i = 0; i < 2; i++) {
             verifPile();
@@ -1522,7 +1522,7 @@ public class Controleur implements Observateur {
             inonderTuiles();
         }
 
-        vueGrille.actualiserGrille(ile);
+        vueGrille.actualiserGrille();
         vueGrille.actualiserCartes(pions);
 
     }
@@ -1697,7 +1697,7 @@ public class Controleur implements Observateur {
             score += 15;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
             vueGrille.setNonCliquable(ile);
-            vueGrille.repaintInfoTuile();
+            vueGrille.actualiserGrille();
             vueGrille.changerEtatBouton();
 
             //decrementer le nombre d'action du joueur en cours
@@ -1706,14 +1706,14 @@ public class Controleur implements Observateur {
             vueGrille.activationBoutons(true);
 
         } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_HELICO) {
-            vueGrille.setLog(vueGrille.getLog() + " de la tuile " + pionActif.getTuilePosition().getNom());
+            vueGrille.setLog(vueGrille.getLog() + " de la tuile " + m.getPion().getTuilePosition().getNom());
             m.getPion().setTuilePosition(m.getTuile());
             vueGrille.setI(0); //Empeche la consomation de plusieurs points d'action lorsque l'on appuie sur le bouton capacité
             vueGrille.setLog(vueGrille.getLog() + " vers la tuile " + m.getTuile().getNom());
             c++;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
             vueGrille.setNonCliquable(ile);
-            vueGrille.repaintInfoTuile();
+            vueGrille.actualiserGrille();
             vueGrille.actualiserInfoJA(pionActif);
             vueGrille.activationBoutons(true);
 
@@ -1808,7 +1808,7 @@ public class Controleur implements Observateur {
 
             vueGrille.activationBoutons(true);
             vueGrille.setNonCliquable(ile);
-            vueGrille.actualiserGrille(ile);
+            vueGrille.actualiserGrille();
             vueGrille.setLog(pionActif.getNomj() + " a annulé son action");
             c++;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
@@ -1817,7 +1817,7 @@ public class Controleur implements Observateur {
             vueUtiliserCarte = new VueUtiliserCarte(pions);
             vueGrille.activationBoutons(false);
             vueUtiliserCarte.addObservateur(this);
-            System.out.println(vueUtiliserCarte.getPionSansCarte());
+
 
         } else if (m.getType() == TypesMessage.UTILISER_CARTE) {
 
@@ -1833,11 +1833,10 @@ public class Controleur implements Observateur {
 
             } else { //Carte Helicoptere
 
-                if (m.getTuile().getNom() == "Heliport" && m.getTuile().getPions().size() == pions.size()) {
+                if (m.getPion().getTuilePosition().getNom() == "Heliport" && m.getPion().getTuilePosition().getPions().size() == pions.size()) {
 
                     if (checkVictoire()) {
                         for (OTresor ot : tresors) {
-
                             if (ot.isEstRecupere()) {
                                 score += 100;
                             }
@@ -1848,7 +1847,6 @@ public class Controleur implements Observateur {
                         ecrireFichierTexte.close();
                         vueFin.addObservateur(this);
                     }
-
                 } else {
                     seDeplacerHelico(m.getPion());
                     defausser(m.getPion(), m.getCarteTresor());
@@ -1903,7 +1901,7 @@ public class Controleur implements Observateur {
             c++;
             ecrireFichierTexte.println(c + ". " + vueGrille.getLog());
             vueGrille.setNonCliquable(ile);
-            vueGrille.repaintInfoTuile();
+            vueGrille.actualiserGrille();
 
             //decrementer le nombre d'action du joueur en cours
             pionActif.setNbAction(pionActif.getNbAction() - 1);

@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ileinterdite.Vues.Fond;
+package ileinterdite.Vues.Custom;
 
 
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -17,8 +18,8 @@ import javax.swing.JPanel;
  *
  * @author Yoann
  */
-public class FondDemarrer extends JPanel{
-          public FondDemarrer() {      
+public class FondPanneau extends JPanel{
+       public FondPanneau() {      
     }
     
     @Override
@@ -29,9 +30,9 @@ public class FondDemarrer extends JPanel{
         
         int hauteurf = dimension.height;
         int largeurf = dimension.width;
-
+        
         File chemin = new File("");
-        g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgDecor/fondIleInterdite.png").getImage(), 0, 0, largeurf,hauteurf , this);
+        g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgDecor/boisPanneau.png").getImage(), 0, 0, largeurf,hauteurf , this);
 
-    } 
+    }
 }

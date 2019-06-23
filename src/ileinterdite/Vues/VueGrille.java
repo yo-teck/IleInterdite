@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,8 +6,9 @@
  */
 package ileinterdite.Vues;
 
-import ileinterdite.Vues.Fond.FondPlanche;
-import ileinterdite.Vues.Fond.FondPanneau;
+import ileinterdite.Vues.Custom.FondPlanche;
+import ileinterdite.Vues.Custom.FondPanneau;
+import ileinterdite.Vues.Custom.*;
 import ileinterdite.Grille;
 import ileinterdite.Message;
 import ileinterdite.NiveauEau;
@@ -558,7 +560,7 @@ public class VueGrille implements Observe {
 ////////////////////////////////////////////////////////////////////////////////
 //Debut conteneur Log///////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-        conteneurLog = new JPanel(new BorderLayout());
+        conteneurLog = new FondMonde();
         labelLog = new JLabel("");
         
         GraphicsEnvironment gef = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -572,7 +574,7 @@ public class VueGrille implements Observe {
           
         }
         labelLog.setFont(new Font("Pieces of Eight", Font.PLAIN,20));
-        conteneurLog.add(labelLog,BorderLayout.CENTER);
+        conteneurLog.add(labelLog);
         frame.add(conteneurLog,BorderLayout.NORTH);
 ////////////////////////////////////////////////////////////////////////////////
 //Fin conteneur Log///////////////////////////////////////////////////
@@ -609,20 +611,7 @@ public class VueGrille implements Observe {
 
     public void actualiserCartes(ArrayList<Pion> pions) {
 
-        /* zoneCartes.remove(carteJ1);
-        zoneCartes.remove(carteJ2);
-        zoneCartes.remove(carteJ3);
-        zoneCartes.remove(carteJ4);
 
-        carteJ1 = Carte(pions.get(0));
-        carteJ2 = Carte(pions.get(1));
-        carteJ3 = Carte(pions.get(2));
-        carteJ4 = Carte(pions.get(3));
-
-        zoneCartes.add(carteJ1, "0");
-        zoneCartes.add(carteJ2, "1");
-        zoneCartes.add(carteJ3, "2");
-        zoneCartes.add(carteJ4, "3");*/
         for (int i = 0; i < pions.size(); i++) {
 
             carteJ[i].repaint();
@@ -705,10 +694,10 @@ public class VueGrille implements Observe {
             };
 
         }
-        repaintInfoTuile();
+        actualiserGrille();
     }
 
-    public void actualiserGrille(Grille grille) {
+    public void actualiserGrille() {
         repaintInfoTuile();
     }
 
@@ -861,3 +850,5 @@ public class VueGrille implements Observe {
     }
 
 }
+
+

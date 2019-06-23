@@ -9,7 +9,7 @@ import ileinterdite.Message;
 import ileinterdite.Observateur;
 import ileinterdite.Observe;
 import ileinterdite.TypesMessage;
-import ileinterdite.Vues.Fond.FondMonde;
+import ileinterdite.Vues.Custom.FondMonde;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -50,16 +50,25 @@ public class VueFin implements Observe {
     private File chemin = new File("");
     
     public VueFin(String etatPartie,String temps,String conditionsFin){
+        //Configuration de la fenêtre
         fenetre = new JFrame("Fin de la partie ");
         fenetre.setSize(1350, 800);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        //Initialisation du fond
         conteneur = new FondMonde();
         conteneur.setLayout(new BorderLayout());
         
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Creation des JPanels /////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////        
         conteneurLabel = new JPanel(new GridLayout(3,1));
         conteneurLabel.setOpaque(false);
         conteneurBoutons = new JPanel(new GridLayout(1,5));
         conteneurBoutons.setOpaque(false);
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Creation des JLabels /////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////        
         conditions = new JLabel(conditionsFin,SwingConstants.CENTER);
         texteDefaite = new JLabel(etatPartie,SwingConstants.CENTER);
         votreTemps = new JLabel(temps,SwingConstants.CENTER);
@@ -81,6 +90,10 @@ public class VueFin implements Observe {
             }
         });
         
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////// Initialisation de la police //////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         try {
             police = Font.createFont(Font.TRUETYPE_FONT,new File(chemin.getAbsolutePath()+"/src/ressources/police/PiecesofEight.ttf"));
@@ -91,12 +104,18 @@ public class VueFin implements Observe {
             System.out.println("Nont");
           
         }
+
+
         police = new Font("Pieces of Eight", Font.PLAIN,80);
         police2 = new Font("Pieces of Eight", Font.PLAIN,40);
+        
         conditions.setFont(police2);
         texteDefaite.setFont(police);
         votreTemps.setFont(police);
         
+////////////////////////////////////////////////////////////////////////////////
+//////////////// Ajout des composants dans le conteneur & la fenêtre ///////////
+////////////////////////////////////////////////////////////////////////////////      
         conteneurLabel.add(texteDefaite);
         conteneurLabel.add(conditions);
         conteneurLabel.add(votreTemps);
@@ -119,7 +138,9 @@ public class VueFin implements Observe {
     
     
     
-    
+////////////////////////////////////////////////////////////////////////////////
+/////// Creation des Methodes permettant de communiquer avec le controleur /////
+////////////////////////////////////////////////////////////////////////////////    
     private Observateur observateur;
 
     @Override

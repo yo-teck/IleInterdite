@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ileinterdite.Vues;
+package ileinterdite.Vues.Custom;
 
 import ileinterdite.OTresor;
 import ileinterdite.PackageCarteTresor.CarteTresor;
@@ -30,19 +30,20 @@ public class SelectionCarteUnique extends JPanel {
     private boolean[] carteSelection;
     private Dimension dimension;
     private boolean imgBack;
+    private boolean actif;
 
-    
     public SelectionCarteUnique(Pion pion, boolean imgBack) {
         dimension = getSize();
         this.cartes = pion.getCartesTresors();
         this.pion = pion;
         this.imgBack = imgBack;
+        this.actif = true;
         carteSelection = new boolean[cartes.size()];
         for (int i = 0; i < cartes.size(); i++) {
             carteSelection[i] = false;
         }
-        carteSelection[0]=true;
-        carte=pion.getCartesTresors().get(0);
+        carteSelection[0] = true;
+        carte = pion.getCartesTresors().get(0);
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -51,16 +52,14 @@ public class SelectionCarteUnique extends JPanel {
                 int largeurf = getWidth();
 
                 int position = 0;
-                
-               
 
-                if (clicx > position || clicx < largeurf - position*2) {
+                if (clicx > position || clicx < largeurf - position * 2) {
                     for (int i = 0; i < cartes.size(); i++) {
-                        
+
                         if (clicx > position && clicx < position + largeurf / cartes.size()) {
                             carteSelection[i] = true;
-                            carte=pion.getCartesTresors().get(i);
-      
+                            carte = pion.getCartesTresors().get(i);
+
                         } else {
                             carteSelection[i] = false;
 
@@ -91,6 +90,14 @@ public class SelectionCarteUnique extends JPanel {
         });
     }
 
+    public boolean isActif() {
+        return actif;
+    }
+
+    public void setActif(boolean actif) {
+        this.actif = actif;
+    }
+
     public Pion getPion() {
         return pion;
     }
@@ -98,7 +105,7 @@ public class SelectionCarteUnique extends JPanel {
     public CarteTresor getCarte() {
         return carte;
     }
-    
+
     @Override
     public void paintComponent(Graphics g) {
 
@@ -107,23 +114,27 @@ public class SelectionCarteUnique extends JPanel {
         int hauteurf = dimension.height;
         int largeurf = dimension.width;
 
-        int position = largeurf/ (2*cartes.size()) -  hauteurf/2;
+        int position = largeurf / (2 * cartes.size()) - hauteurf / 2;
 
         File chemin = new File("");
         if (imgBack) {
             g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/carteFond.png").getImage(), 0, 0, largeurf, hauteurf, this);
         }
-        
-        
-        for (int i = 0; i < cartes.size(); i++) {
-            if (!carteSelection[i]) {
-                g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/" + cartes.get(i).getType() + "D.png").getImage(), position, 0, hauteurf, hauteurf, this);
-            } else {
-                g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/" + cartes.get(i).getType() + ".png").getImage(), position, 0, hauteurf, hauteurf, this);
+
+        if (actif) {
+            for (int i = 0; i < cartes.size(); i++) {
+                if (!carteSelection[i]) {
+                    g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/" + cartes.get(i).getType() + "D.png").getImage(), position, 0, hauteurf, hauteurf, this);
+                } else {
+                    g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/" + cartes.get(i).getType() + ".png").getImage(), position, 0, hauteurf, hauteurf, this);
+                }
+                position += largeurf / cartes.size();
+
             }
-            position += largeurf / cartes.size();
-
+        } else {
+            for (int i = 0; i < cartes.size(); i++) {
+                g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgCarte/" + cartes.get(i).getType() + "D.png").getImage(), position, 0, hauteurf, hauteurf, this);
+            }
         }
-
     }
 }

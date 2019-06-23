@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ileinterdite.Vues;
+package ileinterdite.Vues.Custom;
 
 import ileinterdite.OTresor;
 import ileinterdite.PackageCarteTresor.CarteTresor;
@@ -133,7 +133,7 @@ public class SelectionCarteMultiple extends JPanel {
         if (imgBack) {
             g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgDecor/fondCarteMonde.jpg").getImage(), 0, 0, largeurf, hauteurf, this);
         }
-
+        System.out.println(chemin.getAbsolutePath());
         for (int i = 0; i < cartes.size(); i++) {
 
             if (!carteSelection[i]) {
