@@ -38,9 +38,9 @@ public class InfoTresor extends JPanel {
         File chemin = new File("");
 
         if (tresor.isEstRecupere()) {
-            g2d.drawImage((tresor.getImageTresorR()).getImage(),hauteurf/2 , 0, hauteurf, hauteurf, this);
+            g2d.drawImage((tresor.getImageTresorR()).getImage(), 0, 0, hauteurf, hauteurf, this);
         } else if (!tresor.isEstRecupere()) {
-            g2d.drawImage((tresor.getImageTresorNR()).getImage(),hauteurf/2, 0, hauteurf, hauteurf, this);
+            g2d.drawImage((tresor.getImageTresorNR()).getImage(), 0, 0, hauteurf, hauteurf, this);
         }
 
     }
