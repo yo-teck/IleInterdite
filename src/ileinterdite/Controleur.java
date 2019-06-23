@@ -1829,7 +1829,7 @@ public class Controleur implements Observateur {
 
             } else { //Carte Helicoptere
 
-                if (m.getTuile().getNom() == "Heliport" && m.getTuile().getPions().size() == pions.size()) {
+                if (m.getPion().getTuilePosition().getNom() == "Heliport" && m.getPion().getTuilePosition().getPions().size() == pions.size()) {
 
                     if (checkVictoire()) {
                         for (OTresor ot : tresors) {

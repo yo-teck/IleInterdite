@@ -94,8 +94,9 @@ public class VueUtiliserCarte implements Observe {
         //Parametrage de la fenetre
         fenetre = new JFrame(" - Utiliser une carte");
         fenetre.setLayout(new BorderLayout());
+        fenetre.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        fenetre.setResizable(false);
 
-        fenetre.setResizable(true);
         fenetre.setSize(800, 300 + pionsCartesUtilise.size() * 100);
 
         //creation d'un JLabel avec un backgrouned
@@ -128,7 +129,7 @@ public class VueUtiliserCarte implements Observe {
         conteneur.add(conteneurUtil, BorderLayout.CENTER);
 
         conteneurBoutonsConfirmation = new JPanel(new GridLayout(1, 5));
-
+conteneurBoutonsConfirmation.setOpaque(false);
         btnValider = new JButton("Valider");
         btnValider.setEnabled(false);
         btnValider.addActionListener(new ActionListener() {

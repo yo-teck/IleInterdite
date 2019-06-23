@@ -160,7 +160,6 @@ public class VueDonnerCarte implements Observe {
         for (int i = 0; i < pionsPossible.size(); i++) {
 
             if (!pionsPossible.get(i).equals(pionActif)) {
-                System.out.println("ind : " + index);
                 pionSelection[index] = new SelectionPionUnique(pionsPossible.get(i), false);
                 pionSelection[index].setActif(false);
                 pionSelection[index].addMouseListener(ms[index]);
@@ -251,13 +250,10 @@ public class VueDonnerCarte implements Observe {
         MouseListener m0 = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("ms" + 0);
                 pionSelection[0].setActif(true);
 
-                System.out.println("pas bug 1");
 
                 for (int j = 0; j < pions.size() - 1; j++) {
-                    System.out.println("pas bug 2");
                     if (j != 0) {
                         pionSelection[j].setActif(false);
 
@@ -313,13 +309,10 @@ public class VueDonnerCarte implements Observe {
         MouseListener m2 = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("ms" + 2);
                 pionSelection[2].setActif(true);
 
-                System.out.println("pas bug 1");
 
                 for (int j = 0; j < pions.size() - 1; j++) {
-                    System.out.println("pas bug 2");
                     if (j != 2) {
                         pionSelection[j].setActif(false);
 

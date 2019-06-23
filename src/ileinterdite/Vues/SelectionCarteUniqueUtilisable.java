@@ -45,7 +45,7 @@ public class SelectionCarteUniqueUtilisable extends JPanel {
 
             if (carteUti.getType().equals(CTresor.HELICO) || carteUti.getType().equals(CTresor.SAC_SABLE)) {
                 this.cartes.add(carteUti);
-                System.out.println(carteUti.getType());
+
             }
         }
         this.carteSelection = new boolean[cartes.size()];
@@ -77,7 +77,10 @@ public class SelectionCarteUniqueUtilisable extends JPanel {
                         position += largeurf / (6);
 
                     }
-
+                    if (clicx > position) {
+                        carteSelection[cartes.size() - 1] = true;
+                        carte = cartes.get(cartes.size() - 1);
+                    }
                 } else {
                     position = largeurf / 6;
                     for (int i = 0; i < cartes.size(); i++) {
@@ -86,7 +89,6 @@ public class SelectionCarteUniqueUtilisable extends JPanel {
 
                     carteSelection[0] = true;
                     carte = cartes.get(0);
-
                 }
                 repaint();
             }
