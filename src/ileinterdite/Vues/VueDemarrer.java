@@ -121,7 +121,7 @@ public class VueDemarrer implements Observe {
         choixNbJoueur.setFocusable(false);
         choixNbJoueur.setFont(police);
         choixNbJoueur.setBackground(new Color(210, 182, 106));
-        
+
         //Creation d'un action permettant d'activer la bonne zone de saisie
         nb = (int) choixNbJoueur.getSelectedItem() - 1;
         choixNbJoueur.addActionListener(new ActionListener() {
@@ -149,7 +149,7 @@ public class VueDemarrer implements Observe {
 
         //Creation d'une variable contenant les zones de saisie
         nomJ = new JTextField[4];
-         //Creation d'une variable contenant des labels
+        //Creation d'une variable contenant des labels
         infoLabel = new JLabel[4];
 
         int numeroJ = 1;
@@ -206,25 +206,36 @@ public class VueDemarrer implements Observe {
         bouton.setSelected(true);
         bouton = new JRadioButton("DémoNoyade");
         choixInit[1] = bouton;
+        groupeBoutons.add(bouton);
+
         // Démo pour montrer la defaite lorsque les tuiles permettant de recuperer les tresors sont submergées
         bouton = new JRadioButton("DémoCSubmerge");
         choixInit[2] = bouton;
+        groupeBoutons.add(bouton);
+
         // Démo pour montrer la defaite lorque l'Héliport est submergé
         bouton = new JRadioButton("DémoHeliSub");
         choixInit[3] = bouton;
+        groupeBoutons.add(bouton);
+
         // Démo pour montrer la defaire lorsque le nivaeau d'eau est au maximum
         bouton = new JRadioButton("DémoNiveauEau");
         choixInit[4] = bouton;
+        groupeBoutons.add(bouton);
+
         // Démo pour montrer la victoire
         bouton = new JRadioButton("DémoVictoire");
         choixInit[5] = bouton;
+        groupeBoutons.add(bouton);
+
         // Démo pour montrer que la partie ne s'arrête pas quand toutes les tuiles pour récupérer un trésor sont submergées, 
         // mais ce trésor est déjà possedé
         bouton = new JRadioButton("TestTresors");
         choixInit[6] = bouton;
+        groupeBoutons.add(bouton);
+
         bouton = new JRadioButton("Aléatoire");
         choixInit[7] = bouton;
-
         groupeBoutons.add(bouton);
 
         options.add(new JLabel(""));

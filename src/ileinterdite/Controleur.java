@@ -1706,8 +1706,10 @@ public class Controleur implements Observateur {
             vueGrille.activationBoutons(true);
 
         } else if (m.getType() == TypesMessage.TUILE_DEPLACEMENT_HELICO) {
-            vueGrille.setLog(vueGrille.getLog() + " de la tuile " + m.getPion().getTuilePosition().getNom());
-            m.getPion().setTuilePosition(m.getTuile());
+            vueGrille.setLog(vueGrille.getLog() + " de la tuile " + pionActif.getTuilePosition().getNom());
+            
+            pionActif.setTuilePosition(m.getTuile());
+            
             vueGrille.setI(0); //Empeche la consomation de plusieurs points d'action lorsque l'on appuie sur le bouton capacité
             vueGrille.setLog(vueGrille.getLog() + " vers la tuile " + m.getTuile().getNom());
             c++;

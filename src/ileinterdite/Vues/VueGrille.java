@@ -385,6 +385,7 @@ public class VueGrille implements Observe {
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.ANNULER);
                 capacite.setText("Capacite");
+                
                 notifierObservateur(m);
                 capacite.removeActionListener(annulerCapaciteAL);
                 capacite.addActionListener(capaciteAL);
