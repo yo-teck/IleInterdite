@@ -161,7 +161,7 @@ public class VueDemarrer implements Observe {
             info.setFont(police);
             infoLabel[i] = info;
 
-            JTextField nom = new JTextField();
+            JTextField nom = new JTextField("Joueur "+(i+1));
             nom.setFont(police);
             nomJ[i] = nom;
             nomJ[i].setBackground(new Color(210, 182, 106));
