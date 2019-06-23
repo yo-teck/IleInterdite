@@ -22,7 +22,7 @@ public class Plongeur extends Aventurier {
     }
 
     public Plongeur() {
-        super("Plongeur", "Le Plongeur peut passer par une ou deux tuiles adjacentes "
+        super("Plongeur", "Le Plongeur peut passer par une ou plusieurs tuiles adjacentes "
                 + "inondées et/ou manquantes pour une action (il doit "
                 + "terminer le tour sur une tuile).");
         this.couleur = new Color(198, 49, 231);
