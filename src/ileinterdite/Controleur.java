@@ -1894,7 +1894,6 @@ public class Controleur implements Observateur {
 
             if (pionActif.getRole().getNomA().equals("Pilote")) {
                 seDeplacerHelico(pionActif);
-                System.out.println("Helico probleme");
                 pionActif.setNbAction(pionActif.getNbAction() - 1);
                 pionActif.getRole().setCapaciteUtilisee(true);
 

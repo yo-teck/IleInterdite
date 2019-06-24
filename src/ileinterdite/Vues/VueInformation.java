@@ -226,7 +226,7 @@ public class VueInformation implements Observe {
             JLabel descriJ=new JLabel(pions.get(i).getRole().getDescription());
             descriJ.setFont(police);
             conteneurNoms.add(descriJ);    
-            conteneurNoms.add(new InfoCarte(pions.get(i), false, false));
+            conteneurNoms.add(new InfoCarte(pions.get(i), false, true));
         }
         for (int i = pions.size(); i < 4; i++) {
             conteneurNoms.add(new JLabel(""));

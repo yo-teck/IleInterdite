@@ -75,7 +75,7 @@ public class SelectionCarteUniqueUtilisable extends JPanel {
                         if (clicx > position && clicx < position + largeurf / 6) {
                             carteSelection[i] = true;
                             carte = cartes.get(i);
-                            System.out.println("fait" + i);
+
                         } else {
                             carteSelection[i] = false;
 

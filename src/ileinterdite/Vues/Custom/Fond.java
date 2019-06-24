@@ -30,7 +30,6 @@ public class Fond extends JPanel {
         int largeurf = dimension.width;
 
         File chemin = new File("");
-        System.out.println(hauteurf + "x" + largeurf);
         g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + lien).getImage(), 0, 0, largeurf, hauteurf, this);
 
     }

@@ -73,7 +73,7 @@ public class SelectionCarteUnique extends JPanel {
 
                     }
                 }
-                System.out.println(carte.getType());
+               
                 repaint();
             }
 

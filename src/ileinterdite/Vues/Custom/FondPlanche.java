@@ -35,7 +35,6 @@ public class FondPlanche extends JButton {
         int largeurf = dimension.width;
 
         File chemin = new File("");
-        System.out.println(hauteurf + "x" + largeurf);
         g2d.drawImage(new ImageIcon(chemin.getAbsolutePath() + "/src/ressources/imgDecor/boisBouton.png").getImage(), 0, 0, largeurf, hauteurf, this);
 
     }

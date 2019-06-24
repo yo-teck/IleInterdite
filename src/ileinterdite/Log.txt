@@ -1,0 +1,27 @@
+Historique des actions 
+0. Initialisation de la console
+1.  CLE_FEU, 
+2.  CLE_FEU,  CLE_EAU, 
+3.  CLE_FEU,  CLE_EAU,  HELICO, 
+4.  CLE_FEU,  CLE_EAU,  HELICO,  CLE_FEU, 
+4. Début de partie 
+5. Joueur 1 s'est déplacé la tuile La_Porte_d'Argent vers la tuile Le_Lagon_Perdu
+5. Lancement de la vue pour utiliser les cartes 
+6. Joueur 1 a utilisé la carte HELICO qui appartenait à Joueur 2
+7. Joueur 1 a utilisé la carte HELICO qui appartenait à Joueur 2 de la tuile Le_Lagon_Perdu vers la tuile Le_Marais_Brumeux
+8. Lancement de la vue pour donner les cartes 
+9. Joueur 1 a donné la carte CLE_FEU a Joueur 2
+10. Fin du tour de  Joueur 1 il a pioché les cartes :  montée des eaux 
+11. Fin du tour de  Joueur 1 il a pioché les cartes :  montée des eaux  CLE_AIR, 
+12. Fin du tour de  Joueur 2 il a pioché les cartes :  CLE_TERRE, 
+13. Fin du tour de  Joueur 2 il a pioché les cartes :  CLE_TERRE,  CLE_FEU, 
+14. Fin du tour de  Joueur 1 il a pioché les cartes :  CLE_EAU, 
+15. Fin du tour de  Joueur 1 il a pioché les cartes :  CLE_EAU,  CLE_TERRE, 
+16. Fin du tour de  Joueur 2 il a pioché les cartes :  HELICO, 
+17. Fin du tour de  Joueur 2 il a pioché les cartes :  HELICO,  CLE_AIR, 
+18. Lancement de la vue pour donner les cartes 
+19. Joueur 1 a annulé son action
+20. Joueur 1 a asseché la tuile Le_Marais_Brumeux
+21. Fin du tour de  Joueur 1 il a pioché les cartes :  CLE_AIR, 
+22. Fin du tour de  Joueur 1 il a pioché les cartes :  CLE_AIR,  CLE_AIR, 
+23. Joueur 2 a defaussé la carte CLE_TERRE, HELICO
